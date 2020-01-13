@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.controller;
+package mx.com.bitmaking.application.controller.home;
 
 import java.io.IOException;
 
@@ -20,10 +20,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import mx.com.bitmaking.application.controller.gestionProducto.GestProdController;
+import mx.com.bitmaking.application.controller.ventas.VentaController;
 
 public class HomeController {
 	
-	private double heighMenuContainer=163.0;
 	
 	@FXML private Label titleHome;
 	@FXML private Label itemAdmin;
@@ -41,7 +42,7 @@ public class HomeController {
 		menuContainer.getStyleClass().add("rootMenu");
 		menuContainer.setStyle("-fx-background-color: transparent;");
 		
-		itemVenta.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("Venta",true,false));
+		itemVenta.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("ventas/Venta",true,false));
 	//	menuHamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, showMenuContainer());
 		
 	}
@@ -99,7 +100,7 @@ public class HomeController {
 		 lblGestionCat.setVisible(false);
 		 lblReportes.setVisible(false);
 		 backgroundOnMenu.setVisible(false);
-		 FXMLLoader vtaFxml = new FXMLLoader(getClass().getResource("../view/Venta.fxml"));
+		 FXMLLoader vtaFxml = new FXMLLoader(getClass().getResource("../view/ventas/Venta.fxml"));
 		 try {
 			bodyContainer.getChildren().add(vtaFxml.load());
 		} catch (IOException e) {
@@ -132,9 +133,14 @@ public class HomeController {
 				        ((Region)sceneHome).relocate(0, 0);
 				        bodyContainer.getChildren().add(sceneHome);
 				        switch(scene){
-				        case "Venta":
+				        case "ventas/Venta":
 				        	VentaController vtaCtrl = loader.getController();
 				        	vtaCtrl.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED,returnToHome());
+				        	break;
+				        
+			        	case "gestionProducto/GestionProductos":
+				        	GestProdController gestProdCtrl = loader.getController();
+				        	gestProdCtrl.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED,returnToHome());
 				        	break;
 				        }
 			        }

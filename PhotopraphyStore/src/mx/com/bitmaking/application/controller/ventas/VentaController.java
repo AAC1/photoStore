@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.controller;
+package mx.com.bitmaking.application.controller.ventas;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
@@ -67,7 +67,7 @@ public class VentaController {
 				//System.out.println(event.getSource());
 				try {
 					
-						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/BusquedaPedido.fxml"));
+						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/ventas/BusquedaPedido.fxml"));
 						
 						Parent sceneEdit= fxmlLoader.load();
 						Scene scene = new Scene(sceneEdit,3013,165);

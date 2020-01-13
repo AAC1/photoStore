@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.controller;
+package mx.com.bitmaking.application.controller.ventas;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;

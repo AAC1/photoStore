@@ -13,7 +13,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			FXMLLoader jfxLoader = new FXMLLoader(getClass().getResource("view/Home.fxml"));
+			FXMLLoader jfxLoader = new FXMLLoader(getClass().getResource("view/home/Home.fxml"));
 			Pane root = (Pane)jfxLoader.load();
 			Scene scene = new Scene(root,865,536);
 			//scene.getStylesheets().add("");
