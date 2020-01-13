@@ -1,0 +1,73 @@
+
+ @font-face {
+	font-family: "Montserrat Light";
+    src: url('../font/Montserrat/Montserrat-Light.ttf');
+}
+@font-face {
+	font-family: "Montserrat Bold";
+    src: url('../font/Montserrat/Montserrat-Bold.ttf');/**/
+}
+
+@font-face {
+	font-family: "Montserrat Medium";
+    src: url('../font/Montserrat/Montserrat-Medium.ttf');/**/
+}
+/*
+*{
+	-fx-font-family: 'Montserrat ExtraLight';
+}*/
+
+.label-title {
+    -fx-font-family: 'Montserrat Medium';/* */
+  	
+
+}
+
+#menuHamburger StackPane {
+	-fx-background-color: white;
+}
+
+#menuHamburger:hover StackPane {
+	-fx-background-color: lightgrey;
+}
+
+.shadow{
+	-fx-effect: dropshadow( gaussian, rgba(0, 0, 0, 0.4), 10, 0.5, 0.0, 0.0 );
+}
+
+.rootMenu {
+	-fx-background-color:  #046C98;
+	-fx-background-radius: 5;
+	-fx-border-color: white;
+    -fx-padding: 5;
+    -fx-border-style: none;
+    -fx-border-width: 0;
+    -fx-border-insets: 0;
+}
+
+.item-menu{
+	
+	-fx-background-color: white;
+    /*-fx-background-radius: 5;*/
+    -fx-padding: 10;
+    -fx-font-family: 'Montserrat Light';
+    
+}
+.subitem-menu{
+	-fx-background-color: white;
+    /*-fx-background-radius: 5;*/
+    -fx-padding: 5;
+    -fx-font-family: 'Montserrat Light';
+}
+
+.item-menu:hover,.subitem-menu:hover{
+	-fx-background-color: #5F686C;/*  #778287;  /* #046C98; */
+	-fx-text-fill: white;
+}
+
+.root{
+	-fx-background-image: url('../img/photoFondo1.jpg');
+	-fx-background-repeat: no-repeat ;   
+    -fx-background-size: cover  ;
+    -fx-background-position: center center;
+}
