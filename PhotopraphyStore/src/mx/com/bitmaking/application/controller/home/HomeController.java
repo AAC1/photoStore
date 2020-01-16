@@ -43,6 +43,7 @@ public class HomeController {
 		menuContainer.setStyle("-fx-background-color: transparent;");
 		
 		itemVenta.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("ventas/Venta",true,false));
+		lblGestionCat.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("gestionProducto/GestionProductos",true,false));
 	//	menuHamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, showMenuContainer());
 		
 	}
