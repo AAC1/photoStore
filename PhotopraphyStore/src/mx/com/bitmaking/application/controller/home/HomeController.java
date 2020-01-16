@@ -122,11 +122,11 @@ public class HomeController {
 					backgroundOnMenu.setVisible(false);
 					bodyContainer.getChildren().clear();
 		
-			        FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/"+scene+".fxml"));
+			        FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/"+scene+".fxml"));
 			        
 			        Parent sceneHome = loader.load();
 			        if(hasCss) 
-			        	sceneHome.getStylesheets().add(getClass().getResource("../assets/css/"+scene+".css").toExternalForm());
+			        	sceneHome.getStylesheets().add(getClass().getResource("../../assets/css/"+scene+".css").toExternalForm());
 			        if(!newWindow){
 				        ((Region)sceneHome).prefWidthProperty().bind(bodyContainer.widthProperty().multiply(1.0));
 				        ((Region)sceneHome).prefHeightProperty().bind(bodyContainer.heightProperty().multiply(1.0));
