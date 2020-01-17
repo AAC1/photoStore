@@ -40,7 +40,7 @@ public class GestProdController {
 	
 	/**
 	 * 
-	 * @param typeForm: saber si es alta o edición
+	 * @param typeForm: saber si es alta o ediciï¿½n
 	 * @return
 	 */
 	private EventHandler modalEditProd(String typeForm) {
@@ -50,7 +50,7 @@ public class GestProdController {
 			//System.out.println(event.getSource());
 			try {
 				
-					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../view/gestionProducto/AgregaProducto.fxml"));
+					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../view/gestionProducto/EditProducto.fxml"));
 					
 					Parent sceneEdit= fxmlLoader.load();
 					Scene scene = new Scene(sceneEdit,300,300);

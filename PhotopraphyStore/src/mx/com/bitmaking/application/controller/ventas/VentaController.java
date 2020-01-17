@@ -1,6 +1,7 @@
 package mx.com.bitmaking.application.controller.ventas;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 
 import javafx.collections.ObservableList;
@@ -26,8 +27,8 @@ public class VentaController {
 	@FXML private JFXButton  btnCancelar;
 	@FXML private JFXButton  btnGuardar;
 	
-	@FXML private ComboBox<?>  cbxCatProd;
-	@FXML private ComboBox<?>  cbxEstatus;
+	@FXML private JFXComboBox  cbxCatProd;
+	@FXML private JFXComboBox  cbxEstatus;
 	
 	@FXML private JFXTextField inputFolio;
 	@FXML private JFXTextField inputClienteName;
