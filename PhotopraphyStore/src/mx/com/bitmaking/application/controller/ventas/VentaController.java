@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.controller;
+package mx.com.bitmaking.application.controller.ventas;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
@@ -35,6 +36,7 @@ public class VentaController {
 	@FXML private JFXTextField inputMonto;
 	
 	@FXML private AnchorPane ventaBody;
+	@FXML private TableView tbProductos;
 	@FXML private TableColumn tbColProd ;
 	@FXML private TableColumn tbColDesc;
 	@FXML private TableColumn tbColCant;
@@ -67,11 +69,11 @@ public class VentaController {
 				//System.out.println(event.getSource());
 				try {
 					
-						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/BusquedaPedido.fxml"));
+						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../view/ventas/BusquedaPedido.fxml"));
 						
 						Parent sceneEdit= fxmlLoader.load();
 						Scene scene = new Scene(sceneEdit,3013,165);
-						scene.getStylesheets().add(getClass().getResource("../assets/css/Venta.css").toExternalForm());
+						scene.getStylesheets().add(getClass().getResource("../../assets/css/ventas/Venta.css").toExternalForm());
 						stageBusqProd = new Stage();
 						stageBusqProd.setScene(scene);
 						stageBusqProd.setTitle("Busqueda de Pedido ");
@@ -114,10 +116,10 @@ public class VentaController {
 	
 	private void responsiveGUI() {
 		/* Panel de Home resize de acuerdo al tama�o del Pane padre*/
-		tbColProd.prefWidthProperty().bind(ventaBody.widthProperty().multiply(0.09));
-		tbColDesc.prefWidthProperty().bind(ventaBody.widthProperty().multiply(0.18));
-		tbColCant.prefWidthProperty().bind(ventaBody.widthProperty().multiply(0.09));
-		tbColCosto.prefWidthProperty().bind(ventaBody.widthProperty().multiply(0.09));
+		tbColProd.prefWidthProperty().bind(tbProductos.widthProperty().multiply(0.2));
+		tbColDesc.prefWidthProperty().bind(tbProductos.widthProperty().multiply(0.4));
+		tbColCant.prefWidthProperty().bind(tbProductos.widthProperty().multiply(0.2));
+		tbColCosto.prefWidthProperty().bind(tbProductos.widthProperty().multiply(0.2));
 		
 	}
 	private EventHandler<MouseEvent> closeVta() {
