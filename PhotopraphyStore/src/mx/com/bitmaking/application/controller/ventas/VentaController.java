@@ -1,9 +1,16 @@
 package mx.com.bitmaking.application.controller.ventas;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -18,8 +25,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import mx.com.bitmaking.application.entity.Store_cat_prod;
+import mx.com.bitmaking.application.iservice.IStoreCatProdService;
+import mx.com.bitmaking.application.util.GeneralMethods;
 
-
+@Component
 public class VentaController {
 	@FXML private JFXButton btnEliminaPedido;
 	@FXML private JFXButton  btnEditarPedido;
@@ -28,7 +38,7 @@ public class VentaController {
 	@FXML private JFXButton  btnGuardar;
 	
 	@FXML private JFXComboBox  cbxCatProd;
-	@FXML private JFXComboBox  cbxEstatus;
+	@FXML private JFXComboBox<Store_cat_prod>  cbxEstatus;
 	
 	@FXML private JFXTextField inputFolio;
 	@FXML private JFXTextField inputClienteName;
@@ -43,9 +53,11 @@ public class VentaController {
 	@FXML private TableColumn tbColCant;
 	@FXML private TableColumn tbColCosto;
 	
+	@Autowired
+	@Qualifier("StoreCatProdService")
+	IStoreCatProdService catProdService;
+	
 	Stage stageBusqProd = null;
-	
-	
 	
 	/**
 	 * @return the btnSalir
@@ -56,12 +68,27 @@ public class VentaController {
 
 	public void initialize() {
 		responsiveGUI();
+		fillCbxProd();
 		btnEliminaPedido.setVisible(false);
 		//btnSalir.addEventHandler(MouseEvent.MOUSE_CLICKED,modalBusqByFolio());
 		btnEditarPedido.addEventHandler(MouseEvent.MOUSE_CLICKED,modalBusqByFolio());
 		
 	}
 	
+	private void fillCbxProd() {
+		if(catProdService ==null){
+			GeneralMethods.modalMsg("ERROR", "Ha ocurrido un error", "Servicio no disponible");
+			return;
+		}
+		List<Store_cat_prod> lstProd = catProdService.getCatalogoProduct();
+		for(Store_cat_prod el: lstProd){
+			System.out.println("id: "+el.getId_prod()+" producto:"+el.getProducto());
+		}
+		//cbxCatProd.setItems(FXCollections.observableArrayList(catProdService.getCatalogoProduct()));
+		
+		
+	}
+
 	public EventHandler<MouseEvent> modalBusqByFolio() {
 		return new EventHandler<MouseEvent>() {
 

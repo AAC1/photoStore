@@ -2,6 +2,8 @@ package mx.com.bitmaking.application.controller.home;
 
 import java.io.IOException;
 
+import org.springframework.stereotype.Component;
+
 import com.gluonhq.charm.glisten.control.CardPane;
 import com.gluonhq.charm.glisten.control.ExpansionPanelContainer;
 import com.jfoenix.controls.JFXHamburger;
@@ -23,6 +25,7 @@ import javafx.stage.Stage;
 import mx.com.bitmaking.application.controller.gestionProducto.GestProdController;
 import mx.com.bitmaking.application.controller.ventas.VentaController;
 
+@Component
 public class HomeController {
 	
 	
