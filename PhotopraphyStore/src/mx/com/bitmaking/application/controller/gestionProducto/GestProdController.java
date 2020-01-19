@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 import mx.com.bitmaking.application.controller.ventas.BusqVentaController;
 
 @Component
-@Scope("prototype")
+//@Scope("prototype")
 public class GestProdController {
 	@FXML private JFXButton btnAddProd;
 	@FXML private JFXButton btnEliminarProd;

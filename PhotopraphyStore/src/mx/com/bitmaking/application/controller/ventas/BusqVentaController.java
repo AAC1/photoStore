@@ -9,7 +9,7 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 
 @Component
-@Scope("prototype")
+//@Scope("prototype")
 public class BusqVentaController {
 	
 	@FXML private JFXButton btnBusqByFolio;

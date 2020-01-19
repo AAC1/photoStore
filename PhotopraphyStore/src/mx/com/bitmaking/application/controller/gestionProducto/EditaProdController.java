@@ -11,7 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 
 @Component
-@Scope("prototype")
+//@Scope("prototype")
 public class EditaProdController {
 	
 	@FXML private JFXButton btnAccept;

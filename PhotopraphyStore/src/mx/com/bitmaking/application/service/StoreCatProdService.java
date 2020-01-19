@@ -20,7 +20,7 @@ import mx.com.bitmaking.application.repository.IStoreCatProdRepo;
  */
 
 @Service("StoreCatProdService")
-@Scope("prototype")
+//@Scope("prototype")
 public class StoreCatProdService implements IStoreCatProdService{
 	
 	@Autowired

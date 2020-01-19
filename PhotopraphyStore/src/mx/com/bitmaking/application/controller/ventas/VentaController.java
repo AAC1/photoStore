@@ -32,7 +32,7 @@ import mx.com.bitmaking.application.service.StoreCatProdService;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
 @Component
-@Scope("prototype")
+//@Scope("prototype")
 public class VentaController {
 	@FXML private JFXButton btnEliminaPedido;
 	@FXML private JFXButton  btnEditarPedido;

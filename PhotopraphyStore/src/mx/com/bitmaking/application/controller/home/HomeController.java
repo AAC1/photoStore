@@ -2,6 +2,7 @@ package mx.com.bitmaking.application.controller.home;
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -23,11 +24,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import mx.com.bitmaking.application.MystoreApplication;
 import mx.com.bitmaking.application.controller.gestionProducto.GestProdController;
 import mx.com.bitmaking.application.controller.ventas.VentaController;
 
 @Component
-@Scope("prototype")
+//@Scope("prototype")
 public class HomeController {
 	
 	
@@ -41,6 +43,9 @@ public class HomeController {
 	@FXML private AnchorPane menuContainer;
 	@FXML private AnchorPane bodyContainer;
 	@FXML private AnchorPane backgroundOnMenu;
+	
+	@Autowired
+  	private MystoreApplication storeApp;
 	
 	public void initialize() {
 		titleHome.getStyleClass().add("label-title");
@@ -128,7 +133,8 @@ public class HomeController {
 					backgroundOnMenu.setVisible(false);
 					bodyContainer.getChildren().clear();
 		
-			        FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/"+scene+".fxml"));
+			        FXMLLoader loader = storeApp.initializeFXML("/mx/ayagar/app/mystore/vistas/"+scene+".fxml");
+			        		//new FXMLLoader(getClass().getResource("../../view/"+scene+".fxml"));
 			        
 			        Parent sceneHome = loader.load();
 			        if(hasCss) 
