@@ -1,1 +1,5 @@
-/target/
+*.class
+*.md
+/target/*
+.settings/
+.DS_Store

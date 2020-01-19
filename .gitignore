@@ -3,3 +3,5 @@
 PhotopraphyStore/target/
 PhotopraphyStore/target/*
 *mf
+.project
+.DS_Store
