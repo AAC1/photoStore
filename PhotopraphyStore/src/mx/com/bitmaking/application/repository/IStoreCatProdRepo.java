@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.repositories;
+package mx.com.bitmaking.application.repository;
 
 import java.util.List;
 

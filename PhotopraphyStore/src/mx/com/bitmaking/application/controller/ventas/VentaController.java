@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.jfoenix.controls.JFXButton;
@@ -27,9 +28,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.iservice.IStoreCatProdService;
+import mx.com.bitmaking.application.service.StoreCatProdService;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
 @Component
+@Scope("prototype")
 public class VentaController {
 	@FXML private JFXButton btnEliminaPedido;
 	@FXML private JFXButton  btnEditarPedido;
@@ -37,8 +40,8 @@ public class VentaController {
 	@FXML private JFXButton  btnCancelar;
 	@FXML private JFXButton  btnGuardar;
 	
-	@FXML private JFXComboBox  cbxCatProd;
-	@FXML private JFXComboBox<Store_cat_prod>  cbxEstatus;
+	@FXML private JFXComboBox<Store_cat_prod>  cbxCatProd;
+	@FXML private JFXComboBox  cbxEstatus;
 	
 	@FXML private JFXTextField inputFolio;
 	@FXML private JFXTextField inputClienteName;

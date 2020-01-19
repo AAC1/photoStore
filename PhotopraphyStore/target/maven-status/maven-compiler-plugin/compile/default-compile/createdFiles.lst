@@ -1,6 +1,7 @@
 mx/com/bitmaking/application/controller/ventas/VentaController$1.class
 mx/com/bitmaking/application/controller/gestionProducto/GestProdController$3.class
 mx/com/bitmaking/application/Main.class
+mx/com/bitmaking/application/MystoreApplication.class
 mx/com/bitmaking/application/controller/ventas/BusqVentaController.class
 mx/com/bitmaking/application/controller/gestionProducto/GestProdController$1.class
 mx/com/bitmaking/application/service/StoreCatProdService.class
@@ -14,6 +15,7 @@ mx/com/bitmaking/application/controller/gestionProducto/EditaProdController.clas
 mx/com/bitmaking/application/controller/ventas/VentaController$3.class
 mx/com/bitmaking/application/util/GeneralMethods.class
 mx/com/bitmaking/application/controller/gestionProducto/GestProdController.class
+mx/com/bitmaking/application/repository/IStoreCatProdRepo.class
+mx/com/bitmaking/application/util/Constantes.class
 mx/com/bitmaking/application/controller/home/HomeController$2.class
 mx/com/bitmaking/application/controller/ventas/VentaController$2.class
-mx/com/bitmaking/application/repositories/IStoreCatProdRepo.class

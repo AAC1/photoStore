@@ -2,6 +2,7 @@ package mx.com.bitmaking.application.controller.home;
 
 import java.io.IOException;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.gluonhq.charm.glisten.control.CardPane;
@@ -26,6 +27,7 @@ import mx.com.bitmaking.application.controller.gestionProducto.GestProdControlle
 import mx.com.bitmaking.application.controller.ventas.VentaController;
 
 @Component
+@Scope("prototype")
 public class HomeController {
 	
 	

@@ -1,5 +1,6 @@
 package mx.com.bitmaking.application.controller.gestionProducto;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.jfoenix.controls.JFXButton;
@@ -18,6 +19,7 @@ import javafx.stage.Stage;
 import mx.com.bitmaking.application.controller.ventas.BusqVentaController;
 
 @Component
+@Scope("prototype")
 public class GestProdController {
 	@FXML private JFXButton btnAddProd;
 	@FXML private JFXButton btnEliminarProd;

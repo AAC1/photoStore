@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.iservice.IStoreCatProdService;
-import mx.com.bitmaking.application.repositories.IStoreCatProdRepo;
+import mx.com.bitmaking.application.repository.IStoreCatProdRepo;
 
 /**
  * @author albcervantes
@@ -20,7 +20,7 @@ import mx.com.bitmaking.application.repositories.IStoreCatProdRepo;
  */
 
 @Service("StoreCatProdService")
-
+@Scope("prototype")
 public class StoreCatProdService implements IStoreCatProdService{
 	
 	@Autowired

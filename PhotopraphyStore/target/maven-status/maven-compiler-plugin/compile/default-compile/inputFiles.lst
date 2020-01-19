@@ -1,11 +1,13 @@
 /Users/albcervantes/opt/git/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/Main.java
-/Users/albcervantes/opt/git/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/repositories/IStoreCatProdRepo.java
 /Users/albcervantes/opt/git/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/iservice/IStoreCatProdService.java
-/Users/albcervantes/opt/git/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/util/GeneralMethods.java
-/Users/albcervantes/opt/git/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/entity/Store_cat_prod.java
 /Users/albcervantes/opt/git/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/controller/ventas/VentaController.java
 /Users/albcervantes/opt/git/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/controller/gestionProducto/GestProdController.java
 /Users/albcervantes/opt/git/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/controller/home/HomeController.java
-/Users/albcervantes/opt/git/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/controller/gestionProducto/EditaProdController.java
 /Users/albcervantes/opt/git/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/service/StoreCatProdService.java
+/Users/albcervantes/opt/git/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/MystoreApplication.java
+/Users/albcervantes/opt/git/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/repository/IStoreCatProdRepo.java
+/Users/albcervantes/opt/git/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/util/GeneralMethods.java
+/Users/albcervantes/opt/git/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/entity/Store_cat_prod.java
+/Users/albcervantes/opt/git/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/util/Constantes.java
+/Users/albcervantes/opt/git/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/controller/gestionProducto/EditaProdController.java
 /Users/albcervantes/opt/git/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/controller/ventas/BusqVentaController.java

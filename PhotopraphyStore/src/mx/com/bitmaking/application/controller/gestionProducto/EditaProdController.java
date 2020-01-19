@@ -1,5 +1,6 @@
 package mx.com.bitmaking.application.controller.gestionProducto;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.jfoenix.controls.JFXButton;
@@ -10,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 
 @Component
+@Scope("prototype")
 public class EditaProdController {
 	
 	@FXML private JFXButton btnAccept;

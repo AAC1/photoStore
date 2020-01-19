@@ -1,36 +1,26 @@
 package mx.com.bitmaking.application;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Font;
 
-@SpringBootApplication
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan(basePackages = {"mx.com.bitmaking.application"})
-
-public class Main extends Application {
-
-    private ConfigurableApplicationContext context;
+@EnableJpaRepositories(basePackages = "mx.com.bitmaking.application.repository")
+@ComponentScan(basePackages = {"mx.com.bitmaking.application.service",
+		"mx.com.bitmaking.application.controller"})
+public class Main extends MystoreApplication {
     
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			FXMLLoader jfxLoader = new FXMLLoader(getClass().getResource("view/home/Home.fxml"));
-			context =SpringApplication.run(getClass());
-			context.getAutowireCapableBeanFactory().autowireBean(this);
-			jfxLoader.setControllerFactory(context::getBean);
+			FXMLLoader jfxLoader = initializeFXML("view/home/Home.fxml");
 			
 			Pane root = (Pane)jfxLoader.load();
 			Scene scene = new Scene(root,865,536);
