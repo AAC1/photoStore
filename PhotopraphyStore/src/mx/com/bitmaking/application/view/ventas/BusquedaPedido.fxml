@@ -6,7 +6,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="165.0" prefWidth="313.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.ventas.BusqVentaController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" 
+minWidth="-Infinity" prefHeight="165.0" prefWidth="313.0" 
+xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.ventas.BusqVentaController">
    <children>
       <JFXTextField fx:id="inputBusqFolio" layoutX="37.0" layoutY="64.0" prefHeight="27.0" prefWidth="240.0" styleClass="input-gral" />
       <Label layoutX="37.0" layoutY="38.0" styleClass="label-title" text="Busqueda por Folio" />

@@ -8,7 +8,11 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="ventaBody" accessibleRole="COMBO_BOX" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="865.0" style="-fx-background-color: rgba(255,255,255,0.9);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.ventas.VentaController">
+<AnchorPane fx:id="ventaBody" accessibleRole="COMBO_BOX" maxHeight="-Infinity" 
+maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" 
+prefHeight="470.0" prefWidth="865.0" 
+style="-fx-background-color: rgba(255,255,255,0.9);" 
+xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.ventas.VentaController">
    <children>
       <AnchorPane layoutX="447.0" layoutY="-1.0" prefHeight="470.0" prefWidth="418.0" AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>

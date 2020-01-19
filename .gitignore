@@ -1,2 +1,5 @@
 *.class
 *.md
+PhotopraphyStore/target/
+PhotopraphyStore/target/*
+*mf

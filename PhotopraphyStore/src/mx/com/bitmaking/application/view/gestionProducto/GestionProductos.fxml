@@ -5,7 +5,11 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="bodyCatProd" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="324.0" prefWidth="547.0" style="-fx-background-color: rgba(255,255,255,0.8);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.gestionProducto.GestProdController">
+<AnchorPane fx:id="bodyCatProd" maxHeight="-Infinity" maxWidth="-Infinity" 
+minHeight="-Infinity" minWidth="-Infinity" 
+prefHeight="324.0" prefWidth="547.0" 
+style="-fx-background-color: rgba(255,255,255,0.8);" 
+xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.gestionProducto.GestProdController">
    <children>
       <JFXButton fx:id="btnAddProd" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #037AB6; -fx-text-fill: white;" styleClass="btn-gral" text="✚ Agregar" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
       <JFXButton fx:id="btnEliminarProd" layoutX="272.0" layoutY="14.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #A12D04 #A12D04; -fx-text-fill: white;" styleClass="btn-gral" text="✖ Eliminar" AnchorPane.leftAnchor="272.0" AnchorPane.topAnchor="14.0" />
