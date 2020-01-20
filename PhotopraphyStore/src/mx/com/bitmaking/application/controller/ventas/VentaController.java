@@ -40,7 +40,7 @@ public class VentaController {
 	@FXML private JFXButton  btnCancelar;
 	@FXML private JFXButton  btnGuardar;
 	
-	@FXML private JFXComboBox<Store_cat_prod>  cbxCatProd;
+	@FXML private JFXComboBox<String>  cbxCatProd;
 	@FXML private JFXComboBox  cbxEstatus;
 	
 	@FXML private JFXTextField inputFolio;
@@ -84,10 +84,12 @@ public class VentaController {
 			return;
 		}
 		List<Store_cat_prod> lstProd = catProdService.getCatalogoProduct();
+		String[] arrayProd = new String[lstProd.size()];
+		int idx=0;
 		for(Store_cat_prod el: lstProd){
-			System.out.println("id: "+el.getId_prod()+" producto:"+el.getProducto());
+			arrayProd[idx++] = el.getId_prod()+" "+el.getProducto();
 		}
-		//cbxCatProd.setItems(FXCollections.observableArrayList(catProdService.getCatalogoProduct()));
+		cbxCatProd.setItems(FXCollections.observableArrayList(arrayProd));
 		
 		
 	}
