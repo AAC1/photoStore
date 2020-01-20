@@ -1,9 +1,11 @@
 package mx.com.bitmaking.application;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jmx.export.MBeanExporter;
 
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -13,8 +15,8 @@ import javafx.scene.layout.Pane;
 
 @Configuration
 @EnableAutoConfiguration
-@EnableJpaRepositories(basePackages = "mx.com.bitmaking.application.repository")
-@ComponentScan(basePackages = {"mx.com.bitmaking.application.service",
+//@EnableJpaRepositories(basePackages = "mx.com.bitmaking.application.repository")
+@ComponentScan(basePackages = {"mx.com.bitmaking.application.service","mx.com.bitmaking.application.repository",
 		"mx.com.bitmaking.application.controller","mx.com.bitmaking.application.entity"})
 public class Main extends MystoreApplication {
     
@@ -40,7 +42,15 @@ public class Main extends MystoreApplication {
 			e.printStackTrace();
 		}
 	}
-	
+	 @Bean
+	    public MBeanExporter exporter()
+	    {
+	        final MBeanExporter exporter = new MBeanExporter();
+	        exporter.setAutodetect(true);
+	        exporter.setExcludedBeans("dataSource");
+	        return exporter;
+	    }
+	 
 	public static void main(String[] args) {
 		launch(args);
 	}

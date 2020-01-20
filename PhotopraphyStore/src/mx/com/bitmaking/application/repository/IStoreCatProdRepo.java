@@ -11,7 +11,6 @@ import mx.com.bitmaking.application.entity.Store_cat_prod;
 
 
 @Repository
-@Scope("prototype")
 public interface IStoreCatProdRepo extends JpaRepository<Store_cat_prod, Long> {
 	/**
 	 * Obtiene productos que se encuentre habilitados

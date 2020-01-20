@@ -1,8 +1,12 @@
 package mx.com.bitmaking.application;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.jmx.export.MBeanExporter;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,8 +19,12 @@ public abstract class MystoreApplication extends Application{
     @Override
 	public void start(Stage primaryStage) throws Exception {
 	}
-    private ConfigurableApplicationContext context;
+   // private ConfigurableApplicationContext context;
     
+    @Autowired
+    private ApplicationContext context ;
+	
+
 	@Override
 	public void init() {
 	//	context =SpringApplication.run(getClass());
@@ -34,12 +42,13 @@ public abstract class MystoreApplication extends Application{
         return loader;
     }
 	
-	
+	/*
     @Override
     public void stop() throws Exception {
         context.close();
     }
-	
+	*/
+   
    
     protected static void launchApp(Class<? extends MystoreApplication> clazz, String[] args) {
     //	MystoreApplication.savedArgs = args;

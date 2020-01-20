@@ -3,6 +3,7 @@ package mx.com.bitmaking.application.controller.home;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -44,9 +45,11 @@ public class HomeController {
 	@FXML private AnchorPane bodyContainer;
 	@FXML private AnchorPane backgroundOnMenu;
 	
-	@Autowired
-  	private MystoreApplication storeApp;
-	
+//	@Autowired
+  //	private MystoreApplication storeApp;
+	 @Autowired
+	 private ApplicationContext context ;
+	 
 	public void initialize() {
 		titleHome.getStyleClass().add("label-title");
 		menuContainer.getStyleClass().add("rootMenu");
@@ -133,9 +136,9 @@ public class HomeController {
 					backgroundOnMenu.setVisible(false);
 					bodyContainer.getChildren().clear();
 		
-			        FXMLLoader loader = storeApp.initializeFXML("/mx/ayagar/app/mystore/vistas/"+scene+".fxml");
-			        		//new FXMLLoader(getClass().getResource("../../view/"+scene+".fxml"));
-			        
+			        FXMLLoader loader = //storeApp.initializeFXML("view/"+scene+".fxml");
+			        		new FXMLLoader(getClass().getResource("../../view/"+scene+".fxml"));
+			        loader.setControllerFactory(context::getBean);
 			        Parent sceneHome = loader.load();
 			        if(hasCss) 
 			        	sceneHome.getStylesheets().add(getClass().getResource("../../assets/css/"+scene+".css").toExternalForm());

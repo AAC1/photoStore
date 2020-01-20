@@ -20,13 +20,13 @@ import mx.com.bitmaking.application.repository.IStoreCatProdRepo;
  */
 
 @Service("StoreCatProdService")
-//@Scope("prototype")
-public class StoreCatProdService implements IStoreCatProdService{
+@Scope("prototype")
+public class StoreCatProdService implements IStoreCatProdService{ // implements IStoreCatProdService
 	
 	@Autowired
 	 IStoreCatProdRepo catProductRepo;
 
-	@Override
+	//@Override
 	public List<Store_cat_prod> getCatalogoProduct(){
 		List<Store_cat_prod> resp = new ArrayList<>();
 		
