@@ -6,6 +6,7 @@ package mx.com.bitmaking.application.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -26,12 +27,23 @@ public class StoreCatProdService implements IStoreCatProdService{ // implements 
 	@Autowired
 	 IStoreCatProdRepo catProductRepo;
 
-	//@Override
+	@Override
 	public List<Store_cat_prod> getCatalogoProduct(){
 		List<Store_cat_prod> resp = new ArrayList<>();
 		
 		return catProductRepo.getActiveProducts();
 	}
-	
+	@Override
+	public List<Store_cat_prod> getAllCatalogoProduct(){
+		List<Store_cat_prod> resp = catProductRepo.findAll();
+		for(int i=0; i<resp.size();i++){
+			if("1".equals(resp.get(i).getEstatus())){
+				resp.get(i).setEstatus("Activo");
+			}else{
+				resp.get(i).setEstatus("Inactivo");
+			}
+		}
+		return resp;
+	}
 	
 }

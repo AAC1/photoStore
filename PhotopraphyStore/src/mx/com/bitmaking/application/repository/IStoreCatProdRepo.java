@@ -18,4 +18,9 @@ public interface IStoreCatProdRepo extends JpaRepository<Store_cat_prod, Long> {
 	 */
 	@Query("FROM Store_cat_prod WHERE estatus=1")
 	public List<Store_cat_prod> getActiveProducts();
+	
+	@Query("SELECT sp.id_prod as id_prod,sp.producto as producto, case sp.estatus when '1' then 'Activo' else 'Inactivo' end as estatus FROM Store_cat_prod sp")
+	public List<Store_cat_prod> getAllActiveProducts();
+	
+	
 }

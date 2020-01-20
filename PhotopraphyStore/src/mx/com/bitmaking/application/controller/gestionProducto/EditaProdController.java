@@ -16,7 +16,7 @@ public class EditaProdController {
 	
 	@FXML private JFXButton btnAccept;
 	@FXML private JFXButton btnCancel;
-	@FXML private JFXComboBox  cbxEstatusProd;
+	@FXML private JFXComboBox<String>  cbxEstatusProd;
 	@FXML private JFXTextField inputProdName;
 	/**
 	 * @return the btnAccept
@@ -42,16 +42,17 @@ public class EditaProdController {
 	public void setBtnCancel(JFXButton btnCancel) {
 		this.btnCancel = btnCancel;
 	}
+	
 	/**
 	 * @return the cbxEstatusProd
 	 */
-	public JFXComboBox getCbxEstatusProd() {
+	public JFXComboBox<String> getCbxEstatusProd() {
 		return cbxEstatusProd;
 	}
 	/**
 	 * @param cbxEstatusProd the cbxEstatusProd to set
 	 */
-	public void setCbxEstatusProd(JFXComboBox cbxEstatusProd) {
+	public void setCbxEstatusProd(JFXComboBox<String> cbxEstatusProd) {
 		this.cbxEstatusProd = cbxEstatusProd;
 	}
 	/**

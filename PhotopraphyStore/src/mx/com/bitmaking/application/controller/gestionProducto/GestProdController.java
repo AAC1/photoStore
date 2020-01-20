@@ -1,10 +1,17 @@
 package mx.com.bitmaking.application.controller.gestionProducto;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.jfoenix.controls.JFXButton;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,11 +19,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.controller.ventas.BusqVentaController;
+import mx.com.bitmaking.application.entity.Store_cat_prod;
+import mx.com.bitmaking.application.iservice.IStoreCatProdService;
+import mx.com.bitmaking.application.util.GeneralMethods;
 
 @Component
 //@Scope("prototype")
@@ -25,11 +36,17 @@ public class GestProdController {
 	@FXML private JFXButton btnEliminarProd;
 	@FXML private JFXButton btnEdtProd;
 	@FXML private JFXButton btnSalir;
-	@FXML private TableView tblProducts;
+	@FXML private TableView<Store_cat_prod> tblProducts;
 	@FXML private TableColumn colProd;
 	@FXML private TableColumn colEstatus;
 	@FXML private AnchorPane bodyCatProd;
+	
 	Stage stageProd = null;
+	
+	@Autowired
+	@Qualifier("StoreCatProdService")
+	IStoreCatProdService catProdService;
+	
 	
 	public JFXButton getBtnSalir() {
 		return btnSalir;
@@ -37,12 +54,22 @@ public class GestProdController {
 
 	public void initialize() {
 		responsiveGUI();
-		
+		getTblCatProducts();
 		btnAddProd.addEventHandler(MouseEvent.MOUSE_CLICKED,modalEditProd("A"));
 		btnEdtProd.addEventHandler(MouseEvent.MOUSE_CLICKED,modalEditProd("M"));
 		
 	}
 	
+	private void getTblCatProducts() {
+		List<Store_cat_prod> lstProd = catProdService.getAllCatalogoProduct();
+		for(Store_cat_prod el:lstProd){
+			System.out.println("prod:"+el.getProducto()+" estatus:"+el.getEstatus());
+		}
+		tblProducts.setItems(FXCollections.observableList(lstProd));
+		colProd.setCellValueFactory(new PropertyValueFactory("producto"));
+		colEstatus.setCellValueFactory(new PropertyValueFactory("estatus"));
+	}
+
 	/**
 	 * 
 	 * @param typeForm: saber si es alta o edici�n
@@ -68,13 +95,34 @@ public class GestProdController {
 					stageProd.setMaxHeight(350.0);
 					stageProd.setMaxWidth(300.0);
 					stageProd.initModality(Modality.APPLICATION_MODAL); 
-					stageProd.show();
+					
 					EditaProdController edtProd = fxmlLoader.getController(); //Obtiene controller de la nueva ventana
+					List<String>lstStts =new ArrayList<>();
+					lstStts.add("Activo");
+					lstStts.add("Inactivo");
+					edtProd.getCbxEstatusProd().getItems().removeAll(edtProd.getCbxEstatusProd().getItems());
+					edtProd.getCbxEstatusProd().setItems(FXCollections.observableList(lstStts));
+					switch(typeForm){
+					case "A":
+						break;
+					case "M":
+						ObservableList<Store_cat_prod> row =tblProducts.getSelectionModel().getSelectedItems();
+						if(row==null || row.size()==0){
+							GeneralMethods.modalMsg("WARNING", "", "Para modificar un producto, debes seleccionar un registro");
+							return;
+						}else{
+							edtProd.getInputProdName().setText(row.get(0).getProducto());
+							edtProd.getCbxEstatusProd().setValue(row.get(0).getEstatus());
+						}
+						break;
+					default:
+						GeneralMethods.modalMsg("Error", "", "No fue posible identificar la acci\u00F3n");
+						return;
+					}
 					
 					edtProd.getBtnCancel().addEventHandler(MouseEvent.MOUSE_CLICKED, closeModalEditProd());
-
 					edtProd.getBtnAccept().addEventHandler(MouseEvent.MOUSE_CLICKED, acceptEditProd(edtProd,typeForm));
-				
+					stageProd.show();
 	        } catch(Exception ex) {
 				ex.printStackTrace();
 			}

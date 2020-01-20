@@ -15,7 +15,8 @@ import mx.com.bitmaking.application.entity.Store_cat_prod;
  */
 
 public interface IStoreCatProdService {
-	
+
 	public List<Store_cat_prod> getCatalogoProduct();
+	public List<Store_cat_prod> getAllCatalogoProduct();
 	
 }
