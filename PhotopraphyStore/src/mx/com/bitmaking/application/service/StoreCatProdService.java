@@ -45,5 +45,17 @@ public class StoreCatProdService implements IStoreCatProdService{ // implements 
 		}
 		return resp;
 	}
+	@Override
+	public boolean insertRow(Store_cat_prod row) {
+		
+		catProductRepo.save(row);
+		return true;
+	}
+	@Override
+	public boolean updateRow(Store_cat_prod row) {
+		
+		catProductRepo.save(row);
+		return true;
+	}
 	
 }

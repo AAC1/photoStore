@@ -62,9 +62,7 @@ public class GestProdController {
 	
 	private void getTblCatProducts() {
 		List<Store_cat_prod> lstProd = catProdService.getAllCatalogoProduct();
-		for(Store_cat_prod el:lstProd){
-			System.out.println("prod:"+el.getProducto()+" estatus:"+el.getEstatus());
-		}
+		
 		tblProducts.setItems(FXCollections.observableList(lstProd));
 		colProd.setCellValueFactory(new PropertyValueFactory("producto"));
 		colEstatus.setCellValueFactory(new PropertyValueFactory("estatus"));
@@ -104,6 +102,7 @@ public class GestProdController {
 					edtProd.getCbxEstatusProd().setItems(FXCollections.observableList(lstStts));
 					switch(typeForm){
 					case "A":
+						edtProd.getCbxEstatusProd().setValue("Activo");
 						break;
 					case "M":
 						ObservableList<Store_cat_prod> row =tblProducts.getSelectionModel().getSelectedItems();
@@ -130,19 +129,30 @@ public class GestProdController {
 	}
 	private EventHandler<MouseEvent> acceptEditProd(EditaProdController edtProd,String typeForm) {
 		return new EventHandler<MouseEvent>() {
-	
+			
 			@Override
 			public void handle(MouseEvent event) {
 				//System.out.println(event.getSource());
+				Store_cat_prod row = new Store_cat_prod();
+				
+				row.setProducto(edtProd.getInputProdName().getText());
+				row.setEstatus(("ACTIVO".equals(edtProd.getCbxEstatusProd().getValue().toUpperCase()) )?"1":"0");
 				try {
 					if("A".equals(typeForm)) {
-						
 					}else if("M".equals(typeForm)) {
+						ObservableList<Store_cat_prod> lsRow =tblProducts.getSelectionModel().getSelectedItems();
+						if(lsRow==null || lsRow.size()==0){
+							GeneralMethods.modalMsg("WARNING", "", "Para modificar un producto, debes seleccionar un registro");
+							return;
+						}
+						row.setId_prod(lsRow.get(0).getId_prod());
+						//catProdService.updateRow(row);
 						
 					}else {
 						//Mensaje de error
 					}
-					//Hacer metodo para actualizar productos
+					catProdService.insertRow(row);
+					getTblCatProducts();
 					stageProd.close();
 					
 		        } catch(Exception ex) {

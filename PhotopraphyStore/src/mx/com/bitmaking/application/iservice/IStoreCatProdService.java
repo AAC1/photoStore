@@ -18,5 +18,7 @@ public interface IStoreCatProdService {
 
 	public List<Store_cat_prod> getCatalogoProduct();
 	public List<Store_cat_prod> getAllCatalogoProduct();
+	public boolean insertRow(Store_cat_prod row);
+	public boolean updateRow(Store_cat_prod row);
 	
 }
