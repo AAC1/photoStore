@@ -1,5 +1,6 @@
 *.class
 *.md
-/target/*
-.settings/
+target/*
+.settings/*
 .DS_Store
+./target/
