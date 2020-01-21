@@ -16,14 +16,14 @@ import javafx.scene.layout.Pane;
 @Configuration
 @EnableAutoConfiguration
 //@EnableJpaRepositories(basePackages = "mx.com.bitmaking.application.repository")
-@ComponentScan(basePackages = {"mx.com.bitmaking.application.service","mx.com.bitmaking.application.repository",
-		"mx.com.bitmaking.application.controller","mx.com.bitmaking.application.entity"})
+@ComponentScan//(basePackages = {"mx.com.bitmaking.application.service","mx.com.bitmaking.application.repository",
+//		"mx.com.bitmaking.application.controller","mx.com.bitmaking.application.entity"})
 public class Main extends MystoreApplication {
     
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			FXMLLoader jfxLoader = initializeFXML("view/home/Home.fxml");
+			FXMLLoader jfxLoader = initializeFXML("view/Home.fxml");
 			
 			Parent root = jfxLoader.load();
 			Scene scene = new Scene(root,865,536);

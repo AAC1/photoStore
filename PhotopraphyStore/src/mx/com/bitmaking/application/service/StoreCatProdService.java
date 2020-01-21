@@ -52,9 +52,9 @@ public class StoreCatProdService implements IStoreCatProdService{ // implements 
 		return true;
 	}
 	@Override
-	public boolean updateRow(Store_cat_prod row) {
+	public boolean deleteRow(Store_cat_prod row) {
 		
-		catProductRepo.save(row);
+		catProductRepo.delete(row);
 		return true;
 	}
 	

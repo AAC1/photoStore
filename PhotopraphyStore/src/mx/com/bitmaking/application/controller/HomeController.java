@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.controller.home;
+package mx.com.bitmaking.application.controller;
 
 import java.io.IOException;
 
@@ -26,8 +26,6 @@ import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.MystoreApplication;
-import mx.com.bitmaking.application.controller.gestionProducto.GestProdController;
-import mx.com.bitmaking.application.controller.ventas.VentaController;
 
 @Component
 //@Scope("prototype")
@@ -55,8 +53,8 @@ public class HomeController {
 		menuContainer.getStyleClass().add("rootMenu");
 		menuContainer.setStyle("-fx-background-color: transparent;");
 		
-		itemVenta.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("ventas/Venta",true,false));
-		lblGestionCat.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("gestionProducto/GestionProductos",true,false));
+		itemVenta.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("Venta",true,false));
+		lblGestionCat.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("GestionProductos",true,false));
 	//	menuHamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, showMenuContainer());
 		
 	}
@@ -137,23 +135,23 @@ public class HomeController {
 					bodyContainer.getChildren().clear();
 		
 			        FXMLLoader loader = //storeApp.initializeFXML("view/"+scene+".fxml");
-			        		new FXMLLoader(getClass().getResource("../../view/"+scene+".fxml"));
+			        		new FXMLLoader(getClass().getResource("../view/"+scene+".fxml"));
 			        loader.setControllerFactory(context::getBean);
 			        Parent sceneHome = loader.load();
 			        if(hasCss) 
-			        	sceneHome.getStylesheets().add(getClass().getResource("../../assets/css/"+scene+".css").toExternalForm());
+			        	sceneHome.getStylesheets().add(getClass().getResource("../assets/css/"+scene+".css").toExternalForm());
 			        if(!newWindow){
 				        ((Region)sceneHome).prefWidthProperty().bind(bodyContainer.widthProperty().multiply(1.0));
 				        ((Region)sceneHome).prefHeightProperty().bind(bodyContainer.heightProperty().multiply(1.0));
 				        ((Region)sceneHome).relocate(0, 0);
 				        bodyContainer.getChildren().add(sceneHome);
 				        switch(scene){
-				        case "ventas/Venta":
+				        case "Venta":
 				        	VentaController vtaCtrl = loader.getController();
 				        	vtaCtrl.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED,returnToHome());
 				        	break;
 				        
-			        	case "gestionProducto/GestionProductos":
+			        	case "GestionProductos":
 				        	GestProdController gestProdCtrl = loader.getController();
 				        	gestProdCtrl.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED,returnToHome());
 				        	break;

@@ -16,11 +16,19 @@
 *{
 	-fx-font-family: 'Montserrat ExtraLight';
 }*/
+*{
+	 -fx-font-family: 'Montserrat Medium';
+	-fx-font-size:15px;
+}
+
 
 .label-title {
     -fx-font-family: 'Montserrat Medium';/* */
   	
-
+}
+.btn-gral{
+	-fx-font-family: 'Montserrat Light';
+	-fx-text-fill: white;
 }
 
 #menuHamburger StackPane {

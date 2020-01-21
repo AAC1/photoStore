@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.controller.ventas;
+package mx.com.bitmaking.application.controller;
 
 import java.util.List;
 
@@ -102,11 +102,11 @@ public class VentaController {
 				//System.out.println(event.getSource());
 				try {
 					
-						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../view/ventas/BusquedaPedido.fxml"));
+						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/BusquedaPedido.fxml"));
 						
 						Parent sceneEdit= fxmlLoader.load();
 						Scene scene = new Scene(sceneEdit,3013,165);
-						scene.getStylesheets().add(getClass().getResource("../../assets/css/ventas/Venta.css").toExternalForm());
+						scene.getStylesheets().add(getClass().getResource("../assets/css/Venta.css").toExternalForm());
 						stageBusqProd = new Stage();
 						stageBusqProd.setScene(scene);
 						stageBusqProd.setTitle("Busqueda de Pedido ");

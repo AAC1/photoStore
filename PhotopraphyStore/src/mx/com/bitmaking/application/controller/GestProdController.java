@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.controller.gestionProducto;
+package mx.com.bitmaking.application.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import mx.com.bitmaking.application.controller.ventas.BusqVentaController;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.iservice.IStoreCatProdService;
 import mx.com.bitmaking.application.util.GeneralMethods;
@@ -57,9 +56,76 @@ public class GestProdController {
 		getTblCatProducts();
 		btnAddProd.addEventHandler(MouseEvent.MOUSE_CLICKED,modalEditProd("A"));
 		btnEdtProd.addEventHandler(MouseEvent.MOUSE_CLICKED,modalEditProd("M"));
+
+		btnEliminarProd.addEventHandler(MouseEvent.MOUSE_CLICKED,modalDelProd());
 		
 	}
 	
+	private EventHandler<MouseEvent> acceptDelProd() {
+		return new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				//System.out.println(event.getSource());
+				try {
+					ObservableList<Store_cat_prod> lsRow =tblProducts.getSelectionModel().getSelectedItems();
+					catProdService.deleteRow(lsRow.get(0));
+					getTblCatProducts();
+					stageProd.close();
+					
+		        } catch(Exception ex) {
+					ex.printStackTrace();
+				}
+			}};
+	}
+	
+	/**
+	 * Abre modal de confirmacion para la eliminacion
+	 * @return
+	 */
+	private EventHandler<MouseEvent> modalDelProd() {
+		return new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				//System.out.println(event.getSource());
+				try {
+					ObservableList<Store_cat_prod> row =tblProducts.getSelectionModel().getSelectedItems();
+					if(row==null || row.size()==0){
+						GeneralMethods.modalMsg("WARNING", "", "Para eliminar un producto, debes seleccionar un registro");
+						return;
+					}
+					
+						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/ModalConfirm.fxml"));
+						
+						Parent sceneEdit= fxmlLoader.load();
+						Scene scene = new Scene(sceneEdit,190,550);
+						scene.getStylesheets().add(getClass().getResource("../assets/css/application.css").toExternalForm());
+						stageProd = new Stage();
+						stageProd.setScene(scene);
+						stageProd.setTitle("Eliminar Producto");
+						stageProd.setMinHeight(190.0);
+						stageProd.setMinWidth(550.0);
+						stageProd.setMaxHeight(190.0);
+						stageProd.setMaxWidth(550.0);
+						stageProd.initModality(Modality.APPLICATION_MODAL); 
+						
+						ModalConfirmController modalObj = fxmlLoader.getController(); //Obtiene controller de la nueva ventana
+						List<String>lstStts =new ArrayList<>();
+						lstStts.add("Activo");
+						lstStts.add("Inactivo");
+						modalObj.getLblMsg().setText("¿Seguro que desea eliminar el producto?");
+						
+						modalObj.getBtnCancelar().addEventHandler(MouseEvent.MOUSE_CLICKED, closeModalEditProd());
+						modalObj.getBtnConfirm().addEventHandler(MouseEvent.MOUSE_CLICKED, acceptDelProd());
+						stageProd.show();
+		        } catch(Exception ex) {
+					ex.printStackTrace();
+				}
+			}};
+	}
+	
+	/**
+	 * Consulta Tabla de productos
+	 */
 	private void getTblCatProducts() {
 		List<Store_cat_prod> lstProd = catProdService.getAllCatalogoProduct();
 		
@@ -73,18 +139,18 @@ public class GestProdController {
 	 * @param typeForm: saber si es alta o edici�n
 	 * @return
 	 */
-	private EventHandler modalEditProd(String typeForm) {
+	private EventHandler<MouseEvent> modalEditProd(String typeForm) {
 		return new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent event) {
 			//System.out.println(event.getSource());
 			try {
 				
-					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../view/gestionProducto/EditProducto.fxml"));
+					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/EditProducto.fxml"));
 					
 					Parent sceneEdit= fxmlLoader.load();
 					Scene scene = new Scene(sceneEdit,300,300);
-					scene.getStylesheets().add(getClass().getResource("../../assets/css/gestionProducto/GestionProductos.css").toExternalForm());
+					scene.getStylesheets().add(getClass().getResource("../assets/css/GestionProductos.css").toExternalForm());
 					stageProd = new Stage();
 					stageProd.setScene(scene);
 					stageProd.setTitle("Editar Producto");
@@ -115,7 +181,7 @@ public class GestProdController {
 						}
 						break;
 					default:
-						GeneralMethods.modalMsg("Error", "", "No fue posible identificar la acci\u00F3n");
+						GeneralMethods.modalMsg("Error", "", "No fue posible identificar la operación");
 						return;
 					}
 					
@@ -138,8 +204,7 @@ public class GestProdController {
 				row.setProducto(edtProd.getInputProdName().getText());
 				row.setEstatus(("ACTIVO".equals(edtProd.getCbxEstatusProd().getValue().toUpperCase()) )?"1":"0");
 				try {
-					if("A".equals(typeForm)) {
-					}else if("M".equals(typeForm)) {
+					if("M".equals(typeForm)) {
 						ObservableList<Store_cat_prod> lsRow =tblProducts.getSelectionModel().getSelectedItems();
 						if(lsRow==null || lsRow.size()==0){
 							GeneralMethods.modalMsg("WARNING", "", "Para modificar un producto, debes seleccionar un registro");
@@ -148,8 +213,6 @@ public class GestProdController {
 						row.setId_prod(lsRow.get(0).getId_prod());
 						//catProdService.updateRow(row);
 						
-					}else {
-						//Mensaje de error
 					}
 					catProdService.insertRow(row);
 					getTblCatProducts();
@@ -174,6 +237,7 @@ public class GestProdController {
 				}
 			}};
 	}
+	
 	private void responsiveGUI() {
 		/* Panel de Home resize de acuerdo al tama�o del Pane padre*/
 		colProd.prefWidthProperty().bind(tblProducts.widthProperty().multiply(0.6));

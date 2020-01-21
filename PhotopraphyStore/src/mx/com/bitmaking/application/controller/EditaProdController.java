@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.controller.gestionProducto;
+package mx.com.bitmaking.application.controller;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
