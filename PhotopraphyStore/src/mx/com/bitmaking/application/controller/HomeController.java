@@ -55,6 +55,7 @@ public class HomeController {
 		
 		itemVenta.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("Venta",true,false));
 		lblGestionCat.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("GestionProductos",true,false));
+		lblReportes.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("BusqPedidoReporte",false,false));
 	//	menuHamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, showMenuContainer());
 		
 	}
@@ -112,7 +113,7 @@ public class HomeController {
 		 lblGestionCat.setVisible(false);
 		 lblReportes.setVisible(false);
 		 backgroundOnMenu.setVisible(false);
-		 FXMLLoader vtaFxml = new FXMLLoader(getClass().getResource("../view/ventas/Venta.fxml"));
+		 FXMLLoader vtaFxml = new FXMLLoader(getClass().getResource("../view/Venta.fxml"));
 		 try {
 			bodyContainer.getChildren().add(vtaFxml.load());
 		} catch (IOException e) {
@@ -155,6 +156,10 @@ public class HomeController {
 				        	GestProdController gestProdCtrl = loader.getController();
 				        	gestProdCtrl.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED,returnToHome());
 				        	break;
+			        	case "BusqPedidoReporte":
+			        		BusqPedidoRepController repCtrl  = loader.getController();
+			        		repCtrl.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED,returnToHome());
+			        		break;
 				        }
 			        }
 			        else{

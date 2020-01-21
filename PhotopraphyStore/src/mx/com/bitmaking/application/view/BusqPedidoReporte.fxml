@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane fx:id="ventaBody" accessibleRole="COMBO_BOX" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="462.0" prefWidth="765.0" style="-fx-background-color: rgba(255,255,255,0.9);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.BusqPedidoRepController">
+   <children>
+      <AnchorPane fx:id="containerFilters" layoutX="268.0" layoutY="160.0" prefHeight="462.0" prefWidth="497.0" style="-fx-background-color: rgb(0,0,0,0.2);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="268.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <JFXButton fx:id="btnExportXls" layoutX="14.0" layoutY="14.0" prefHeight="32.0" prefWidth="139.0" style="-fx-background-color: #04A138;" styleClass="btn-gral" text="⊻ Exportar XLS" textFill="WHITE" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+            <TableView fx:id="tblPedido" layoutX="14.0" layoutY="63.0" prefHeight="314.0" prefWidth="473.0" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="70.0">
+              <columns>
+                <TableColumn fx:id="colFolio" prefWidth="75.0" text="Folio" />
+                <TableColumn fx:id="colCliente" prefWidth="75.0" text="Cliente" />
+                  <TableColumn fx:id="colTelCliente" prefWidth="75.0" text="Contacto Cliente" />
+                  <TableColumn fx:id="colDesc" prefWidth="75.0" text="Descripción" />
+                  <TableColumn fx:id="colFecPedido" prefWidth="75.0" text="Fec. Pedido" />
+                  <TableColumn fx:id="colFecEntreg" prefWidth="75.0" text="Fec. Entregado" />
+                  <TableColumn fx:id="colEstatus" prefWidth="75.0" text="Estatus" />
+                  <TableColumn fx:id="colMontoAnt" prefWidth="75.0" text="Monto Anticipado" />
+                  <TableColumn fx:id="colMontoTotal" prefWidth="75.0" text="Monto Total" />
+              </columns>
+            </TableView>
+            <JFXButton fx:id="btnSalir" layoutX="352.0" layoutY="416.0" prefHeight="32.0" prefWidth="133.0" style="-fx-background-color: #505050;" styleClass="btn-gral" text=" ◄ Salir" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="12.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="containerBusqResp" layoutX="-7.0" prefHeight="462.0" prefWidth="269.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <JFXTextField fx:id="inputBusqFolio" layoutX="41.0" layoutY="91.0" prefHeight="25.0" prefWidth="198.0" styleClass="input-gral" />
+            <JFXTextField fx:id="inputBusqCliente" layoutX="41.0" layoutY="148.0" prefHeight="25.0" prefWidth="198.0" styleClass="input-gral" />
+            <JFXComboBox fx:id="cbxBusqEstatus" layoutX="41.0" layoutY="206.0" prefHeight="25.0" prefWidth="198.0" styleClass="input-gral" />
+            <Label alignment="CENTER" layoutX="15.0" layoutY="6.0" prefHeight="37.0" prefWidth="255.0" styleClass="lbl-title" text="CONSULTA PEDIDOS" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="6.0" />
+            <Label layoutX="14.0" layoutY="74.0" prefHeight="17.0" prefWidth="139.0" text="Folio" />
+            <Label layoutX="14.0" layoutY="131.0" prefHeight="17.0" prefWidth="139.0" text="Cliente" />
+            <Label layoutX="14.0" layoutY="189.0" prefHeight="17.0" prefWidth="139.0" text="Estatus" />
+            <Label layoutX="14.0" layoutY="251.0" prefHeight="17.0" prefWidth="139.0" text="Fecha del pedido" />
+            <JFXDatePicker fx:id="dateBusqIni" layoutX="33.0" layoutY="290.0" styleClass="input-gral" />
+            <JFXDatePicker fx:id="dateBusqFin" layoutX="33.0" layoutY="344.0" styleClass="input-gral" />
+            <Label layoutX="33.0" layoutY="273.0" prefHeight="17.0" prefWidth="139.0" text="De:" />
+            <Label layoutX="33.0" layoutY="327.0" prefHeight="17.0" prefWidth="139.0" text="A" />
+            <JFXButton fx:id="btnClean" layoutX="139.0" layoutY="413.0" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: #C37B00;" styleClass="btn-gral" text="✎ Limpiar " textFill="WHITE" />
+            <JFXButton fx:id="btnBuscar" layoutX="7.0" layoutY="413.0" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: #04A138;" styleClass="btn-gral" text="✔ Buscar" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

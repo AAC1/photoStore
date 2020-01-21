@@ -1,0 +1,20 @@
+
+
+.label-title {
+    -fx-font-family: 'Montserrat Medium';/* */
+  	
+
+}
+
+*{
+	-fx-font-size:15px
+}
+
+.input-gral{
+	-fx-font-family: 'Montserrat Light';
+}
+
+.btn-gral{
+	-fx-font-family: 'Montserrat Light';
+	-fx-text-fill: white;
+}

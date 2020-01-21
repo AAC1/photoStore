@@ -9,6 +9,7 @@
 
 @font-face {
 	font-family: "Montserrat Medium";
+	src: url('../font/Montserrat/Montserrat-Medium.ttf');
 }
 
 .label-title {
