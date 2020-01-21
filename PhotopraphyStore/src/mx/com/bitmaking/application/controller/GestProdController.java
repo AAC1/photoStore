@@ -146,11 +146,11 @@ public class GestProdController {
 			//System.out.println(event.getSource());
 			try {
 				
-					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/EditProducto.fxml"));
+					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/com/bitmaking/application/view/EditProducto.fxml"));
 					
 					Parent sceneEdit= fxmlLoader.load();
 					Scene scene = new Scene(sceneEdit,300,350);
-					scene.getStylesheets().add(getClass().getResource("../assets/css/GestionProductos.css").toExternalForm());
+					scene.getStylesheets().add(getClass().getResource("/mx/com/bitmaking/application/assets/css/GestionProductos.css").toExternalForm());
 					stageProd = new Stage();
 					stageProd.setScene(scene);
 					stageProd.setTitle("Editar Producto");

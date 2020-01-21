@@ -96,11 +96,12 @@
 			<!-- <version>6.0.3</version> -->
 			<scope>runtime</scope>
 		</dependency>
+		<!--
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>${log4j.version}</version>
-		</dependency>
+		</dependency>-->
 	</dependencies>
 	<build>
 		<finalName>macrofoto</finalName>
@@ -143,9 +144,9 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
-				  <excludes>
+				  <!--<excludes>
 					<exclude>**/log4j.properties</exclude>
-				  </excludes>
+				  </excludes>-->
 				  <archive>
 				    <manifest>
 					<addClasspath>true</addClasspath>

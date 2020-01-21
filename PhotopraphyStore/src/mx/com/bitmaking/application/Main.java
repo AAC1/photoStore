@@ -33,7 +33,7 @@ public class Main extends MystoreApplication {
 			primaryStage.setScene(scene);
 			primaryStage.centerOnScreen();
 	        primaryStage.setTitle("Macrofoto");
-			primaryStage.setMinHeight(536.0);
+			primaryStage.setMinHeight(636.0);
 			primaryStage.setMinWidth(865.0);
 			//primaryStage.setMaxHeight(450.0);
 			//primaryStage.setMaxWidth(620.0);
