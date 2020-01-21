@@ -149,15 +149,15 @@ public class GestProdController {
 					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/EditProducto.fxml"));
 					
 					Parent sceneEdit= fxmlLoader.load();
-					Scene scene = new Scene(sceneEdit,300,300);
+					Scene scene = new Scene(sceneEdit,300,350);
 					scene.getStylesheets().add(getClass().getResource("../assets/css/GestionProductos.css").toExternalForm());
 					stageProd = new Stage();
 					stageProd.setScene(scene);
 					stageProd.setTitle("Editar Producto");
 					stageProd.setMinHeight(350.0);
-					stageProd.setMinWidth(300.0);
+					stageProd.setMinWidth(350.0);
 					stageProd.setMaxHeight(350.0);
-					stageProd.setMaxWidth(300.0);
+					stageProd.setMaxWidth(350.0);
 					stageProd.initModality(Modality.APPLICATION_MODAL); 
 					
 					EditaProdController edtProd = fxmlLoader.getController(); //Obtiene controller de la nueva ventana
