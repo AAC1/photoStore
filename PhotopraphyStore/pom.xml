@@ -23,11 +23,14 @@
 			<url>http://mvn.collide.info/content/repositories/releases/</url>
 		</repository>
 	</repositories>
+	<properties>
+		<log4j.version>1.2.17</log4j.version>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>com.jfoenix</groupId>
 			<artifactId>jfoenix</artifactId>
-			<version>9.0.1</version>
+			<version>8.0.7</version><!-- 9.0.1 -->
 		</dependency>
 		<dependency>
 			<groupId>org.openjfx</groupId>
@@ -41,29 +44,24 @@
 			<version>11.0.1</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.gluonhq/charm-glisten -->
+		
 		<dependency>
 			<groupId>com.gluonhq</groupId>
 			<artifactId>charm-glisten</artifactId>
-			<version>4.0.4</version>
+			<version>5.0.0</version><!-- 6.0.2 -->
 		</dependency>
-		<dependency>
-			<groupId>com.gluonhq</groupId>
-			<artifactId>charm-glisten</artifactId>
-			<version>6.0.2</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.gluonhq.attach/display -->
+		<!--
 		<dependency>
 			<groupId>com.gluonhq.attach</groupId>
 			<artifactId>display</artifactId>
 			<version>4.0.4</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.gluonhq.attach/util -->
 		<dependency>
 			<groupId>com.gluonhq.attach</groupId>
 			<artifactId>util</artifactId>
 			<version>4.0.4</version>
 		</dependency>
+		-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
@@ -98,9 +96,14 @@
 			<!-- <version>6.0.3</version> -->
 			<scope>runtime</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
 	</dependencies>
 	<build>
+		<finalName>macrofoto</finalName>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
 			<resource>
@@ -113,6 +116,7 @@
 				<includes> <include>**/*.properties</include> </includes> </resource> 
 		</resources>
 		<plugins>
+			
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>
@@ -131,9 +135,45 @@
 				<version>0.0.4</version>
 				<configuration>
 					<mainClass>mx.com.bitmaking.application.Main</mainClass>
+					<classpathPrefix>libs-jars/</classpathPrefix>
 				</configuration>
 			</plugin>
-
+			<!-- Make this jar executable -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+				  <excludes>
+					<exclude>**/log4j.properties</exclude>
+				  </excludes>
+				  <archive>
+				    <manifest>
+					<addClasspath>true</addClasspath>
+					<mainClass>mx.com.bitmaking.application.Main</mainClass>
+					<classpathPrefix>libs-jars/</classpathPrefix>
+				    </manifest>
+				  </archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.5.1</version>
+				<executions>
+				  <execution>
+					<id>copy-dependencies</id>
+					<phase>package</phase>
+					<goals>
+						<goal>copy-dependencies</goal>
+					</goals>
+					<configuration>
+					  <!-- exclude junit, we need runtime dependency only -->
+					  <includeScope>runtime</includeScope>
+					  <outputDirectory>${project.build.directory}/libs-jars/</outputDirectory>
+					</configuration>
+				  </execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>

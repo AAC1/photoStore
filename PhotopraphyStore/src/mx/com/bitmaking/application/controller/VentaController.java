@@ -102,11 +102,11 @@ public class VentaController {
 				//System.out.println(event.getSource());
 				try {
 					
-						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/BusquedaPedido.fxml"));
+						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/com/bitmaking/application/view/BusquedaPedido.fxml"));
 						
 						Parent sceneEdit= fxmlLoader.load();
 						Scene scene = new Scene(sceneEdit,3013,165);
-						scene.getStylesheets().add(getClass().getResource("../assets/css/Venta.css").toExternalForm());
+						scene.getStylesheets().add(getClass().getResource("/mx/com/bitmaking/application/assets/css/Venta.css").toExternalForm());
 						stageBusqProd = new Stage();
 						stageBusqProd.setScene(scene);
 						stageBusqProd.setTitle("Busqueda de Pedido ");

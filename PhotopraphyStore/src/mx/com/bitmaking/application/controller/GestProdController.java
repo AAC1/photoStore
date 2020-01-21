@@ -94,11 +94,11 @@ public class GestProdController {
 						return;
 					}
 					
-						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/ModalConfirm.fxml"));
+						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/com/bitmaking/application/view/ModalConfirm.fxml"));
 						
 						Parent sceneEdit= fxmlLoader.load();
 						Scene scene = new Scene(sceneEdit,190,550);
-						scene.getStylesheets().add(getClass().getResource("../assets/css/application.css").toExternalForm());
+						scene.getStylesheets().add(getClass().getResource("/mx/com/bitmaking/application/assets/css/application.css").toExternalForm());
 						stageProd = new Stage();
 						stageProd.setScene(scene);
 						stageProd.setTitle("Eliminar Producto");

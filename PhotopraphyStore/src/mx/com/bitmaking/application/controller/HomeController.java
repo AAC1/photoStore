@@ -135,11 +135,11 @@ public class HomeController {
 					bodyContainer.getChildren().clear();
 		
 			        FXMLLoader loader = //storeApp.initializeFXML("view/"+scene+".fxml");
-			        		new FXMLLoader(getClass().getResource("../view/"+scene+".fxml"));
+			        		new FXMLLoader(getClass().getResource("/mx/com/bitmaking/application/view/"+scene+".fxml"));
 			        loader.setControllerFactory(context::getBean);
 			        Parent sceneHome = loader.load();
 			        if(hasCss) 
-			        	sceneHome.getStylesheets().add(getClass().getResource("../assets/css/"+scene+".css").toExternalForm());
+			        	sceneHome.getStylesheets().add(getClass().getResource("/mx/com/bitmaking/application/assets/css/"+scene+".css").toExternalForm());
 			        if(!newWindow){
 				        ((Region)sceneHome).prefWidthProperty().bind(bodyContainer.widthProperty().multiply(1.0));
 				        ((Region)sceneHome).prefHeightProperty().bind(bodyContainer.heightProperty().multiply(1.0));
