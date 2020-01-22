@@ -1,11 +1,15 @@
 package mx.com.bitmaking.application;
 
+import javax.persistence.EntityManagerFactory;
+
+import org.hibernate.SessionFactory;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jmx.export.MBeanExporter;
+import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
 
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -42,14 +46,7 @@ public class Main extends MystoreApplication {
 			e.printStackTrace();
 		}
 	}
-	 @Bean
-	    public MBeanExporter exporter()
-	    {
-	        final MBeanExporter exporter = new MBeanExporter();
-	        exporter.setAutodetect(true);
-	        exporter.setExcludedBeans("dataSource");
-	        return exporter;
-	    }
+	
 	 
 	public static void main(String[] args) {
 		launch(args);

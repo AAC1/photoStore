@@ -33,7 +33,7 @@
       </AnchorPane>
       <AnchorPane fx:id="containerBusqResp" layoutX="-7.0" prefHeight="462.0" prefWidth="269.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <JFXTextField fx:id="inputBusqFolio" layoutX="41.0" layoutY="91.0" prefHeight="25.0" prefWidth="198.0" styleClass="input-gral" />
+            <JFXTextField fx:id="inputBusqFolio" layoutX="76.0" layoutY="91.0" prefHeight="25.0" prefWidth="163.0" styleClass="input-gral" />
             <JFXTextField fx:id="inputBusqCliente" layoutX="41.0" layoutY="148.0" prefHeight="25.0" prefWidth="198.0" styleClass="input-gral" />
             <JFXComboBox fx:id="cbxBusqEstatus" layoutX="41.0" layoutY="206.0" prefHeight="25.0" prefWidth="198.0" styleClass="input-gral" />
             <Label alignment="CENTER" layoutX="15.0" layoutY="6.0" prefHeight="37.0" prefWidth="255.0" styleClass="lbl-title" text="CONSULTA PEDIDOS" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="6.0" />
@@ -44,9 +44,10 @@
             <JFXDatePicker fx:id="dateBusqIni" layoutX="33.0" layoutY="290.0" styleClass="input-gral" />
             <JFXDatePicker fx:id="dateBusqFin" layoutX="33.0" layoutY="344.0" styleClass="input-gral" />
             <Label layoutX="33.0" layoutY="273.0" prefHeight="17.0" prefWidth="139.0" text="De:" />
-            <Label layoutX="33.0" layoutY="327.0" prefHeight="17.0" prefWidth="139.0" text="A" />
-            <JFXButton fx:id="btnClean" layoutX="139.0" layoutY="413.0" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: #C37B00;" styleClass="btn-gral" text="✎ Limpiar " textFill="WHITE" />
-            <JFXButton fx:id="btnBuscar" layoutX="7.0" layoutY="413.0" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: #04A138;" styleClass="btn-gral" text="✔ Buscar" textFill="WHITE" />
+            <Label layoutX="33.0" layoutY="327.0" prefHeight="17.0" prefWidth="139.0" text="A:" />
+            <JFXButton fx:id="btnClean" layoutX="139.0" layoutY="413.0" onMouseClicked="#cleanBusqform" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: #C37B00;" styleClass="btn-gral" text="✎ Limpiar " textFill="WHITE" />
+            <JFXButton fx:id="btnBuscar" layoutX="7.0" layoutY="413.0" onMouseClicked="#buscaPedido" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: #04A138;" styleClass="btn-gral" text="✔ Buscar" textFill="WHITE" />
+            <Label fx:id="lblPrefixFolio" alignment="CENTER" layoutX="10.0" layoutY="95.0" prefHeight="28.0" prefWidth="63.0" style="-fx-background-color: rgba(0,0,0,0.3);" />
          </children>
       </AnchorPane>
    </children>

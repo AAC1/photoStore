@@ -29,4 +29,13 @@ public class GeneralMethods {
 	
 		alert.showAndWait();
 	}
+	
+	public static String validIfNull(String val,String format) {
+		if(val!=null && val.length()>0) {
+			String r =String.format(format, val);
+			System.out.println("r:"+r);
+			return r;
+		}
+		return "";
+	}
 }
