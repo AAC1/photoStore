@@ -1,7 +1,10 @@
 package mx.com.bitmaking.application.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,6 +22,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -39,7 +44,7 @@ public class GestProdController {
 	@FXML private TableColumn colProd;
 	@FXML private TableColumn colEstatus;
 	@FXML private AnchorPane bodyCatProd;
-	
+	@FXML private TreeView treeProd;
 	Stage stageProd = null;
 	
 	@Autowired
@@ -127,13 +132,40 @@ public class GestProdController {
 	 * Consulta Tabla de productos
 	 */
 	private void getTblCatProducts() {
-		List<Store_cat_prod> lstProd = catProdService.getAllCatalogoProduct();
+		//List<Store_cat_prod> lstProd = catProdService.getAllCatalogoProduct();
+		LinkedHashMap<Integer,Store_cat_prod> hashMap = catProdService.getAllCatalogoProduct2();
+		TreeItem<String> root =new TreeItem<>();
 		
-		tblProducts.setItems(FXCollections.observableList(lstProd));
-		colProd.setCellValueFactory(new PropertyValueFactory("producto"));
-		colEstatus.setCellValueFactory(new PropertyValueFactory("estatus"));
+		generateTreeProd(hashMap,0,root);
+		treeProd.setRoot(root);
+		//tblProducts.setItems(FXCollections.observableList(lstProd));
+		//colProd.setCellValueFactory(new PropertyValueFactory("producto"));
+	//	colEstatus.setCellValueFactory(new PropertyValueFactory("estatus"));
+	}
+	
+	private void generateTreeProd(LinkedHashMap<Integer,Store_cat_prod> hashMap,int id_padre,TreeItem<String> nodoPadre) {
+		
+		LinkedHashMap<Integer,Store_cat_prod> auxMap = new LinkedHashMap<>();
+		for (Map.Entry<Integer,Store_cat_prod> el : hashMap.entrySet()) {
+			if(el.getValue().getId_padre_prod() == id_padre) {
+				auxMap.put(el.getValue().getId_prod(), el.getValue());
+			}
+		}
+		
+		if(auxMap.size()<=0) {
+			return;
+		}
+		TreeItem<String> nodo = null;
+		for (Map.Entry<Integer,Store_cat_prod> el : auxMap.entrySet()) {
+			nodo = new TreeItem<>(el.getValue().getProducto());
+			nodoPadre.getChildren().add(nodo);
+			generateTreeProd(hashMap, el.getValue().getId_prod(),nodo);
+			
+		}
 	}
 
+	
+	
 	/**
 	 * 
 	 * @param typeForm: saber si es alta o edici�n

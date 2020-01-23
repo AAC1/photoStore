@@ -4,6 +4,8 @@
 package mx.com.bitmaking.application.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
@@ -56,6 +58,25 @@ public class StoreCatProdService implements IStoreCatProdService{ // implements 
 		
 		catProductRepo.delete(row);
 		return true;
+	}
+	
+	@Override
+	public LinkedHashMap<Integer, Store_cat_prod> getAllCatalogoProduct2() {
+		LinkedHashMap<Integer, Store_cat_prod> hasResp = new LinkedHashMap<>();
+		
+		List<Store_cat_prod> resp = catProductRepo.findAll();
+		
+		for(int i=0; i<resp.size();i++){
+			
+			if("1".equals(resp.get(i).getEstatus())){
+				resp.get(i).setEstatus("Activo");
+			}else{
+				resp.get(i).setEstatus("Inactivo");
+			}
+			hasResp.put(resp.get(i).getId_prod(), resp.get(i));
+			
+		}
+		return hasResp;
 	}
 	
 }

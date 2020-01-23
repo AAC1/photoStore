@@ -19,11 +19,22 @@ public class Store_cat_prod {
 	@Column(name="id_prod")
 	private int id_prod;
 	
+	@Column(name="id_padre_prod")
+	private int id_padre_prod;
+	
 	@Column(name="producto")
 	private String producto;
 	
 	@Column(name="estatus")
 	private String estatus;
+	
+
+	public int getId_padre_prod() {
+		return id_padre_prod;
+	}
+	public void setId_padre_prod(int id_padre_prod) {
+		this.id_padre_prod = id_padre_prod;
+	}
 	/**
 	 * @return the id_prod
 	 */

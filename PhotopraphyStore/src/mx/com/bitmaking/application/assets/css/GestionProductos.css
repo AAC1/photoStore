@@ -16,6 +16,9 @@
   	
 
 }
+.tree-gral{
+	 -fx-font-family: 'Montserrat Medium';
+}
 
 *{
 	-fx-font-size:14px
