@@ -2,11 +2,16 @@ package mx.com.bitmaking.application.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="store_cliente_prod_cost")
 public class Store_cliente_prod_cost {
+	
+	@Id
+	@Column
+	private int id_clte_prod_cost;
 	
 	@Column
 	private int id_cliente;

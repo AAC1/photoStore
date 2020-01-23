@@ -18,6 +18,6 @@
         </columns>
       </TableView>
       <JFXButton fx:id="btnSalir" layoutX="413.0" layoutY="281.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #505050; -fx-text-fill: white;" styleClass="btn-gral" text=" ◄ Salir" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="14.0" />
-      <TreeView fx:id="treeProd" layoutX="34.0" layoutY="71.0" prefHeight="200.0" prefWidth="200.0" styleClass="tree-gral" />
+      <TreeView fx:id="treeProd" layoutX="34.0" layoutY="71.0" prefHeight="200.0" prefWidth="200.0" styleClass="tree-gral" AnchorPane.bottomAnchor="53.0" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="313.0" AnchorPane.topAnchor="71.0" />
    </children>
 </AnchorPane>
