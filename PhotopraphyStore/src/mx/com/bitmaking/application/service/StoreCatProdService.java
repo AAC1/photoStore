@@ -8,11 +8,13 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.iservice.IStoreCatProdService;
 import mx.com.bitmaking.application.repository.IStoreCatProdRepo;
@@ -28,6 +30,8 @@ public class StoreCatProdService implements IStoreCatProdService{ // implements 
 	
 	@Autowired
 	 IStoreCatProdRepo catProductRepo;
+	@Autowired
+	private SessionFactory entityManager;
 
 	@Override
 	public List<Store_cat_prod> getCatalogoProduct(){
@@ -77,6 +81,14 @@ public class StoreCatProdService implements IStoreCatProdService{ // implements 
 			
 		}
 		return hasResp;
+	}
+	
+	@Override
+	public List<CostProductsDTO> getCostProdByClient(String cliente) {
+		List<CostProductsDTO> resp = new ArrayList<>();
+		
+		Session session = entityManager.unwrap(Session.class);
+		return resp;
 	}
 	
 }

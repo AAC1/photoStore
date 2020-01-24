@@ -24,6 +24,22 @@ public class Store_cliente_prod_cost {
 	
 	@Column
 	private String bar_code;
+	
+	
+
+	/**
+	 * @return the id_clte_prod_cost
+	 */
+	public int getId_clte_prod_cost() {
+		return id_clte_prod_cost;
+	}
+
+	/**
+	 * @param id_clte_prod_cost the id_clte_prod_cost to set
+	 */
+	public void setId_clte_prod_cost(int id_clte_prod_cost) {
+		this.id_clte_prod_cost = id_clte_prod_cost;
+	}
 
 	public int getId_cliente() {
 		return id_cliente;

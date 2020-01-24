@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.springframework.context.annotation.Scope;
 
+import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
 
 /**
@@ -24,5 +25,7 @@ public interface IStoreCatProdService {
 	public LinkedHashMap<Integer,Store_cat_prod> getAllCatalogoProduct2();
 	public boolean insertRow(Store_cat_prod row);
 	public boolean deleteRow(Store_cat_prod row);
+	
+	public List<CostProductsDTO> getCostProdByClient(String cliente);
 	
 }
