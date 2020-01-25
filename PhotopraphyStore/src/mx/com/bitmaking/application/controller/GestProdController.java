@@ -29,6 +29,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.iservice.IStoreCatProdService;
 import mx.com.bitmaking.application.util.GeneralMethods;
@@ -135,18 +136,18 @@ public class GestProdController {
 		//List<Store_cat_prod> lstProd = catProdService.getAllCatalogoProduct();
 		LinkedHashMap<Integer,Store_cat_prod> hashMap = catProdService.getAllCatalogoProduct2();
 		TreeItem<String> root =new TreeItem<>();
-		
-		generateTreeProd(hashMap,0,root);
+		LinkedHashMap<Integer, CostProductsDTO> hMap  =  catProdService.getCostProdByClient(0);
+		generateTreeProd(hMap,0,root);
 		treeProd.setRoot(root);
 		//tblProducts.setItems(FXCollections.observableList(lstProd));
 		//colProd.setCellValueFactory(new PropertyValueFactory("producto"));
 	//	colEstatus.setCellValueFactory(new PropertyValueFactory("estatus"));
 	}
 	
-	private void generateTreeProd(LinkedHashMap<Integer,Store_cat_prod> hashMap,int id_padre,TreeItem<String> nodoPadre) {
+	private void generateTreeProd(LinkedHashMap<Integer,CostProductsDTO> hashMap,int id_padre,TreeItem<String> nodoPadre) {
 		
-		LinkedHashMap<Integer,Store_cat_prod> auxMap = new LinkedHashMap<>();
-		for (Map.Entry<Integer,Store_cat_prod> el : hashMap.entrySet()) {
+		LinkedHashMap<Integer,CostProductsDTO> auxMap = new LinkedHashMap<>();
+		for (Map.Entry<Integer,CostProductsDTO> el : hashMap.entrySet()) {
 			if(el.getValue().getId_padre_prod() == id_padre) {
 				auxMap.put(el.getValue().getId_prod(), el.getValue());
 			}
@@ -156,7 +157,7 @@ public class GestProdController {
 			return;
 		}
 		TreeItem<String> nodo = null;
-		for (Map.Entry<Integer,Store_cat_prod> el : auxMap.entrySet()) {
+		for (Map.Entry<Integer,CostProductsDTO> el : auxMap.entrySet()) {
 			nodo = new TreeItem<>(el.getValue().getProducto());
 			nodoPadre.getChildren().add(nodo);
 			generateTreeProd(hashMap, el.getValue().getId_prod(),nodo);

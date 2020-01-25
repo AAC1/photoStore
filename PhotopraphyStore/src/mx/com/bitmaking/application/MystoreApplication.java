@@ -1,6 +1,8 @@
 package mx.com.bitmaking.application;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jmx.export.MBeanExporter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
 
 import javafx.application.Application;
@@ -30,7 +33,7 @@ public abstract class MystoreApplication extends Application{
     @Autowired
     private ApplicationContext context ;
 	
-
+    
 	@Override
 	public void init() {
 	//	context =SpringApplication.run(getClass());
@@ -54,7 +57,7 @@ public abstract class MystoreApplication extends Application{
         context.close();
     }
 	*/
-   
+   /*
     @Bean
     public MBeanExporter exporter()
     {
@@ -63,11 +66,17 @@ public abstract class MystoreApplication extends Application{
         exporter.setExcludedBeans("dataSource");
         return exporter;
     }
-    
+    */
     @Bean
-    public SessionFactory sessionFactory(@Qualifier("entityManagerFactory") EntityManagerFactory emf) {
-        return emf.unwrap(SessionFactory.class);
+    @Qualifier(value = "entityManager")
+    public EntityManager entityManager(EntityManagerFactory entityManagerFactory) {
+        return entityManagerFactory.createEntityManager();
     }
+    /*
+    @Bean//@Autowired @Qualifier("entityManagerFactory") EntityManagerFactory emf
+    public SessionFactory sessionFactory() {
+        return em.unwrap(SessionFactory.class);
+    }*/
     
     protected static void launchApp(Class<? extends MystoreApplication> clazz, String[] args) {
     //	MystoreApplication.savedArgs = args;

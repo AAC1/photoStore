@@ -26,6 +26,6 @@ public interface IStoreCatProdService {
 	public boolean insertRow(Store_cat_prod row);
 	public boolean deleteRow(Store_cat_prod row);
 	
-	public List<CostProductsDTO> getCostProdByClient(String cliente);
+	public LinkedHashMap<Integer, CostProductsDTO> getCostProdByClient(int cliente);
 	
 }

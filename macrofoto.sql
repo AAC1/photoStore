@@ -76,6 +76,12 @@ CONSTRAINT `FK_idProd_cltProdCost`
     ON UPDATE NO ACTION
 );
 
+insert into store_cliente_prod_cost(id_cliente,id_prod,costo)
+VALUES 
+(0,3,11),(0,4,9.5),(0,5,4),(0,6,7),(0,7,8),(0,8,18),(0,9,25.5),
+(1,3,15),(1,4,9),(1,5,2),(1,6,6),(1,7,5),(1,8,15),(1,9,23),
+(2,3,12),(2,4,8),(2,5,2.3),(2,6,4.5),(2,7,3),(2,8,16),(2,9,18),
+(3,3,7),(3,4,10),(3,5,3),(3,6,4),(3,7,2.5),(3,8,12),(3,9,20);
 
 /*
 create table store_medida_estandar(

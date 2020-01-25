@@ -1,6 +1,13 @@
 package mx.com.bitmaking.application.dto;
 
-public class CostProductsDTO {
+import java.io.Serializable;
+
+public class CostProductsDTO implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2182708187360514917L;
 	private int id_prod;
 	private int id_padre_prod;
 	private String producto;
