@@ -5,6 +5,7 @@ package mx.com.bitmaking.application.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,31 +104,24 @@ public class StoreCatProdService implements IStoreCatProdService{ // implements 
 		Session session = entityManager.unwrap(Session.class);
 		StringBuilder qry = new StringBuilder();
 		qry.append(" SELECT p.id_prod ,p.id_padre_prod ,");
-		qry.append("p.producto as producto,(case when p.estatus > 0 then 'Activo' else 'Inactivo' end) as estatus, ");
-		qry.append("a.costo as costo,a.bar_code as bar_code ");
+		qry.append("p.producto ,(case when p.estatus > 0 then 'Activo' else 'Inactivo' end) as estatus, ");
+		qry.append("a.costo ,a.bar_code  ");
 		qry.append(" FROM Store_cat_prod p ");
 		qry.append(" LEFT OUTER JOIN  Store_cliente_prod_cost a on p.id_prod =a.id_prod AND a.id_cliente = 0");
 		
-		Query query = session.createQuery(qry.toString());//.setParameter("idCliente",cliente);
+		//Query query = session.createQuery(qry.toString());//.setParameter("idCliente",cliente);
 		
-		 resp =(List<CostProductsDTO>) query.getResultList() ;
-	
-		 if(resp !=null) {
-			 System.out.println(resp.getClass().getName());
-			 if(resp.size()>0) {
-
-				 System.out.println(resp.get(0).getCosto());
-				 System.out.println(resp.get(0).getClass().getName());
-			 }
-		 }
-		for(int i=0; i<resp.size();i++){
+		// resp =(List<CostProductsDTO>) query.getResultList() ;
+		 List<CostProductsDTO> result = (List<CostProductsDTO>) session.createQuery(qry.toString()).list(); 
+		 
+		 for(int i =0; i< result.size(); i++){
 			/*
 			if("1".equals(resp.get(i).getEstatus())){
 				resp.get(i).setEstatus("Activo");
 			}else{
 				resp.get(i).setEstatus("Inactivo");
 			}*/
-			hasResp.put(resp.get(i).getId_prod(), resp.get(i));
+			hasResp.put(result.get(i).getId_prod(), result.get(i));
 			
 		}
 		return hasResp;
