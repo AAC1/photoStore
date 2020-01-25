@@ -101,7 +101,7 @@ public class StoreCatProdService implements IStoreCatProdService{ // implements 
 		
 		Session session = entityManager.unwrap(Session.class);
 		StringBuilder qry = new StringBuilder();
-		qry.append(" SELECT p.id_prod as id_prod,p.id_padre_prod as id_padre_prod,");
+		qry.append(" SELECT p.id_prod ,p.id_padre_prod ,");
 		qry.append("p.producto as producto,(case when p.estatus > 0 then 'Activo' else 'Inactivo' end) as estatus, ");
 		qry.append("a.costo as costo,a.bar_code as bar_code ");
 		qry.append(" FROM Store_cat_prod p ");
