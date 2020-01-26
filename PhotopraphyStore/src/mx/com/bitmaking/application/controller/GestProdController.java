@@ -134,8 +134,9 @@ public class GestProdController {
 	 */
 	private void getTblCatProducts() {
 		//List<Store_cat_prod> lstProd = catProdService.getAllCatalogoProduct();
-		LinkedHashMap<Integer,Store_cat_prod> hashMap = catProdService.getAllCatalogoProduct2();
-		TreeItem<String> root =new TreeItem<>();
+	//	LinkedHashMap<Integer,Store_cat_prod> hashMap = catProdService.getAllCatalogoProduct2();
+		TreeItem<String> root =new TreeItem<>("Productos del cliente");
+		//obtiene productos y costos por cliente
 		LinkedHashMap<Integer, CostProductsDTO> hMap  =  catProdService.getCostProdByClient(0);
 		generateTreeProd(hMap,0,root);
 		treeProd.setRoot(root);
@@ -143,7 +144,7 @@ public class GestProdController {
 		//colProd.setCellValueFactory(new PropertyValueFactory("producto"));
 	//	colEstatus.setCellValueFactory(new PropertyValueFactory("estatus"));
 	}
-	
+	//
 	private void generateTreeProd(LinkedHashMap<Integer,CostProductsDTO> hashMap,int id_padre,TreeItem<String> nodoPadre) {
 		
 		LinkedHashMap<Integer,CostProductsDTO> auxMap = new LinkedHashMap<>();
@@ -158,7 +159,7 @@ public class GestProdController {
 		}
 		TreeItem<String> nodo = null;
 		for (Map.Entry<Integer,CostProductsDTO> el : auxMap.entrySet()) {
-			nodo = new TreeItem<>(el.getValue().getProducto());
+			nodo = new TreeItem<>("p-"+el.getValue().getId_prod()+" "+el.getValue().getProducto());
 			nodoPadre.getChildren().add(nodo);
 			generateTreeProd(hashMap, el.getValue().getId_prod(),nodo);
 			

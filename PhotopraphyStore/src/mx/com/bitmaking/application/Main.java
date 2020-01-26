@@ -1,6 +1,5 @@
 package mx.com.bitmaking.application;
 
-import javax.persistence.EntityManagerFactory;
 
 import org.hibernate.SessionFactory;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -19,9 +18,7 @@ import javafx.scene.layout.Pane;
 
 @Configuration
 @EnableAutoConfiguration
-//@EnableJpaRepositories(basePackages = "mx.com.bitmaking.application.repository")
-@ComponentScan//(basePackages = {"mx.com.bitmaking.application.service","mx.com.bitmaking.application.repository",
-//		"mx.com.bitmaking.application.controller","mx.com.bitmaking.application.entity"})
+@ComponentScan
 public class Main extends MystoreApplication {
     
 	@Override

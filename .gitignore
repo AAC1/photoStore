@@ -1,9 +1,11 @@
 *.class
 *.md
+*.lst
 PhotopraphyStore/target/
-/target/
+/target/*
 *mf
 .project
 .DS_Store
 .classpath
 PhotopraphyStore/.settings/
+target
