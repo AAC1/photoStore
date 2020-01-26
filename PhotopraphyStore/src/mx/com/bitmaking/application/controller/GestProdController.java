@@ -41,9 +41,6 @@ public class GestProdController {
 	@FXML private JFXButton btnEliminarProd;
 	@FXML private JFXButton btnEdtProd;
 	@FXML private JFXButton btnSalir;
-	@FXML private TableView<Store_cat_prod> tblProducts;
-	@FXML private TableColumn colProd;
-	@FXML private TableColumn colEstatus;
 	@FXML private AnchorPane bodyCatProd;
 	@FXML private TreeView treeProd;
 	Stage stageProd = null;
@@ -73,8 +70,8 @@ public class GestProdController {
 			public void handle(MouseEvent event) {
 				//System.out.println(event.getSource());
 				try {
-					ObservableList<Store_cat_prod> lsRow =tblProducts.getSelectionModel().getSelectedItems();
-					catProdService.deleteRow(lsRow.get(0));
+				//	ObservableList<Store_cat_prod> lsRow =tblProducts.getSelectionModel().getSelectedItems();
+				//	catProdService.deleteRow(lsRow.get(0));
 					getTblCatProducts();
 					stageProd.close();
 					
@@ -94,7 +91,7 @@ public class GestProdController {
 			public void handle(MouseEvent event) {
 				//System.out.println(event.getSource());
 				try {
-					ObservableList<Store_cat_prod> row =tblProducts.getSelectionModel().getSelectedItems();
+					ObservableList<Store_cat_prod> row =null;//tblProducts.getSelectionModel().getSelectedItems();
 					if(row==null || row.size()==0){
 						GeneralMethods.modalMsg("WARNING", "", "Para eliminar un producto, debes seleccionar un registro");
 						return;
@@ -205,7 +202,7 @@ public class GestProdController {
 						edtProd.getCbxEstatusProd().setValue("Activo");
 						break;
 					case "M":
-						ObservableList<Store_cat_prod> row =tblProducts.getSelectionModel().getSelectedItems();
+						ObservableList<Store_cat_prod> row =null;//tblProducts.getSelectionModel().getSelectedItems();
 						if(row==null || row.size()==0){
 							GeneralMethods.modalMsg("WARNING", "", "Para modificar un producto, debes seleccionar un registro");
 							return;
@@ -239,7 +236,7 @@ public class GestProdController {
 				row.setEstatus(("ACTIVO".equals(edtProd.getCbxEstatusProd().getValue().toUpperCase()) )?"1":"0");
 				try {
 					if("M".equals(typeForm)) {
-						ObservableList<Store_cat_prod> lsRow =tblProducts.getSelectionModel().getSelectedItems();
+						ObservableList<Store_cat_prod> lsRow =null;//tblProducts.getSelectionModel().getSelectedItems();
 						if(lsRow==null || lsRow.size()==0){
 							GeneralMethods.modalMsg("WARNING", "", "Para modificar un producto, debes seleccionar un registro");
 							return;
@@ -274,8 +271,8 @@ public class GestProdController {
 	
 	private void responsiveGUI() {
 		/* Panel de Home resize de acuerdo al tama�o del Pane padre*/
-		colProd.prefWidthProperty().bind(tblProducts.widthProperty().multiply(0.6));
-		colEstatus.prefWidthProperty().bind(tblProducts.widthProperty().multiply(0.4));
+	//	colProd.prefWidthProperty().bind(tblProducts.widthProperty().multiply(0.6));
+//		colEstatus.prefWidthProperty().bind(tblProducts.widthProperty().multiply(0.4));
 		
 	}
 }

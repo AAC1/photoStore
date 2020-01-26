@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 
@@ -11,13 +12,17 @@
       <JFXButton fx:id="btnAddProd" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #037AB6; -fx-text-fill: white;" styleClass="btn-gral" text="✚ Agregar" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
       <JFXButton fx:id="btnEliminarProd" layoutX="272.0" layoutY="14.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #A12D04 #A12D04; -fx-text-fill: white;" styleClass="btn-gral" text="✖ Eliminar" AnchorPane.leftAnchor="272.0" AnchorPane.topAnchor="14.0" />
       <JFXButton fx:id="btnEdtProd" layoutX="143.0" layoutY="14.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #C37B00; -fx-text-fill: white;" styleClass="btn-gral" text="▬ Modificar" AnchorPane.leftAnchor="143.0" AnchorPane.topAnchor="14.0" />
-      <TableView fx:id="tblProducts" layoutX="307.0" layoutY="65.0" prefHeight="200.0" prefWidth="226.0" AnchorPane.bottomAnchor="59.0" AnchorPane.leftAnchor="307.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="65.0">
-        <columns>
-          <TableColumn fx:id="colProd" prefWidth="348.0" text="Producto" />
-          <TableColumn fx:id="colEstatus" minWidth="0.0" prefWidth="175.0" text="Estatus" />
-        </columns>
-      </TableView>
       <JFXButton fx:id="btnSalir" layoutX="413.0" layoutY="281.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #505050; -fx-text-fill: white;" styleClass="btn-gral" text=" ◄ Salir" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="14.0" />
-      <TreeView fx:id="treeProd" layoutX="34.0" layoutY="71.0" prefHeight="200.0" prefWidth="200.0" styleClass="tree-gral" AnchorPane.bottomAnchor="53.0" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="313.0" AnchorPane.topAnchor="71.0" />
+      <TreeView fx:id="treeProd" layoutX="10.0" layoutY="61.0" prefHeight="211.0" prefWidth="249.0" styleClass="tree-gral" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="61.0" />
+      <AnchorPane layoutX="299.0" layoutY="59.0" prefHeight="211.0" prefWidth="238.0" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="299.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="61.0">
+         <children>
+            <Label layoutX="34.0" layoutY="6.0" prefHeight="17.0" prefWidth="222.0" text="Nombre" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="73.0" AnchorPane.topAnchor="6.0" />
+            <JFXTextField fx:id="inputName" layoutX="36.0" layoutY="27.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="27.0" />
+            <Label fx:id="lblCosto" layoutX="29.0" layoutY="152.0" prefHeight="17.0" prefWidth="222.0" text="Costo" />
+            <JFXTextField fx:id="inputCosto" layoutX="31.0" layoutY="173.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="31.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="173.0" />
+            <JFXComboBox fx:id="inputStts" layoutX="35.0" layoutY="104.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="104.0" />
+            <Label layoutX="37.0" layoutY="80.0" prefHeight="17.0" prefWidth="222.0" text="Estatus" AnchorPane.leftAnchor="37.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="80.0" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
