@@ -44,6 +44,7 @@ public class GestProdController {
 	@FXML private AnchorPane bodyCatProd;
 	@FXML private TreeView treeProd;
 	Stage stageProd = null;
+	TreeItem<String> root =null;
 	
 	@Autowired
 	@Qualifier("StoreCatProdService")
@@ -132,7 +133,8 @@ public class GestProdController {
 	private void getTblCatProducts() {
 		//List<Store_cat_prod> lstProd = catProdService.getAllCatalogoProduct();
 	//	LinkedHashMap<Integer,Store_cat_prod> hashMap = catProdService.getAllCatalogoProduct2();
-		TreeItem<String> root =new TreeItem<>("Productos del cliente");
+		root =new TreeItem<>("Productos del cliente");
+		root.setExpanded(true);
 		//obtiene productos y costos por cliente
 		LinkedHashMap<Integer, CostProductsDTO> hMap  =  catProdService.getCostProdByClient(0);
 		generateTreeProd(hMap,0,root);
@@ -157,6 +159,7 @@ public class GestProdController {
 		TreeItem<String> nodo = null;
 		for (Map.Entry<Integer,CostProductsDTO> el : auxMap.entrySet()) {
 			nodo = new TreeItem<>("p-"+el.getValue().getId_prod()+" "+el.getValue().getProducto());
+			
 			nodoPadre.getChildren().add(nodo);
 			generateTreeProd(hashMap, el.getValue().getId_prod(),nodo);
 			

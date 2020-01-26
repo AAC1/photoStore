@@ -74,7 +74,7 @@
 }
 
 .root{
-	-fx-background-image: url('../img/photoFondo1.jpg');
+	-fx-background-image: url('../img/photoFondo2.jpg');/*url('../img/photoFondo1.jpg');*/
 	-fx-background-repeat: no-repeat ;   
     -fx-background-size: cover  ;
     -fx-background-position: center center;

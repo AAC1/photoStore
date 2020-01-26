@@ -18,6 +18,12 @@
 }
 .tree-gral{
 	 -fx-font-family: 'Montserrat Medium';
+	 
+}
+
+.tree-gral:selected{
+	-fx-background-color: #5F686C;
+	-fx-text-fill: white;
 }
 
 *{

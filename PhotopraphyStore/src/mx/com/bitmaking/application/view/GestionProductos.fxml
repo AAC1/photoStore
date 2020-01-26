@@ -16,12 +16,12 @@
       <TreeView fx:id="treeProd" layoutX="10.0" layoutY="61.0" prefHeight="211.0" prefWidth="249.0" styleClass="tree-gral" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="61.0" />
       <AnchorPane layoutX="299.0" layoutY="59.0" prefHeight="211.0" prefWidth="238.0" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="299.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="61.0">
          <children>
-            <Label layoutX="34.0" layoutY="6.0" prefHeight="17.0" prefWidth="222.0" text="Nombre" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="73.0" AnchorPane.topAnchor="6.0" />
+            <Label layoutX="34.0" layoutY="6.0" prefHeight="17.0" prefWidth="118.0" text="Nombre" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="86.0" AnchorPane.topAnchor="6.0" />
             <JFXTextField fx:id="inputName" layoutX="36.0" layoutY="27.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="27.0" />
-            <Label fx:id="lblCosto" layoutX="29.0" layoutY="152.0" prefHeight="17.0" prefWidth="222.0" text="Costo" />
+            <Label fx:id="lblCosto" layoutX="35.0" layoutY="152.0" prefHeight="17.0" prefWidth="157.0" text="Costo" />
             <JFXTextField fx:id="inputCosto" layoutX="31.0" layoutY="173.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="31.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="173.0" />
             <JFXComboBox fx:id="inputStts" layoutX="35.0" layoutY="104.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="104.0" />
-            <Label layoutX="37.0" layoutY="80.0" prefHeight="17.0" prefWidth="222.0" text="Estatus" AnchorPane.leftAnchor="37.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="80.0" />
+            <Label layoutX="36.0" layoutY="81.0" prefHeight="17.0" prefWidth="222.0" text="Estatus" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="71.0" AnchorPane.topAnchor="81.0" />
          </children>
       </AnchorPane>
    </children>
