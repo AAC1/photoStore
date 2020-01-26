@@ -4,26 +4,19 @@
 package mx.com.bitmaking.application.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.iservice.IStoreCatProdService;
+import mx.com.bitmaking.application.repository.ICatProdDAO;
 import mx.com.bitmaking.application.repository.IStoreCatProdRepo;
 
 /**
@@ -36,11 +29,15 @@ import mx.com.bitmaking.application.repository.IStoreCatProdRepo;
 public class StoreCatProdService implements IStoreCatProdService{ // implements IStoreCatProdService
 	
 	@Autowired
-	 IStoreCatProdRepo catProductRepo;
+	private IStoreCatProdRepo catProductRepo;
 	
-	@Autowired
-	@Qualifier(value = "entityManager")
-	EntityManager entityManager;
+	@Autowired 
+	private ICatProdDAO catProdDAO;
+	
+//	@Autowired
+//	@Qualifier(value = "entityManager")
+//	EntityManager entityManager;
+
 	/*
 	@Autowired
 	private SessionFactory entityManager;
@@ -97,31 +94,14 @@ public class StoreCatProdService implements IStoreCatProdService{ // implements 
 	
 	//@SuppressWarnings("unchecked")
 	@Override
+	@Transactional
 	public LinkedHashMap<Integer, CostProductsDTO> getCostProdByClient(int cliente) {
-		List<CostProductsDTO> resp = null;
+		List<CostProductsDTO> resp = catProdDAO.getListCostos(cliente);
 		LinkedHashMap<Integer, CostProductsDTO> hasResp = new LinkedHashMap<>();
 		
-		Session session = entityManager.unwrap(Session.class);
-		StringBuilder qry = new StringBuilder();
-		qry.append(" SELECT p.id_prod ,p.id_padre_prod ,");
-		qry.append("p.producto ,(case when p.estatus > 0 then 'Activo' else 'Inactivo' end) as estatus, ");
-		qry.append("a.costo ,a.bar_code  ");
-		qry.append(" FROM Store_cat_prod p ");
-		qry.append(" LEFT OUTER JOIN  Store_cliente_prod_cost a on p.id_prod =a.id_prod AND a.id_cliente = 0");
-		
-		//Query query = session.createQuery(qry.toString());//.setParameter("idCliente",cliente);
-		
-		// resp =(List<CostProductsDTO>) query.getResultList() ;
-		 List<CostProductsDTO> result = (List<CostProductsDTO>) session.createQuery(qry.toString()).list(); 
-		 
-		 for(int i =0; i< result.size(); i++){
-			/*
-			if("1".equals(resp.get(i).getEstatus())){
-				resp.get(i).setEstatus("Activo");
-			}else{
-				resp.get(i).setEstatus("Inactivo");
-			}*/
-			hasResp.put(result.get(i).getId_prod(), result.get(i));
+		for( CostProductsDTO el: resp){
+			//objDto = (CostProductsDTO)el;
+			hasResp.put(el.getId_prod(), el);
 			
 		}
 		return hasResp;

@@ -1,6 +1,7 @@
 package mx.com.bitmaking.application.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class CostProductsDTO implements Serializable {
 	
@@ -12,7 +13,7 @@ public class CostProductsDTO implements Serializable {
 	private int id_padre_prod;
 	private String producto;
 	private String estatus;
-	private double costo;
+	private BigDecimal costo;
 	private String bar_code;
 	/**
 	 * @return the id_prod
@@ -65,13 +66,13 @@ public class CostProductsDTO implements Serializable {
 	/**
 	 * @return the costo
 	 */
-	public double getCosto() {
+	public BigDecimal getCosto() {
 		return costo;
 	}
 	/**
 	 * @param costo the costo to set
 	 */
-	public void setCosto(double costo) {
+	public void setCosto(BigDecimal costo) {
 		this.costo = costo;
 	}
 	/**

@@ -5,6 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.jpa.HibernateEntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
@@ -32,6 +33,7 @@ public abstract class MystoreApplication extends Application{
     
     @Autowired
     private ApplicationContext context ;
+	
 	
     
 	@Override
@@ -67,17 +69,30 @@ public abstract class MystoreApplication extends Application{
         return exporter;
     }
     */
+    
+    /*
     @Bean
-    @Qualifier(value = "entityManager")
+    @Qualifier(value = "entityManagerFactory")
     public EntityManager entityManager(EntityManagerFactory entityManagerFactory) {
         return entityManagerFactory.createEntityManager();
     }
+   */
     /*
-    @Bean//@Autowired @Qualifier("entityManagerFactory") EntityManagerFactory emf
-    public SessionFactory sessionFactory() {
-        return em.unwrap(SessionFactory.class);
-    }*/
-    
+    @Bean
+    public SessionFactory sessionFactory(HibernateEntityManagerFactory hemf) {      
+		return hemf.getSessionFactory();
+    }
+    */
+    @Autowired
+    private EntityManagerFactory entityManagerFactory;
+
+    @Bean
+    public SessionFactory getSessionFactory() {
+        if (entityManagerFactory.unwrap(SessionFactory.class) == null) {
+            throw new NullPointerException("factory is not a hibernate factory");
+        }
+        return entityManagerFactory.unwrap(SessionFactory.class);
+    }
     protected static void launchApp(Class<? extends MystoreApplication> clazz, String[] args) {
     //	MystoreApplication.savedArgs = args;
         Application.launch(clazz, args);

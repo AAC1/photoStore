@@ -18,16 +18,16 @@ import mx.com.bitmaking.application.util.HibernateUtil;
 @Service
 public class StorePedidoService implements IStorePedidoService{
 	
-	@Autowired
-	private EntityManagerFactory  entityManagerFactory;
+	//@Autowired
+	//private EntityManagerFactory  entityManagerFactory;
 	
 	@Override
 	public List<Store_pedido> consultPedido(String qry) {
 		Session session = null;
 		List<Store_pedido> resp = new ArrayList<>();
 		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			resp=session.createQuery(qry).list();
+		//	session = HibernateUtil.getSessionFactory().openSession();
+		//	resp=session.createQuery(qry).list();
 		}
 		catch(Exception e ) {
 			
