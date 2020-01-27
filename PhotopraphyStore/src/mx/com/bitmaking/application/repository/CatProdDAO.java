@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import mx.com.bitmaking.application.dto.CostProductsDTO;
+import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
 
 @Repository
 public class CatProdDAO implements ICatProdDAO {
@@ -26,7 +27,7 @@ public class CatProdDAO implements ICatProdDAO {
 //	EntityManager entityManager;
 	
 	
-	//@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<CostProductsDTO> getListCostos(int cliente) {
 		List<CostProductsDTO> results = null;
@@ -53,6 +54,37 @@ public class CatProdDAO implements ICatProdDAO {
 		}
 		
 		return results;
+	}
+
+	@Override
+	public boolean updateCostProduct(Store_cliente_prod_cost objProd) {
+		boolean resp=false;
+		StringBuilder qry = new StringBuilder();
+		qry.append(" UPDATE Store_cliente_prod_cost p ");
+		qry.append(" SET p.costo=:costo, p.bar_code:barcode ");
+		qry.append(" WHERE  p.id_prod =:idProd AND p.id_cliente = :cliente");
+		
+		
+		try{
+ 
+			SQLQuery query= sessionFactory.getCurrentSession().createSQLQuery(qry.toString());
+			
+			query.setDouble("costo", objProd.getCosto());
+			query.setString("barcode", objProd.getBar_code());
+			query.setInteger("idProd", objProd.getId_prod());
+			query.setInteger("cliente", objProd.getId_cliente());
+		//	query.setResultTransformer(Transformers.aliasToBean(CostProductsDTO.class));
+			
+			int exec =query.executeUpdate();
+			if(exec>0){
+				resp = true;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		
+		}
+		
+		return resp;
 	}
 
 }

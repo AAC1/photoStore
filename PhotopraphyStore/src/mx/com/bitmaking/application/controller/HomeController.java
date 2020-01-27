@@ -37,6 +37,7 @@ public class HomeController {
 	@FXML private Label lblGestionCat;
 	@FXML private Label lblReportes;
 	@FXML private Label itemVenta;
+	@FXML private Label lblGestCostProd;
 	
 	@FXML private JFXHamburger menuHamburger;
 	@FXML private AnchorPane menuContainer;
@@ -56,6 +57,7 @@ public class HomeController {
 		itemVenta.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("Venta",true,false));
 		lblGestionCat.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("GestionProductos",true,false));
 		lblReportes.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("BusqPedidoReporte",false,false));
+		lblGestCostProd.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("CostProdByClient",false,false));
 	//	menuHamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, showMenuContainer());
 		
 	}
@@ -69,8 +71,10 @@ public class HomeController {
 		if(menuContainer.isVisible()) {
 			menuContainer.setVisible(false);
 			lblGestionCat.setVisible(false);
+			lblGestCostProd.setVisible(false);
 			lblReportes.setVisible(false);
 			backgroundOnMenu.setVisible(false);
+			
 		}else {
 			menuContainer.setVisible(true);
 			backgroundOnMenu.setVisible(true);
@@ -99,10 +103,11 @@ public class HomeController {
 		if(lblGestionCat.isVisible()) {
 			lblGestionCat.setVisible(false);
 			lblReportes.setVisible(false);
-			
+			lblGestCostProd.setVisible(false);
 		}else {
 			lblGestionCat.setVisible(true);
 			lblReportes.setVisible(true);
+			lblGestCostProd.setVisible(true);
 		}
 		
 	}
@@ -111,6 +116,7 @@ public class HomeController {
 	private void openSectionVta(MouseEvent event) {
 		 menuContainer.setVisible(false);
 		 lblGestionCat.setVisible(false);
+		 lblGestCostProd.setVisible(false);
 		 lblReportes.setVisible(false);
 		 backgroundOnMenu.setVisible(false);
 		 FXMLLoader vtaFxml = new FXMLLoader(getClass().getResource("../view/Venta.fxml"));
@@ -194,6 +200,7 @@ public class HomeController {
 					menuContainer.setVisible(false);
 					lblGestionCat.setVisible(false);
 					lblReportes.setVisible(false);
+					lblGestCostProd.setVisible(false);
 					backgroundOnMenu.setVisible(false);
 					bodyContainer.getChildren().clear();
 		

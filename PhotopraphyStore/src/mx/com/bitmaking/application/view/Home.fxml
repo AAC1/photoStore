@@ -6,13 +6,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" 
-prefHeight="450.0" prefWidth="620.0" 
-xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.HomeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.HomeController">
    <children>
       <AnchorPane fx:id="bodyContainer" layoutY="52.0" prefHeight="398.0" prefWidth="620.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="52.0">
          <children>
-            <Label layoutX="413.0" layoutY="345.0" style="-fx-text-fill: #778287;" text="Photo by Dariusz Sankowski on Unsplash" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="6.0">
+            <Label layoutX="413.0" layoutY="345.0" style="-fx-text-fill: #778287;" text="Photo by alexander-wang on Unsplash" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="6.0">
                <font>
                   <Font size="10.0" />
                </font>
@@ -26,12 +24,13 @@ xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:c
          </font></Label>
       <JFXHamburger id="menuHamburger" fx:id="menuHamburger" layoutX="8.0" layoutY="10.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#showMenuContainer" />
       <AnchorPane fx:id="backgroundOnMenu" layoutY="43.0" prefHeight="375.0" prefWidth="600.0" style="-fx-background-color: rgba(0,0,0,0.7);" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="43.0" />
-      <AnchorPane fx:id="menuContainer" layoutY="54.0" maxWidth="247.0" prefHeight="153.0" prefWidth="247.0" style="-fx-background-color: lightgray;" visible="false">
+      <AnchorPane fx:id="menuContainer" layoutY="54.0" maxWidth="284.0" prefHeight="206.0" prefWidth="284.0" style="-fx-background-color: lightgray;" visible="false">
          <children>
             <Label fx:id="itemVenta" layoutX="-3.0" layoutY="-5.0" prefHeight="38.0" prefWidth="180.0" style="-fx-padding: 10;" styleClass="item-menu" text="Ventas" />
-            <Label fx:id="lblGestionCat" layoutX="104.0" layoutY="75.0" prefHeight="38.0" prefWidth="180.0" style="-fx-padding: 10;" styleClass="subitem-menu" text="Gestión de Catálogo" visible="false" />
-            <Label fx:id="lblReportes" layoutX="104.0" layoutY="115.0" prefHeight="38.0" prefWidth="180.0" style="-fx-padding:10;" styleClass="subitem-menu" text="Consulta Reportes" visible="false" />
+            <Label fx:id="lblGestionCat" layoutX="104.0" layoutY="75.0" prefHeight="38.0" prefWidth="180.0" style="-fx-padding: 10;" styleClass="subitem-menu" text="Gestión de Productos" visible="false" />
+            <Label fx:id="lblReportes" layoutX="104.0" layoutY="151.0" prefHeight="38.0" prefWidth="180.0" style="-fx-padding:10;" styleClass="subitem-menu" text="Consulta Reportes" visible="false" />
             <Label fx:id="itemAdmin" layoutX="-3.0" layoutY="35.0" onMouseClicked="#showSubMenuAdmin" prefHeight="38.0" prefWidth="180.0" style="-fx-padding: 10;" styleClass="item-menu" text="Administración " />
+            <Label fx:id="lblGestCostProd" layoutX="104.0" layoutY="113.0" prefHeight="38.0" prefWidth="180.0" style="-fx-padding: 10;" styleClass="subitem-menu" text="Gestión Costo Productos" visible="false" />
          </children>
       </AnchorPane>
    </children>
