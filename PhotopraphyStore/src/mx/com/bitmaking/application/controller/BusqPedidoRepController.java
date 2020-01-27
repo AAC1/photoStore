@@ -70,12 +70,13 @@ public class BusqPedidoRepController {
 	private void buscaPedido(MouseEvent event) {
 		System.out.println("Clicle btn Buscar");
 		StringBuilder qry = new StringBuilder();
-		qry.append("From Store_pedido p ");
+		qry.append("select p.* From Store_pedido p ");
 		
 		qry.append("WHERE p.folio>='"+lblPrefixFolio.getText());
 	//	SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
 		DateTimeFormatter dt = DateTimeFormatter.ofPattern("yyyy-MM-dd"); 
-		qry.append(GeneralMethods.validIfNull(inputBusqFolio.getText(),"-%s'"));
+		qry.append(GeneralMethods.validIfNull(inputBusqFolio.getText(),"-%s"));
+		qry.append("' ");//Cierra Folio
 		qry.append(GeneralMethods.validIfNull(inputBusqCliente.getText()," AND p.cliente>='%s' "));
 		String stts="";
 		if(cbxBusqEstatus.getValue()!=null ) {
@@ -87,13 +88,18 @@ public class BusqPedidoRepController {
 			}
 		}
 		qry.append(GeneralMethods.validIfNull(stts," AND p.id_estatus=%s "));
-		
-		qry.append(GeneralMethods.validIfNull(dt.format(dateBusqIni.getValue())," AND p.fec_pedido >= '%s' "));
-		qry.append(GeneralMethods.validIfNull(dt.format(dateBusqFin.getValue())," AND p.fec_pedido <= '%s' "));
+		if(dateBusqIni.getValue()!=null)
+				qry.append(GeneralMethods.validIfNull(dt.format(dateBusqIni.getValue())," AND p.fec_pedido >= '%s' "));
+		if(dateBusqFin.getValue()!=null)
+				qry.append(GeneralMethods.validIfNull(dt.format(dateBusqFin.getValue())," AND p.fec_pedido <= '%s' "));
 		
 		System.out.println("qry:"+qry);
 		List<Store_pedido> lstPedidos= pedidoService.consultPedido(qry.toString());
 		
+		if(lstPedidos==null || lstPedidos.size()==0 ) {
+			GeneralMethods.modalMsg("WARNING", "", "No se encontraros pedidos");
+			return;
+		}
 		tblPedido.setItems(FXCollections.observableList(lstPedidos));
 	}
 	
