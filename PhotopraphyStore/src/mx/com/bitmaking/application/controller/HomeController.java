@@ -90,6 +90,7 @@ public class HomeController {
 	private void hideMenuContainer(MouseEvent event){
 		menuContainer.setVisible(false);
 		lblGestionCat.setVisible(false);
+		lblGestCostProd.setVisible(false);
 		lblReportes.setVisible(false);
 		backgroundOnMenu.setVisible(false);
 	}
@@ -137,6 +138,7 @@ public class HomeController {
 				try {
 					menuContainer.setVisible(false);
 					lblGestionCat.setVisible(false);
+					lblGestCostProd.setVisible(false);
 					lblReportes.setVisible(false);
 					backgroundOnMenu.setVisible(false);
 					bodyContainer.getChildren().clear();

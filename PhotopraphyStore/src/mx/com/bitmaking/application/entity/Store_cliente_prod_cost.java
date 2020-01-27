@@ -20,7 +20,7 @@ public class Store_cliente_prod_cost {
 	private int id_prod;
 	
 	@Column
-	private double costo;
+	private Double costo;
 	
 	@Column
 	private String bar_code;
@@ -57,11 +57,11 @@ public class Store_cliente_prod_cost {
 		this.id_prod = id_prod;
 	}
 
-	public double getCosto() {
+	public Double getCosto() {
 		return costo;
 	}
 
-	public void setCosto(double costo) {
+	public void setCosto(Double costo) {
 		this.costo = costo;
 	}
 

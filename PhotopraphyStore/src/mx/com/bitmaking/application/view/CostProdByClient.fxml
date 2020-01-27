@@ -14,19 +14,19 @@
       <AnchorPane layoutX="417.0" layoutY="59.0" prefHeight="211.0" prefWidth="271.0" style="-fx-background-color: rgba(216,216,216,0.5) rgba(216,216,216,0.5);" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="417.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="61.0">
          <children>
             <Label layoutX="34.0" layoutY="6.0" prefHeight="17.0" prefWidth="118.0" text="Nombre" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="86.0" AnchorPane.topAnchor="6.0" />
-            <JFXTextField fx:id="inputName" layoutX="36.0" layoutY="27.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="27.0" />
+            <JFXTextField fx:id="inputName" disable="true" layoutX="36.0" layoutY="27.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="27.0" />
             <Label fx:id="lblCosto" layoutX="35.0" layoutY="152.0" prefHeight="17.0" prefWidth="157.0" text="Costo" />
-            <JFXTextField fx:id="inputCosto" layoutX="31.0" layoutY="173.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="31.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="173.0" />
-            <JFXComboBox fx:id="cbxStts" layoutX="35.0" layoutY="104.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="104.0" />
+            <JFXTextField fx:id="inputCosto" disable="true" layoutX="31.0" layoutY="173.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="31.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="173.0" />
+            <JFXComboBox fx:id="cbxStts" disable="true" layoutX="35.0" layoutY="104.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="104.0" />
             <Label layoutX="36.0" layoutY="81.0" prefHeight="17.0" prefWidth="222.0" text="Estatus" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="71.0" AnchorPane.topAnchor="81.0" />
-            <JFXButton fx:id="btnAcceptModif" layoutX="29.0" layoutY="301.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #04A138 #04A138;" text="✔ Aceptar" textFill="WHITE" AnchorPane.rightAnchor="281.0" AnchorPane.topAnchor="301.0" />
-            <JFXButton fx:id="btnCancenModif" layoutX="155.0" layoutY="301.0" onMouseClicked="#cancelModif" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #A12D04 #A12D04;" text="✘ Cancelar" textFill="WHITE" AnchorPane.rightAnchor="155.0" AnchorPane.topAnchor="301.0" />
+            <JFXButton fx:id="btnAcceptModif" layoutX="29.0" layoutY="301.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #04A138 #04A138;" text="✔ Aceptar" textFill="WHITE" visible="false" AnchorPane.rightAnchor="281.0" AnchorPane.topAnchor="301.0" />
+            <JFXButton fx:id="btnCancenModif" layoutX="155.0" layoutY="301.0" onMouseClicked="#cancelModif" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #A12D04 #A12D04;" text="✘ Cancelar" textFill="WHITE" visible="false" AnchorPane.rightAnchor="155.0" AnchorPane.topAnchor="301.0" />
             <JFXButton fx:id="btnSalir" layoutX="282.0" layoutY="301.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #505050; -fx-text-fill: white;" styleClass="btn-gral" text=" ◄ Salir" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="301.0" />
             <Label fx:id="lblCosto1" layoutX="35.0" layoutY="227.0" prefHeight="17.0" prefWidth="157.0" text="Código de barras" />
-            <JFXTextField fx:id="inputBarcode" layoutX="31.0" layoutY="248.0" prefHeight="27.0" prefWidth="359.0" />
+            <JFXTextField fx:id="inputBarcode" disable="true" layoutX="31.0" layoutY="248.0" prefHeight="27.0" prefWidth="359.0" />
          </children>
       </AnchorPane>
-      <JFXComboBox layoutX="86.0" layoutY="16.0" prefHeight="27.0" prefWidth="185.0" />
+      <JFXComboBox fx:id="cbxCliente" layoutX="86.0" layoutY="16.0" onAction="#getCostProdByClte" prefHeight="27.0" prefWidth="185.0" />
       <Label layoutX="14.0" layoutY="21.0" prefHeight="17.0" prefWidth="67.0" text="Cliente" />
    </children>
 </AnchorPane>

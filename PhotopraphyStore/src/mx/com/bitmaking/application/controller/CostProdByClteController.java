@@ -22,8 +22,14 @@ import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
+import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
+import mx.com.bitmaking.application.entity.Store_fotografo;
 import mx.com.bitmaking.application.iservice.IStoreCatProdService;
+import mx.com.bitmaking.application.iservice.IStoreClteProdCostService;
+import mx.com.bitmaking.application.iservice.IStoreFotografoService;
 import mx.com.bitmaking.application.repository.ICatProdDAO;
+import mx.com.bitmaking.application.repository.IStoreFotografoRepo;
+import mx.com.bitmaking.application.service.StoreClteProdCostService;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
 @Component
@@ -33,6 +39,10 @@ public class CostProdByClteController {
 	ICatProdDAO catProdDAO;
 	@Autowired
 	IStoreCatProdService storeCatProdService;
+	@Autowired
+	IStoreFotografoService clienteService;
+	@Autowired 
+	IStoreClteProdCostService clteProdCostService;
 	
 	@FXML private TreeView<String> treeProd;
 	@FXML private JFXButton btnEdtProd;
@@ -42,35 +52,79 @@ public class CostProdByClteController {
 	@FXML private JFXTextField inputName;
 	@FXML private JFXTextField inputBarcode;
 	@FXML private JFXComboBox<String> cbxStts;
+	@FXML private JFXComboBox<String> cbxCliente;
 	@FXML private JFXTextField inputCosto;
-	
+	private List<Store_fotografo> lstClte = null;
 	LinkedHashMap<Integer, CostProductsDTO> productsMap = null;
 	CostProductsDTO catProdModif = null;
 	
 	public void initialize() {
-		
+		iniSect();
 		getTblCatProducts(0);
 		treeProd.addEventHandler(MouseEvent.MOUSE_CLICKED, showDetails());
 		btnAcceptModif.addEventHandler(MouseEvent.MOUSE_CLICKED, acceptModifProd());
 
 	}
 
+	private void iniSect() {
+		List<String> lstStts = new ArrayList<>();
+		lstStts.add("Activo");
+		lstStts.add("Inactivo");
+		cbxStts.getItems().removeAll(cbxStts.getItems());
+		cbxStts.setItems(FXCollections.observableList(lstStts));
+		
+		lstClte= clienteService.getActiveClients();
+		
+		cbxCliente.getItems().removeAll(cbxCliente.getItems());
+		List<String> lstNameCltes = new ArrayList<>();
+		for(Store_fotografo el: lstClte) {
+			lstNameCltes.add(el.getFotografo());
+		}
+		
+		cbxCliente.setItems(FXCollections.observableList(lstNameCltes));
+		cbxCliente.getSelectionModel().select(0);
+		getTblCatProducts(lstClte.get(0).getId_fotografo());
+	}
+	
+	@FXML
+	private void getCostProdByClte() {
+		if(lstClte==null)return;
+		
+		int nRow= cbxCliente.getSelectionModel().getSelectedIndex();
+		Store_fotografo objClte = lstClte.get(nRow);
+		System.out.println("idClte"+objClte.getId_fotografo());
+		getTblCatProducts(objClte.getId_fotografo());
+	}
 	@FXML
 	private void cancelModif() {
+		
 		btnAcceptModif.setVisible(false);
 		btnCancenModif.setVisible(false);
 		cbxStts.setDisable(true);
 		inputName.setDisable(true);
 		treeProd.setDisable(false);
+		
+		inputCosto.setDisable(true);
+		inputBarcode.setDisable(true);
+		
 
 	}
 	@FXML
 	private void editProd(){
+		ObservableList<TreeItem<String>> objTree = treeProd.getSelectionModel().getSelectedItems();
+		TreeItem<String> treeItem = objTree.get(0);
+		if(treeItem.getChildren().size()>0){
+			GeneralMethods.modalMsg("WARNING", "", "Solo es permitido modificar o asignar costos y barcode a registros sin subgrupos");
+			return;
+		}
 		treeProd.setDisable(true);
 		btnAcceptModif.setVisible(true);
 		btnCancenModif.setVisible(true);
-		cbxStts.setDisable(false);
-		inputName.setDisable(false);
+		inputCosto.setDisable(false);
+		inputBarcode.setDisable(false);
+		
+		//cbxStts.setDisable(false);
+		//inputName.setDisable(false);
 	}
 
 	private EventHandler<MouseEvent> showDetails() {
@@ -130,16 +184,15 @@ public class CostProdByClteController {
 				try {
 
 					if (productsMap == null || productsMap.size() == 0) {
-						// GeneralMethods.modalMsg("WARNING", "", "No hay
-						// registro a modificar");
+						 GeneralMethods.modalMsg("WARNING", "", "No hay  registro a modificar");
 						return;
 					}
 
 					ObservableList<TreeItem<String>> objTree = treeProd.getSelectionModel().getSelectedItems();
 					TreeItem<String> treeItem = objTree.get(0);
+					
 					if (treeItem == null) {
-						// GeneralMethods.modalMsg("WARNING", "", "No hay
-						// registro seleccionado");
+						 GeneralMethods.modalMsg("WARNING", "", "No hay registro seleccionado");
 						return;
 					}
 					int idx = treeProd.getSelectionModel().getSelectedIndex();
@@ -148,25 +201,40 @@ public class CostProdByClteController {
 
 					if (strRow == null || strRow.length() == 0 || idx <= 0) {// ||
 																				// row.length()==0
-						// GeneralMethods.modalMsg("WARNING", "", "Para
-						// modificar, debes seleccionar un registro");
+						GeneralMethods.modalMsg("WARNING", "", "Para modificar, debes seleccionar un registro");
 						return;
-					} else {
+					} 
+					if(treeItem.getChildren().size()>0){
+						GeneralMethods.modalMsg("WARNING", "", "Solo es permitido modificar costos y barcode de registros sin subgrupos");
+						return;
+					}
+					else {
 						cancelModif();
 						CostProductsDTO row = catProdModif;
-						row.setProducto(inputName.getText());
-						row.setEstatus(("ACTIVO".equals(cbxStts.getValue().toUpperCase())) ? "1" : "0");
-						//catProdDAO.insertRow(row);
+						int nRow= cbxCliente.getSelectionModel().getSelectedIndex();
+						Store_fotografo objClte = lstClte.get(nRow);
 						
-						// if("0".equals(row.getEstatus())){
-						inactiveChildren(treeItem, row.getEstatus());
-						// }
-						cancelModif();
+						
+						Store_cliente_prod_cost costProdObj = clteProdCostService.
+																	getRowByIdProdAndClient(objClte.getId_fotografo(), row.getId_prod());
+						costProdObj.setBar_code(inputBarcode.getText());
+						
+						System.out.println("idClte:"+objClte.getId_fotografo());
+						System.out.println("idProd:"+row.getId_prod());
+						System.out.println("costProdObj:"+costProdObj.getId_clte_prod_cost());
+						costProdObj.setCosto(inputCosto.getText()==null||inputCosto.getText().length()==0?
+														null:Double.parseDouble(inputCosto.getText()));
+						/*ACtualiza o inserta nuevo registro*/
+						clteProdCostService.insertRow(costProdObj);
 						inputName.setText("");
 						cbxStts.setValue("");
-						getTblCatProducts(0);//cambiar por el combo dinamico
+						inputCosto.setText("");
+						inputBarcode.setText("");
+						getTblCatProducts(objClte.getId_fotografo());
 					}
 				} catch (Exception ex) {
+					GeneralMethods.modalMsg("ERROR", "", ex.getMessage());
+					
 					ex.printStackTrace();
 				}
 			}
@@ -196,12 +264,7 @@ public class CostProdByClteController {
 
 	
 	private void getTblCatProducts(int cliente) {
-		List<String> lstStts = new ArrayList<>();
-		lstStts.add("Activo");
-		lstStts.add("Inactivo");
-		cbxStts.getItems().removeAll(cbxStts.getItems());
-		cbxStts.setItems(FXCollections.observableList(lstStts));
-
+		
 		productsMap = storeCatProdService.getCostProdByClient(cliente);
 		TreeItem<String> root =new TreeItem<>("Productos del cliente");
 		root.setExpanded(true);
