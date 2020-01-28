@@ -65,7 +65,9 @@ public class CostProdByClteController {
 		btnAcceptModif.addEventHandler(MouseEvent.MOUSE_CLICKED, acceptModifProd());
 
 	}
-
+	
+	
+	
 	private void iniSect() {
 		List<String> lstStts = new ArrayList<>();
 		lstStts.add("Activo");

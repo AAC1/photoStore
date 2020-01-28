@@ -9,12 +9,11 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane fx:id="ventaBody" accessibleRole="COMBO_BOX" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="462.0" prefWidth="765.0" style="-fx-background-color: rgba(255,255,255,0.9);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.BusqPedidoRepController">
    <children>
       <AnchorPane fx:id="containerFilters" layoutX="268.0" layoutY="160.0" prefHeight="462.0" prefWidth="497.0" style="-fx-background-color: rgb(0,0,0,0.2);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="268.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <JFXButton fx:id="btnExportXls" layoutX="14.0" layoutY="14.0" prefHeight="32.0" prefWidth="139.0" style="-fx-background-color: #04A138;" styleClass="btn-gral" text="⊻ Exportar XLS" textFill="WHITE" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+            <JFXButton fx:id="btnExportXls" layoutX="14.0" layoutY="14.0" onMouseClicked="#exportXLS" prefHeight="32.0" prefWidth="139.0" style="-fx-background-color: #04A138;" styleClass="btn-gral" text="⊻ Exportar XLS" textFill="WHITE" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
             <TableView fx:id="tblPedido" layoutX="14.0" layoutY="63.0" prefHeight="314.0" prefWidth="473.0" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="70.0">
               <columns>
                 <TableColumn fx:id="colFolio" prefWidth="75.0" text="Folio" />
