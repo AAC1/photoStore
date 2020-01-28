@@ -2,6 +2,9 @@ package mx.com.bitmaking.application.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.math.BigDecimal;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -23,7 +26,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import mx.com.bitmaking.application.dto.PedidosReporteDTO;
 import mx.com.bitmaking.application.entity.Store_pedido;
 import mx.com.bitmaking.application.iservice.IStorePedidoService;
 import mx.com.bitmaking.application.util.Constantes;
@@ -58,44 +63,54 @@ public class BusqPedidoRepController {
 
 	/* Elementos de tabla */
 	@FXML
-	private TableView<Store_pedido> tblPedido;
+	private TableView<PedidosReporteDTO> tblPedido;
 	@FXML
-	private TableColumn colFolio;
+	private TableColumn<PedidosReporteDTO, String> colFolio;
 	@FXML
-	private TableColumn colCliente;
+	private TableColumn<PedidosReporteDTO, String> colCliente;
 	@FXML
-	private TableColumn colTelCliente;
+	private TableColumn<PedidosReporteDTO, String> colTelCliente;
 	@FXML
-	private TableColumn colDesc;
+	private TableColumn<PedidosReporteDTO, String> colDesc;
 	@FXML
-	private TableColumn colFecPedido;
+	private TableColumn<PedidosReporteDTO, Date> colFecPedido;
 	@FXML
-	private TableColumn colFecEntreg;
+	private TableColumn<PedidosReporteDTO, Date> colFecEntreg;
 	@FXML
-	private TableColumn colEstatus;
+	private TableColumn<PedidosReporteDTO, String> colEstatus;
 	@FXML
-	private TableColumn colMontoAnt;
+	private TableColumn<PedidosReporteDTO, BigDecimal> colMontoAnt;
 	@FXML
-	private TableColumn colMontoTotal;
-	
+	private TableColumn<PedidosReporteDTO, BigDecimal> colMontoTotal;
+
 	@Autowired
 	IStorePedidoService pedidoService;
 
-	
 	public JFXButton getBtnSalir() {
 		return btnSalir;
 	}
 
+	public void initialize() {
+		responsiveGUI();
+		initMethod();
+	}
+
 	@FXML
-	private void exportXLS() {
+	private void exportXLS()  {
 		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(classLoader.getResource("reportePedidos.jasper").getFile());
-		System.out.println(file.getAbsolutePath());
-		String pathPlantilla = file.getAbsolutePath();//"/src/resources/reportes/reportePedidos.jasper";
-		File fileToDownload = new File(pathPlantilla);
-		FileInputStream fileInputStream = null;
-		SimpleDateFormat formatoD = new SimpleDateFormat("ddMMyyyy_hhmmss");
+		URL loader = BusqPedidoRepController.class.getClassLoader().getResource("reportePedidos.jasper");
+		//classLoader.getResource("reportePedidos.jasper");
 		try {
+			if(loader==null){
+				loader = new URL("/src/resources/reportes/reportePedidos.jasper");
+			}
+			File file = new File(loader.getFile());
+			System.out.println(file.getAbsolutePath());
+			String pathPlantilla = file.getAbsolutePath();//"/src/resources/reportes/reportePedidos.jasper";
+			File fileToDownload = new File(pathPlantilla);
+			FileInputStream fileInputStream = null;
+			SimpleDateFormat formatoD = new SimpleDateFormat("ddMMyyyy_hhmmss");
+		
 			if (fileToDownload.exists() && fileToDownload.isFile()) {
 				fileInputStream = new FileInputStream(fileToDownload);
 			} else {
@@ -111,28 +126,28 @@ public class BusqPedidoRepController {
 						);
 			else
 				GeneralMethods.modalMsg("ERROR", "", "Ha ocurrido un error al generar reporte");
-		} catch (Exception e) {
+		} catch(MalformedURLException e){
+			GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar la plantilla del reporte");
+			e.printStackTrace();
+		}
+		catch (Exception e) {
 			GeneralMethods.modalMsg("ERROR", "", "Ha ocurrido un error al generar reporte");
 			e.printStackTrace();
 		}
 
 	}
 
-	public void initialize() {
-		responsiveGUI();
-		initMethod();
-	}
-
 	@FXML
 	private void buscaPedido(MouseEvent event) {
 		System.out.println("Clicle btn Buscar");
 		String qry = generateQry();
-		List<Store_pedido> lstPedidos = pedidoService.consultPedido(qry);
+		List<PedidosReporteDTO> lstPedidos = pedidoService.consultPedido(qry);
 
 		if (lstPedidos == null || lstPedidos.size() == 0) {
 			GeneralMethods.modalMsg("", "", "No se encontraron pedidos");
 			return;
 		}
+		tblPedido.getItems().remove(tblPedido.getItems());
 		tblPedido.setItems(FXCollections.observableList(lstPedidos));
 	}
 
@@ -141,7 +156,7 @@ public class BusqPedidoRepController {
 		qry.delete(0, qry.length());
 		qry.append("SELECT p.id_pedido, p.folio, p.cliente, p.telefono, p.descripcion, p.fec_pedido,");
 		qry.append(" p.fec_entregado, p.monto_ant, p.monto_total,");
-		qry.append(" (select estatus from Store_cat_estatus where id_estatus=p.id_estatus) as estatus");
+		qry.append(" (select s.estatus from Store_cat_estatus s where s.id_estatus=p.id_estatus) as estatus");
 		qry.append(" FROM Store_pedido p ");
 
 		qry.append("WHERE p.folio>='" + lblPrefixFolio.getText());
@@ -186,10 +201,22 @@ public class BusqPedidoRepController {
 		cbxBusqEstatus.setValue("");
 		tblPedido.getItems().remove(tblPedido.getItems());
 		lblPrefixFolio.setText("MCIRP");
+
+		colFolio.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, String>("folio"));
+		colCliente.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, String>("cliente"));
+		colTelCliente.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, String>("telefono"));
+		colDesc.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, String>("descripcion"));
+		colFecPedido.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, Date>("fec_pedido"));
+		colFecEntreg.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, Date>("fec_entrega"));
+		colEstatus.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, String>("estatus"));
+		colMontoAnt.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, BigDecimal>("monto_ant"));
+		colMontoTotal.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, BigDecimal>("monto_total"));
+
 	}
 
 	/**
-	 * Tamaños de columnas en la tabla se expandan cuando la ventana se haga grande
+	 * Tamaños de columnas en la tabla se expandan cuando la ventana se haga
+	 * grande
 	 */
 	private void responsiveGUI() {
 		/* Panel de Home resize de acuerdo al tama�o del Pane padre */

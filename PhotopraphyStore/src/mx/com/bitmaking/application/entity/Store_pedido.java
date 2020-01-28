@@ -1,5 +1,8 @@
 package mx.com.bitmaking.application.entity;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -19,13 +22,13 @@ public class Store_pedido {
 	@Column
 	private String descripcion;
 	@Column
-	private String fec_pedido;
+	private Date fec_pedido;
 	@Column
-	private String fec_entregado;
+	private Date fec_entregado;
 	@Column
-	private String monto_ant;
+	private BigDecimal monto_ant;
 	@Column
-	private String monto_total;
+	private BigDecimal monto_total;
 	@Column
 	private int id_estatus;
 	
@@ -60,28 +63,28 @@ public class Store_pedido {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public String getFec_pedido() {
+	public Date getFec_pedido() {
 		return fec_pedido;
 	}
-	public void setFec_pedido(String fec_pedido) {
+	public void setFec_pedido(Date fec_pedido) {
 		this.fec_pedido = fec_pedido;
 	}
-	public String getFec_entregado() {
+	public Date getFec_entregado() {
 		return fec_entregado;
 	}
-	public void setFec_entregado(String fec_entregado) {
+	public void setFec_entregado(Date fec_entregado) {
 		this.fec_entregado = fec_entregado;
 	}
-	public String getMonto_ant() {
+	public BigDecimal getMonto_ant() {
 		return monto_ant;
 	}
-	public void setMonto_ant(String monto_ant) {
+	public void setMonto_ant(BigDecimal monto_ant) {
 		this.monto_ant = monto_ant;
 	}
-	public String getMonto_total() {
+	public BigDecimal getMonto_total() {
 		return monto_total;
 	}
-	public void setMonto_total(String monto_total) {
+	public void setMonto_total(BigDecimal monto_total) {
 		this.monto_total = monto_total;
 	}
 	public int getId_estatus() {

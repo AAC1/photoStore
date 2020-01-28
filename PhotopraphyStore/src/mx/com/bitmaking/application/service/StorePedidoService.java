@@ -16,6 +16,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import mx.com.bitmaking.application.dto.PedidosReporteDTO;
 import mx.com.bitmaking.application.entity.Store_pedido;
 import mx.com.bitmaking.application.iservice.IStorePedidoService;
 import mx.com.bitmaking.application.repository.IClteProdCostDAO;
@@ -41,8 +42,8 @@ public class StorePedidoService implements IStorePedidoService {
 	
 	@Transactional
 	@Override
-	public List<Store_pedido> consultPedido(String qry) {
-		List<Store_pedido> resp = new ArrayList<>();
+	public List<PedidosReporteDTO> consultPedido(String qry) {
+		List<PedidosReporteDTO> resp = new ArrayList<>();
 		try {
 			resp = clteProdCostoDao.consultaPedido(qry);
 		} catch (Exception e) {
