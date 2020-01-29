@@ -3,8 +3,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
-import mx.com.bitmaking.application.iservice.IStoreClteProdCostRepo;
 import mx.com.bitmaking.application.iservice.IStoreClteProdCostService;
+import mx.com.bitmaking.application.repository.IStoreClteProdCostRepo;
 
 @Service
 public class StoreClteProdCostService implements IStoreClteProdCostService{

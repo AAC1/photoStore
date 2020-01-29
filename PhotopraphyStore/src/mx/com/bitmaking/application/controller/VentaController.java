@@ -26,8 +26,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import mx.com.bitmaking.application.entity.Store_cat_estatus;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
+import mx.com.bitmaking.application.entity.Store_fotografo;
+import mx.com.bitmaking.application.iservice.IStoreCatEstatusService;
 import mx.com.bitmaking.application.iservice.IStoreCatProdService;
+import mx.com.bitmaking.application.iservice.IStoreFotografoService;
 import mx.com.bitmaking.application.service.StoreCatProdService;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
@@ -41,10 +45,11 @@ public class VentaController {
 	@FXML private JFXButton  btnGuardar;
 	@FXML private JFXButton btnSelectProd;
 	
-	@FXML private JFXComboBox  cbxEstatus;
+	@FXML private JFXComboBox<String>  cbxEstatus;
+	@FXML private JFXComboBox<String> cbxCliente;
 	
 	@FXML private JFXTextField inputFolio;
-	@FXML private JFXTextField inputClienteName;
+	@FXML private JFXTextField inputCliente;
 	@FXML private JFXTextField inputDescrip;
 	@FXML private JFXTextField inputMontoAnt;
 	@FXML private JFXTextField inputMonto;
@@ -59,9 +64,13 @@ public class VentaController {
 	@Autowired
 	@Qualifier("StoreCatProdService")
 	IStoreCatProdService catProdService;
-	
+	@Autowired
+	IStoreFotografoService fotografoService;
+	@Autowired
+	IStoreCatEstatusService catEstatusService;
 	Stage stageBusqProd = null;
-	
+	List<Store_fotografo> lstFoto = null;
+	List<Store_cat_estatus> lstEstatus = null;
 	/**
 	 * @return the btnSalir
 	 */
@@ -70,26 +79,57 @@ public class VentaController {
 	}
 
 	public void initialize() {
+		
 		responsiveGUI();
-		fillCbxProd();
+		initForm();
+		
 	//	btnEliminaPedido.setVisible(false);
 		//btnSalir.addEventHandler(MouseEvent.MOUSE_CLICKED,modalBusqByFolio());
 		btnEditarPedido.addEventHandler(MouseEvent.MOUSE_CLICKED,modalBusqByFolio());
 		
 	}
 	
-	private void fillCbxProd() {
-		if(catProdService ==null){
+	private void initForm() {
+		fillCbxClte(); //llena combo de clientes
+		getLstEstatus();//Llena combo de estatus
+	}
+	private void getLstEstatus() {
+		lstEstatus = catEstatusService.getListEstatus();
+		String[] arrayStts = new String[lstEstatus.size()];
+		for(int i=0; i<lstEstatus.size();i++) {
+			arrayStts[i] = lstEstatus.get(i).getEstatus();
+		}
+		cbxEstatus.setItems(FXCollections.observableArrayList(arrayStts));
+	}
+	@FXML 
+	private void selectCte() {
+		if(lstFoto ==null) {
+			return;
+		}
+		
+		int idxClte = cbxCliente.getSelectionModel().getSelectedIndex() -1;
+		inputCliente.setText("");
+		if(idxClte ==0) {
+			inputCliente.setDisable(false);
+		}else {
+			inputCliente.setDisable(true);
+			inputCliente.setText(lstFoto.get((idxClte)).getFotografo());
+		}
+	}
+	
+	private void fillCbxClte() {
+		if(fotografoService ==null){
 			GeneralMethods.modalMsg("ERROR", "Ha ocurrido un error", "Servicio no disponible");
 			return;
 		}
-		List<Store_cat_prod> lstProd = catProdService.getCatalogoProduct();
-		String[] arrayProd = new String[lstProd.size()];
+		lstFoto = fotografoService.getActiveClients();
+		String[] arrayClte = new String[lstFoto.size()];
+		
 		int idx=0;
-		for(Store_cat_prod el: lstProd){
-			arrayProd[idx++] = el.getId_prod()+" "+el.getProducto();
+		for(Store_fotografo el: lstFoto){
+			arrayClte[idx++] = el.getFotografo();
 		}
-	//	cbxCatProd.setItems(FXCollections.observableArrayList(arrayProd));
+		cbxCliente.setItems(FXCollections.observableArrayList(arrayClte));
 		
 		
 	}
