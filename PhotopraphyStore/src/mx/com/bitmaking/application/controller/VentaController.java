@@ -34,13 +34,13 @@ import mx.com.bitmaking.application.util.GeneralMethods;
 @Component
 //@Scope("prototype")
 public class VentaController {
-	@FXML private JFXButton btnEliminaPedido;
+	@FXML private JFXButton btnConsultPedido;
 	@FXML private JFXButton  btnEditarPedido;
 	@FXML private JFXButton  btnSalir;
 	@FXML private JFXButton  btnCancelar;
 	@FXML private JFXButton  btnGuardar;
+	@FXML private JFXButton btnSelectProd;
 	
-	@FXML private JFXComboBox<String>  cbxCatProd;
 	@FXML private JFXComboBox  cbxEstatus;
 	
 	@FXML private JFXTextField inputFolio;
@@ -72,7 +72,7 @@ public class VentaController {
 	public void initialize() {
 		responsiveGUI();
 		fillCbxProd();
-		btnEliminaPedido.setVisible(false);
+	//	btnEliminaPedido.setVisible(false);
 		//btnSalir.addEventHandler(MouseEvent.MOUSE_CLICKED,modalBusqByFolio());
 		btnEditarPedido.addEventHandler(MouseEvent.MOUSE_CLICKED,modalBusqByFolio());
 		
@@ -89,7 +89,7 @@ public class VentaController {
 		for(Store_cat_prod el: lstProd){
 			arrayProd[idx++] = el.getId_prod()+" "+el.getProducto();
 		}
-		cbxCatProd.setItems(FXCollections.observableArrayList(arrayProd));
+	//	cbxCatProd.setItems(FXCollections.observableArrayList(arrayProd));
 		
 		
 	}
