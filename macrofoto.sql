@@ -61,6 +61,12 @@ telefono VARCHAR(10),
 email VARCHAR(80),
 estatus INT(1)
 );
+insert into store_fotografo(fotografo,telefono,email,estatus) 
+VALUES('fotografo 1','000000000','correo@correo.com',1),
+('fotografo 2','000000000','correo@correo.com',1),
+('fotografo 3','000000000','correo@correo.com',1),
+('fotografo 4','000000000','correo@correo.com',1),
+('Amairani Garcia','000000000','correo@correo.com',1);
 
 drop table if exists store_cliente_prod_cost;
 
@@ -83,26 +89,6 @@ VALUES
 (2,3,12),(2,4,8),(2,5,2.3),(2,6,4.5),(2,7,3),(2,8,16),(2,9,18),
 (3,3,7),(3,4,10),(3,5,3),(3,6,4),(3,7,2.5),(3,8,12),(3,9,20);
 
-/*
-create table store_medida_estandar(
-id_medida INT AUTO_INCREMENT PRIMARY KEY,
-medida_desc VARCHAR(10)
-);
-create table store_medida_prod(
-id_prod INT NOT NULL,
-id_medida INT NOT NULL,
-CONSTRAINT `id_prod`
-    FOREIGN KEY (`FK_medida_prod`)
-    REFERENCES store_cat_prod (`id_prod`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION),
-CONSTRAINT `id_medida`
-    FOREIGN KEY (`FK_medida_medida`)
-    REFERENCES store_medida_estandar (`id_medida`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-);
-*/
 
 create table store_menu(
 id_menu INT AUTO_INCREMENT PRIMARY KEY,
@@ -167,10 +153,12 @@ estatus VARCHAR(20)
 insert into store_cat_estatus(estatus)
 VALUES('TERMINADO'),('PENDIENTE'),('CANCELADO');
 
+drop table store_pedido;
 create table store_pedido(
 id_pedido INT AUTO_INCREMENT PRIMARY KEY,
-cliente VARCHAR(100),
 folio VARCHAR(100),
+cliente VARCHAR(100),
+telefono VARCHAR(10),
 descripcion VARCHAR(100),
 fec_pedido DATETIME,
 fec_entregado DATETIME,
@@ -183,6 +171,33 @@ CONSTRAINT `FK_pedido_stts`
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 );
+insert into store_pedido(folio,cliente,telefono,descripcion,fec_pedido,fec_entregado,monto_ant,monto_total,id_estatus)
+value('MCOIQ-200128000001','Amairani Garcia','0000000000','','2020-01-28',null,14.5,22.5,2),
+	('MCOIQ-200128000002','Amairani Garcia','0000000000','pedido incorrecto','2020-01-28',null,0,0,3);
 
+drop table store_prod_pedido;
+create table store_prod_pedido(
+id_prod_pedido INT AUTO_INCREMENT PRIMARY KEY,
+descripcion VARCHAR(150),
+cantidad INT(10),
+costo_unitario DECIMAL(10,2),
+costo_total DECIMAL(10,2),
+#id_prod INT,
+id_pedido INT,
+/*CONSTRAINT `FK_prod_prodPedido`
+    FOREIGN KEY (`id_prod`)
+    REFERENCES store_cliente_prod_cost (`id_clte_prod_cost`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,*/
+CONSTRAINT `FK_pedido_prodPedido`
+    FOREIGN KEY (`id_pedido`)
+    REFERENCES store_pedido (`id_pedido`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+);
 
-
+insert into store_prod_pedido(descripcion,cantidad,costo_unitario,costo_total,id_pedido)
+value('Fotos_Infantiles',6,'150','900',1),
+	('Marcos_3x4_Modura_Aluminio',1,'400','400',1),
+	('Lamina',4,'80','320',1),
+	('Marcos_5x10',2,'55','110',2);

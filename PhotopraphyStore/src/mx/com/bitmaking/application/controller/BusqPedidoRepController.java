@@ -29,8 +29,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import mx.com.bitmaking.application.dto.PedidosReporteDTO;
-import mx.com.bitmaking.application.entity.Store_pedido;
+import mx.com.bitmaking.application.dto.ProdPedidosReporteDTO;
+import mx.com.bitmaking.application.entity.Store_prod_pedido;
 import mx.com.bitmaking.application.iservice.IStorePedidoService;
+import mx.com.bitmaking.application.iservice.IStoreProdPedidoService;
 import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
@@ -61,7 +63,7 @@ public class BusqPedidoRepController {
 	@FXML
 	private JFXButton btnBuscar;
 
-	/* Elementos de tabla */
+	/* Elementos de tabla de pedidos */
 	@FXML
 	private TableView<PedidosReporteDTO> tblPedido;
 	@FXML
@@ -82,9 +84,26 @@ public class BusqPedidoRepController {
 	private TableColumn<PedidosReporteDTO, BigDecimal> colMontoAnt;
 	@FXML
 	private TableColumn<PedidosReporteDTO, BigDecimal> colMontoTotal;
-
+	
+	//PARA TABLA DE PRODUCTOS DE PEDIDOS
+	@FXML
+	private TableView<Store_prod_pedido> tblProducts;
+	@FXML
+	private TableColumn<Store_prod_pedido, String> colBarcodeProd;
+	@FXML
+	private TableColumn<Store_prod_pedido, String> colDescProd;
+	@FXML
+	private TableColumn<Store_prod_pedido, Integer> colCantidadProd;
+	@FXML
+	private TableColumn<Store_prod_pedido, BigDecimal> colCostUniProd;
+	@FXML
+	private TableColumn<Store_prod_pedido, BigDecimal> colCostTotalProd;
+	
+	
 	@Autowired
 	IStorePedidoService pedidoService;
+	@Autowired
+	IStoreProdPedidoService prodPedidoService;
 
 	public JFXButton getBtnSalir() {
 		return btnSalir;
@@ -97,16 +116,21 @@ public class BusqPedidoRepController {
 
 	@FXML
 	private void exportXLS()  {
+		File file=null;
 		ClassLoader classLoader = getClass().getClassLoader();
-		URL loader = BusqPedidoRepController.class.getClassLoader().getResource("reportePedidos.jasper");
+		URL loader = BusqPedidoRepController.class.getResource("reportePedidos.jasper");
 		//classLoader.getResource("reportePedidos.jasper");
 		try {
 			if(loader==null){
-				loader = new URL("/src/resources/reportes/reportePedidos.jasper");
+				GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar directorio de la plantilla para el reporte");
+				return;
 			}
-			File file = new File(loader.getFile());
+			
+			file = new File(loader.getFile());
+			
 			System.out.println(file.getAbsolutePath());
-			String pathPlantilla = file.getAbsolutePath();//"/src/resources/reportes/reportePedidos.jasper";
+			String pathPlantilla = file.getAbsolutePath();
+			
 			File fileToDownload = new File(pathPlantilla);
 			FileInputStream fileInputStream = null;
 			SimpleDateFormat formatoD = new SimpleDateFormat("ddMMyyyy_hhmmss");
@@ -126,31 +150,97 @@ public class BusqPedidoRepController {
 						);
 			else
 				GeneralMethods.modalMsg("ERROR", "", "Ha ocurrido un error al generar reporte");
-		} catch(MalformedURLException e){
+		} /*catch(MalformedURLException e){
 			GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar la plantilla del reporte");
 			e.printStackTrace();
-		}
+		}*/
 		catch (Exception e) {
 			GeneralMethods.modalMsg("ERROR", "", "Ha ocurrido un error al generar reporte");
 			e.printStackTrace();
 		}
 
 	}
+	@FXML
+	private void exportProdXLS()  {
+		File file=null;
+		ClassLoader classLoader = getClass().getClassLoader();
+		URL loader = BusqPedidoRepController.class.getResource("reporteProductos.jasper");
+		//classLoader.getResource("reportePedidos.jasper");
+		try {
+			if(loader==null){
+				GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar directorio de la plantilla para el reporte");
+				return;
+			}
+			
+			file = new File(loader.getFile());
+			
+			System.out.println(file.getAbsolutePath());
+			String pathPlantilla = file.getAbsolutePath();
+			
+			File fileToDownload = new File(pathPlantilla);
+			FileInputStream fileInputStream = null;
+			SimpleDateFormat formatoD = new SimpleDateFormat("ddMMyyyy_hhmmss");
+		
+			if (fileToDownload.exists() && fileToDownload.isFile()) {
+				fileInputStream = new FileInputStream(fileToDownload);
+			} else {
+				GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar plantilla de reporte");
+				return;
+			}
+			String pathReport=Constantes.PATH_XLS+"reporte_"+formatoD.format(new Date())+".xls";
+			String qry = generateQry();
+			String titulo="MACROFOTO S.A de C.V.";
+			boolean export = pedidoService.generaXLS(fileInputStream,qry,titulo,pathReport);
+			if(export)
+				GeneralMethods.modalMsg("", "Exportación Terminada.", " Vaya a la ruta: "+pathReport
+						);
+			else
+				GeneralMethods.modalMsg("ERROR", "", "Ha ocurrido un error al generar reporte");
+		} /*catch(MalformedURLException e){
+			GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar la plantilla del reporte");
+			e.printStackTrace();
+		}*/
+		catch (Exception e) {
+			GeneralMethods.modalMsg("ERROR", "", "Ha ocurrido un error al generar reporte");
+			e.printStackTrace();
+		}
 
+	}
 	@FXML
 	private void buscaPedido(MouseEvent event) {
-		System.out.println("Clicle btn Buscar");
+		tblPedido.getItems().remove(tblPedido.getItems());
+		tblProducts.getItems().remove(tblProducts.getItems());
+		
 		String qry = generateQry();
 		List<PedidosReporteDTO> lstPedidos = pedidoService.consultPedido(qry);
-
+		List<Store_prod_pedido> lstProductos = null;
+		
 		if (lstPedidos == null || lstPedidos.size() == 0) {
 			GeneralMethods.modalMsg("", "", "No se encontraron pedidos");
 			return;
 		}
-		tblPedido.getItems().remove(tblPedido.getItems());
+		
 		tblPedido.setItems(FXCollections.observableList(lstPedidos));
+		
+		StringBuilder pedidos = new StringBuilder("(");
+		
+		int lstSize = lstPedidos.size();
+		for( int i=0;i<lstSize;i++) {
+			pedidos.append(lstPedidos.get(i).getId_pedido());
+			if((i+1)<lstSize) {
+				pedidos.append(",");
+			}
+		}
+		pedidos.append(")");
+		System.out.println("Pedidos: "+pedidos);
+		
+		lstProductos=prodPedidoService.getListProdPedidos(pedidos.toString());
+		
+		tblProducts.setItems(FXCollections.observableList(lstProductos));
+		
+		
 	}
-
+	
 	private String generateQry() {
 		StringBuilder qry = new StringBuilder();
 		qry.delete(0, qry.length());
@@ -159,12 +249,12 @@ public class BusqPedidoRepController {
 		qry.append(" (select s.estatus from Store_cat_estatus s where s.id_estatus=p.id_estatus) as estatus");
 		qry.append(" FROM Store_pedido p ");
 
-		qry.append("WHERE p.folio>='" + lblPrefixFolio.getText());
+		qry.append("WHERE p.folio like'%" + lblPrefixFolio.getText());
 		// SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
 		DateTimeFormatter dt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		qry.append(GeneralMethods.validIfNull(inputBusqFolio.getText(), "-%s"));
-		qry.append("' ");// Cierra Folio
-		qry.append(GeneralMethods.validIfNull(inputBusqCliente.getText(), " AND p.cliente>='%s' "));
+		qry.append(GeneralMethods.validIfNull(inputBusqFolio.getText(), "%s"));
+		qry.append("%' ");// Cierra Folio
+		qry.append(GeneralMethods.validIfNull(inputBusqCliente.getText(), " AND p.cliente like '%%s%' "));
 		String stts = "";
 		if (cbxBusqEstatus.getValue() != null) {
 			if ("ACTIVO".equals(cbxBusqEstatus.getValue().toUpperCase())) {
@@ -200,7 +290,9 @@ public class BusqPedidoRepController {
 		cbxBusqEstatus.setItems(FXCollections.observableArrayList(arrayStts));
 		cbxBusqEstatus.setValue("");
 		tblPedido.getItems().remove(tblPedido.getItems());
-		lblPrefixFolio.setText("MCIRP");
+		tblProducts.getItems().remove(tblProducts.getItems());
+		
+		lblPrefixFolio.setText("");
 
 		colFolio.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, String>("folio"));
 		colCliente.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, String>("cliente"));
@@ -211,7 +303,13 @@ public class BusqPedidoRepController {
 		colEstatus.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, String>("estatus"));
 		colMontoAnt.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, BigDecimal>("monto_ant"));
 		colMontoTotal.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, BigDecimal>("monto_total"));
-
+		
+		//COLUMNAS DE PRODUCTOS DE PEDIDO
+		colBarcodeProd.setCellValueFactory(new PropertyValueFactory<Store_prod_pedido, String>("bar_code"));
+		colCantidadProd.setCellValueFactory(new PropertyValueFactory<Store_prod_pedido, Integer>("cantidad"));
+		colCostUniProd.setCellValueFactory(new PropertyValueFactory<Store_prod_pedido, BigDecimal>("costo_unitario"));
+		colCostTotalProd.setCellValueFactory(new PropertyValueFactory<Store_prod_pedido, BigDecimal>("costo_total"));
+		colDescProd.setCellValueFactory(new PropertyValueFactory<Store_prod_pedido, String>("descripcion"));
 	}
 
 	/**
@@ -230,6 +328,14 @@ public class BusqPedidoRepController {
 		colEstatus.prefWidthProperty().bind(tblPedido.widthProperty().multiply(0.1));
 		colMontoAnt.prefWidthProperty().bind(tblPedido.widthProperty().multiply(0.2));
 		colMontoTotal.prefWidthProperty().bind(tblPedido.widthProperty().multiply(0.2));
-
+		
+		
+		//TABLA PARA PRODUCTOS DE PEDIDOS:
+		colBarcodeProd.prefWidthProperty().bind(tblProducts.widthProperty().multiply(0.2));
+		colDescProd.prefWidthProperty().bind(tblProducts.widthProperty().multiply(0.3));
+		colCantidadProd.prefWidthProperty().bind(tblProducts.widthProperty().multiply(0.1));
+		colCostUniProd.prefWidthProperty().bind(tblProducts.widthProperty().multiply(0.2));
+		colCostTotalProd.prefWidthProperty().bind(tblProducts.widthProperty().multiply(0.2));
+		
 	}
 }
