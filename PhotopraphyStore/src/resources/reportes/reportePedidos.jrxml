@@ -5,6 +5,9 @@
 	<property name="ireport.y" value="0"/>
 	<parameter name="qry" class="java.lang.String"/>
 	<parameter name="titulo" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\opt\\SACRE\\PLANTILLAS JASPER\\"]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[$P!{qry}]]>
 	</queryString>
@@ -45,7 +48,7 @@
 		<band height="20" splitType="Stretch"/>
 	</title>
 	<pageHeader>
-		<band height="59" splitType="Stretch">
+		<band height="53" splitType="Stretch">
 			<textField>
 				<reportElement uuid="0ce4f845-5278-4338-88ef-9b8e07e17dbb" x="0" y="0" width="900" height="24"/>
 				<textElement>
@@ -66,101 +69,109 @@
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="25" splitType="Stretch">
+		<band height="21" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="6f6ef082-767b-40f4-983a-de7f374af522" mode="Opaque" x="0" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<reportElement uuid="6f6ef082-767b-40f4-983a-de7f374af522" mode="Opaque" x="0" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#323232"/>
 				<textElement/>
 				<text><![CDATA[Folio]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="9a5a5481-08cc-46f9-a1b1-40b02f8c21d0" mode="Opaque" x="100" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<reportElement uuid="9a5a5481-08cc-46f9-a1b1-40b02f8c21d0" mode="Opaque" x="100" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#323232"/>
 				<textElement/>
 				<text><![CDATA[Cliente]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="9e55a1af-cda8-4c6f-b4e5-a1d511244473" mode="Opaque" x="200" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<reportElement uuid="9e55a1af-cda8-4c6f-b4e5-a1d511244473" mode="Opaque" x="200" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#323232"/>
 				<textElement/>
 				<text><![CDATA[Telefono Cliente]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="6ec70df8-4cc5-4784-aea7-b3c7f045d5bc" mode="Opaque" x="300" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<reportElement uuid="6ec70df8-4cc5-4784-aea7-b3c7f045d5bc" mode="Opaque" x="300" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#323232"/>
 				<textElement/>
 				<text><![CDATA[Descripción]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="83648e48-a053-4e84-a6c3-1456338fef76" mode="Opaque" x="400" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<reportElement uuid="83648e48-a053-4e84-a6c3-1456338fef76" mode="Opaque" x="400" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#323232"/>
 				<textElement/>
 				<text><![CDATA[Fecha de pedido]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="0751c775-9428-40ba-93dd-5c2782afd02c" mode="Opaque" x="500" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<reportElement uuid="0751c775-9428-40ba-93dd-5c2782afd02c" mode="Opaque" x="500" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#323232"/>
 				<textElement/>
 				<text><![CDATA[Fecha entregado]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="70f7b3c3-4784-4ea1-bd4b-a11c6b993c77" mode="Opaque" x="600" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<reportElement uuid="70f7b3c3-4784-4ea1-bd4b-a11c6b993c77" mode="Opaque" x="600" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#323232"/>
 				<textElement/>
 				<text><![CDATA[Monto Anticipo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="890cbab1-ab19-46ed-808d-8052b24506d5" mode="Opaque" x="700" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<reportElement uuid="890cbab1-ab19-46ed-808d-8052b24506d5" mode="Opaque" x="700" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#323232"/>
 				<textElement/>
 				<text><![CDATA[Costo Total]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="83bffab6-7a83-4358-aec8-b0347dfacb7d" mode="Opaque" x="800" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<reportElement uuid="83bffab6-7a83-4358-aec8-b0347dfacb7d" mode="Opaque" x="800" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#323232"/>
 				<textElement/>
 				<text><![CDATA[Estatus]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="24" splitType="Stretch">
+		<band height="191" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="f4b05ea8-e2d5-4a57-bcd5-f29ed437ab33" x="0" y="0" width="100" height="20"/>
+				<reportElement uuid="f4b05ea8-e2d5-4a57-bcd5-f29ed437ab33" mode="Opaque" x="0" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{folio}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="fd185937-73cd-413e-8b1e-5bd3cbde028d" x="100" y="0" width="100" height="20"/>
+				<reportElement uuid="fd185937-73cd-413e-8b1e-5bd3cbde028d" mode="Opaque" x="100" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="38d42cff-c57b-42c9-9734-5025caeb29dd" x="200" y="0" width="100" height="20"/>
+				<reportElement uuid="38d42cff-c57b-42c9-9734-5025caeb29dd" mode="Opaque" x="200" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="fc78b881-ee9f-4639-b8ca-9dcf9124cc8d" x="300" y="0" width="100" height="20"/>
+				<reportElement uuid="fc78b881-ee9f-4639-b8ca-9dcf9124cc8d" mode="Opaque" x="300" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="7b59a878-c88f-4fd4-8f5d-c99deb651406" x="400" y="0" width="100" height="20"/>
+				<reportElement uuid="7b59a878-c88f-4fd4-8f5d-c99deb651406" mode="Opaque" x="400" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{fec_pedido}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="0c0cbf53-fc2c-486b-a700-0e496abc19c3" x="500" y="0" width="100" height="20"/>
+				<reportElement uuid="0c0cbf53-fc2c-486b-a700-0e496abc19c3" mode="Opaque" x="500" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{fec_entregado}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="aa395b96-b14c-43d8-84fc-5a4498701a14" x="600" y="0" width="100" height="20"/>
+				<reportElement uuid="aa395b96-b14c-43d8-84fc-5a4498701a14" mode="Opaque" x="600" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{monto_ant}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="f6f236f2-b68a-40ed-b2ff-ff5c29302905" x="700" y="0" width="100" height="20"/>
+				<reportElement uuid="f6f236f2-b68a-40ed-b2ff-ff5c29302905" mode="Opaque" x="700" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{monto_total}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="127cb64b-8ecf-46dd-9ff8-7ca4d973a85d" x="800" y="0" width="100" height="20"/>
+				<reportElement uuid="127cb64b-8ecf-46dd-9ff8-7ca4d973a85d" mode="Opaque" x="800" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{estatus}]]></textFieldExpression>
 			</textField>
+			<subreport>
+				<reportElement uuid="ee6768da-a1c9-4066-a9dc-0747311163f1" x="0" y="0" width="910" height="191"/>
+				<subreportParameter name="idPedido">
+					<subreportParameterExpression><![CDATA[$F{id_pedido}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "reporteProdByPredido.jasper"]]></subreportExpression>
+			</subreport>
 		</band>
 	</detail>
 	<columnFooter>

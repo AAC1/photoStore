@@ -13,10 +13,10 @@
    <children>
       <AnchorPane fx:id="containerFilters" layoutX="268.0" layoutY="160.0" prefHeight="462.0" prefWidth="497.0" style="-fx-background-color: rgb(0,0,0,0.2);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="268.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane prefHeight="212.0" prefWidth="497.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane prefHeight="214.0" prefWidth="497.0" AnchorPane.bottomAnchor="248.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <JFXButton fx:id="btnExportXls" layoutX="344.0" layoutY="14.0" onMouseClicked="#exportXLS" prefHeight="32.0" prefWidth="139.0" style="-fx-background-color: #04A138;" styleClass="btn-gral" text="⊻ Exportar  XLS" textFill="WHITE" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
-                  <TableView fx:id="tblPedido" prefHeight="121.0" prefWidth="473.0" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="70.0">
+                  <TableView fx:id="tblPedido" onMouseClicked="#getProdByPedido" prefHeight="121.0" prefWidth="473.0" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="70.0">
                     <columns>
                       <TableColumn fx:id="colFolio" prefWidth="75.0" text="Folio" />
                       <TableColumn fx:id="colCliente" prefWidth="75.0" text="Cliente" />
@@ -29,13 +29,12 @@
                         <TableColumn fx:id="colMontoTotal" prefWidth="75.0" text="Monto Total" />
                     </columns>
                   </TableView>
-                  <Label layoutX="14.0" layoutY="45.0" prefHeight="25.0" prefWidth="286.0" styleClass="lbl-title" text="PEDIDOS" AnchorPane.bottomAnchor="142.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="45.0" />
+                  <Label layoutX="14.0" layoutY="45.0" prefHeight="25.0" prefWidth="286.0" styleClass="lbl-title" text="PEDIDOS" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="45.0" />
                </children>
             </AnchorPane>
-            <AnchorPane layoutY="218.0" prefHeight="244.0" prefWidth="497.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="218.0">
+            <AnchorPane layoutY="242.0" prefHeight="244.0" prefWidth="497.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <JFXButton fx:id="btnExportProdXls" layoutX="344.0" layoutY="14.0" onMouseClicked="#exportProdXLS" prefHeight="32.0" prefWidth="139.0" style="-fx-background-color: #04A138;" styleClass="btn-gral" text="⊻ Exportar XLS" textFill="WHITE" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
-                  <TableView fx:id="tblProducts" layoutX="12.0" layoutY="55.0" prefHeight="121.0" prefWidth="473.0" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="55.0">
+                  <TableView fx:id="tblProducts" layoutX="12.0" layoutY="39.0" prefHeight="121.0" prefWidth="473.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="39.0">
                      <columns>
                         <TableColumn fx:id="colBarcodeProd" prefWidth="75.0" text="Código de Barras" />
                         <TableColumn fx:id="colDescProd" prefWidth="75.0" text="Descripción" />
@@ -44,15 +43,15 @@
                         <TableColumn fx:id="colCostTotalProd" prefWidth="75.0" text="Precio Total" />
                      </columns>
                   </TableView>
-                  <JFXButton fx:id="btnSalir" prefHeight="32.0" prefWidth="133.0" style="-fx-background-color: #505050;" styleClass="btn-gral" text=" ◄ Salir" textFill="WHITE" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="12.0" />
-                  <Label layoutX="12.0" layoutY="30.0" prefHeight="25.0" prefWidth="286.0" styleClass="lbl-title" text="PRODUCTOS POR PEDIDOS" AnchorPane.leftAnchor="12.0" AnchorPane.topAnchor="30.0" />
+                  <JFXButton fx:id="btnSalir" layoutX="350.0" layoutY="196.0" prefHeight="32.0" prefWidth="133.0" style="-fx-background-color: #505050;" styleClass="btn-gral" text=" ◄ Salir" textFill="WHITE" AnchorPane.bottomAnchor="17.0" AnchorPane.rightAnchor="14.0" />
+                  <Label layoutX="12.0" layoutY="14.0" prefHeight="25.0" prefWidth="286.0" styleClass="lbl-title" text="PRODUCTOS POR PEDIDOS" AnchorPane.leftAnchor="12.0" AnchorPane.topAnchor="14.0" />
                </children>
             </AnchorPane>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="containerBusqResp" layoutX="-7.0" prefHeight="462.0" prefWidth="269.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <JFXTextField fx:id="inputBusqFolio" layoutX="76.0" layoutY="91.0" prefHeight="25.0" prefWidth="163.0" styleClass="input-gral" />
+            <JFXTextField fx:id="inputBusqFolio" layoutX="41.0" layoutY="91.0" prefHeight="25.0" prefWidth="198.0" styleClass="input-gral" />
             <JFXTextField fx:id="inputBusqCliente" layoutX="41.0" layoutY="148.0" prefHeight="25.0" prefWidth="198.0" styleClass="input-gral" />
             <JFXComboBox fx:id="cbxBusqEstatus" layoutX="41.0" layoutY="206.0" prefHeight="25.0" prefWidth="198.0" styleClass="input-gral" />
             <Label alignment="CENTER" layoutX="15.0" layoutY="6.0" prefHeight="37.0" prefWidth="255.0" styleClass="lbl-title" text="CONSULTA PEDIDOS" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="6.0" />
@@ -66,7 +65,6 @@
             <Label layoutX="33.0" layoutY="327.0" prefHeight="17.0" prefWidth="139.0" text="A:" />
             <JFXButton fx:id="btnClean" layoutX="139.0" layoutY="413.0" onMouseClicked="#cleanBusqform" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: #C37B00;" styleClass="btn-gral" text="✎ Limpiar " textFill="WHITE" />
             <JFXButton fx:id="btnBuscar" layoutX="7.0" layoutY="413.0" onMouseClicked="#buscaPedido" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: #04A138;" styleClass="btn-gral" text="✔ Buscar" textFill="WHITE" />
-            <Label fx:id="lblPrefixFolio" alignment="CENTER" layoutX="10.0" layoutY="95.0" prefHeight="28.0" prefWidth="63.0" style="-fx-background-color: rgba(0,0,0,0.3);" />
          </children>
       </AnchorPane>
    </children>

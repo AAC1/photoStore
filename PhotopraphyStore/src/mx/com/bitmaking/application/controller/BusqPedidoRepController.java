@@ -22,9 +22,11 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -39,8 +41,8 @@ import mx.com.bitmaking.application.util.GeneralMethods;
 @Component
 public class BusqPedidoRepController {
 
-	@FXML
-	private Label lblPrefixFolio;
+	//@FXML
+	//private Label lblPrefixFolio;
 
 	@FXML
 	private JFXTextField inputBusqFolio;
@@ -118,7 +120,7 @@ public class BusqPedidoRepController {
 	private void exportXLS()  {
 		File file=null;
 		ClassLoader classLoader = getClass().getClassLoader();
-		URL loader = BusqPedidoRepController.class.getResource("reportePedidos.jasper");
+		URL loader = BusqPedidoRepController.class.getClassLoader().getResource("reportePedidos.jasper");
 		//classLoader.getResource("reportePedidos.jasper");
 		try {
 			if(loader==null){
@@ -208,8 +210,8 @@ public class BusqPedidoRepController {
 	}
 	@FXML
 	private void buscaPedido(MouseEvent event) {
-		tblPedido.getItems().remove(tblPedido.getItems());
-		tblProducts.getItems().remove(tblProducts.getItems());
+		tblPedido.getItems().removeAll(tblPedido.getItems());
+		tblProducts.getItems().removeAll(tblProducts.getItems());
 		
 		String qry = generateQry();
 		List<PedidosReporteDTO> lstPedidos = pedidoService.consultPedido(qry);
@@ -225,6 +227,7 @@ public class BusqPedidoRepController {
 		StringBuilder pedidos = new StringBuilder("(");
 		
 		int lstSize = lstPedidos.size();
+		/*
 		for( int i=0;i<lstSize;i++) {
 			pedidos.append(lstPedidos.get(i).getId_pedido());
 			if((i+1)<lstSize) {
@@ -232,16 +235,37 @@ public class BusqPedidoRepController {
 			}
 		}
 		pedidos.append(")");
-		System.out.println("Pedidos: "+pedidos);
+	
+		consultProdByPedido(pedidos.toString());
+		*/
+	}
+	@FXML 
+	private void getProdByPedido(){
+		PedidosReporteDTO objPedido = tblPedido.getSelectionModel().getSelectedItem();
+		if(objPedido==null ) {
+			GeneralMethods.modalMsg("", "", "No fue posible identificar pedido seleccionado");
+			return;
+		}
 		
-		lstProductos=prodPedidoService.getListProdPedidos(pedidos.toString());
+		String pedido="("+objPedido.getId_pedido()+") " ;
+		consultProdByPedido(pedido);
 		
+	}
+	private void consultProdByPedido(String inPedido) {
+		if(inPedido==null || "()".equals(inPedido) ) {
+			GeneralMethods.modalMsg("", "", "No fue posible identificar el pedido para mostrar su detalle");
+			return;
+		}
+		
+		System.out.println("Pedidos: "+inPedido);
+		List<Store_prod_pedido> lstProductos=prodPedidoService.getListProdPedidos(inPedido);
+		tblProducts.getItems().removeAll(tblProducts.getItems());
 		tblProducts.setItems(FXCollections.observableList(lstProductos));
-		
 		
 	}
 	
 	private String generateQry() {
+		DateTimeFormatter dt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		StringBuilder qry = new StringBuilder();
 		qry.delete(0, qry.length());
 		qry.append("SELECT p.id_pedido, p.folio, p.cliente, p.telefono, p.descripcion, p.fec_pedido,");
@@ -249,9 +273,9 @@ public class BusqPedidoRepController {
 		qry.append(" (select s.estatus from Store_cat_estatus s where s.id_estatus=p.id_estatus) as estatus");
 		qry.append(" FROM Store_pedido p ");
 
-		qry.append("WHERE p.folio like'%" + lblPrefixFolio.getText());
-		// SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
-		DateTimeFormatter dt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		//qry.append("WHERE p.folio like'%" + lblPrefixFolio.getText());
+		//qry.append(GeneralMethods.validIfNull(inputBusqFolio.getText(), "%s"));
+		qry.append("WHERE p.folio like '%");
 		qry.append(GeneralMethods.validIfNull(inputBusqFolio.getText(), "%s"));
 		qry.append("%' ");// Cierra Folio
 		qry.append(GeneralMethods.validIfNull(inputBusqCliente.getText(), " AND p.cliente like '%%s%' "));
@@ -289,10 +313,11 @@ public class BusqPedidoRepController {
 		inputBusqCliente.setText("");
 		cbxBusqEstatus.setItems(FXCollections.observableArrayList(arrayStts));
 		cbxBusqEstatus.setValue("");
-		tblPedido.getItems().remove(tblPedido.getItems());
-		tblProducts.getItems().remove(tblProducts.getItems());
+		tblPedido.getItems().removeAll(tblPedido.getItems());
+		tblProducts.getItems().removeAll(tblProducts.getItems());
 		
-		lblPrefixFolio.setText("");
+		
+	//	lblPrefixFolio.setText("");
 
 		colFolio.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, String>("folio"));
 		colCliente.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, String>("cliente"));
@@ -310,6 +335,8 @@ public class BusqPedidoRepController {
 		colCostUniProd.setCellValueFactory(new PropertyValueFactory<Store_prod_pedido, BigDecimal>("costo_unitario"));
 		colCostTotalProd.setCellValueFactory(new PropertyValueFactory<Store_prod_pedido, BigDecimal>("costo_total"));
 		colDescProd.setCellValueFactory(new PropertyValueFactory<Store_prod_pedido, String>("descripcion"));
+		
+		
 	}
 
 	/**

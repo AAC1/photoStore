@@ -178,6 +178,7 @@ value('MCOIQ-200128000001','Amairani Garcia','0000000000','','2020-01-28',null,1
 drop table store_prod_pedido;
 create table store_prod_pedido(
 id_prod_pedido INT AUTO_INCREMENT PRIMARY KEY,
+bar_code VARCHAR(15),
 descripcion VARCHAR(150),
 cantidad INT(10),
 costo_unitario DECIMAL(10,2),
@@ -196,8 +197,10 @@ CONSTRAINT `FK_pedido_prodPedido`
     ON UPDATE NO ACTION
 );
 
-insert into store_prod_pedido(descripcion,cantidad,costo_unitario,costo_total,id_pedido)
-value('Fotos_Infantiles',6,'150','900',1),
-	('Marcos_3x4_Modura_Aluminio',1,'400','400',1),
-	('Lamina',4,'80','320',1),
-	('Marcos_5x10',2,'55','110',2);
+insert into store_prod_pedido(bar_code,descripcion,cantidad,costo_unitario,costo_total,id_pedido)
+value('MCO00000008','Fotos_Infantiles',6,'150','900',1),
+	('MCO00000010','Marcos_3x4_Modura_Aluminio',1,'400','400',1),
+	('MCO01260508','Lamina',4,'80','320',1),
+	('MCO00000083','Marcos_5x10',2,'55','110',2);
+    
+select * from store_prod_pedido;

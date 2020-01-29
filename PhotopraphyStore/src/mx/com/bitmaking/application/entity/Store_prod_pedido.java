@@ -12,6 +12,8 @@ public class Store_prod_pedido {
 	@Column
 	private int id_prod_pedido;
 	@Column
+	private String bar_code;
+	@Column
 	private String descripcion;
 	@Column
 	private int cantidad;
@@ -21,6 +23,15 @@ public class Store_prod_pedido {
 	private BigDecimal costo_total;
 	@Column
 	private int id_pedido;
+	
+	
+	
+	public String getBar_code() {
+		return bar_code;
+	}
+	public void setBar_code(String bar_code) {
+		this.bar_code = bar_code;
+	}
 	public int getId_prod_pedido() {
 		return id_prod_pedido;
 	}
