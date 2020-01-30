@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -64,10 +65,16 @@ public class VentaController {
 	@Autowired
 	@Qualifier("StoreCatProdService")
 	IStoreCatProdService catProdService;
+	
 	@Autowired
 	IStoreFotografoService fotografoService;
+	
 	@Autowired
 	IStoreCatEstatusService catEstatusService;
+	
+	@Autowired
+	 private ApplicationContext context ;
+	
 	Stage stageBusqProd = null;
 	List<Store_fotografo> lstFoto = null;
 	List<Store_cat_estatus> lstEstatus = null;
@@ -132,6 +139,60 @@ public class VentaController {
 		cbxCliente.setItems(FXCollections.observableArrayList(arrayClte));
 		
 		
+	}
+	
+	@FXML
+	private void openTreProd() {
+		try {
+			int idxClte = cbxCliente.getSelectionModel().getSelectedIndex();
+			if(idxClte <0) {
+				GeneralMethods.modalMsg("", "", "Debes seleccionar un cliente");
+				return;
+			}
+			
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/com/bitmaking/application/view/TreeProduct.fxml"));
+			fxmlLoader.setControllerFactory(context::getBean);
+			Parent sceneEdit= fxmlLoader.load();
+			Scene scene = new Scene(sceneEdit,3013,165);
+			scene.getStylesheets().add(getClass().getResource("/mx/com/bitmaking/application/assets/css/GestionProductos.css").toExternalForm());
+			stageBusqProd = new Stage();
+			stageBusqProd.setScene(scene);
+			stageBusqProd.setTitle("Selecciona Producto ");
+			stageBusqProd.setMinHeight(636.0);
+			stageBusqProd.setMinWidth(765.0);
+			stageBusqProd.setMaxHeight(636.0);
+			stageBusqProd.setMaxWidth(765.0);
+			//stageBusqProd.setMaxHeight(200.0);
+		//	stageBusqProd.setMaxWidth(300.0);
+			stageBusqProd.initModality(Modality.APPLICATION_MODAL); 
+			stageBusqProd.show();
+			TreeProductoController busqProd = fxmlLoader.getController(); //Obtiene controller de la nueva ventana
+			
+			busqProd.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED, closeWindow());
+			
+			
+			System.out.println("idxClte:"+idxClte);
+			int idClte = 0;
+			if(idxClte >0) {
+				idClte=lstFoto.get((idxClte)).getId_fotografo();
+			}
+			busqProd.getTblCatProducts(idClte);
+			
+	    } catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+
+	private EventHandler<MouseEvent> closeWindow() {
+		return new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				if(stageBusqProd!=null) stageBusqProd.close();
+			}
+		};
+
+
 	}
 
 	public EventHandler<MouseEvent> modalBusqByFolio() {

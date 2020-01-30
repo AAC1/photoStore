@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="bodyCatProd" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="458.0" prefWidth="857.0" style="-fx-background-color: rgba(255,255,255,0.8);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.TreeProductoController">
+   <children>
+      <TreeView fx:id="treeProd" layoutX="10.0" layoutY="76.0" prefHeight="350.0" prefWidth="397.0" styleClass="tree-gral" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="76.0" />
+      <AnchorPane layoutX="417.0" layoutY="76.0" prefHeight="350.0" prefWidth="430.0" style="-fx-background-color: rgba(216,216,216,0.5) rgba(216,216,216,0.5);" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="417.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="76.0">
+         <children>
+            <Label layoutX="34.0" layoutY="6.0" prefHeight="17.0" prefWidth="118.0" text="Nombre" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="86.0" AnchorPane.topAnchor="6.0" />
+            <JFXTextField fx:id="inputName" disable="true" layoutX="36.0" layoutY="27.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="27.0" />
+            <Label fx:id="lblCosto" layoutX="35.0" layoutY="152.0" prefHeight="17.0" prefWidth="157.0" text="Costo" />
+            <JFXTextField fx:id="inputCosto" disable="true" layoutX="31.0" layoutY="173.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="31.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="173.0" />
+            <JFXComboBox fx:id="cbxStts" disable="true" layoutX="35.0" layoutY="104.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="104.0" />
+            <Label layoutX="36.0" layoutY="81.0" prefHeight="17.0" prefWidth="222.0" text="Estatus" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="71.0" AnchorPane.topAnchor="81.0" />
+            <JFXButton fx:id="btnAcceptModif" layoutX="29.0" layoutY="301.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #04A138 #04A138;" text="✔ Aceptar" textFill="WHITE" visible="false" AnchorPane.rightAnchor="281.0" AnchorPane.topAnchor="301.0" />
+            <JFXButton fx:id="btnCancenModif" layoutX="155.0" layoutY="301.0" onMouseClicked="#cancelModif" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #A12D04 #A12D04;" text="✘ Cancelar" textFill="WHITE" visible="false" AnchorPane.rightAnchor="155.0" AnchorPane.topAnchor="301.0" />
+            <JFXButton fx:id="btnSalir" layoutX="282.0" layoutY="301.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #505050; -fx-text-fill: white;" styleClass="btn-gral" text=" ◄ Salir" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="301.0" />
+            <Label fx:id="lblCosto1" layoutX="35.0" layoutY="227.0" prefHeight="17.0" prefWidth="157.0" text="Código de barras" />
+            <JFXTextField fx:id="inputBarcode" disable="true" layoutX="31.0" layoutY="248.0" prefHeight="27.0" prefWidth="359.0" />
+         </children>
+      </AnchorPane>
+      <Label fx:id="lblCosto11" layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="157.0" text="Código de barras" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <JFXTextField fx:id="inputBarcodeSearch" layoutX="22.0" layoutY="31.0" onKeyReleased="#searchByBarcode" prefHeight="27.0" prefWidth="235.0" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="31.0" />
+   </children>
+</AnchorPane>

@@ -51,7 +51,7 @@
             <JFXButton fx:id="btnGuardar" layoutX="443.0" layoutY="278.0" prefHeight="32.0" prefWidth="179.0" style="-fx-background-color: #04A138;" styleClass="btn-gral" text="✔ Confirmar Venta" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="289.0" />
             <JFXButton fx:id="btnSalir" layoutX="719.0" layoutY="266.0" prefHeight="32.0" prefWidth="133.0" style="-fx-background-color: #505050;" styleClass="btn-gral" text=" ◄ Salir" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="15.0" />
             <JFXButton fx:id="btnCancelar" layoutX="580.0" layoutY="266.0" prefHeight="32.0" prefWidth="133.0" style="-fx-background-color: #A12D04;" styleClass="btn-gral" text="✘ Cancelar" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="152.0" />
-            <JFXButton fx:id="btnSelectProd" layoutX="44.0" layoutY="18.0" prefHeight="32.0" prefWidth="212.0" style="-fx-background-color: #037AB6;" styleClass="btn-gral" text="⚙ Seleccionar producto" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
+            <JFXButton fx:id="btnSelectProd" layoutX="44.0" layoutY="18.0" onMouseClicked="#openTreProd" prefHeight="32.0" prefWidth="212.0" style="-fx-background-color: #037AB6;" styleClass="btn-gral" text="⚙ Seleccionar producto" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
          </children>
       </AnchorPane>
    </children>
