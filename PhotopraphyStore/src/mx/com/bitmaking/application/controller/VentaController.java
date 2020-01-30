@@ -107,7 +107,7 @@ public class VentaController {
 			return;
 		}
 		
-		int idxClte = cbxCliente.getSelectionModel().getSelectedIndex() -1;
+		int idxClte = cbxCliente.getSelectionModel().getSelectedIndex() ;
 		inputCliente.setText("");
 		if(idxClte ==0) {
 			inputCliente.setDisable(false);
