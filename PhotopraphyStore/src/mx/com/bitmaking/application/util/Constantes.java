@@ -4,6 +4,6 @@ import java.io.OutputStream;
 
 public class Constantes {
 
-	public static final String PATH_XLS = "C://Reportes/";
+	public static final String PATH_XLS = "/Users/albcervantes/Documents/";//"C://Reportes/";
 
 }

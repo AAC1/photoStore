@@ -54,13 +54,14 @@ public class StorePedidoService implements IStorePedidoService {
 	
 	@Transactional
 	@Override
-	public boolean generaXLS(FileInputStream fileInputStream, String qry, String titulo,String pathReport) throws JRException{
+	public boolean generaXLS(FileInputStream fileInputStream, String qry, String titulo,
+				String pathReport,String pathParent) throws JRException{
 		export=false;
 		Session session = sessionFactory.getCurrentSession();
 		session.doWork(connection -> {
 			
 				try {
-					exportXLS(connection, fileInputStream, qry, titulo,pathReport);
+					exportXLS(connection, fileInputStream, qry, titulo,pathReport,pathParent);
 					export=true;
 				} catch (JRException e) {
 					e.printStackTrace();
@@ -73,7 +74,7 @@ public class StorePedidoService implements IStorePedidoService {
 	}
 
 	private boolean exportXLS(Connection connection, FileInputStream fileInputStream, 
-								String qry, String titulo,String pathReport) throws JRException {
+								String qry, String titulo,String pathReport,String pathParent) throws JRException {
 		boolean export = false;
 		JasperReport pdfResolucionInforme;
 		try {
@@ -84,7 +85,8 @@ public class StorePedidoService implements IStorePedidoService {
 			Map<String, Object> parametrosReporte = new HashMap<>();
 			parametrosReporte.put("qry", qry);
 			parametrosReporte.put("titulo", titulo);
-
+			parametrosReporte.put("SUBREPORT_DIR", pathParent);
+			
 			JasperPrint jasperPrint;
 			jasperPrint = JasperFillManager.fillReport(pdfResolucionInforme, parametrosReporte, connection);
 			JRXlsExporter exporterXLS = new JRXlsExporter();
@@ -100,6 +102,7 @@ public class StorePedidoService implements IStorePedidoService {
 			exporterXLS.setParameter(JRXlsExporterParameter.OUTPUT_FILE_NAME, pathReport);
 
 			exporterXLS.exportReport();
+		
 			export = true;
 		} catch (JRException ex) {
 			throw new JRException(ex.getMessage(),ex);

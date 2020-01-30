@@ -2,6 +2,7 @@ package mx.com.bitmaking.application.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -119,6 +120,7 @@ public class BusqPedidoRepController {
 	@FXML
 	private void exportXLS()  {
 		File file=null;
+		FileInputStream fileInputStream = null;
 		ClassLoader classLoader = getClass().getClassLoader();
 		URL loader = BusqPedidoRepController.class.getClassLoader().getResource("reportePedidos.jasper");
 		//classLoader.getResource("reportePedidos.jasper");
@@ -129,12 +131,12 @@ public class BusqPedidoRepController {
 			}
 			
 			file = new File(loader.getFile());
-			
-			System.out.println(file.getAbsolutePath());
+			System.out.println("ABS_PATH: "+file.getAbsolutePath());
+			System.out.println("PARENT: "+file.getParent());
+			System.out.println("JUST_PATH: "+file.getPath());
 			String pathPlantilla = file.getAbsolutePath();
 			
 			File fileToDownload = new File(pathPlantilla);
-			FileInputStream fileInputStream = null;
 			SimpleDateFormat formatoD = new SimpleDateFormat("ddMMyyyy_hhmmss");
 		
 			if (fileToDownload.exists() && fileToDownload.isFile()) {
@@ -146,7 +148,7 @@ public class BusqPedidoRepController {
 			String pathReport=Constantes.PATH_XLS+"reporte_"+formatoD.format(new Date())+".xls";
 			String qry = generateQry();
 			String titulo="MACROFOTO S.A de C.V.";
-			boolean export = pedidoService.generaXLS(fileInputStream,qry,titulo,pathReport);
+			boolean export = pedidoService.generaXLS(fileInputStream,qry,titulo,pathReport,file.getParent()+"/");
 			if(export)
 				GeneralMethods.modalMsg("", "Exportación Terminada.", " Vaya a la ruta: "+pathReport
 						);
@@ -159,56 +161,19 @@ public class BusqPedidoRepController {
 		catch (Exception e) {
 			GeneralMethods.modalMsg("ERROR", "", "Ha ocurrido un error al generar reporte");
 			e.printStackTrace();
+		}finally{
+			if(fileInputStream!=null){
+				try {
+					fileInputStream.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 
 	}
-	@FXML
-	private void exportProdXLS()  {
-		File file=null;
-		ClassLoader classLoader = getClass().getClassLoader();
-		URL loader = BusqPedidoRepController.class.getResource("reporteProductos.jasper");
-		//classLoader.getResource("reportePedidos.jasper");
-		try {
-			if(loader==null){
-				GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar directorio de la plantilla para el reporte");
-				return;
-			}
-			
-			file = new File(loader.getFile());
-			
-			System.out.println(file.getAbsolutePath());
-			String pathPlantilla = file.getAbsolutePath();
-			
-			File fileToDownload = new File(pathPlantilla);
-			FileInputStream fileInputStream = null;
-			SimpleDateFormat formatoD = new SimpleDateFormat("ddMMyyyy_hhmmss");
-		
-			if (fileToDownload.exists() && fileToDownload.isFile()) {
-				fileInputStream = new FileInputStream(fileToDownload);
-			} else {
-				GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar plantilla de reporte");
-				return;
-			}
-			String pathReport=Constantes.PATH_XLS+"reporte_"+formatoD.format(new Date())+".xls";
-			String qry = generateQry();
-			String titulo="MACROFOTO S.A de C.V.";
-			boolean export = pedidoService.generaXLS(fileInputStream,qry,titulo,pathReport);
-			if(export)
-				GeneralMethods.modalMsg("", "Exportación Terminada.", " Vaya a la ruta: "+pathReport
-						);
-			else
-				GeneralMethods.modalMsg("ERROR", "", "Ha ocurrido un error al generar reporte");
-		} /*catch(MalformedURLException e){
-			GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar la plantilla del reporte");
-			e.printStackTrace();
-		}*/
-		catch (Exception e) {
-			GeneralMethods.modalMsg("ERROR", "", "Ha ocurrido un error al generar reporte");
-			e.printStackTrace();
-		}
-
-	}
-	@FXML
+		@FXML
 	private void buscaPedido(MouseEvent event) {
 		tblPedido.getItems().removeAll(tblPedido.getItems());
 		tblProducts.getItems().removeAll(tblProducts.getItems());

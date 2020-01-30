@@ -10,6 +10,16 @@ import net.sf.jasperreports.engine.JRException;
 public interface IStorePedidoService {
 
 	public List<PedidosReporteDTO> consultPedido(String qry);
-
-	public boolean generaXLS(FileInputStream fileInputStream, String qry, String titulo,String pathReport)throws JRException;
+	/**
+	 * 
+	 * @param fileInputStream
+	 * @param qry
+	 * @param titulo
+	 * @param pathReport
+	 * @param pathParent -> para subreporta, deben estar al mismo nivel que el reporter master
+	 * @return
+	 * @throws JRException
+	 */
+	public boolean generaXLS(FileInputStream fileInputStream, String qry, String titulo,
+				String pathReport,String pathParent)throws JRException;
 }
