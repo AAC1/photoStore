@@ -14,7 +14,16 @@ public class CostProductsDTO implements Serializable {
 	private String producto;
 	private String estatus;
 	private BigDecimal costo;
+	private int cantidad;
 	private String bar_code;
+	
+	
+	public int getCantidad() {
+		return cantidad;
+	}
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
+	}
 	/**
 	 * @return the id_prod
 	 */

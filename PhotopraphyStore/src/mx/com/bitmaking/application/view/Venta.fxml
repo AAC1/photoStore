@@ -41,7 +41,7 @@
                   <TableColumn fx:id="tbColCosto" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="59.0" styleClass="table-column" text="Costo" />
               </columns>
             </TableView>
-            <JFXButton fx:id="btnAddProd" alignment="CENTER" contentDisplay="CENTER" layoutX="44.0" layoutY="178.0" prefHeight="54.0" prefWidth="98.0" style="-fx-background-color: #037AB6;" styleClass="btn-gral" text="✚ Agregar producto" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
+            <JFXButton fx:id="btnAddProd" alignment="CENTER" contentDisplay="CENTER" layoutX="44.0" layoutY="178.0" onMouseClicked="#addProdToTable" prefHeight="54.0" prefWidth="98.0" style="-fx-background-color: #037AB6;" styleClass="btn-gral" text="✚ Agregar producto" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
             <JFXButton fx:id="btnQuitarProd" alignment="CENTER" contentDisplay="CENTER" layoutX="157.0" layoutY="178.0" prefHeight="54.0" prefWidth="98.0" style="-fx-background-color: #037AB6;" styleClass="btn-gral" text="▬ Quitar producto" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
             <Label layoutX="38.0" layoutY="57.0" prefHeight="18.0" prefWidth="185.0" styleClass="label-title" text="Producto" AnchorPane.leftAnchor="38.0" />
             <Label layoutX="38.0" layoutY="116.0" prefHeight="18.0" prefWidth="110.0" styleClass="label-title" text="Cantidad" AnchorPane.leftAnchor="38.0" />

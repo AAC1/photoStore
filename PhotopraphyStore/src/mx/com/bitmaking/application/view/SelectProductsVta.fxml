@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="bodyCatProd" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="458.0" prefWidth="857.0" style="-fx-background-color: rgba(255,255,255,0.8);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.SelectProductoVtaController">
+   <children>
+      <AnchorPane layoutX="17.0" layoutY="46.0" prefHeight="395.0" prefWidth="823.0" style="-fx-background-color: rgba(216,216,216,0.5) rgba(216,216,216,0.5);" AnchorPane.bottomAnchor="17.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="46.0">
+         <children>
+            <JFXButton fx:id="btnAcceptModif" layoutX="435.0" layoutY="321.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #04A138 #04A138;" text="✔ Seleccionar" textFill="WHITE" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="268.0" />
+            <JFXButton fx:id="btnCleanModif" layoutX="561.0" layoutY="321.0" onMouseClicked="#cleanForm" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #C37B00;" text="✎ Limpiar " textFill="WHITE" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="142.0" />
+            <JFXButton fx:id="btnSalir" layoutX="692.0" layoutY="321.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #505050; -fx-text-fill: white;" styleClass="btn-gral" text=" ◄ Salir" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+            <TableView fx:id="tblProducto" layoutX="33.0" layoutY="26.0" prefHeight="327.0" prefWidth="795.0" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+              <columns>
+                <TableColumn fx:id="colBarCode" prefWidth="210.0" text="Código de Barras" />
+                <TableColumn fx:id="colProducto" prefWidth="447.0" text="Producto" />
+                  <TableColumn fx:id="colCosto" minWidth="0.0" prefWidth="137.0" text="Costo" />
+              </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+      <Label fx:id="lblCosto11" layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="157.0" text="Código de barras" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <JFXTextField fx:id="inputBarcodeSearch" layoutX="128.0" layoutY="9.0" onKeyReleased="#searchByBarcode" prefHeight="27.0" prefWidth="235.0" AnchorPane.leftAnchor="128.0" AnchorPane.topAnchor="9.0" />
+   </children>
+</AnchorPane>

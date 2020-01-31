@@ -311,7 +311,47 @@ public class TreeProductoController {
 		TreeItem<String> root =new TreeItem<>("Productos del cliente");
 		root.setExpanded(true);
 		generateTreeProd(productsMap,0,root);
-		treeProd.setRoot(root);
+	//	treeProd.setRoot(root);
+		List<CostProductsDTO> lstProd = new ArrayList<>();
+		
+		getdescProducts(productsMap, 0, lstProd, new CostProductsDTO(), new StringBuilder(),"");
+	
+		
+	}
+	
+	private void getdescProducts(LinkedHashMap<Integer, CostProductsDTO> hashMap,
+								int id_padre,List<CostProductsDTO> lstProd,
+									CostProductsDTO obj,StringBuilder prod,String currentProd) {
+		
+		LinkedHashMap<Integer,CostProductsDTO> auxMap = new LinkedHashMap<>();
+		
+		for (Map.Entry<Integer,CostProductsDTO> el : hashMap.entrySet()) {
+			if(el.getValue().getId_padre_prod() == id_padre) {
+				auxMap.put(el.getValue().getId_prod(), el.getValue());
+			}
+		}
+		
+		if(auxMap.size()<=0) {
+			obj.setProducto(prod.toString());
+			lstProd.add(obj);
+			obj = new CostProductsDTO();
+			
+			return;
+		}
+		
+		for (Map.Entry<Integer,CostProductsDTO> el : auxMap.entrySet()) {
+			obj =el.getValue();
+			currentProd =el.getValue().getProducto()+"_";
+			prod.append(el.getValue().getProducto()+"_");
+			getdescProducts(hashMap, el.getValue().getId_prod(),lstProd,obj,prod,currentProd);
+			int tam =prod.length() - (currentProd).length();
+			
+			if(tam>=0) {
+				
+				prod.replace(tam, prod.length(),"");
+			}
+		}
+		
 	}
 	
 	private void generateTreeProd(LinkedHashMap<Integer,CostProductsDTO> hashMap,int id_padre,TreeItem<String> nodoPadre) {

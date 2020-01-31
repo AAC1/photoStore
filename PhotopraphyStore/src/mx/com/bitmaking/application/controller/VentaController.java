@@ -1,5 +1,6 @@
 package mx.com.bitmaking.application.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.entity.Store_cat_estatus;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.entity.Store_fotografo;
@@ -54,13 +57,16 @@ public class VentaController {
 	@FXML private JFXTextField inputDescrip;
 	@FXML private JFXTextField inputMontoAnt;
 	@FXML private JFXTextField inputMonto;
+	@FXML private JFXTextField inputProd;
+	@FXML private JFXTextField inputCantProd;
+	@FXML private JFXTextField inputCostoProd;
 	
 	@FXML private AnchorPane ventaBody;
-	@FXML private TableView tbProductos;
-	@FXML private TableColumn tbColProd ;
-	@FXML private TableColumn tbColDesc;
-	@FXML private TableColumn tbColCant;
-	@FXML private TableColumn tbColCosto;
+	@FXML private TableView<CostProductsDTO> tbProductos;
+	@FXML private TableColumn<CostProductsDTO,String> tbColProd ;
+	@FXML private TableColumn<CostProductsDTO,String> tbColDesc;
+	@FXML private TableColumn<CostProductsDTO, Integer> tbColCant;
+	@FXML private TableColumn<CostProductsDTO,BigDecimal> tbColCosto;
 	
 	@Autowired
 	@Qualifier("StoreCatProdService")
@@ -78,6 +84,7 @@ public class VentaController {
 	Stage stageBusqProd = null;
 	List<Store_fotografo> lstFoto = null;
 	List<Store_cat_estatus> lstEstatus = null;
+	CostProductsDTO rowProd = null;
 	/**
 	 * @return the btnSalir
 	 */
@@ -99,6 +106,11 @@ public class VentaController {
 	private void initForm() {
 		fillCbxClte(); //llena combo de clientes
 		getLstEstatus();//Llena combo de estatus
+		
+		tbColProd.setCellValueFactory(new PropertyValueFactory<CostProductsDTO, String>("bar_code"));
+		tbColDesc.setCellValueFactory(new PropertyValueFactory<CostProductsDTO, String>("producto"));
+		tbColCant.setCellValueFactory(new PropertyValueFactory<CostProductsDTO, Integer>("cantidad"));
+		tbColCosto.setCellValueFactory(new PropertyValueFactory<CostProductsDTO, BigDecimal>("costo"));
 	}
 	private void getLstEstatus() {
 		lstEstatus = catEstatusService.getListEstatus();
@@ -150,7 +162,8 @@ public class VentaController {
 				return;
 			}
 			
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/com/bitmaking/application/view/TreeProduct.fxml"));
+			//FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/com/bitmaking/application/view/TreeProduct.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/com/bitmaking/application/view/SelectProductsVta.fxml"));
 			fxmlLoader.setControllerFactory(context::getBean);
 			Parent sceneEdit= fxmlLoader.load();
 			Scene scene = new Scene(sceneEdit,3013,165);
@@ -159,30 +172,78 @@ public class VentaController {
 			stageBusqProd.setScene(scene);
 			stageBusqProd.setTitle("Selecciona Producto ");
 			stageBusqProd.setMinHeight(636.0);
-			stageBusqProd.setMinWidth(765.0);
-			stageBusqProd.setMaxHeight(636.0);
+			stageBusqProd.setMinWidth(565.0);
+			stageBusqProd.setMaxHeight(536.0);
 			stageBusqProd.setMaxWidth(765.0);
 			//stageBusqProd.setMaxHeight(200.0);
 		//	stageBusqProd.setMaxWidth(300.0);
 			stageBusqProd.initModality(Modality.APPLICATION_MODAL); 
 			stageBusqProd.show();
-			TreeProductoController busqProd = fxmlLoader.getController(); //Obtiene controller de la nueva ventana
+			SelectProductoVtaController busqProd = fxmlLoader.getController(); //Obtiene controller de la nueva ventana
 			
 			busqProd.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED, closeWindow());
-			
+			busqProd.getBtnAcceptModif().addEventHandler(MouseEvent.MOUSE_CLICKED,getProductoSelected(busqProd));
+
 			
 			System.out.println("idxClte:"+idxClte);
 			int idClte = 0;
 			if(idxClte >0) {
 				idClte=lstFoto.get((idxClte)).getId_fotografo();
 			}
-			busqProd.getTblCatProducts(idClte);
+			busqProd.setIdCliente(idClte);
+			busqProd.getTblCatProducts();
 			
 	    } catch(Exception ex) {
 			ex.printStackTrace();
 		}
 	}
 	
+	@FXML private void addProdToTable() {
+		String cant =inputCantProd.getText();
+		if(cant==null || cant.trim().length()==0) {
+			GeneralMethods.modalMsg("", "", "Ingrese una cantidad");
+			return;
+		}
+		if(inputCostoProd.getText()==null || inputCostoProd.getText().trim().length()==0) {
+			GeneralMethods.modalMsg("", "", "Ingrese el precio del producto de acuerdo a la cantidad");
+			return;
+		}
+		if(rowProd==null) {
+			GeneralMethods.modalMsg("", "", "No se tiene un producto seleccionado");
+			return;
+		}
+		tbProductos.getItems().add(rowProd);
+		rowProd=null;
+		
+		CostProductsDTO auxObj = rowProd;
+		
+		auxObj.setCantidad(Integer.parseInt(cant));
+		auxObj.setCosto(new BigDecimal(auxObj.getCantidad()*(Double.parseDouble(inputCostoProd.getText()))));
+		tbProductos.getItems().add(auxObj);
+		
+		
+	}
+	
+	/**
+	 * Obtiene datos de la tabla de productos seleccionados
+	 * @param busqProd
+	 * @return
+	 */
+	private EventHandler<MouseEvent> getProductoSelected(SelectProductoVtaController busqProd) {
+		return new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				System.out.println("entra selected");
+				int rowSelected = busqProd.getTblProducto().getSelectionModel().getSelectedIndex();
+				rowProd= busqProd.getLstProd().get(rowSelected);
+				String cost = String.valueOf(rowProd.getCosto());
+				
+				inputCostoProd.setText((rowProd.getCosto()==null )?"0":String.valueOf(rowProd.getCosto()));
+				inputProd.setText(rowProd.getProducto());
+				if(stageBusqProd!=null) stageBusqProd.close();
+			}
+		};
+	}
 
 	private EventHandler<MouseEvent> closeWindow() {
 		return new EventHandler<MouseEvent>() {
