@@ -106,6 +106,9 @@ public class VentaController {
 	private void initForm() {
 		fillCbxClte(); //llena combo de clientes
 		getLstEstatus();//Llena combo de estatus
+		inputMontoAnt.setText("0");
+		cbxEstatus.setValue("PENDIENTE");
+		
 		
 		tbColProd.setCellValueFactory(new PropertyValueFactory<CostProductsDTO, String>("bar_code"));
 		tbColDesc.setCellValueFactory(new PropertyValueFactory<CostProductsDTO, String>("producto"));
@@ -212,18 +215,40 @@ public class VentaController {
 			GeneralMethods.modalMsg("", "", "No se tiene un producto seleccionado");
 			return;
 		}
-		tbProductos.getItems().add(rowProd);
-		rowProd=null;
 		
 		CostProductsDTO auxObj = rowProd;
 		
 		auxObj.setCantidad(Integer.parseInt(cant));
 		auxObj.setCosto(new BigDecimal(auxObj.getCantidad()*(Double.parseDouble(inputCostoProd.getText()))));
 		tbProductos.getItems().add(auxObj);
-		
-		
+		rowProd=null;
+		inputCantProd.setText("");
+		inputCostoProd.setText("");
+		inputProd.setText("");
+		inputCostoProd.setText("");
+		updateCostoTotal();
 	}
 	
+	@FXML private void quitProdToTable() {
+		int idx = tbProductos.getSelectionModel().getSelectedIndex();
+		System.out.println("IDX:"+idx);
+		if(idx<0) {
+			return;
+		}
+		tbProductos.getItems().remove(tbProductos.getSelectionModel().getSelectedIndex());
+		updateCostoTotal();
+	}
+	private void updateCostoTotal() {
+		ObservableList<CostProductsDTO> rowsProd = tbProductos.getItems();
+		BigDecimal costTotal = new BigDecimal(0.0);
+		for(CostProductsDTO el:rowsProd) {
+			System.out.println(el.getCosto());
+			costTotal = costTotal.add(el.getCosto());
+		}
+		System.out.println(costTotal);
+		inputMonto.setText(String.valueOf(costTotal));
+	}
+
 	/**
 	 * Obtiene datos de la tabla de productos seleccionados
 	 * @param busqProd
