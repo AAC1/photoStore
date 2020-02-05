@@ -1,3 +1,7 @@
+drop database macrofoto;
+create database macrofoto;
+use macrofoto;
+
 create table store_sucursal(
 id_sucursal INT AUTO_INCREMENT PRIMARY KEY,
 sucursal VARCHAR(50),
@@ -151,7 +155,7 @@ id_estatus INT AUTO_INCREMENT PRIMARY KEY,
 estatus VARCHAR(20)
 );
 insert into store_cat_estatus(estatus)
-VALUES('TERMINADO'),('PENDIENTE'),('CANCELADO');
+VALUES('Terminado'),('Pendiente'),('Cancelado');
 
 drop table store_pedido;
 create table store_pedido(

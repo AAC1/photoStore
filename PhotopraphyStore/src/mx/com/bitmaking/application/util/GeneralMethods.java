@@ -38,4 +38,9 @@ public class GeneralMethods {
 		}
 		return "";
 	}
+
+	public static boolean validDecimal(String text) {
+		// validar decimales
+		return true;
+	}
 }

@@ -85,6 +85,7 @@ public class CostProdByClteController {
 		
 		cbxCliente.setItems(FXCollections.observableList(lstNameCltes));
 		cbxCliente.getSelectionModel().select(0);
+		
 		getTblCatProducts(lstClte.get(0).getId_fotografo());
 	}
 	

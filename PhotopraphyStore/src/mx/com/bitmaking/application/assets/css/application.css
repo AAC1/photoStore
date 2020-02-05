@@ -30,6 +30,9 @@
 	-fx-font-family: 'Montserrat Light';
 	-fx-text-fill: white;
 }
+.input-gral{
+	-fx-font-family: 'Montserrat Light';
+}
 
 #menuHamburger StackPane {
 	-fx-background-color: white;

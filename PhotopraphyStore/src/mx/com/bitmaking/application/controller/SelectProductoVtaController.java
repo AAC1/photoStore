@@ -123,7 +123,7 @@ public class SelectProductoVtaController {
 	
 	private void iniSect() {
 		inputBarcodeSearch.setText("");
-		
+		tblProducto.getItems().removeAll(tblProducto.getItems());
 		colBarCode.prefWidthProperty().bind(tblProducto.widthProperty().multiply(0.3));
 		colProducto.prefWidthProperty().bind(tblProducto.widthProperty().multiply(0.5));
 		colCosto.prefWidthProperty().bind(tblProducto.widthProperty().multiply(0.2));
@@ -152,11 +152,11 @@ public class SelectProductoVtaController {
 	}
 	
 	private void getTblCatProductsByBarCode(String valueToSearch) {
-		
+		tblProducto.getItems().removeAll(tblProducto.getItems());
 		lstProd = new ArrayList<>();
 		if(valueToSearch.trim().length()==0) {
 			getDescProducts(productsMap, 0, lstProd, new CostProductsDTO(), new StringBuilder(),"");
-			tblProducto.getItems().removeAll(tblProducto.getItems());
+		//	tblProducto.getItems().removeAll(tblProducto.getItems());
 			tblProducto.setItems(FXCollections.observableList(lstProd));
 			return;
 		}
@@ -166,12 +166,12 @@ public class SelectProductoVtaController {
 				lstProd.add(el.getValue());
 			}
 		}
-		tblProducto.getItems().removeAll(tblProducto.getItems());
+	//	tblProducto.getItems().removeAll(tblProducto.getItems());
 		tblProducto.setItems(FXCollections.observableList(lstProd));
 	}
 	
 	protected void getTblCatProducts() {
-		
+		tblProducto.getItems().removeAll(tblProducto.getItems());
 		productsMap = storeCatProdService.getCostProdByClient(idCliente);
 	/*	TreeItem<String> root =new TreeItem<>("Productos del cliente");
 		root.setExpanded(true);

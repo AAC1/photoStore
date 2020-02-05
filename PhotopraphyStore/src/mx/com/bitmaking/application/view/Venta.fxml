@@ -52,9 +52,9 @@
             <JFXTextField fx:id="inputCostoProd" layoutX="157.0" layoutY="134.0" prefHeight="26.0" prefWidth="98.0" styleClass="input-gral" AnchorPane.leftAnchor="157.0" />
             <Label layoutX="157.0" layoutY="116.0" prefHeight="18.0" prefWidth="110.0" styleClass="label-title" text="Costo" />
             <JFXTextField fx:id="inputProd" disable="true" layoutX="39.0" layoutY="75.0" prefHeight="25.0" prefWidth="240.0" AnchorPane.leftAnchor="39.0" />
-            <JFXButton fx:id="btnGuardar" layoutX="443.0" layoutY="278.0" prefHeight="32.0" prefWidth="179.0" style="-fx-background-color: #04A138;" styleClass="btn-gral" text="✔ Confirmar Venta" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="289.0" />
+            <JFXButton fx:id="btnGuardar" layoutX="443.0" layoutY="278.0" onMouseClicked="#confirmPedido" prefHeight="32.0" prefWidth="179.0" style="-fx-background-color: #04A138;" styleClass="btn-gral" text="✔ Confirmar Venta" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="289.0" />
             <JFXButton fx:id="btnSalir" layoutX="719.0" layoutY="266.0" prefHeight="32.0" prefWidth="133.0" style="-fx-background-color: #505050;" styleClass="btn-gral" text=" ◄ Salir" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="15.0" />
-            <JFXButton fx:id="btnCancelar" layoutX="580.0" layoutY="266.0" prefHeight="32.0" prefWidth="133.0" style="-fx-background-color: #A12D04;" styleClass="btn-gral" text="✘ Cancelar" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="152.0" />
+            <JFXButton fx:id="btnCancelar" layoutX="580.0" layoutY="266.0" onMouseClicked="#cancelPedido" prefHeight="32.0" prefWidth="133.0" style="-fx-background-color: #A12D04;" styleClass="btn-gral" text="✘ Cancelar" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="152.0" />
             <JFXButton fx:id="btnSelectProd" layoutX="44.0" layoutY="18.0" onMouseClicked="#openTreProd" prefHeight="32.0" prefWidth="212.0" style="-fx-background-color: #037AB6;" styleClass="btn-gral" text="⚙ Seleccionar producto" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
          </children>
       </AnchorPane>

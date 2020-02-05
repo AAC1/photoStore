@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import mx.com.bitmaking.application.controller.LoginController;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
@@ -19,20 +20,22 @@ public class Main extends MystoreApplication {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			FXMLLoader jfxLoader = initializeFXML("view/Home.fxml");
+			FXMLLoader jfxLoader = initializeFXML("view/Login.fxml");
 			
 			Parent root = jfxLoader.load();
+			LoginController ctrlObj = jfxLoader.getController();
+			ctrlObj.setMainStage(primaryStage);
 			Scene scene = new Scene(root,865,536);
 			//scene.getStylesheets().add("");
-			scene.getStylesheets().add(getClass().getResource("assets/css/application.css").toString());
+			scene.getStylesheets().add(getClass().getResource("assets/css/Login.css").toString());
 
 			primaryStage.setScene(scene);
 			primaryStage.centerOnScreen();
 	        primaryStage.setTitle("Macrofoto");
-			primaryStage.setMinHeight(636.0);
-			primaryStage.setMinWidth(865.0);
-			//primaryStage.setMaxHeight(450.0);
-			//primaryStage.setMaxWidth(620.0);
+			primaryStage.setMinHeight(400.0);
+			primaryStage.setMinWidth(369.0);
+			primaryStage.setMaxHeight(400.0);
+			primaryStage.setMaxWidth(369.0);
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
