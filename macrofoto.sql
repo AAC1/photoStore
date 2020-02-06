@@ -2,6 +2,7 @@ drop database macrofoto;
 create database macrofoto;
 use macrofoto;
 
+drop table if EXISTS store_sucursal;
 create table store_sucursal(
 id_sucursal INT AUTO_INCREMENT PRIMARY KEY,
 sucursal VARCHAR(50),
@@ -20,6 +21,11 @@ insert into store_sucursal(sucursal,razon_social,direccion,telefono)VALUES
 insert into store_sucursal(sucursal,razon_social,direccion,telefono)VALUES
 ('Macrofoto Salamanca','Carlos Yair García Jiménez','Calle Morelos 201, Centro  Salamanca Guanajuato C.P. 36700','4646488882');
 
+ALTER TABLE store_sucursal ADD prefijo varchar(5) NOT NULL ;
+update store_sucursal set prefijo='IRP' WHERE id_sucursal=1;
+update store_sucursal set prefijo='OAX' WHERE id_sucursal=2;
+update store_sucursal set prefijo='PDD' WHERE id_sucursal=3;
+update store_sucursal set prefijo='SAL' WHERE id_sucursal=4;
 
 create table store_perfil(
 id_perfil INT AUTO_INCREMENT PRIMARY KEY,
@@ -125,7 +131,7 @@ CONSTRAINT `FK_menuPerfil_menu`
 insert into store_menu_perfil(id_perfil,id_menu)
 VALUES(1,1),(2,1),(2,2),(2,3),(2,4);
 
-
+drop table if exists store_usuario;
 create table store_usuario(
 id_usr INT AUTO_INCREMENT PRIMARY KEY,
 login VARCHAR(11) NOT NULL UNIQUE,
@@ -134,6 +140,7 @@ nombre VARCHAR(150),
 correo VARCHAR(150),
 telefono INT(10),
 direccion VARCHAR(200),
+intentos INT(1),
 bloqueado INT(1),
 activo INT(1),
 id_perfil INT,
@@ -149,6 +156,10 @@ CONSTRAINT `FK_usr_sucursal`
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 );
+insert into store_usuario(login,passwd,nombre,correo,telefono,direccion,intentos,bloqueado,activo,id_perfil,id_sucursal)
+values('ayalaja','macro123','J. Alberto AC','correo@mail.com','0000000000','calle 1 col colonia #123',0,0,1,2,1),
+('garciaa','macro123','Amairani Garcia S','correo@mail.com','0000000000','calle 1 col colonia #123',0,0,1,2,2),
+('vendedor','venta123','Vendedor AP','correo@mail.com','0000000000','N/A',0,0,1,2,3);
 
 create table store_cat_estatus(
 id_estatus INT AUTO_INCREMENT PRIMARY KEY,

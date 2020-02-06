@@ -101,6 +101,7 @@ public class VentaController {
 		//btnSalir.addEventHandler(MouseEvent.MOUSE_CLICKED,modalBusqByFolio());
 		btnEditarPedido.addEventHandler(MouseEvent.MOUSE_CLICKED,modalBusqByFolio());
 		
+		inputCostoProd.textProperty().addListener(GeneralMethods.formatNumber(inputCostoProd));
 	}
 	private void generateFolio(){
 		
@@ -317,8 +318,13 @@ public class VentaController {
 			return;
 		}
 		if(inputCostoProd.getText()==null || inputCostoProd.getText().trim().length()==0 
+				
 				|| !GeneralMethods.validDecimal(inputCostoProd.getText())) {
 			GeneralMethods.modalMsg("", "", "Ingrese el precio del producto de acuerdo a la cantidad");
+			return;
+		}
+		if(Double.parseDouble(inputCostoProd.getText())<=0){
+			GeneralMethods.modalMsg("", "", "Para poder agregar el producto, debe tener precio de venta");
 			return;
 		}
 		if(rowProd==null) {

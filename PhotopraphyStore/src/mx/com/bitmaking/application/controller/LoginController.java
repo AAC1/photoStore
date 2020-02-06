@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,6 +20,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import mx.com.bitmaking.application.dto.ResponseDTO;
+import mx.com.bitmaking.application.service.ILoginService;
+import mx.com.bitmaking.application.util.GeneralMethods;
 
 @Component
 public class LoginController {
@@ -26,9 +30,15 @@ public class LoginController {
 	private ImageView imgLogo;
 	@FXML
 	private JFXButton btnLogin;
-
+	@FXML 
+	private JFXTextField inputUsr;
+	@FXML 
+	private JFXTextField inputPasswd;
+	
 	@Autowired
 	private ApplicationContext context;
+	@Autowired
+	private ILoginService loginService;
 	
 	private Stage mainStage;
 	
@@ -52,14 +62,33 @@ public class LoginController {
 	}
 
 	private void initForm() {
-		File file = new File("src/mx/com/bitMaking/application/assets/macrofoto_logo.jpg");
-		Image image = new Image(file.toURI().toString());
+
+		inputUsr.setText("");
+		inputPasswd.setText("");
+		
+		File file = new File("/mx/com/bitmaking/application/assets/macrofoto_logo.jpg");
+		Image image = new Image(file.toURI().toString(),300,200,false,false);
+		imgLogo.setFitHeight(200);
+		imgLogo.setFitWidth(300);
+		imgLogo.setPreserveRatio(false);
 		imgLogo.setImage(image);
 	}
+	
 	@FXML
 	private void validLogin(){
-		
 		if(true){
+			openModal("Home",true);
+			return;
+		}
+		ResponseDTO resp = loginService.validUsr(inputUsr.getText(), inputPasswd.getText());
+		if("ERROR".equals(resp.getEstado())){
+			if(resp.getMsg().length()>0){
+				GeneralMethods.modalMsg("ERROR", "", resp.getMsg());
+			}else{
+				GeneralMethods.modalMsg("ERROR", "", "Ha ocurrido un error en la validaci\u00F3n de usuario");
+			}
+		}
+		else if(resp.isValid()){
 			if(mainStage!=null)mainStage.close();
 			openModal("Home",true);
 		}
@@ -82,8 +111,8 @@ public class LoginController {
 				        primaryStage.setTitle("Control de acceso");
 						primaryStage.setMinHeight(636.0);
 						primaryStage.setMinWidth(865.0);
-						primaryStage.setMaxHeight(636.0);
-						primaryStage.setMaxWidth(865.0);
+					//	primaryStage.setMaxHeight(636.0);
+					//	primaryStage.setMaxWidth(865.0);
 						primaryStage.show();
 					
 			       

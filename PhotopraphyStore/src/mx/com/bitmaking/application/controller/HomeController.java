@@ -1,5 +1,6 @@
 package mx.com.bitmaking.application.controller;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -26,6 +29,7 @@ import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.MystoreApplication;
+import mx.com.bitmaking.application.dto.UserSessionDTO;
 
 @Component
 //@Scope("prototype")
@@ -38,11 +42,12 @@ public class HomeController {
 	@FXML private Label lblReportes;
 	@FXML private Label itemVenta;
 	@FXML private Label lblGestCostProd;
-	
+	@FXML private Label lblUsrSession;
 	@FXML private JFXHamburger menuHamburger;
 	@FXML private AnchorPane menuContainer;
 	@FXML private AnchorPane bodyContainer;
 	@FXML private AnchorPane backgroundOnMenu;
+	@FXML private ImageView imgAvatar;
 	
 //	@Autowired
   //	private MystoreApplication storeApp;
@@ -50,10 +55,26 @@ public class HomeController {
 	 private ApplicationContext context ;
 	 
 	public void initialize() {
-		titleHome.getStyleClass().add("label-title");
-		menuContainer.getStyleClass().add("rootMenu");
-		menuContainer.setStyle("-fx-background-color: transparent;");
 		
+		UserSessionDTO instance = UserSessionDTO.getInstance();
+		if(instance!=null){
+			System.out.println("HOME_UserSessionDTO [login=" + instance.getLogin() + ", nombre=" + instance.getNombre() + 
+			", correo=" + instance.getCorreo() + ", telefono=" + instance.getTelefono()
+			+ ", direccion=" + instance.getDireccion() + ", prefijo=" + instance.getPrefijo() + "]");
+			
+			lblUsrSession.setText(instance.getNombre());
+		}
+		titleHome.getStyleClass().add("label-title");
+		//menuContainer.getStyleClass().add("rootMenu");
+		//menuContainer.setStyle("-fx-background-color: transparent;");
+		/*
+		File file = new File("/mx/com/bitmaking/application/assets/macrofoto_logo.jpg");
+		Image image = new Image(file.toURI().toString(),300,200,false,false);
+		imgAvatar.setFitHeight(200);
+		imgAvatar.setFitWidth(300);
+		imgAvatar.setPreserveRatio(false);
+		imgAvatar.setImage(image);
+		*/
 		itemVenta.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("Venta",true,false));
 		lblGestionCat.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("GestionProductos",true,false));
 		lblReportes.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("BusqPedidoReporte",false,false));
@@ -68,16 +89,17 @@ public class HomeController {
 	 */
 	@FXML
 	private void showMenuContainer(MouseEvent event){
+		System.out.println("entra menuContainershow_hide");
 		if(menuContainer.isVisible()) {
 			menuContainer.setVisible(false);
-			lblGestionCat.setVisible(false);
-			lblGestCostProd.setVisible(false);
-			lblReportes.setVisible(false);
-			backgroundOnMenu.setVisible(false);
+		//	lblGestionCat.setVisible(false);
+			//lblGestCostProd.setVisible(false);
+			//lblReportes.setVisible(false);
+		//	backgroundOnMenu.setVisible(false);
 			
 		}else {
 			menuContainer.setVisible(true);
-			backgroundOnMenu.setVisible(true);
+		//	backgroundOnMenu.setVisible(true);
 		}
 		
 	}
@@ -88,11 +110,11 @@ public class HomeController {
 	 */
 	@FXML
 	private void hideMenuContainer(MouseEvent event){
-		menuContainer.setVisible(false);
+		menuContainer.setVisible(false);/*
 		lblGestionCat.setVisible(false);
 		lblGestCostProd.setVisible(false);
 		lblReportes.setVisible(false);
-		backgroundOnMenu.setVisible(false);
+		backgroundOnMenu.setVisible(false);*/
 	}
 	/**
 	 * Aparece u oculta sub menu de administraci�n
@@ -116,10 +138,10 @@ public class HomeController {
 	@FXML 
 	private void openSectionVta(MouseEvent event) {
 		 menuContainer.setVisible(false);
-		 lblGestionCat.setVisible(false);
-		 lblGestCostProd.setVisible(false);
-		 lblReportes.setVisible(false);
-		 backgroundOnMenu.setVisible(false);
+		 //lblGestionCat.setVisible(false);
+		// lblGestCostProd.setVisible(false);
+		// lblReportes.setVisible(false);
+		// backgroundOnMenu.setVisible(false);
 		 FXMLLoader vtaFxml = new FXMLLoader(getClass().getResource("../view/Venta.fxml"));
 		 try {
 			bodyContainer.getChildren().add(vtaFxml.load());
@@ -137,10 +159,11 @@ public class HomeController {
 				//System.out.println(event.getSource());
 				try {
 					menuContainer.setVisible(false);
-					lblGestionCat.setVisible(false);
+				/*	lblGestionCat.setVisible(false);
 					lblGestCostProd.setVisible(false);
 					lblReportes.setVisible(false);
 					backgroundOnMenu.setVisible(false);
+					*/
 					bodyContainer.getChildren().clear();
 		
 			        FXMLLoader loader = //storeApp.initializeFXML("view/"+scene+".fxml");
@@ -199,11 +222,11 @@ public class HomeController {
 			public void handle(MouseEvent event) {
 				//System.out.println(event.getSource());
 				try {
-					menuContainer.setVisible(false);
+					menuContainer.setVisible(false);/*
 					lblGestionCat.setVisible(false);
 					lblReportes.setVisible(false);
 					lblGestCostProd.setVisible(false);
-					backgroundOnMenu.setVisible(false);
+					backgroundOnMenu.setVisible(false);*/
 					bodyContainer.getChildren().clear();
 		
 		        } catch(Exception ex) {
