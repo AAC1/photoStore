@@ -1,6 +1,9 @@
 package mx.com.bitmaking.application.dto;
 
 import java.util.HashMap;
+import java.util.List;
+
+import mx.com.bitmaking.application.entity.Store_menu;
 
 
 public final class UserSessionDTO {
@@ -17,7 +20,7 @@ public final class UserSessionDTO {
 	private String sucursal;
 	private String prefijo;
 	private int id_perfil;
-	private HashMap<String,Boolean> menuAccess ;
+	private List<Store_menu> menuAccess ;
 	
 	public UserSessionDTO(){}
 
@@ -59,18 +62,12 @@ public final class UserSessionDTO {
 	}
 
 
-	/**
-	 * @return the menuAccess
-	 */
-	public HashMap<String, Boolean> getMenuAccess() {
+	public List<Store_menu> getMenuAccess() {
 		return menuAccess;
 	}
 
 
-	/**
-	 * @param menuAccess the menuAccess to set
-	 */
-	public void setMenuAccess(HashMap<String, Boolean> menuAccess) {
+	public void setMenuAccess(List<Store_menu> menuAccess) {
 		this.menuAccess = menuAccess;
 	}
 
@@ -86,7 +83,7 @@ public final class UserSessionDTO {
 	 * @param instance the instance to set
 	 */
 	public static void setInstance(String login, String nombre, String correo, String telefono, String direccion, int bloqueado,
-		int activo, String sucursal, String prefijo, int id_perfil, HashMap<String, Boolean> menuAccess) {
+		int activo, String sucursal, String prefijo, int id_perfil, List<Store_menu> menuAccess) {
 		if(instance == null) {
 	        instance = new UserSessionDTO();
 	    }

@@ -114,6 +114,13 @@ VALUES(1,0,'Venta','venta',1),
 (3,2,'Gestion de productos','gestion-producto',1),
 (4,2,'Consulta Reportes','consulta-reporte',1);
 
+ALTER TABLE `macrofoto`.`store_menu` 
+ADD COLUMN `fx_id` VARCHAR(15) NULL AFTER `uri`;
+UPDATE `macrofoto`.`store_menu` SET `fx_id`='itemVenta' WHERE `id_menu`='1';
+UPDATE `macrofoto`.`store_menu` SET `fx_id`='itemAdmin' WHERE `id_menu`='2';
+UPDATE `macrofoto`.`store_menu` SET `menu_desc`='Gestion de Productos', `uri`='gestProd', `fx_id`='lblGestionCat' WHERE `id_menu`='3';
+UPDATE `macrofoto`.`store_menu` SET `menu_desc`='Gestion Costo Productos', `uri`='gestCostProd', `fx_id`='lblGestCostProd' WHERE `id_menu`='4';
+INSERT INTO `macrofoto`.`store_menu` (`id_menu`, `id_padre`, `menu_desc`, `uri`, `fx_id`, `estatus`) VALUES ('5', '2', 'Consulta Reportes', 'consultaReporte', 'lblReportes', '1');
 
 create table store_menu_perfil(
 id_perfil INT,id_menu INT,

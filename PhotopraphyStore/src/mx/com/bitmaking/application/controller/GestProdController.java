@@ -27,7 +27,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
-import mx.com.bitmaking.application.iservice.IStoreCatProdService;
+import mx.com.bitmaking.application.service.IStoreCatProdService;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
 @Component

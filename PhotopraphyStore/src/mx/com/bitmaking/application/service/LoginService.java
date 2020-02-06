@@ -9,6 +9,7 @@ import mx.com.bitmaking.application.dto.ResponseDTO;
 import mx.com.bitmaking.application.dto.UserSession;
 import mx.com.bitmaking.application.dto.UserSessionDTO;
 import mx.com.bitmaking.application.repository.ILoginDAO;
+import mx.com.bitmaking.application.repository.IMenuPerfilDAO;
 import mx.com.bitmaking.application.util.Constantes;
 
 
@@ -17,6 +18,8 @@ public class LoginService implements ILoginService{
 
 	@Autowired
 	ILoginDAO loginDAO;
+	@Autowired
+	IMenuPerfilDAO menuPerfilDAO;
 	
 	@Override
 	@Transactional
@@ -65,7 +68,10 @@ public class LoginService implements ILoginService{
 			resp.setMsg("La cuenta del usuario '"+usr+"' no se encuentra activa. Contacte al administrador.");
 			return resp;
 		}
-		
+		System.out.println("getId_perfil:"+usrObj.getId_perfil());
+		//OBTIENE FX_ID DE ELEMENTOS PERMITIDOS POR PERFIL
+		usrObj.setMenuAccess(menuPerfilDAO.getFxIdByPerfil(usrObj.getId_perfil()));
+		System.out.println("lnList:"+usrObj.getMenuAccess().size());
 		UserSessionDTO.setInstance(usrObj.getLogin(),usrObj.getNombre(),
 				usrObj.getCorreo(),usrObj.getTelefono(),usrObj.getDireccion(),usrObj.getBloqueado(),
 				usrObj.getActivo(),usrObj.getSucursal(),usrObj.getPrefijo(),usrObj.getId_perfil(),

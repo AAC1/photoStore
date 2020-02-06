@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.dto.ProdPedidosReporteDTO;
 import mx.com.bitmaking.application.entity.Store_prod_pedido;
-import mx.com.bitmaking.application.iservice.IStoreProdPedidoService;
 
 @Service
 public class StoreProdPedidoService implements IStoreProdPedidoService{

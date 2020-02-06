@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import mx.com.bitmaking.application.entity.Store_fotografo;
-import mx.com.bitmaking.application.iservice.IStoreFotografoService;
 import mx.com.bitmaking.application.repository.IStoreFotografoRepo;
 
 @Service

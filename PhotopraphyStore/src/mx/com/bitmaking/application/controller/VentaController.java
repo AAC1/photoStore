@@ -33,9 +33,9 @@ import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.entity.Store_cat_estatus;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.entity.Store_fotografo;
-import mx.com.bitmaking.application.iservice.IStoreCatEstatusService;
-import mx.com.bitmaking.application.iservice.IStoreCatProdService;
-import mx.com.bitmaking.application.iservice.IStoreFotografoService;
+import mx.com.bitmaking.application.service.IStoreCatEstatusService;
+import mx.com.bitmaking.application.service.IStoreCatProdService;
+import mx.com.bitmaking.application.service.IStoreFotografoService;
 import mx.com.bitmaking.application.service.StoreCatProdService;
 import mx.com.bitmaking.application.util.GeneralMethods;
 

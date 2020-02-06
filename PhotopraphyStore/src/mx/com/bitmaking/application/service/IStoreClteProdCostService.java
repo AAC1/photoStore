@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.iservice;
+package mx.com.bitmaking.application.service;
 
 import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
 

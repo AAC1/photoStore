@@ -30,6 +30,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.MystoreApplication;
 import mx.com.bitmaking.application.dto.UserSessionDTO;
+import mx.com.bitmaking.application.entity.Store_menu;
 
 @Component
 //@Scope("prototype")
@@ -63,6 +64,18 @@ public class HomeController {
 			+ ", direccion=" + instance.getDireccion() + ", prefijo=" + instance.getPrefijo() + "]");
 			
 			lblUsrSession.setText(instance.getNombre());
+			System.out.println("Home_lnList:"+instance.getMenuAccess().size());
+			Parent parent = menuContainer.getParent(); // the Parent (or Scene) that contains the TextFields
+			Label textField = null;
+			for(Store_menu el:instance.getMenuAccess()) {
+				textField=(Label) parent.lookup("#"+el.getFx_id());
+				if (textField != null) {
+					textField.setVisible(true);
+					System.out.println(el.getFx_id()+" NO nulo");
+				}else {
+					System.out.println(el.getFx_id()+"nulo");
+				}
+			}
 		}
 		titleHome.getStyleClass().add("label-title");
 		//menuContainer.getStyleClass().add("rootMenu");

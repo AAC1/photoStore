@@ -1,7 +1,7 @@
 /**
  * 
  */
-package mx.com.bitmaking.application.iservice;
+package mx.com.bitmaking.application.service;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;

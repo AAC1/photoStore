@@ -34,8 +34,8 @@ import javafx.scene.input.MouseEvent;
 import mx.com.bitmaking.application.dto.PedidosReporteDTO;
 import mx.com.bitmaking.application.dto.ProdPedidosReporteDTO;
 import mx.com.bitmaking.application.entity.Store_prod_pedido;
-import mx.com.bitmaking.application.iservice.IStorePedidoService;
-import mx.com.bitmaking.application.iservice.IStoreProdPedidoService;
+import mx.com.bitmaking.application.service.IStorePedidoService;
+import mx.com.bitmaking.application.service.IStoreProdPedidoService;
 import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.GeneralMethods;
 

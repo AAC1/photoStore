@@ -76,10 +76,10 @@ public class LoginController {
 	
 	@FXML
 	private void validLogin(){
-		if(true){
+		/*if(true){
 			openModal("Home",true);
 			return;
-		}
+		}*/
 		ResponseDTO resp = loginService.validUsr(inputUsr.getText(), inputPasswd.getText());
 		if("ERROR".equals(resp.getEstado())){
 			if(resp.getMsg().length()>0){
@@ -121,6 +121,6 @@ public class LoginController {
 				}
 			
 
-}
+	}
 
 }

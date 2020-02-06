@@ -16,7 +16,17 @@ public class Store_menu {
 	@Column
 	private String uri;
 	@Column
-	private int status;
+	private String fx_id;
+	@Column
+	private int estatus;
+	
+	
+	public String getFx_id() {
+		return fx_id;
+	}
+	public void setFx_id(String fx_id) {
+		this.fx_id = fx_id;
+	}
 	/**
 	 * @return the id_menu
 	 */
@@ -68,14 +78,14 @@ public class Store_menu {
 	/**
 	 * @return the status
 	 */
-	public int getStatus() {
-		return status;
+	public int getEstatus() {
+		return estatus;
 	}
 	/**
 	 * @param status the status to set
 	 */
-	public void setStatus(int status) {
-		this.status = status;
+	public void setEstatus(int estatus) {
+		this.estatus = estatus;
 	}
 	
 	

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
-import mx.com.bitmaking.application.iservice.IStoreCatProdService;
 import mx.com.bitmaking.application.repository.ICatProdDAO;
 import mx.com.bitmaking.application.repository.IStoreCatProdRepo;
 

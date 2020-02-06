@@ -1,6 +1,9 @@
 package mx.com.bitmaking.application.dto;
 
 import java.util.HashMap;
+import java.util.List;
+
+import mx.com.bitmaking.application.entity.Store_menu;
 
 public class UserSession {
 	private Long id_usr;
@@ -15,7 +18,7 @@ public class UserSession {
 	private String sucursal;
 	private String prefijo;
 	private int id_perfil;
-	private HashMap<String,Boolean> menuAccess ;
+	private List<Store_menu> menuAccess ;
 	
 	
 	/**
@@ -162,18 +165,12 @@ public class UserSession {
 	public void setId_perfil(int id_perfil) {
 		this.id_perfil = id_perfil;
 	}
-	/**
-	 * @return the menuAccess
-	 */
-	public HashMap<String, Boolean> getMenuAccess() {
+	public List<Store_menu> getMenuAccess() {
 		return menuAccess;
 	}
-	/**
-	 * @param menuAccess the menuAccess to set
-	 */
-	public void setMenuAccess(HashMap<String, Boolean> menuAccess) {
+	public void setMenuAccess(List<Store_menu> menuAccess) {
 		this.menuAccess = menuAccess;
 	}
-	
+
 	
 }
