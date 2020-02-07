@@ -104,5 +104,34 @@ public class GeneralMethods {
 		};
 		
 	}
+
+	public static ChangeListener<String> formatInteger(JFXTextField field){
 	
+		return new ChangeListener<String>() {
+			
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+			//	System.out.println(newValue);
+				String decimalForm ="";
+				if(!newValue.equals("")) {
+					
+					
+					newValue = newValue.replaceAll("[^0-9]", "");
+					decimalForm = String.format("%,d",Integer.parseInt(newValue));
+					
+					newValue = decimalForm;
+					
+					if(newValue.length() > Constantes.NUMBER_LENGTH-3) {
+						field.setText(oldValue);
+					}else {
+						
+						field.setText(newValue);
+					}
+					
+				}
+			}
+			
+		};
+		
+	}
 }

@@ -116,7 +116,10 @@ public class VentaController {
 	//	btnEliminaPedido.setVisible(false);
 		//btnSalir.addEventHandler(MouseEvent.MOUSE_CLICKED,modalBusqByFolio());
 		btnEditarPedido.addEventHandler(MouseEvent.MOUSE_CLICKED,modalBusqByFolio());
+		inputCantProd.textProperty().addListener(GeneralMethods.formatInteger(inputCantProd));
+		inputMonto.textProperty().addListener(GeneralMethods.formatNumber(inputMonto));
 		
+		inputMontoAnt.textProperty().addListener(GeneralMethods.formatNumber(inputMontoAnt));
 		inputCostoProd.textProperty().addListener(GeneralMethods.formatNumber(inputCostoProd));
 	}
 	
@@ -195,9 +198,15 @@ public class VentaController {
 				//System.out.println(event.getSource());
 				try {
 					Store_pedido pedidoObj = new Store_pedido();
-					
-					if(inputMontoAnt.getText() ==null || "".equals(inputMontoAnt.getText().trim())) {
-						inputMontoAnt.setText("0");
+					String montoAnt = inputMontoAnt.getText();
+					String montoTot = inputMonto.getText();
+					if(inputMontoAnt.getText() ==null){
+						montoAnt = "0";
+					}
+					montoAnt= montoAnt.replaceAll("[^0-9\\.]", "");
+					montoTot= montoTot.replaceAll("[^0-9\\.]", "");
+					if(inputMontoAnt.getText() ==null || "".equals(montoAnt.trim())) {
+						montoAnt="0";
 					}
 					
 					pedidoObj.setFolio(inputFolio.getText());
@@ -205,8 +214,8 @@ public class VentaController {
 					pedidoObj.setTelefono(inputTelefono.getText());
 					pedidoObj.setDescripcion(inputDesc.getText());
 					pedidoObj.setFec_pedido(sdf.parse(sdf.format(new Date())));
-					pedidoObj.setMonto_ant(new BigDecimal(inputMontoAnt.getText()));
-					pedidoObj.setMonto_total(new BigDecimal(inputMonto.getText()));
+					pedidoObj.setMonto_ant(new BigDecimal(montoAnt));
+					pedidoObj.setMonto_total(new BigDecimal(montoTot));
 					pedidoObj.setId_estatus(cbxEstatus.getSelectionModel().getSelectedIndex()+1);
 					
 					pedidoService.guardaPedido(pedidoObj);
@@ -381,6 +390,7 @@ public class VentaController {
 
 	@FXML private void addProdToTable() {
 		String cant =inputCantProd.getText();
+		cant = cant.replaceAll("[^0-9]", ""); 
 		if(cant==null || cant.trim().length()==0) {
 			GeneralMethods.modalMsg("", "", "Ingrese una cantidad");
 			return;
@@ -401,9 +411,11 @@ public class VentaController {
 		}
 		
 		CostProductsDTO auxObj = rowProd;
+		String costAux= inputCostoProd.getText();
+		costAux = costAux.replaceAll("[^0-9\\.]", "");
 		
 		auxObj.setCantidad(Integer.parseInt(cant));
-		auxObj.setCosto(new BigDecimal(auxObj.getCantidad()*(Double.parseDouble(inputCostoProd.getText()))));
+		auxObj.setCosto(new BigDecimal(auxObj.getCantidad()*(Double.parseDouble(costAux))));
 		auxObj.setProducto(inputProd.getText());
 		auxObj.setCostoUnitario(new BigDecimal(inputPrecioUni.getText()));
 		auxObj.setBar_code(inputBarcode.getText());
