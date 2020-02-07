@@ -30,13 +30,14 @@ public class PedidoDAO implements IPedidoDAO{
  
 			SQLQuery query= sessionFactory.getCurrentSession().createSQLQuery(qry.toString());
 			
-			query.setString("prefijo", prefijo);
+			query.setString("prefijo", prefijo+"%");
 			
 			List ls = query.list();
 			if(ls!=null && ls.size()>0 && ls.get(0) !=null) {
 				System.out.println("ls.get(0).toString():"+ls.get(0).toString());
 				if(ls.get(0).toString().length()>5) {
-					return Integer.parseInt(ls.get(0).toString().substring(ls.size()-5, ls.size()))+1;
+					return Integer.parseInt(ls.get(0).toString().substring(
+								ls.get(0).toString().length()-5, ls.get(0).toString().length()))+1;
 				}
 				return -1;
 			}
