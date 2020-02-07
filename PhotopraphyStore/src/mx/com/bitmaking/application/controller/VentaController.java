@@ -401,7 +401,10 @@ public class VentaController {
 			GeneralMethods.modalMsg("", "", "Ingrese el precio del producto de acuerdo a la cantidad");
 			return;
 		}
-		if(Double.parseDouble(inputCostoProd.getText())<=0){
+		String costAux= inputCostoProd.getText();
+		costAux = costAux.replaceAll("[^0-9\\.]", "");
+		
+		if(Double.parseDouble(costAux)<=0){
 			GeneralMethods.modalMsg("", "", "Para poder agregar el producto, debe tener precio de venta");
 			return;
 		}
@@ -411,8 +414,6 @@ public class VentaController {
 		}
 		
 		CostProductsDTO auxObj = rowProd;
-		String costAux= inputCostoProd.getText();
-		costAux = costAux.replaceAll("[^0-9\\.]", "");
 		
 		auxObj.setCantidad(Integer.parseInt(cant));
 		auxObj.setCosto(new BigDecimal(auxObj.getCantidad()*(Double.parseDouble(costAux))));
