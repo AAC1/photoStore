@@ -197,7 +197,7 @@ public class SelectProductoVtaController {
 		}
 		
 		if(auxMap.size()<=0) {
-			obj.setProducto(prod.toString());
+			obj.setProducto(prod.toString().substring(0,prod.length()-1));
 			lstProd.add(obj);
 			obj = new CostProductsDTO();
 			

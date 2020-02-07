@@ -14,11 +14,19 @@ import org.springframework.stereotype.Service;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.dto.ProdPedidosReporteDTO;
 import mx.com.bitmaking.application.entity.Store_prod_pedido;
+import mx.com.bitmaking.application.repository.IStorePedidoRepo;
+import mx.com.bitmaking.application.repository.IStoreProdPedidoRepo;
 
 @Service
 public class StoreProdPedidoService implements IStoreProdPedidoService{
 	@Autowired
 	protected SessionFactory sessionFactory;
+	
+	@Autowired
+	private IStoreProdPedidoRepo prodPedidoRepo;
+	
+	@Autowired
+	private IStorePedidoRepo pedidoRepo;
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
@@ -47,6 +55,17 @@ public class StoreProdPedidoService implements IStoreProdPedidoService{
 			results = new ArrayList<>();
 		}
 		return results;
+	}
+
+	@Override
+	public boolean guardaProdsByPedido(String folio, Store_prod_pedido producto) {
+		int id_pedido = pedidoRepo.getIdByFolio(folio);
+		System.out.println("Id_pedido_saved:"+id_pedido);
+		
+		producto.setId_pedido(id_pedido);
+		prodPedidoRepo.save(producto);
+		
+		return false;
 	}
 
 }

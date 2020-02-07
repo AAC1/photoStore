@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Label?>
@@ -24,7 +25,7 @@
             <Label layoutX="61.0" layoutY="58.0" styleClass="label-title" text="Usuario" AnchorPane.leftAnchor="61.0" />
             <Label layoutX="61.0" layoutY="139.0" styleClass="label-title" text="Contraseña" AnchorPane.leftAnchor="61.0" />
             <JFXTextField fx:id="inputUsr" layoutX="57.0" layoutY="75.0" prefHeight="27.0" prefWidth="250.0" styleClass="input-gral" AnchorPane.leftAnchor="57.0" AnchorPane.rightAnchor="57.0" />
-            <JFXTextField fx:id="inputPasswd" layoutX="57.0" layoutY="156.0" prefHeight="27.0" prefWidth="250.0" styleClass="input-gral" AnchorPane.leftAnchor="57.0" AnchorPane.rightAnchor="57.0" />
+            <JFXPasswordField fx:id="inputPasswd" layoutX="57.0" layoutY="163.0" prefHeight="25.0" prefWidth="250.0" />
             <JFXButton fx:id="btnLogin" layoutX="188.0" layoutY="222.0" onMouseClicked="#validLogin" prefHeight="32.0" prefWidth="119.0" style="-fx-background-color: #037AB6;" styleClass="btn-gral" text="Login" textFill="WHITE" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="57.0" />
          </children>
       </AnchorPane>

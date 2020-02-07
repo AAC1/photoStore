@@ -1,6 +1,8 @@
 package mx.com.bitmaking.application.controller;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +32,17 @@ import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
+import mx.com.bitmaking.application.dto.UserSessionDTO;
 import mx.com.bitmaking.application.entity.Store_cat_estatus;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.entity.Store_fotografo;
+import mx.com.bitmaking.application.entity.Store_pedido;
+import mx.com.bitmaking.application.entity.Store_prod_pedido;
 import mx.com.bitmaking.application.service.IStoreCatEstatusService;
 import mx.com.bitmaking.application.service.IStoreCatProdService;
 import mx.com.bitmaking.application.service.IStoreFotografoService;
+import mx.com.bitmaking.application.service.IStorePedidoService;
+import mx.com.bitmaking.application.service.IStoreProdPedidoService;
 import mx.com.bitmaking.application.service.StoreCatProdService;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
@@ -54,13 +61,17 @@ public class VentaController {
 	
 	@FXML private JFXTextField inputFolio;
 	@FXML private JFXTextField inputCliente;
-	@FXML private JFXTextField inputDescrip;
 	@FXML private JFXTextField inputMontoAnt;
 	@FXML private JFXTextField inputMonto;
+	@FXML private JFXTextField inputTelefono;
 	@FXML private JFXTextField inputProd;
 	@FXML private JFXTextField inputCantProd;
 	@FXML private JFXTextField inputCostoProd;
 	@FXML private JFXTextField inputDesc;
+	@FXML private JFXTextField inputPrecioUni;
+	@FXML private JFXTextField inputBarcode;
+	
+	
 	@FXML private AnchorPane ventaBody;
 	@FXML private TableView<CostProductsDTO> tbProductos;
 	@FXML private TableColumn<CostProductsDTO,String> tbColProd ;
@@ -74,9 +85,12 @@ public class VentaController {
 	
 	@Autowired
 	IStoreFotografoService fotografoService;
-	
 	@Autowired
 	IStoreCatEstatusService catEstatusService;
+	@Autowired
+	IStorePedidoService pedidoService;
+	@Autowired
+	IStoreProdPedidoService prodPedidoService;
 	
 	@Autowired
 	 private ApplicationContext context ;
@@ -85,6 +99,8 @@ public class VentaController {
 	List<Store_fotografo> lstFoto = null;
 	List<Store_cat_estatus> lstEstatus = null;
 	CostProductsDTO rowProd = null;
+	UserSessionDTO instance = null;
+	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	/**
 	 * @return the btnSalir
 	 */
@@ -93,7 +109,7 @@ public class VentaController {
 	}
 
 	public void initialize() {
-		
+		instance = UserSessionDTO.getInstance();
 		responsiveGUI();
 		initForm();
 		
@@ -103,17 +119,22 @@ public class VentaController {
 		
 		inputCostoProd.textProperty().addListener(GeneralMethods.formatNumber(inputCostoProd));
 	}
+	
 	private void generateFolio(){
-		
+		String prefijo = pedidoService.getCurrentNumberFolio(instance.getPrefijo());
+		inputFolio.setText(prefijo);
 	}
 	private void initForm() {
 		fillCbxClte(); //llena combo de clientes
 		getLstEstatus();//Llena combo de estatus
+		if(instance !=null ) {
+			generateFolio();//Genera Folio de acuerdo a la sucursal de usr
+		}
+		
 		inputMontoAnt.setText("0");
 		cbxEstatus.setValue("");
 		//cbxEstatus.setValue("Pendiente");
-		
-		
+		inputTelefono.setText("");
 		inputCliente.setText("");
 		inputMonto.setText("0");
 		inputMontoAnt.setText("0");
@@ -139,6 +160,25 @@ public class VentaController {
 	}
 
 	@FXML private void confirmPedido(){
+		if(inputMonto.getText() ==null || "0".equals(inputMonto.getText().trim())) {
+			GeneralMethods.modalMsg("ERROR", "", "El monto total es de cero pesos, agregue productos");
+			return;
+		}
+		int idxSelected = cbxCliente.getSelectionModel().getSelectedIndex();
+		if(idxSelected <0) {
+			GeneralMethods.modalMsg("ERROR", "", "Seleccione un cliente y agregue productos");
+			return;
+		}
+		if(idxSelected ==0 &&( inputCliente.getText() ==null || "".equals(inputCliente.getText().trim()))) {
+			GeneralMethods.modalMsg("ERROR", "", "Agregue el nombre del cliente");
+			return;
+		}
+		idxSelected = cbxEstatus.getSelectionModel().getSelectedIndex();
+		if(idxSelected <0) {
+			GeneralMethods.modalMsg("ERROR", "", "Seleccione un estatus para el pedido");
+			return;
+		}
+		
 		ModalConfirmController ctrl = openModalConfirm();
 		if(ctrl==null)return;
 		
@@ -154,7 +194,35 @@ public class VentaController {
 			public void handle(MouseEvent event) {
 				//System.out.println(event.getSource());
 				try {
-					System.out.println("Se confirma y manda a imprimir ticket");
+					Store_pedido pedidoObj = new Store_pedido();
+					
+					if(inputMontoAnt.getText() ==null || "".equals(inputMontoAnt.getText().trim())) {
+						inputMontoAnt.setText("0");
+					}
+					
+					pedidoObj.setFolio(inputFolio.getText());
+					pedidoObj.setCliente(inputCliente.getText());
+					pedidoObj.setTelefono(inputTelefono.getText());
+					pedidoObj.setDescripcion(inputDesc.getText());
+					pedidoObj.setFec_pedido(sdf.parse(sdf.format(new Date())));
+					pedidoObj.setMonto_ant(new BigDecimal(inputMontoAnt.getText()));
+					pedidoObj.setMonto_total(new BigDecimal(inputMonto.getText()));
+					pedidoObj.setId_estatus(cbxEstatus.getSelectionModel().getSelectedIndex()+1);
+					
+					pedidoService.guardaPedido(pedidoObj);
+					
+					ObservableList<CostProductsDTO> lstProds = tbProductos.getItems();
+					Store_prod_pedido product = null;
+					for(CostProductsDTO el:lstProds) {
+						product = new Store_prod_pedido();
+						product.setBar_code(el.getBar_code());
+						product.setCantidad(el.getCantidad());
+						product.setCosto_total(el.getCosto());
+						product.setCosto_unitario(el.getCostoUnitario());
+						product.setDescripcion(el.getProducto());
+						
+						prodPedidoService.guardaProdsByPedido(pedidoObj.getFolio(), product);
+					}
 					initForm();
 					if(stageBusqProd!=null) stageBusqProd.close();
 		        } catch(Exception ex) {
@@ -336,6 +404,10 @@ public class VentaController {
 		
 		auxObj.setCantidad(Integer.parseInt(cant));
 		auxObj.setCosto(new BigDecimal(auxObj.getCantidad()*(Double.parseDouble(inputCostoProd.getText()))));
+		auxObj.setProducto(inputProd.getText());
+		auxObj.setCostoUnitario(new BigDecimal(inputPrecioUni.getText()));
+		auxObj.setBar_code(inputBarcode.getText());
+		
 		tbProductos.getItems().add(auxObj);
 		rowProd=null;
 		inputCantProd.setText("");
@@ -381,6 +453,9 @@ public class VentaController {
 				
 				inputCostoProd.setText((rowProd.getCosto()==null )?"0":String.valueOf(rowProd.getCosto()));
 				inputProd.setText(rowProd.getProducto());
+				inputPrecioUni.setText((rowProd.getCostoUnitario()==null )?"0":String.valueOf(rowProd.getCostoUnitario()));
+				inputBarcode.setText(rowProd.getBar_code());
+				
 				busqProd.getTblProducto().getItems().removeAll(busqProd.getTblProducto().getItems());
 				
 				if(stageBusqProd!=null) stageBusqProd.close();
@@ -454,8 +529,8 @@ public class VentaController {
 	
 	private void responsiveGUI() {
 		/* Panel de Home resize de acuerdo al tama�o del Pane padre*/
-		tbColProd.prefWidthProperty().bind(tbProductos.widthProperty().multiply(0.2));
-		tbColDesc.prefWidthProperty().bind(tbProductos.widthProperty().multiply(0.4));
+		tbColProd.prefWidthProperty().bind(tbProductos.widthProperty().multiply(0.0));//0.2 --Para ocultar se pone en ceros
+		tbColDesc.prefWidthProperty().bind(tbProductos.widthProperty().multiply(0.6)); //0.4 antes de ocultar barcode
 		tbColCant.prefWidthProperty().bind(tbProductos.widthProperty().multiply(0.2));
 		tbColCosto.prefWidthProperty().bind(tbProductos.widthProperty().multiply(0.2));
 		

@@ -3,11 +3,13 @@ package mx.com.bitmaking.application.service;
 import java.io.FileInputStream;
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import mx.com.bitmaking.application.dto.PedidosReporteDTO;
 import mx.com.bitmaking.application.entity.Store_pedido;
 import net.sf.jasperreports.engine.JRException;
-
-public interface IStorePedidoService {
+//extends JpaRepository<Store_pedido, Long>
+public interface IStorePedidoService  {
 
 	public List<PedidosReporteDTO> consultPedido(String qry);
 	/**
@@ -22,4 +24,8 @@ public interface IStorePedidoService {
 	 */
 	public boolean generaXLS(FileInputStream fileInputStream, String qry, String titulo,
 				String pathReport,String pathParent)throws JRException;
+	
+	public String getCurrentNumberFolio(String prefijo);
+	
+	public boolean guardaPedido(Store_pedido pedido);
 }

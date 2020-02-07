@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 
 import javafx.event.EventHandler;
@@ -33,7 +34,7 @@ public class LoginController {
 	@FXML 
 	private JFXTextField inputUsr;
 	@FXML 
-	private JFXTextField inputPasswd;
+	private JFXPasswordField inputPasswd;
 	
 	@Autowired
 	private ApplicationContext context;

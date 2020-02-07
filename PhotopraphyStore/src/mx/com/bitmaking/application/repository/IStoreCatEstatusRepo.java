@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.service;
+package mx.com.bitmaking.application.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

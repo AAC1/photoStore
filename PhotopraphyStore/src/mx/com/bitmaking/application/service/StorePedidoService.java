@@ -2,6 +2,7 @@ package mx.com.bitmaking.application.service;
 
 import java.io.FileInputStream;
 import java.sql.Connection;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Service;
 import mx.com.bitmaking.application.dto.PedidosReporteDTO;
 import mx.com.bitmaking.application.entity.Store_pedido;
 import mx.com.bitmaking.application.repository.IClteProdCostDAO;
+import mx.com.bitmaking.application.repository.IPedidoDAO;
+import mx.com.bitmaking.application.repository.IStorePedidoRepo;
 import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.GeneralMethods;
 import net.sf.jasperreports.engine.JRException;
@@ -35,7 +38,10 @@ public class StorePedidoService implements IStorePedidoService {
 	protected SessionFactory sessionFactory;
 	@Autowired
 	private IClteProdCostDAO clteProdCostoDao;
-	
+	@Autowired
+	private IPedidoDAO pedidoDao;
+	@Autowired
+	private IStorePedidoRepo pedidoRepo;
 	private boolean export =false;
 	
 	
@@ -107,6 +113,53 @@ public class StorePedidoService implements IStorePedidoService {
 			throw new JRException(ex.getMessage(),ex);
 		}
 		return export;
+	}
+	
+	@Transactional
+	@Override
+	public String getCurrentNumberFolio(String pref) {
+	
+		SimpleDateFormat sd = new SimpleDateFormat("yyMMdd");
+		String prefijo ="MCO"+pref+"-"+sd.format(new Date());
+		System.out.println("Prefijo:"+prefijo);
+		int number = pedidoDao.getCurrentNumberFolio(prefijo);
+		if(number<0) {
+			GeneralMethods.modalMsg("ERROR", "", "No fue posible generar siguiente folio");
+			return "";
+		}
+		String secuencia=String.valueOf(number);
+		/*
+		if(number <=99999) {
+			secuencia +="0"+String.valueOf(number); 
+		}
+		else */
+		if(number <=9999) {
+			secuencia ="0"+String.valueOf(number); 
+		}
+		if(number <=999) {
+			secuencia ="00"+String.valueOf(number); 
+		}
+		if(number <=99) {
+			secuencia ="000"+String.valueOf(number); 
+		}
+		if(number <=9) {
+			secuencia ="0000"+String.valueOf(number); 
+		}
+		prefijo +=secuencia; 
+		return prefijo;
+	}
+
+	@Override
+	public boolean guardaPedido(Store_pedido pedido) {
+		boolean resp=false;
+		try {
+			pedidoRepo.save(pedido);
+			resp=true;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return resp;
 	}
 
 }
