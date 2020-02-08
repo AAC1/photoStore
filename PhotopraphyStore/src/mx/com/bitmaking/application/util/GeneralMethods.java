@@ -134,4 +134,30 @@ public class GeneralMethods {
 		};
 		
 	}
+	
+	public static ChangeListener<String> onlyNumber(JFXTextField field){
+		
+		return new ChangeListener<String>() {
+			
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+			//	System.out.println(newValue);
+				String decimalForm ="";
+				if(!newValue.equals("")) {
+					newValue = newValue.replaceAll("[^0-9]", "");
+					
+					if(newValue.length() > 10) {
+						field.setText(oldValue);
+					}else {
+						
+						field.setText(newValue);
+					}
+					
+				}
+			}
+			
+		};
+		
+	}
+
 }

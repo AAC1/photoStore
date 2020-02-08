@@ -118,6 +118,7 @@ public class VentaController {
 		btnEditarPedido.addEventHandler(MouseEvent.MOUSE_CLICKED,modalBusqByFolio());
 		inputCantProd.textProperty().addListener(GeneralMethods.formatInteger(inputCantProd));
 		inputMonto.textProperty().addListener(GeneralMethods.formatNumber(inputMonto));
+		inputTelefono.textProperty().addListener(GeneralMethods.onlyNumber(inputTelefono));
 		
 		inputMontoAnt.textProperty().addListener(GeneralMethods.formatNumber(inputMontoAnt));
 		inputCostoProd.textProperty().addListener(GeneralMethods.formatNumber(inputCostoProd));
@@ -217,7 +218,9 @@ public class VentaController {
 					pedidoObj.setMonto_ant(new BigDecimal(montoAnt));
 					pedidoObj.setMonto_total(new BigDecimal(montoTot));
 					pedidoObj.setId_estatus(cbxEstatus.getSelectionModel().getSelectedIndex()+1);
-					
+					if(pedidoObj.getId_estatus() ==1) {
+						pedidoObj.setFec_entregado(sdf.parse(sdf.format(new Date())));
+					}
 					pedidoService.guardaPedido(pedidoObj);
 					
 					ObservableList<CostProductsDTO> lstProds = tbProductos.getItems();
