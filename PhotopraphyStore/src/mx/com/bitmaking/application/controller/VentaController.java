@@ -508,7 +508,8 @@ public class VentaController {
 						stageBusqProd.setScene(scene);
 						stageBusqProd.setTitle("Busqueda de Pedido ");
 						stageBusqProd.setMinHeight(470.0);
-						stageBusqProd.setWidth(800.0);
+						stageBusqProd.setMinWidth(850.0);
+						stageBusqProd.setWidth(850.0);
 					//	stageBusqProd.setMaxHeight(470.0);
 					//	stageBusqProd.setMaxWidth(770.0);
 						stageBusqProd.initModality(Modality.APPLICATION_MODAL); 
@@ -519,7 +520,8 @@ public class VentaController {
 						ctrller.getBtnModify().setVisible(true);
 						ctrller.getContentProdPed().setVisible(false);
 						Node child = ctrller.getVentaBody();
-						ctrller.getContentPedido().setBottomAnchor(child , new Double(30));
+						AnchorPane.setBottomAnchor(ctrller.getContentPedido(),0.0);
+						//ctrller.getContentPedido().setBottomAnchor(child , new Double(30));
 						stageBusqProd.show();
 		        } catch(Exception ex) {
 					ex.printStackTrace();

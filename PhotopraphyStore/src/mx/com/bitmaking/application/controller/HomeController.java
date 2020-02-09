@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.gluonhq.charm.glisten.control.CardPane;
 import com.gluonhq.charm.glisten.control.ExpansionPanelContainer;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXHamburger;
 
 import javafx.event.ActionEvent;
@@ -49,15 +50,27 @@ public class HomeController {
 	@FXML private AnchorPane bodyContainer;
 	@FXML private AnchorPane backgroundOnMenu;
 	@FXML private ImageView imgAvatar;
+	@FXML private Label closeSession;
 	
 //	@Autowired
   //	private MystoreApplication storeApp;
 	 @Autowired
 	 private ApplicationContext context ;
+	 UserSessionDTO instance = null;
 	 
+	 
+	 
+	 /**
+	 * @return the closeSession
+	 */
+	public Label getCloseSession() {
+		return closeSession;
+	}
+
+
 	public void initialize() {
 		
-		UserSessionDTO instance = UserSessionDTO.getInstance();
+		instance = UserSessionDTO.getInstance();
 		if(instance!=null){
 			System.out.println("HOME_UserSessionDTO [login=" + instance.getLogin() + ", nombre=" + instance.getNombre() + 
 			", correo=" + instance.getCorreo() + ", telefono=" + instance.getTelefono()
@@ -96,6 +109,7 @@ public class HomeController {
 		
 	}
 	
+
 	/**
 	 * Aparece 
 	 * @return

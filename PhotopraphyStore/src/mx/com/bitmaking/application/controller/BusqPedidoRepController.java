@@ -175,7 +175,8 @@ public class BusqPedidoRepController {
 		initMethod();
 		btnModify.addEventHandler(MouseEvent.MOUSE_CLICKED,modalEditPedido());
 	}
-
+	
+	
 	private EventHandler<MouseEvent> modalEditPedido() {
 		return new EventHandler<MouseEvent>() {
 
@@ -419,7 +420,7 @@ public class BusqPedidoRepController {
 		colTelCliente.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, String>("telefono"));
 		colDesc.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, String>("descripcion"));
 		colFecPedido.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, Date>("fec_pedido"));
-		colFecEntreg.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, Date>("fec_entrega"));
+		colFecEntreg.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, Date>("fec_entregado"));
 		colEstatus.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, String>("estatus"));
 		colMontoAnt.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, BigDecimal>("monto_ant"));
 		colMontoTotal.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, BigDecimal>("monto_total"));
@@ -451,12 +452,12 @@ public class BusqPedidoRepController {
 		/* Panel de Home resize de acuerdo al tama�o del Pane padre */
 
 		colFolio.prefWidthProperty().bind(tblPedido.widthProperty().multiply(0.2));
-		colCliente.prefWidthProperty().bind(tblPedido.widthProperty().multiply(0.2));
-		colTelCliente.prefWidthProperty().bind(tblPedido.widthProperty().multiply(0.1));
-		colDesc.prefWidthProperty().bind(tblPedido.widthProperty().multiply(0.2));
-		colFecPedido.prefWidthProperty().bind(tblPedido.widthProperty().multiply(0.1));
-		colFecEntreg.prefWidthProperty().bind(tblPedido.widthProperty().multiply(0.1));
-		colEstatus.prefWidthProperty().bind(tblPedido.widthProperty().multiply(0.1));
+		colCliente.prefWidthProperty().bind(tblPedido.widthProperty().multiply(0.3));
+		colTelCliente.prefWidthProperty().bind(tblPedido.widthProperty().multiply(0.2));
+		colDesc.prefWidthProperty().bind(tblPedido.widthProperty().multiply(0.3));
+		colFecPedido.prefWidthProperty().bind(tblPedido.widthProperty().multiply(0.2));
+		colFecEntreg.prefWidthProperty().bind(tblPedido.widthProperty().multiply(0.2));
+		colEstatus.prefWidthProperty().bind(tblPedido.widthProperty().multiply(0.2));
 		colMontoAnt.prefWidthProperty().bind(tblPedido.widthProperty().multiply(0.2));
 		colMontoTotal.prefWidthProperty().bind(tblPedido.widthProperty().multiply(0.2));
 		

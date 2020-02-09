@@ -22,6 +22,7 @@ import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.dto.ResponseDTO;
+import mx.com.bitmaking.application.dto.UserSessionDTO;
 import mx.com.bitmaking.application.service.ILoginService;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
@@ -42,6 +43,7 @@ public class LoginController {
 	private ILoginService loginService;
 	
 	private Stage mainStage;
+	private Stage homeStage;
 	
 	
 	/**
@@ -91,6 +93,7 @@ public class LoginController {
 		}
 		else if(resp.isValid()){
 			if(mainStage!=null)mainStage.close();
+			inputPasswd.setText("");
 			openModal("Home",true);
 		}
 	}
@@ -105,16 +108,19 @@ public class LoginController {
 			        	sceneHome.getStylesheets().add(getClass().getResource("/mx/com/bitmaking/application/assets/css/application.css").toExternalForm());
 			        
 			        	Scene scene = new Scene(sceneHome,22,119);
-			        	Stage primaryStage =new Stage();
-			        	primaryStage.initModality(Modality.APPLICATION_MODAL); //Evitar que otras ventanas se puedan modificar
-			        	primaryStage.setScene(scene);
-						primaryStage.centerOnScreen();
-				        primaryStage.setTitle("Control de acceso");
-						primaryStage.setMinHeight(636.0);
-						primaryStage.setMinWidth(865.0);
+			        	homeStage =new Stage();
+			        	homeStage.initModality(Modality.APPLICATION_MODAL); //Evitar que otras ventanas se puedan modificar
+			        	homeStage.setScene(scene);
+			        	homeStage.centerOnScreen();
+			        	homeStage.setTitle("Control de acceso");
+			        	homeStage.setMinHeight(636.0);
+			        	homeStage.setMinWidth(865.0);
 					//	primaryStage.setMaxHeight(636.0);
 					//	primaryStage.setMaxWidth(865.0);
-						primaryStage.show();
+						HomeController ctrller = loader.getController();
+						ctrller.getCloseSession().addEventHandler(MouseEvent.MOUSE_CLICKED,closeSession());
+						
+						homeStage.show();
 					
 			       
 		        } catch(Exception ex) {
@@ -123,5 +129,43 @@ public class LoginController {
 			
 
 	}
+	
+	public EventHandler<MouseEvent> closeSession(){
+		
+		return new EventHandler<MouseEvent>() {
 
+			@Override
+			public void handle(MouseEvent event) {
+				//System.out.println(event.getSource());
+				try {
+					UserSessionDTO instance = UserSessionDTO.getInstance();
+					instance.cleanUserSession();
+					if(homeStage!=null)homeStage.close();
+					/*
+					FXMLLoader loader = //storeApp.initializeFXML("view/"+scene+".fxml");
+			        		new FXMLLoader(getClass().getResource("/mx/com/bitmaking/application/view/Login.fxml"));
+			        loader.setControllerFactory(context::getBean);
+			        Parent sceneHome = loader.load();
+			        sceneHome.getStylesheets().add(getClass().getResource("/mx/com/bitmaking/application/assets/css/application.css").toExternalForm());
+			        
+			        	Scene scene = new Scene(sceneHome,22,119);
+			        	Stage primaryStage =new Stage();
+			        	primaryStage.initModality(Modality.APPLICATION_MODAL); //Evitar que otras ventanas se puedan modificar
+			        	primaryStage.setScene(scene);
+						primaryStage.centerOnScreen();
+				        primaryStage.setTitle("Control de acceso");
+				        primaryStage.setMinHeight(400.0);
+						primaryStage.setMinWidth(369.0);
+						primaryStage.setMaxHeight(400.0);
+						primaryStage.setMaxWidth(369.0);
+						primaryStage.show();
+					*/
+					mainStage.show();
+		        } catch(Exception ex) {
+					ex.printStackTrace();
+				}
+			}};
+		
+	}
+	
 }
