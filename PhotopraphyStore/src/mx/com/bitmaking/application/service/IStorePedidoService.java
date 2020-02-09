@@ -28,4 +28,5 @@ public interface IStorePedidoService  {
 	public String getCurrentNumberFolio(String prefijo);
 	
 	public boolean guardaPedido(Store_pedido pedido);
+	public void editPedido(PedidosReporteDTO objPedido);
 }

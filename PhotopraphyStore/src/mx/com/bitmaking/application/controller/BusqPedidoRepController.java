@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.jfoenix.controls.JFXButton;
@@ -24,15 +26,23 @@ import com.jfoenix.controls.JFXTextField;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import mx.com.bitmaking.application.dto.PedidosReporteDTO;
 import mx.com.bitmaking.application.dto.ProdPedidosReporteDTO;
+import mx.com.bitmaking.application.entity.Store_pedido;
 import mx.com.bitmaking.application.entity.Store_prod_pedido;
 import mx.com.bitmaking.application.service.IStorePedidoService;
 import mx.com.bitmaking.application.service.IStoreProdPedidoService;
@@ -65,7 +75,12 @@ public class BusqPedidoRepController {
 	private JFXButton btnClean;
 	@FXML
 	private JFXButton btnBuscar;
-
+	@FXML
+	private JFXButton btnModify;
+	
+	@FXML AnchorPane contentProdPed;
+	@FXML AnchorPane contentPedido;
+	@FXML AnchorPane ventaBody;
 	/* Elementos de tabla de pedidos */
 	@FXML
 	private TableView<PedidosReporteDTO> tblPedido;
@@ -104,17 +119,139 @@ public class BusqPedidoRepController {
 	
 	
 	@Autowired
-	IStorePedidoService pedidoService;
+	private IStorePedidoService pedidoService;
 	@Autowired
-	IStoreProdPedidoService prodPedidoService;
+	private IStoreProdPedidoService prodPedidoService;
+
+	@Autowired
+	private ApplicationContext context ;
+	
+	Stage stage = null;
+	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	PedidosReporteDTO objPedido = null;
+	
+	
+	/**
+	 * @return the ventaBody
+	 */
+	public AnchorPane getVentaBody() {
+		return ventaBody;
+	}
+
+	/**
+	 * @return the contentPedido
+	 */
+	public AnchorPane getContentPedido() {
+		return contentPedido;
+	}
 
 	public JFXButton getBtnSalir() {
 		return btnSalir;
+	}
+	
+	/**
+	 * @return the btnExportXls
+	 */
+	public JFXButton getBtnExportXls() {
+		return btnExportXls;
+	}
+
+	/**
+	 * @return the btnModify
+	 */
+	public JFXButton getBtnModify() {
+		return btnModify;
+	}
+
+	/**
+	 * @return the contentProdPed
+	 */
+	public AnchorPane getContentProdPed() {
+		return contentProdPed;
 	}
 
 	public void initialize() {
 		responsiveGUI();
 		initMethod();
+		btnModify.addEventHandler(MouseEvent.MOUSE_CLICKED,modalEditPedido());
+	}
+
+	private EventHandler<MouseEvent> modalEditPedido() {
+		return new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				//System.out.println(event.getSource());
+				try {
+					
+						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/com/bitmaking/application/view/EditPedido.fxml"));
+						fxmlLoader.setControllerFactory(context::getBean);
+						Parent sceneEdit= fxmlLoader.load();
+						Scene scene = new Scene(sceneEdit,3013,165);
+						scene.getStylesheets().add(getClass().getResource("/mx/com/bitmaking/application/assets/css/application.css").toExternalForm());
+						stage = new Stage();
+						stage.setScene(scene);
+						stage.setTitle("Edición de Pedido ");
+						stage.setMinHeight(600.0);
+						stage.setMinWidth(450.0);
+						stage.setMaxHeight(600.0);
+						stage.setMaxWidth(450.0);
+						stage.initModality(Modality.APPLICATION_MODAL); 
+						
+						EditPedidoController ctrller = fxmlLoader.getController(); //Obtiene controller de la nueva ventana
+						
+						ctrller.getBtnCancel().addEventHandler(MouseEvent.MOUSE_CLICKED, closeWindow());
+						ctrller.getBtnAccept().addEventHandler(MouseEvent.MOUSE_CLICKED, acceptEditPedido(ctrller));
+						PedidosReporteDTO obj = tblPedido.getSelectionModel().getSelectedItem();
+						if(obj==null){
+							GeneralMethods.modalMsg("", "", "Debes seleccionar un pedido");
+							return;
+						}
+						if("TERMINADO".equals(obj.getEstatus().toUpperCase())){
+							GeneralMethods.modalMsg("", "", "Pedido terminado, solo puedes modificar pedidos pendientes o cancelados");
+							return;
+						}
+						ctrller.getInputClte().setText(obj.getCliente());
+						ctrller.getInputFolio().setText(obj.getFolio());
+						ctrller.getInputDesc().setText(obj.getDescripcion());
+						ctrller.getCbxEstatus().setValue(obj.getEstatus());
+						ctrller.getInputMontoTot().setText(String.valueOf(obj.getMonto_total()));
+						stage.show();
+						
+		        } catch(Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+
+			private EventHandler<MouseEvent>acceptEditPedido(EditPedidoController ctrller) {
+				return new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent event) {
+						//PedidosReporteDTO objPedido = tblPedido.getSelectionModel().getSelectedItem();
+						if(objPedido==null ) {
+							GeneralMethods.modalMsg("", "", "No fue posible identificar pedido seleccionado");
+							return;
+						}
+						try {
+							objPedido.setId_estatus(ctrller.getCbxEstatus().getSelectionModel().getSelectedIndex()+1);
+							if(objPedido.getId_estatus()==1){
+								objPedido.setFec_entregado(sdf.parse(sdf.format(new Date())));
+							}
+							objPedido.setDescripcion(ctrller.getInputDesc().getText());
+							pedidoService.editPedido(objPedido);
+							searchPedido();
+							if(stage!=null) stage.close();
+						} catch (ParseException e) {
+							GeneralMethods.modalMsg("", "", "Ocurrió un error en fechas");
+							e.printStackTrace();
+						}
+					}
+				};
+				
+				
+				
+				
+			}};
 	}
 
 	@FXML
@@ -173,8 +310,9 @@ public class BusqPedidoRepController {
 		}
 
 	}
-		@FXML
-	private void buscaPedido(MouseEvent event) {
+	
+	
+	public void searchPedido(){
 		tblPedido.getItems().removeAll(tblPedido.getItems());
 		tblProducts.getItems().removeAll(tblProducts.getItems());
 		
@@ -191,24 +329,16 @@ public class BusqPedidoRepController {
 		
 		StringBuilder pedidos = new StringBuilder("(");
 		
-		int lstSize = lstPedidos.size();
-		/*
-		for( int i=0;i<lstSize;i++) {
-			pedidos.append(lstPedidos.get(i).getId_pedido());
-			if((i+1)<lstSize) {
-				pedidos.append(",");
-			}
-		}
-		pedidos.append(")");
-	
-		consultProdByPedido(pedidos.toString());
-		*/
+	}
+	@FXML
+	private void buscaPedido(MouseEvent event) {
+		searchPedido();
 	}
 	@FXML 
 	private void getProdByPedido(){
-		PedidosReporteDTO objPedido = tblPedido.getSelectionModel().getSelectedItem();
+		objPedido = tblPedido.getSelectionModel().getSelectedItem();
 		if(objPedido==null ) {
-			GeneralMethods.modalMsg("", "", "No fue posible identificar pedido seleccionado");
+			//GeneralMethods.modalMsg("", "", "No fue posible identificar pedido seleccionado");
 			return;
 		}
 		
@@ -280,7 +410,7 @@ public class BusqPedidoRepController {
 		cbxBusqEstatus.setValue("");
 		tblPedido.getItems().removeAll(tblPedido.getItems());
 		tblProducts.getItems().removeAll(tblProducts.getItems());
-		
+		objPedido =null;
 		
 	//	lblPrefixFolio.setText("");
 
@@ -303,7 +433,16 @@ public class BusqPedidoRepController {
 		
 		
 	}
+	private EventHandler<MouseEvent> closeWindow() {
+		return new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				if(stage!=null) stage.close();
+			}
+		};
 
+
+	}
 	/**
 	 * Tamaños de columnas en la tabla se expandan cuando la ventana se haga
 	 * grande

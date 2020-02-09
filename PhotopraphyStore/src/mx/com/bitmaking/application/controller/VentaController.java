@@ -20,6 +20,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
@@ -115,7 +116,7 @@ public class VentaController {
 		
 	//	btnEliminaPedido.setVisible(false);
 		//btnSalir.addEventHandler(MouseEvent.MOUSE_CLICKED,modalBusqByFolio());
-		btnEditarPedido.addEventHandler(MouseEvent.MOUSE_CLICKED,modalBusqByFolio());
+		btnEditarPedido.addEventHandler(MouseEvent.MOUSE_CLICKED,modalEditPedido());
 		inputCantProd.textProperty().addListener(GeneralMethods.formatInteger(inputCantProd));
 		inputMonto.textProperty().addListener(GeneralMethods.formatNumber(inputMonto));
 		inputTelefono.textProperty().addListener(GeneralMethods.onlyNumber(inputTelefono));
@@ -490,7 +491,7 @@ public class VentaController {
 
 	}
 
-	public EventHandler<MouseEvent> modalBusqByFolio() {
+	public EventHandler<MouseEvent> modalEditPedido() {
 		return new EventHandler<MouseEvent>() {
 
 			@Override
@@ -498,24 +499,28 @@ public class VentaController {
 				//System.out.println(event.getSource());
 				try {
 					
-						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/com/bitmaking/application/view/BusquedaPedido.fxml"));
-						
+						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/com/bitmaking/application/view/BusqPedidoReporte.fxml"));
+						fxmlLoader.setControllerFactory(context::getBean);
 						Parent sceneEdit= fxmlLoader.load();
 						Scene scene = new Scene(sceneEdit,3013,165);
-						scene.getStylesheets().add(getClass().getResource("/mx/com/bitmaking/application/assets/css/Venta.css").toExternalForm());
+						scene.getStylesheets().add(getClass().getResource("/mx/com/bitmaking/application/assets/css/BusqPedidoReporte.css").toExternalForm());
 						stageBusqProd = new Stage();
 						stageBusqProd.setScene(scene);
 						stageBusqProd.setTitle("Busqueda de Pedido ");
-						stageBusqProd.setMinHeight(200.0);
-						stageBusqProd.setMinWidth(300.0);
-						stageBusqProd.setMaxHeight(200.0);
-						stageBusqProd.setMaxWidth(300.0);
+						stageBusqProd.setMinHeight(470.0);
+						stageBusqProd.setWidth(800.0);
+					//	stageBusqProd.setMaxHeight(470.0);
+					//	stageBusqProd.setMaxWidth(770.0);
 						stageBusqProd.initModality(Modality.APPLICATION_MODAL); 
-						stageBusqProd.show();
-						BusqVentaController busqProd = fxmlLoader.getController(); //Obtiene controller de la nueva ventana
 						
-						busqProd.getBtnBusqByFolio().addEventHandler(MouseEvent.MOUSE_CLICKED, busqPedido(busqProd));
-					
+						BusqPedidoRepController ctrller = fxmlLoader.getController(); //Obtiene controller de la nueva ventana
+
+						ctrller.getBtnExportXls().setVisible(false);
+						ctrller.getBtnModify().setVisible(true);
+						ctrller.getContentProdPed().setVisible(false);
+						Node child = ctrller.getVentaBody();
+						ctrller.getContentPedido().setBottomAnchor(child , new Double(30));
+						stageBusqProd.show();
 		        } catch(Exception ex) {
 					ex.printStackTrace();
 				}

@@ -137,7 +137,7 @@ CONSTRAINT `FK_menuPerfil_menu`
 );
 insert into store_menu_perfil(id_perfil,id_menu)
 VALUES(1,1),(2,1),(2,2),(2,3),(2,4);
-
+insert into store_menu_perfil VALUES(2,5);
 drop table if exists store_usuario;
 create table store_usuario(
 id_usr INT AUTO_INCREMENT PRIMARY KEY,

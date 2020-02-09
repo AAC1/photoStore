@@ -120,7 +120,7 @@ public class StorePedidoService implements IStorePedidoService {
 	public String getCurrentNumberFolio(String pref) {
 	
 		SimpleDateFormat sd = new SimpleDateFormat("yyMMdd");
-		String prefijo ="MCO"+pref+"-"+sd.format(new Date());
+		String prefijo =pref+"-"+sd.format(new Date());
 		System.out.println("Prefijo:"+prefijo);
 		int number = pedidoDao.getCurrentNumberFolio(prefijo);
 		if(number<0) {
@@ -132,18 +132,18 @@ public class StorePedidoService implements IStorePedidoService {
 		if(number <=99999) {
 			secuencia +="0"+String.valueOf(number); 
 		}
-		else */
+		 
 		if(number <=9999) {
 			secuencia ="0"+String.valueOf(number); 
-		}
+		}*/
 		if(number <=999) {
-			secuencia ="00"+String.valueOf(number); 
+			secuencia ="0"+String.valueOf(number); 
 		}
 		if(number <=99) {
-			secuencia ="000"+String.valueOf(number); 
+			secuencia ="00"+String.valueOf(number); 
 		}
 		if(number <=9) {
-			secuencia ="0000"+String.valueOf(number); 
+			secuencia ="000"+String.valueOf(number); 
 		}
 		prefijo +=secuencia; 
 		return prefijo;
@@ -160,6 +160,24 @@ public class StorePedidoService implements IStorePedidoService {
 		}
 		
 		return resp;
+	}
+
+	@Override
+	public  void editPedido(PedidosReporteDTO in) {
+		Store_pedido pedidoEntity =new Store_pedido();
+		pedidoEntity.setId_pedido(in.getId_pedido());
+		pedidoEntity.setFolio(in.getFolio());
+		pedidoEntity.setCliente(in.getCliente());
+		pedidoEntity.setTelefono(in.getTelefono());
+		pedidoEntity.setDescripcion(in.getDescripcion());
+		pedidoEntity.setFec_pedido(in.getFec_pedido());
+		pedidoEntity.setFec_entregado(in.getFec_entregado());
+		pedidoEntity.setMonto_ant(in.getMonto_ant());
+		pedidoEntity.setMonto_total(in.getMonto_total());
+		pedidoEntity.setId_estatus(in.getId_estatus());
+		
+		guardaPedido(pedidoEntity);
+		
 	}
 
 }
