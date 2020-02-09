@@ -15,7 +15,7 @@
          <children>
             <Label layoutX="39.0" layoutY="106.0" prefHeight="17.0" prefWidth="81.0" styleClass="label-title" text="Folio" AnchorPane.leftAnchor="39.0" />
             <JFXTextField fx:id="inputFolio" disable="true" layoutX="39.0" layoutY="123.0" prefHeight="26.0" prefWidth="240.0" styleClass="input-gral" AnchorPane.leftAnchor="39.0" />
-            <JFXButton fx:id="btnConsultPedido" layoutX="521.0" layoutY="27.0" prefHeight="32.0" prefWidth="172.0" style="-fx-background-color: #037AB6;" styleClass="btn-gral" text="⚙ Consultar pedido" textFill="WHITE" AnchorPane.rightAnchor="172.0" />
+            <JFXButton fx:id="btnConsultPedido" layoutX="521.0" layoutY="27.0" prefHeight="32.0" prefWidth="172.0" style="-fx-background-color: #037AB6;" styleClass="btn-gral" text="⚙ Consultar pedido" textFill="WHITE" visible="false" AnchorPane.rightAnchor="172.0" />
             <JFXButton fx:id="btnEditarPedido" layoutX="253.0" layoutY="27.0" prefHeight="32.0" prefWidth="151.0" style="-fx-background-color: #C37B00;" styleClass="btn-gral" text="▬ Editar pedido" textFill="WHITE" AnchorPane.rightAnchor="15.0" />
             <Label layoutX="308.0" layoutY="106.0" prefHeight="17.0" prefWidth="81.0" styleClass="label-title" text="Cliente" AnchorPane.leftAnchor="308.0" />
             <Label layoutX="308.0" layoutY="165.0" prefHeight="17.0" prefWidth="302.0" styleClass="label-title" text="Descripción / Concepto" AnchorPane.leftAnchor="308.0" />
