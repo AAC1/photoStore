@@ -58,6 +58,24 @@ public class CostProdByClteController {
 	LinkedHashMap<Integer, CostProductsDTO> productsMap = null;
 	CostProductsDTO catProdModif = null;
 	
+	/**
+	 * @return the btnSalir
+	 */
+	public JFXButton getBtnSalir() {
+		return btnSalir;
+	}
+
+
+
+	/**
+	 * @param btnSalir the btnSalir to set
+	 */
+	public void setBtnSalir(JFXButton btnSalir) {
+		this.btnSalir = btnSalir;
+	}
+
+
+
 	public void initialize() {
 		iniSect();
 		getTblCatProducts(0);
@@ -220,7 +238,12 @@ public class CostProdByClteController {
 						
 						Store_cliente_prod_cost costProdObj = clteProdCostService.
 																	getRowByIdProdAndClient(objClte.getId_fotografo(), row.getId_prod());
-						costProdObj.setBar_code(inputBarcode.getText());
+						if(costProdObj ==null){
+							costProdObj = new Store_cliente_prod_cost();
+							costProdObj.setId_cliente(objClte.getId_fotografo());
+							costProdObj.setId_prod(row.getId_prod());
+						}
+						costProdObj.setBar_code(inputBarcode.getText()==null?"":inputBarcode.getText());
 						
 						System.out.println("idClte:"+objClte.getId_fotografo());
 						System.out.println("idProd:"+row.getId_prod());

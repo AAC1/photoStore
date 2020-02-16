@@ -31,6 +31,9 @@ public class EditPedidoController {
 	@FXML
 	private JFXComboBox<String> cbxEstatus;
 	
+	@FXML
+	private JFXTextField inputMontoAnt;
+	
 
 	@Autowired
 	IStoreCatEstatusService catEstatusService;
@@ -83,14 +86,39 @@ public class EditPedidoController {
 	public JFXComboBox<String> getCbxEstatus() {
 		return cbxEstatus;
 	}
+	
+	
 
 
+
+	/**
+	 * @return the inputMontoAnt
+	 */
+	public JFXTextField getInputMontoAnt() {
+		return inputMontoAnt;
+	}
+
+	/**
+	 * @param inputMontoAnt the inputMontoAnt to set
+	 */
+	public void setInputMontoAnt(JFXTextField inputMontoAnt) {
+		this.inputMontoAnt = inputMontoAnt;
+	}
 
 	public void initialize() {
 		getLstEstatus();
 	}
 	
 	private void getLstEstatus() {
+		/*
+		List<Store_cat_estatus> lstEstatus = catEstatusService.getListEstatus();
+		String[] arrayStts = new String[lstEstatus.size()];
+		for(int i=0; i<lstEstatus.size();i++) {
+			arrayStts[i] = lstEstatus.get(i).getEstatus();
+		}
+		cbxEstatus.setItems(FXCollections.observableArrayList(arrayStts));
+		*/
+		cbxEstatus.getItems().removeAll(cbxEstatus.getItems());
 		List<Store_cat_estatus> lstEstatus = catEstatusService.getListEstatus();
 		String[] arrayStts = new String[lstEstatus.size()];
 		for(int i=0; i<lstEstatus.size();i++) {

@@ -218,6 +218,10 @@ public class HomeController {
 			        		BusqPedidoRepController repCtrl  = loader.getController();
 			        		repCtrl.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED,returnToHome());
 			        		break;
+			        	case "CostProdByClient":
+			        		CostProdByClteController costProdCte = loader.getController();
+			        		costProdCte.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED,returnToHome());
+				        	break;
 				        }
 			        }
 			        else{

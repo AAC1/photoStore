@@ -42,8 +42,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.dto.PedidosReporteDTO;
 import mx.com.bitmaking.application.dto.ProdPedidosReporteDTO;
+import mx.com.bitmaking.application.entity.Store_cat_estatus;
 import mx.com.bitmaking.application.entity.Store_pedido;
 import mx.com.bitmaking.application.entity.Store_prod_pedido;
+import mx.com.bitmaking.application.service.IStoreCatEstatusService;
 import mx.com.bitmaking.application.service.IStorePedidoService;
 import mx.com.bitmaking.application.service.IStoreProdPedidoService;
 import mx.com.bitmaking.application.util.Constantes;
@@ -117,6 +119,8 @@ public class BusqPedidoRepController {
 	@FXML
 	private TableColumn<Store_prod_pedido, BigDecimal> colCostTotalProd;
 	
+	@Autowired
+	IStoreCatEstatusService catEstatusService;
 	
 	@Autowired
 	private IStorePedidoService pedidoService;
@@ -217,6 +221,7 @@ public class BusqPedidoRepController {
 						ctrller.getInputDesc().setText(obj.getDescripcion());
 						ctrller.getCbxEstatus().setValue(obj.getEstatus());
 						ctrller.getInputMontoTot().setText(String.valueOf(obj.getMonto_total()));
+						ctrller.getInputMontoAnt().setText(String.valueOf(obj.getMonto_ant()));
 						stage.show();
 						
 		        } catch(Exception ex) {
@@ -359,9 +364,13 @@ public class BusqPedidoRepController {
 		tblProducts.setItems(FXCollections.observableList(lstProductos));
 		
 	}
-	
+	/**
+	 * Consulta de pedido 
+	 * @return
+	 */
 	private String generateQry() {
 		DateTimeFormatter dt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		DateTimeFormatter dtEnd = DateTimeFormatter.ofPattern("yyyy-MM-dd 23:59:59");
 		StringBuilder qry = new StringBuilder();
 		qry.delete(0, qry.length());
 		qry.append("SELECT p.id_pedido, p.folio, p.cliente, p.telefono, p.descripcion, p.fec_pedido,");
@@ -374,20 +383,22 @@ public class BusqPedidoRepController {
 		qry.append("WHERE p.folio like '%");
 		qry.append(GeneralMethods.validIfNull(inputBusqFolio.getText(), "%s"));
 		qry.append("%' ");// Cierra Folio
-		qry.append(GeneralMethods.validIfNull(inputBusqCliente.getText(), " AND p.cliente like '%%s%' "));
+		qry.append(GeneralMethods.validIfNull(inputBusqCliente.getText(), " AND p.cliente like \'%%%s%%\' "));
 		String stts = "";
 		if (cbxBusqEstatus.getValue() != null) {
-			if ("ACTIVO".equals(cbxBusqEstatus.getValue().toUpperCase())) {
+			if ("TERMINADO".equals(cbxBusqEstatus.getValue().toUpperCase())) {
 				stts = "1";
-			} else if ("INACTIVO".equals(cbxBusqEstatus.getValue().toUpperCase())) {
-				stts = "0";
+			} else if ("PENDIENTE".equals(cbxBusqEstatus.getValue().toUpperCase())) {
+				stts = "2";
+			}else if ("CANCELADO".equals(cbxBusqEstatus.getValue().toUpperCase())) {
+				stts = "3";
 			}
 		}
 		qry.append(GeneralMethods.validIfNull(stts, " AND p.id_estatus=%s "));
 		if (dateBusqIni.getValue() != null)
-			qry.append(GeneralMethods.validIfNull(dt.format(dateBusqIni.getValue()), " AND p.fec_pedido >= '%s' "));
+			qry.append(GeneralMethods.validIfNull(dt.format(dateBusqIni.getValue()), " AND p.fec_pedido >= \'%s\' "));
 		if (dateBusqFin.getValue() != null)
-			qry.append(GeneralMethods.validIfNull(dt.format(dateBusqFin.getValue()), " AND p.fec_pedido <= '%s' "));
+			qry.append(GeneralMethods.validIfNull(dtEnd.format(dateBusqFin.getValue()), " AND p.fec_pedido <= \'%s\' "));
 
 		System.out.println("qry:" + qry);
 		return qry.toString();
@@ -397,7 +408,16 @@ public class BusqPedidoRepController {
 	private void cleanBusqform(MouseEvent event) {
 		initMethod();
 	}
-
+	private void getLstEstatus() {
+		
+		cbxBusqEstatus.getItems().removeAll(cbxBusqEstatus.getItems());
+		List<Store_cat_estatus> lstEstatus = catEstatusService.getListEstatus();
+		String[] arrayStts = new String[lstEstatus.size()];
+		for(int i=0; i<lstEstatus.size();i++) {
+			arrayStts[i] = lstEstatus.get(i).getEstatus();
+		}
+		cbxBusqEstatus.setItems(FXCollections.observableArrayList(arrayStts));
+	}
 	/**
 	 * Formatea y asignacion de valores a los componentes
 	 */
@@ -407,7 +427,8 @@ public class BusqPedidoRepController {
 		dateBusqFin.setValue(null);// (LocalDate.now());
 		inputBusqFolio.setText("");
 		inputBusqCliente.setText("");
-		cbxBusqEstatus.setItems(FXCollections.observableArrayList(arrayStts));
+		getLstEstatus();
+		//cbxBusqEstatus.setItems(FXCollections.observableArrayList(arrayStts));
 		cbxBusqEstatus.setValue("");
 		tblPedido.getItems().removeAll(tblPedido.getItems());
 		tblProducts.getItems().removeAll(tblProducts.getItems());

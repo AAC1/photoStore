@@ -271,6 +271,7 @@ public class VentaController {
 		return ctrl;
 	}
 	private void getLstEstatus() {
+		cbxEstatus.getItems().removeAll(cbxEstatus.getItems());
 		lstEstatus = catEstatusService.getListEstatus();
 		String[] arrayStts = new String[lstEstatus.size()];
 		for(int i=0; i<lstEstatus.size();i++) {
