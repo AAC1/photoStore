@@ -116,7 +116,7 @@ public class GestProdController {
 						GeneralMethods.modalMsg("WARNING", "", "No hay registro a eliminar");
 						return;
 					}
-
+					
 					ObservableList<TreeItem<String>> objTree = treeProd.getSelectionModel().getSelectedItems();
 					TreeItem<String> treeItem = objTree.get(0);
 					if (treeItem == null) {
@@ -124,7 +124,11 @@ public class GestProdController {
 						return;
 					}
 					int idx = treeProd.getSelectionModel().getSelectedIndex();
-
+					System.out.println("idx:"+idx);
+					if(idx<=0){
+						GeneralMethods.modalMsg("Error", "", "Seleccione algún producto");
+						return;
+					}
 					FXMLLoader fxmlLoader = new FXMLLoader(
 							getClass().getResource("/mx/com/bitmaking/application/view/ModalConfirm.fxml"));
 
@@ -348,7 +352,7 @@ public class GestProdController {
 			public void handle(MouseEvent event) {
 				// System.out.println(event.getSource());
 				try {
-
+					
 					switch (typeForm) {
 					case "A":
 						FXMLLoader fxmlLoader = new FXMLLoader(
@@ -383,6 +387,12 @@ public class GestProdController {
 						stageProd.show();
 						break;
 					case "M":
+						int idx = treeProd.getSelectionModel().getSelectedIndex();
+						System.out.println("idx:"+idx);
+						if(idx<=0){
+							GeneralMethods.modalMsg("Error", "", "Seleccione algún producto");
+							return;
+						}
 						treeProd.setDisable(true);
 						btnAcceptModif.setVisible(true);
 						btnCancenModif.setVisible(true);
