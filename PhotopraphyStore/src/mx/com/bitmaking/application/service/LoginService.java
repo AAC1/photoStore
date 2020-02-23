@@ -75,7 +75,7 @@ public class LoginService implements ILoginService{
 		UserSessionDTO.setInstance(usrObj.getLogin(),usrObj.getNombre(),
 				usrObj.getCorreo(),usrObj.getTelefono(),usrObj.getDireccion(),usrObj.getBloqueado(),
 				usrObj.getActivo(),usrObj.getSucursal(),usrObj.getPrefijo(),usrObj.getId_perfil(),
-				usrObj.getMenuAccess());
+				usrObj.getMenuAccess(),usrObj.getDirSucursal(),usrObj.getTelSucursal(),usrObj.getRazon_social());
 		UserSessionDTO instance = UserSessionDTO.getInstance();
 
 		System.out.println("UserSessionDTO [login=" + instance.getLogin() + ", nombre=" + instance.getNombre() + 

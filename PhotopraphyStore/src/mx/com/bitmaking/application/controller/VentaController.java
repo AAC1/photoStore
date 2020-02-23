@@ -45,7 +45,9 @@ import mx.com.bitmaking.application.service.IStoreFotografoService;
 import mx.com.bitmaking.application.service.IStorePedidoService;
 import mx.com.bitmaking.application.service.IStoreProdPedidoService;
 import mx.com.bitmaking.application.service.StoreCatProdService;
+import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.GeneralMethods;
+import mx.com.bitmaking.application.util.PrinterService;
 
 @Component
 //@Scope("prototype")
@@ -236,10 +238,20 @@ public class VentaController {
 						
 						prodPedidoService.guardaProdsByPedido(pedidoObj.getFolio(), product);
 					}
-					initForm();
 					if(stageBusqProd!=null) stageBusqProd.close();
+					/* IMPRIME TICKET */
+					String layoutPrinter= PrinterService.ticketLayout(Constantes.MAX_CHARS_TICKET, lstProds, 
+												instance);
+					/* REINICIA FORMULARIO */
+					initForm();
+					System.out.println(layoutPrinter);
+					PrinterService.printTicket(Constantes.PRINTER_NAME, layoutPrinter);
+					
+					
+					
 		        } catch(Exception ex) {
 					ex.printStackTrace();
+					GeneralMethods.modalMsg("ERROR", "", ex.getMessage());
 				}
 			}};
 	}
@@ -267,6 +279,7 @@ public class VentaController {
 			
 	    } catch(Exception ex) {
 			ex.printStackTrace();
+			GeneralMethods.modalMsg("ERROR", "", ex.getMessage());
 		}
 		return ctrl;
 	}
@@ -357,6 +370,7 @@ public class VentaController {
 			
 	    } catch(Exception ex) {
 			ex.printStackTrace();
+			GeneralMethods.modalMsg("ERROR", "", ex.getMessage());
 		}
 	}
 	

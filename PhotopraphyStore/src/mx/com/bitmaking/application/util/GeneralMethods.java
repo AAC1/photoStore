@@ -159,5 +159,36 @@ public class GeneralMethods {
 		};
 		
 	}
+	public static String nSpace(int npadding) {
+		StringBuilder beforeText = new StringBuilder();
+		for (int i = 0; i < npadding; i++) {
+			beforeText.append(" ");
+		}
+		return beforeText.toString();
+	}
+	public static String formatCurrentNumber(String val) {
+		String newValue = val;
+		// System.out.println(newValue);
+		String decimalForm = "";
+		if (!newValue.equals("")) {
+
+			if (newValue.contains(".")) {
+				String number = newValue.substring(0, newValue.lastIndexOf("."));
+
+				String dec = newValue.substring(newValue.lastIndexOf("."), newValue.length());
+				number = number.replaceAll("[^0-9]", "");
+
+				dec = dec.replaceAll("[^0-9]+", "");
+				dec = dec.equals("") ? "00" : dec;
+
+				newValue = number + "." + dec;
+
+			}
+			decimalForm = String.format("%,.2f", Double.parseDouble(newValue));
+
+		}
+		return decimalForm;
+	}
+
 
 }

@@ -18,9 +18,51 @@ public class UserSession {
 	private String sucursal;
 	private String prefijo;
 	private int id_perfil;
+	private String dirSucursal;
+	private String razon_social;
+	private String telSucursal;
 	private List<Store_menu> menuAccess ;
 	
 	
+	
+	
+	
+	/**
+	 * @return the razon_social
+	 */
+	public String getRazon_social() {
+		return razon_social;
+	}
+	/**
+	 * @param razon_social the razon_social to set
+	 */
+	public void setRazon_social(String razon_social) {
+		this.razon_social = razon_social;
+	}
+	/**
+	 * @return the telSucursal
+	 */
+	public String getTelSucursal() {
+		return telSucursal;
+	}
+	/**
+	 * @param telSucursal the telSucursal to set
+	 */
+	public void setTelSucursal(String telSucursal) {
+		this.telSucursal = telSucursal;
+	}
+	/**
+	 * @return the dirSucursal
+	 */
+	public String getDirSucursal() {
+		return dirSucursal;
+	}
+	/**
+	 * @param dirSucursal the dirSucursal to set
+	 */
+	public void setDirSucursal(String dirSucursal) {
+		this.dirSucursal = dirSucursal;
+	}
 	/**
 	 * @return the intentos
 	 */
