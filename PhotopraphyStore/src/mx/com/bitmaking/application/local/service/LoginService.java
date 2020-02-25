@@ -28,7 +28,7 @@ public class LoginService implements ILoginService{
 	
 	@Override
 	@Transactional(value="transactionManager")
-	public ResponseDTO validUsr(String usr, String passwd) {
+	public ResponseDTO validUsr(String usr, String passwd) throws Exception{
 		ResponseDTO resp = new ResponseDTO();
 		resp.setEstado("");
 		resp.setMsg("");

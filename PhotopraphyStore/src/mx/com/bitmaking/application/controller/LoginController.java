@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import mx.com.bitmaking.application.dto.ResponseDTO;
 import mx.com.bitmaking.application.local.dto.UserSessionDTO;
 import mx.com.bitmaking.application.local.service.ILoginService;
+import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
 @Component
@@ -85,19 +86,37 @@ public class LoginController {
 			openModal("Home",true);
 			return;
 		}*/
-		ResponseDTO resp = loginService.validUsr(inputUsr.getText(), inputPasswd.getText());
-	//	ResponseDTO resp =remoteLoginService.validUsr(inputUsr.getText(), inputPasswd.getText());
-		if("ERROR".equals(resp.getEstado())){
-			if(resp.getMsg().length()>0){
-				GeneralMethods.modalMsg("ERROR", "", resp.getMsg());
-			}else{
-				GeneralMethods.modalMsg("ERROR", "", "Ha ocurrido un error en la validaci\u00F3n de usuario");
+		Flags.remote_valid=true;
+		try {
+		ResponseDTO resp = null;
+		
+			try {
+				resp = remoteLoginService.validUsr(inputUsr.getText(), inputPasswd.getText());
 			}
-		}
-		else if(resp.isValid()){
-			if(mainStage!=null)mainStage.close();
-			inputPasswd.setText("");
-			openModal("Home",true);
+			catch(Exception e) {
+				Flags.remote_valid = false;
+				System.out.println("Logueo local, no hay conexion remoto");
+				resp =loginService.validUsr(inputUsr.getText(), inputPasswd.getText());
+			}
+			if(resp==null) {
+				GeneralMethods.modalMsg("ERROR", "", "No fue posible validar acceso");
+				return ;
+			}
+		//	ResponseDTO resp =remoteLoginService.validUsr(inputUsr.getText(), inputPasswd.getText());
+			if("ERROR".equals(resp.getEstado())){
+				if(resp.getMsg().length()>0){
+					GeneralMethods.modalMsg("ERROR", "", resp.getMsg());
+				}else{
+					GeneralMethods.modalMsg("ERROR", "", "Ha ocurrido un error en la validaci\u00F3n de usuario");
+				}
+			}
+			else if(resp.isValid()){
+				if(mainStage!=null)mainStage.close();
+				inputPasswd.setText("");
+				openModal("Home",true);
+			}
+		}catch(Exception e) {
+			GeneralMethods.modalMsg("ERROR", "", e.getMessage());
 		}
 	}
 
@@ -141,8 +160,16 @@ public class LoginController {
 			public void handle(MouseEvent event) {
 				//System.out.println(event.getSource());
 				try {
-					UserSessionDTO instance = UserSessionDTO.getInstance();
-					instance.cleanUserSession();
+					
+					if(Flags.remote_valid) {
+						mx.com.bitmaking.application.remote.dto.UserSessionDTO instance = mx.com.bitmaking.application.remote.dto.UserSessionDTO.getInstance();
+						((mx.com.bitmaking.application.remote.dto.UserSessionDTO)instance).cleanUserSession();
+					}
+					else {
+						UserSessionDTO instance = UserSessionDTO.getInstance();
+						((UserSessionDTO)instance).cleanUserSession();
+					}
+					
 					if(homeStage!=null)homeStage.close();
 					/*
 					FXMLLoader loader = //storeApp.initializeFXML("view/"+scene+".fxml");

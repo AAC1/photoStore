@@ -42,7 +42,10 @@ public class LoginDAO implements ILoginDAO{
 		
 		
 		try{
-			
+			if(!sessionFactory.getCurrentSession().isConnected())
+			{
+				throw new Exception("No hay conexión");
+			}
 			//Query query = entityManager.
 			SQLQuery query =sessionFactory.getCurrentSession().createSQLQuery(qry.toString());
 					//entityManager.

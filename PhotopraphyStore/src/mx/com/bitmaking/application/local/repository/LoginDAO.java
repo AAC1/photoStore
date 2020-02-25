@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Hibernate;
 import org.hibernate.SQLQuery;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.IntegerType;
@@ -22,7 +23,7 @@ public class LoginDAO implements ILoginDAO{
 	protected SessionFactory sessionFactory;
 	
 	@Override
-	public UserSession getUsr(String usr) {
+	public UserSession getUsr(String usr) throws Exception {
 		UserSession results = null;
 		StringBuilder qry = new StringBuilder();
 		qry.append(" SELECT id_usr,login,nombre,correo,telefono,intentos,bloqueado,");
@@ -32,9 +33,11 @@ public class LoginDAO implements ILoginDAO{
 		
 		
 		try{
- 
+			if(!sessionFactory.getCurrentSession().isConnected())
+			{
+				throw new Exception("No hay conexión");
+			}
 			SQLQuery query= sessionFactory.getCurrentSession().createSQLQuery(qry.toString());
-			
 			query.setString("usr", usr);
 			query.addScalar("id_usr",new LongType());
 			query.addScalar("login",new StringType());

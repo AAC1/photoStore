@@ -32,6 +32,7 @@ import javafx.stage.Stage;
 import mx.com.bitmaking.application.MystoreApplication;
 import mx.com.bitmaking.application.local.dto.UserSessionDTO;
 import mx.com.bitmaking.application.local.entity.Store_menu;
+import mx.com.bitmaking.application.util.Flags;
 
 @Component
 //@Scope("prototype")
@@ -57,6 +58,7 @@ public class HomeController {
 	 @Autowired
 	 private ApplicationContext context ;
 	 UserSessionDTO instance = null;
+	 mx.com.bitmaking.application.remote.dto.UserSessionDTO remoteInstance = null;
 	 
 	 
 	 
@@ -69,27 +71,15 @@ public class HomeController {
 
 
 	public void initialize() {
-		
-		instance = UserSessionDTO.getInstance();
-		if(instance!=null){
-			System.out.println("HOME_UserSessionDTO [login=" + instance.getLogin() + ", nombre=" + instance.getNombre() + 
-			", correo=" + instance.getCorreo() + ", telefono=" + instance.getTelefono()
-			+ ", direccion=" + instance.getDireccion() + ", prefijo=" + instance.getPrefijo() + "]");
-			
-			lblUsrSession.setText(instance.getNombre());
-			System.out.println("Home_lnList:"+instance.getMenuAccess().size());
-			Parent parent = menuContainer.getParent(); // the Parent (or Scene) that contains the TextFields
-			Label textField = null;
-			for(Store_menu el:instance.getMenuAccess()) {
-				textField=(Label) parent.lookup("#"+el.getFx_id());
-				if (textField != null) {
-					textField.setVisible(true);
-					System.out.println(el.getFx_id()+" NO nulo");
-				}else {
-					System.out.println(el.getFx_id()+"nulo");
-				}
-			}
+		if(Flags.remote_valid) {
+			remoteInstance = mx.com.bitmaking.application.remote.dto.UserSessionDTO.getInstance();
+			remoteInitialize();
+		}else {
+			instance = UserSessionDTO.getInstance();
+			localInitialize();
 		}
+		
+		
 		titleHome.getStyleClass().add("label-title");
 		//menuContainer.getStyleClass().add("rootMenu");
 		//menuContainer.setStyle("-fx-background-color: transparent;");
@@ -109,7 +99,49 @@ public class HomeController {
 		
 	}
 	
-
+	private void remoteInitialize() {
+		if(remoteInstance!=null){
+			System.out.println("HOME_UserSessionDTO [login=" + remoteInstance.getLogin() + ", nombre=" + remoteInstance.getNombre() + 
+			", correo=" + remoteInstance.getCorreo() + ", telefono=" + remoteInstance.getTelefono()
+			+ ", direccion=" + remoteInstance.getDireccion() + ", prefijo=" + remoteInstance.getPrefijo() + "]");
+			
+			lblUsrSession.setText(remoteInstance.getNombre());
+			System.out.println("Home_lnList:"+remoteInstance.getMenuAccess().size());
+			Parent parent = menuContainer.getParent(); // the Parent (or Scene) that contains the TextFields
+			Label textField = null;
+			
+			for(mx.com.bitmaking.application.remote.entity.Store_menu el:remoteInstance.getMenuAccess()) {
+				textField=(Label) parent.lookup("#"+el.getFx_id());
+				if (textField != null) {
+					textField.setVisible(true);
+					System.out.println(el.getFx_id()+" NO nulo");
+				}else {
+					System.out.println(el.getFx_id()+"nulo");
+				}
+			}
+		}
+	}
+	private void localInitialize() {
+		if(instance!=null){
+			System.out.println("HOME_UserSessionDTO [login=" + instance.getLogin() + ", nombre=" + instance.getNombre() + 
+			", correo=" + instance.getCorreo() + ", telefono=" + instance.getTelefono()
+			+ ", direccion=" + instance.getDireccion() + ", prefijo=" + instance.getPrefijo() + "]");
+			
+			lblUsrSession.setText(instance.getNombre());
+			System.out.println("Home_lnList:"+instance.getMenuAccess().size());
+			Parent parent = menuContainer.getParent(); // the Parent (or Scene) that contains the TextFields
+			Label textField = null;
+			for(Store_menu el:instance.getMenuAccess()) {
+				textField=(Label) parent.lookup("#"+el.getFx_id());
+				if (textField != null) {
+					textField.setVisible(true);
+					System.out.println(el.getFx_id()+" NO nulo");
+				}else {
+					System.out.println(el.getFx_id()+"nulo");
+				}
+			}
+		}
+	}
 	/**
 	 * Aparece 
 	 * @return

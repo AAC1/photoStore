@@ -46,6 +46,7 @@ import mx.com.bitmaking.application.local.service.IStorePedidoService;
 import mx.com.bitmaking.application.local.service.IStoreProdPedidoService;
 
 import mx.com.bitmaking.application.util.Constantes;
+import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
 import mx.com.bitmaking.application.util.PrinterService;
 
@@ -103,6 +104,7 @@ public class VentaController {
 	List<Store_cat_estatus> lstEstatus = null;
 	CostProductsDTO rowProd = null;
 	UserSessionDTO instance = null;
+	mx.com.bitmaking.application.remote.dto.UserSessionDTO remoteInstance = null;
 	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	/**
@@ -113,8 +115,12 @@ public class VentaController {
 	}
 
 	public void initialize() {
-		instance = UserSessionDTO.getInstance();
-		
+		if(Flags.remote_valid) {
+			remoteInstance = mx.com.bitmaking.application.remote.dto.UserSessionDTO.getInstance();
+		}
+		else {
+			instance = UserSessionDTO.getInstance();
+		}
 		responsiveGUI();
 		initForm();
 		
@@ -130,12 +136,16 @@ public class VentaController {
 	}
 	
 	private void generateFolio(){
-		String prefijo = pedidoService.getCurrentNumberFolio(instance.getPrefijo());
+		String prefijo = Flags.remote_valid?
+						pedidoService.getCurrentNumberFolio(remoteInstance.getPrefijo()):
+						pedidoService.getCurrentNumberFolio(instance.getPrefijo());
+		
 		inputFolio.setText(prefijo);
 	}
 	private void initForm() {
 		fillCbxClte(); //llena combo de clientes
 		getLstEstatus();//Llena combo de estatus
+		
 		if(instance !=null ) {
 			generateFolio();//Genera Folio de acuerdo a la sucursal de usr
 		}
