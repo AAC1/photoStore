@@ -1,13 +1,26 @@
 package mx.com.bitmaking.application;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
+import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
+import org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -45,49 +58,34 @@ public abstract class MystoreApplication extends Application{
         return loader;
     }
 	
-	/*
-    @Override
-    public void stop() throws Exception {
-        context.close();
-    }
-	*/
-   /*
-    @Bean
-    public MBeanExporter exporter()
-    {
-        final MBeanExporter exporter = new MBeanExporter();
-        exporter.setAutodetect(true);
-        exporter.setExcludedBeans("dataSource");
-        return exporter;
-    }
-    */
+   // @Autowired
+   // private EntityManagerFactory entityManagerFactory;
+    @PersistenceContext(unitName = "primary")
+	//@Qualifier("remoteEntityManager")
+	private EntityManager entityManager;
     
-    /*
-    @Bean
-    @Qualifier(value = "entityManagerFactory")
-    public EntityManager entityManager(EntityManagerFactory entityManagerFactory) {
-        return entityManagerFactory.createEntityManager();
-    }
-   */
-    /*
-    @Bean
-    public SessionFactory sessionFactory(HibernateEntityManagerFactory hemf) {      
-		return hemf.getSessionFactory();
-    }
-    */
-    @Autowired
-    private EntityManagerFactory entityManagerFactory;
-
-    @Bean
+    
+    @Bean("sessionFactory")
     public SessionFactory getSessionFactory() {
-        if (entityManagerFactory.unwrap(SessionFactory.class) == null) {
+        if (entityManager.getEntityManagerFactory().unwrap(SessionFactory.class) == null) {
             throw new NullPointerException("factory is not a hibernate factory");
         }
-        return entityManagerFactory.unwrap(SessionFactory.class);
+        return entityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
     }
-    protected static void launchApp(Class<? extends MystoreApplication> clazz, String[] args) {
-    //	MystoreApplication.savedArgs = args;
-        Application.launch(clazz, args);
+    
+  
+    @PersistenceContext(unitName = "remote")
+	//@Qualifier("remoteEntityManager")
+	private EntityManager remoteEntityManager;
+    
+    @Bean("remoteSessionFactory")
+    public SessionFactory getRemoteSessionFactory() {
+        if (remoteEntityManager.getEntityManagerFactory().unwrap(SessionFactory.class) == null) {
+            throw new NullPointerException("factory is not a hibernate factory");
+        }
+        return remoteEntityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
     }
+    
+   
     
 }

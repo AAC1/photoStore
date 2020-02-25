@@ -21,7 +21,7 @@ import javax.print.attribute.PrintRequestAttributeSet;
 
 import javafx.collections.ObservableList;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
-import mx.com.bitmaking.application.dto.UserSessionDTO;
+import mx.com.bitmaking.application.local.dto.UserSessionDTO;
 
 public class PrinterService implements Printable{
 

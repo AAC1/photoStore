@@ -20,12 +20,12 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
-import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
-import mx.com.bitmaking.application.entity.Store_fotografo;
-import mx.com.bitmaking.application.repository.ICatProdDAO;
-import mx.com.bitmaking.application.service.IStoreCatProdService;
-import mx.com.bitmaking.application.service.IStoreClteProdCostService;
-import mx.com.bitmaking.application.service.IStoreFotografoService;
+import mx.com.bitmaking.application.local.entity.Store_cliente_prod_cost;
+import mx.com.bitmaking.application.local.entity.Store_fotografo;
+import mx.com.bitmaking.application.local.repository.ICatProdDAO;
+import mx.com.bitmaking.application.local.service.IStoreCatProdService;
+import mx.com.bitmaking.application.local.service.IStoreClteProdCostService;
+import mx.com.bitmaking.application.local.service.IStoreFotografoService;
 import mx.com.bitmaking.application.util.GeneralMethods;
 @Component
 public class TreeProductoController {

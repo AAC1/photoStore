@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Scope;
+
 import org.springframework.stereotype.Component;
 
 import com.jfoenix.controls.JFXButton;
@@ -20,31 +20,31 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
+
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Region;
+
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
-import mx.com.bitmaking.application.dto.UserSessionDTO;
-import mx.com.bitmaking.application.entity.Store_cat_estatus;
-import mx.com.bitmaking.application.entity.Store_cat_prod;
-import mx.com.bitmaking.application.entity.Store_fotografo;
-import mx.com.bitmaking.application.entity.Store_pedido;
-import mx.com.bitmaking.application.entity.Store_prod_pedido;
-import mx.com.bitmaking.application.service.IStoreCatEstatusService;
-import mx.com.bitmaking.application.service.IStoreCatProdService;
-import mx.com.bitmaking.application.service.IStoreFotografoService;
-import mx.com.bitmaking.application.service.IStorePedidoService;
-import mx.com.bitmaking.application.service.IStoreProdPedidoService;
-import mx.com.bitmaking.application.service.StoreCatProdService;
+import mx.com.bitmaking.application.local.dto.UserSessionDTO;
+import mx.com.bitmaking.application.local.entity.Store_cat_estatus;
+
+import mx.com.bitmaking.application.local.entity.Store_fotografo;
+import mx.com.bitmaking.application.local.entity.Store_pedido;
+import mx.com.bitmaking.application.local.entity.Store_prod_pedido;
+import mx.com.bitmaking.application.local.service.IStoreCatEstatusService;
+import mx.com.bitmaking.application.local.service.IStoreCatProdService;
+import mx.com.bitmaking.application.local.service.IStoreFotografoService;
+import mx.com.bitmaking.application.local.service.IStorePedidoService;
+import mx.com.bitmaking.application.local.service.IStoreProdPedidoService;
+
 import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.GeneralMethods;
 import mx.com.bitmaking.application.util.PrinterService;
@@ -104,6 +104,7 @@ public class VentaController {
 	CostProductsDTO rowProd = null;
 	UserSessionDTO instance = null;
 	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	
 	/**
 	 * @return the btnSalir
 	 */
@@ -113,6 +114,7 @@ public class VentaController {
 
 	public void initialize() {
 		instance = UserSessionDTO.getInstance();
+		
 		responsiveGUI();
 		initForm();
 		
@@ -481,7 +483,7 @@ public class VentaController {
 				
 				int rowSelected = busqProd.getTblProducto().getSelectionModel().getSelectedIndex();
 				rowProd= busqProd.getLstProd().get(rowSelected);
-				String cost = String.valueOf(rowProd.getCosto());
+			//	String cost = String.valueOf(rowProd.getCosto());
 				
 				inputCostoProd.setText((rowProd.getCosto()==null )?"0":String.valueOf(rowProd.getCosto()));
 				inputProd.setText(rowProd.getProducto());
@@ -534,7 +536,7 @@ public class VentaController {
 						ctrller.getBtnExportXls().setVisible(false);
 						ctrller.getBtnModify().setVisible(true);
 						ctrller.getContentProdPed().setVisible(false);
-						Node child = ctrller.getVentaBody();
+//						Node child = ctrller.getVentaBody();
 						AnchorPane.setBottomAnchor(ctrller.getContentPedido(),0.0);
 						//ctrller.getContentPedido().setBottomAnchor(child , new Double(30));
 						stageBusqProd.show();

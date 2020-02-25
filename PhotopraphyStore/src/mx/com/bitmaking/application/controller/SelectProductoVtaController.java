@@ -22,10 +22,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
-import mx.com.bitmaking.application.repository.ICatProdDAO;
-import mx.com.bitmaking.application.service.IStoreCatProdService;
-import mx.com.bitmaking.application.service.IStoreClteProdCostService;
-import mx.com.bitmaking.application.service.IStoreFotografoService;
+import mx.com.bitmaking.application.local.repository.ICatProdDAO;
+import mx.com.bitmaking.application.local.service.IStoreCatProdService;
+import mx.com.bitmaking.application.local.service.IStoreClteProdCostService;
+import mx.com.bitmaking.application.local.service.IStoreFotografoService;
 
 @Component
 public class SelectProductoVtaController {

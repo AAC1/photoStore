@@ -1,0 +1,11 @@
+package mx.com.bitmaking.application.remote.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import mx.com.bitmaking.application.remote.entity.Store_cat_estatus;
+
+@Repository("remoteStoreCatEstatusRepo")
+public interface IStoreCatEstatusRepo extends JpaRepository<Store_cat_estatus, Long>{
+
+}

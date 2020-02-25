@@ -30,8 +30,8 @@ import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.MystoreApplication;
-import mx.com.bitmaking.application.dto.UserSessionDTO;
-import mx.com.bitmaking.application.entity.Store_menu;
+import mx.com.bitmaking.application.local.dto.UserSessionDTO;
+import mx.com.bitmaking.application.local.entity.Store_menu;
 
 @Component
 //@Scope("prototype")

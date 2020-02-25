@@ -22,8 +22,8 @@ import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.dto.ResponseDTO;
-import mx.com.bitmaking.application.dto.UserSessionDTO;
-import mx.com.bitmaking.application.service.ILoginService;
+import mx.com.bitmaking.application.local.dto.UserSessionDTO;
+import mx.com.bitmaking.application.local.service.ILoginService;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
 @Component
@@ -42,6 +42,8 @@ public class LoginController {
 	@Autowired
 	private ILoginService loginService;
 	
+	@Autowired
+	private mx.com.bitmaking.application.remote.service.ILoginService remoteLoginService;
 	private Stage mainStage;
 	private Stage homeStage;
 	
@@ -84,6 +86,7 @@ public class LoginController {
 			return;
 		}*/
 		ResponseDTO resp = loginService.validUsr(inputUsr.getText(), inputPasswd.getText());
+	//	ResponseDTO resp =remoteLoginService.validUsr(inputUsr.getText(), inputPasswd.getText());
 		if("ERROR".equals(resp.getEstado())){
 			if(resp.getMsg().length()>0){
 				GeneralMethods.modalMsg("ERROR", "", resp.getMsg());
