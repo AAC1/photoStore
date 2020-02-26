@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.jfoenix.controls.JFXButton;
@@ -20,23 +21,37 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
-import mx.com.bitmaking.application.local.entity.Store_cliente_prod_cost;
-import mx.com.bitmaking.application.local.entity.Store_fotografo;
+import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
+import mx.com.bitmaking.application.entity.Store_fotografo;
 import mx.com.bitmaking.application.local.repository.ICatProdDAO;
-import mx.com.bitmaking.application.local.service.IStoreCatProdService;
-import mx.com.bitmaking.application.local.service.IStoreClteProdCostService;
-import mx.com.bitmaking.application.local.service.IStoreFotografoService;
+import mx.com.bitmaking.application.service.IStoreCatProdService;
+import mx.com.bitmaking.application.service.IStoreClteProdCostService;
+import mx.com.bitmaking.application.service.IStoreFotografoService;
+import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
 @Component
 public class TreeProductoController {
+//	@Autowired
+	//ICatProdDAO catProdDAO;
 	@Autowired
-	ICatProdDAO catProdDAO;
-	@Autowired
+	@Qualifier("StoreCatProdService")
 	IStoreCatProdService storeCatProdService;
 	@Autowired
+	@Qualifier("StoreFotografoService")
 	IStoreFotografoService clienteService;
 	@Autowired 
+	@Qualifier("StoreClteProdCostService")
 	IStoreClteProdCostService clteProdCostService;
+	
+	@Autowired
+	@Qualifier("remoteStoreCatProdService")
+	IStoreCatProdService remoteStoreCatProdService;
+	@Autowired
+	@Qualifier("remoteStoreFotografoService")
+	IStoreFotografoService remoteClienteService;
+	@Autowired 
+	@Qualifier("remoteStoreClteProdCostService")
+	IStoreClteProdCostService remoteClteProdCostService;
 	
 	@FXML private TreeView<String> treeProd;
 	@FXML private JFXButton btnSalir;
@@ -257,8 +272,9 @@ public class TreeProductoController {
 						Store_fotografo objClte = lstClte.get(nRow);
 						
 						
-						Store_cliente_prod_cost costProdObj = clteProdCostService.
-																	getRowByIdProdAndClient(objClte.getId_fotografo(), row.getId_prod());
+						Store_cliente_prod_cost costProdObj = (Flags.remote_valid)?
+								remoteClteProdCostService.getRowByIdProdAndClient(objClte.getId_fotografo(), row.getId_prod()):
+								clteProdCostService.getRowByIdProdAndClient(objClte.getId_fotografo(), row.getId_prod());
 						costProdObj.setBar_code(inputBarcode.getText());
 						
 						System.out.println("idClte:"+objClte.getId_fotografo());
@@ -268,6 +284,8 @@ public class TreeProductoController {
 														null:Double.parseDouble(inputCosto.getText()));
 						/*ACtualiza o inserta nuevo registro*/
 						clteProdCostService.insertRow(costProdObj);
+						if(Flags.remote_valid) remoteClteProdCostService.insertRow(costProdObj);
+						
 						inputName.setText("");
 						cbxStts.setValue("");
 						inputCosto.setText("");
@@ -307,7 +325,8 @@ public class TreeProductoController {
 	
 	protected void getTblCatProducts(int cliente) {
 		
-		productsMap = storeCatProdService.getCostProdByClient(cliente);
+		productsMap = (Flags.remote_valid)?remoteStoreCatProdService.getCostProdByClient(cliente):
+											storeCatProdService.getCostProdByClient(cliente);
 		TreeItem<String> root =new TreeItem<>("Productos del cliente");
 		root.setExpanded(true);
 		generateTreeProd(productsMap,0,root);

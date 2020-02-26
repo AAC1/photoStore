@@ -18,10 +18,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.bitmaking.application.dto.PedidosReporteDTO;
-import mx.com.bitmaking.application.local.entity.Store_pedido;
+import mx.com.bitmaking.application.entity.Store_pedido;
 import mx.com.bitmaking.application.local.repository.IClteProdCostDAO;
 import mx.com.bitmaking.application.local.repository.IPedidoDAO;
 import mx.com.bitmaking.application.local.repository.IStorePedidoRepo;
+import mx.com.bitmaking.application.service.IStorePedidoService;
 import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.GeneralMethods;
 import net.sf.jasperreports.engine.JRException;
@@ -32,7 +33,7 @@ import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
-@Service
+@Service("StorePedidoService")
 public class StorePedidoService implements IStorePedidoService {
 	@Autowired
 	protected SessionFactory sessionFactory;
@@ -115,7 +116,7 @@ public class StorePedidoService implements IStorePedidoService {
 		return export;
 	}
 	
-	@Transactional
+	@Transactional(value="transactionManager")
 	@Override
 	public String getCurrentNumberFolio(String pref) {
 	
@@ -150,6 +151,7 @@ public class StorePedidoService implements IStorePedidoService {
 	}
 
 	@Override
+	@Transactional(value="transactionManager")
 	public boolean guardaPedido(Store_pedido pedido) {
 		boolean resp=false;
 		try {

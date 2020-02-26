@@ -6,10 +6,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import mx.com.bitmaking.application.local.entity.Store_cliente_prod_cost;
+import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
 import mx.com.bitmaking.application.local.repository.IStoreClteProdCostRepo;
+import mx.com.bitmaking.application.service.IStoreClteProdCostService;
 
-@Service
+@Service("StoreClteProdCostService")
 //(value="transactionManager")
 public class StoreClteProdCostService implements IStoreClteProdCostService{
 

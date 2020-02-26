@@ -18,8 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import mx.com.bitmaking.application.remote.dto.UserSession;
-import mx.com.bitmaking.application.remote.entity.Store_usuario;
+import mx.com.bitmaking.application.dto.UserSession;
+import mx.com.bitmaking.application.entity.Store_usuario;
 
 @Repository("remoteloginDAO")
 public class LoginDAO implements ILoginDAO{

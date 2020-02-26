@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import mx.com.bitmaking.application.dto.CostProductsDTO;
-import mx.com.bitmaking.application.local.entity.Store_cliente_prod_cost;
+import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
 
 @Repository("localCatProdDAO")
 public interface ICatProdDAO {

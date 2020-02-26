@@ -14,11 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.dto.ProdPedidosReporteDTO;
-import mx.com.bitmaking.application.local.entity.Store_prod_pedido;
+import mx.com.bitmaking.application.entity.Store_prod_pedido;
 import mx.com.bitmaking.application.local.repository.IStorePedidoRepo;
 import mx.com.bitmaking.application.local.repository.IStoreProdPedidoRepo;
+import mx.com.bitmaking.application.service.IStoreProdPedidoService;
 
-@Service
+@Service("StoreProdPedidoService")
 public class StoreProdPedidoService implements IStoreProdPedidoService{
 	@Autowired
 	protected SessionFactory sessionFactory;

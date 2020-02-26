@@ -1,6 +1,6 @@
 package mx.com.bitmaking.application.remote.repository;
 
-import mx.com.bitmaking.application.remote.dto.UserSession;
+import mx.com.bitmaking.application.dto.UserSession;
 
 public interface ILoginDAO {
 	public UserSession getUsr(String usr);

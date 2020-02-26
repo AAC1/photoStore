@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.local.service;
+package mx.com.bitmaking.application.service;
 
 import java.io.FileInputStream;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import mx.com.bitmaking.application.dto.PedidosReporteDTO;
-import mx.com.bitmaking.application.local.entity.Store_pedido;
+import mx.com.bitmaking.application.entity.Store_pedido;
 import net.sf.jasperreports.engine.JRException;
 //extends JpaRepository<Store_pedido, Long>
 public interface IStorePedidoService  {

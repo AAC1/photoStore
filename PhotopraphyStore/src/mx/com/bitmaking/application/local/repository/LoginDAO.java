@@ -14,7 +14,7 @@ import org.hibernate.type.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import mx.com.bitmaking.application.local.dto.UserSession;
+import mx.com.bitmaking.application.dto.UserSession;
 
 @Repository("localLoginDAO")
 public class LoginDAO implements ILoginDAO{

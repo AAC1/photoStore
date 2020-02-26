@@ -1,6 +1,6 @@
 package mx.com.bitmaking.application.local.repository;
 
-import mx.com.bitmaking.application.local.dto.UserSession;
+import mx.com.bitmaking.application.dto.UserSession;
 
 public interface ILoginDAO {
 	public UserSession getUsr(String usr)throws Exception;

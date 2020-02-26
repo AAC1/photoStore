@@ -15,9 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.bitmaking.application.dto.CostProductsDTO;
-import mx.com.bitmaking.application.local.entity.Store_cat_prod;
+import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.local.repository.ICatProdDAO;
 import mx.com.bitmaking.application.local.repository.IStoreCatProdRepo;
+import mx.com.bitmaking.application.service.IStoreCatProdService;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
 /**
@@ -44,6 +45,7 @@ public class StoreCatProdService implements IStoreCatProdService{ // implements 
 	private SessionFactory entityManager;
 */
 	@Override
+	@Transactional(value="transactionManager")
 	public List<Store_cat_prod> getCatalogoProduct(){
 		List<Store_cat_prod> resp = new ArrayList<>();
 		

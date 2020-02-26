@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import mx.com.bitmaking.application.remote.dto.UserSession;
-import mx.com.bitmaking.application.remote.entity.Store_menu;
+import mx.com.bitmaking.application.dto.UserSession;
+import mx.com.bitmaking.application.entity.Store_menu;
 
 @Repository("remoteMenuPerfilDAO")
 public class MenuPerfilDAO implements IMenuPerfilDAO{

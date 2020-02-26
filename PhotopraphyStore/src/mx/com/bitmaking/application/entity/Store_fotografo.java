@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.local.entity;
+package mx.com.bitmaking.application.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

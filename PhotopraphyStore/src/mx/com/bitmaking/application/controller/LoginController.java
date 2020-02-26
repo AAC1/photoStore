@@ -3,6 +3,7 @@ package mx.com.bitmaking.application.controller;
 import java.io.File;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -22,8 +23,8 @@ import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.dto.ResponseDTO;
-import mx.com.bitmaking.application.local.dto.UserSessionDTO;
-import mx.com.bitmaking.application.local.service.ILoginService;
+import mx.com.bitmaking.application.dto.UserSessionDTO;
+import mx.com.bitmaking.application.service.ILoginService;
 import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
@@ -41,10 +42,13 @@ public class LoginController {
 	@Autowired
 	private ApplicationContext context;
 	@Autowired
+	@Qualifier("LoginService")
 	private ILoginService loginService;
 	
 	@Autowired
-	private mx.com.bitmaking.application.remote.service.ILoginService remoteLoginService;
+	@Qualifier("remoteLoginService")
+	private ILoginService remoteLoginService;
+	
 	private Stage mainStage;
 	private Stage homeStage;
 	
@@ -160,15 +164,9 @@ public class LoginController {
 			public void handle(MouseEvent event) {
 				//System.out.println(event.getSource());
 				try {
+					UserSessionDTO instance = UserSessionDTO.getInstance();
+					instance.cleanUserSession();
 					
-					if(Flags.remote_valid) {
-						mx.com.bitmaking.application.remote.dto.UserSessionDTO instance = mx.com.bitmaking.application.remote.dto.UserSessionDTO.getInstance();
-						((mx.com.bitmaking.application.remote.dto.UserSessionDTO)instance).cleanUserSession();
-					}
-					else {
-						UserSessionDTO instance = UserSessionDTO.getInstance();
-						((UserSessionDTO)instance).cleanUserSession();
-					}
 					
 					if(homeStage!=null)homeStage.close();
 					/*

@@ -26,8 +26,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import mx.com.bitmaking.application.local.entity.Store_cat_prod;
-import mx.com.bitmaking.application.local.service.IStoreCatProdService;
+import mx.com.bitmaking.application.entity.Store_cat_prod;
+import mx.com.bitmaking.application.service.IStoreCatProdService;
+import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
 @Component
@@ -36,6 +37,9 @@ public class GestProdController {
 	@Autowired
 	@Qualifier("StoreCatProdService")
 	IStoreCatProdService catProdService;
+	@Autowired
+	@Qualifier("remoteStoreCatProdService")
+	IStoreCatProdService remoteCatProdService;
 
 	@FXML
 	private JFXButton btnAddProd;
@@ -90,7 +94,7 @@ public class GestProdController {
 					Store_cat_prod row = productsMap.get(Integer.parseInt(idProd));
 					row.setEstatus(("ACTIVO".equals(row.getEstatus().toUpperCase())) ? "1" : "0");
 					catProdService.deleteRow(row);
-					
+					if(Flags.remote_valid)remoteCatProdService.deleteRow(row);
 					getTblCatProducts();
 					stageProd.close();
 
@@ -171,7 +175,8 @@ public class GestProdController {
 		cbxStts.getItems().removeAll(cbxStts.getItems());
 		cbxStts.setItems(FXCollections.observableList(lstStts));
 
-		productsMap = catProdService.getAllCatalogoProduct2();
+		productsMap = (Flags.remote_valid)?remoteCatProdService.getAllCatalogoProduct2():
+											catProdService.getAllCatalogoProduct2();
 		TreeItem<String> root = new TreeItem<>("Productos del cliente");
 		root.setExpanded(true);
 
@@ -286,6 +291,7 @@ public class GestProdController {
 						row.setProducto(inputName.getText());
 						row.setEstatus(("ACTIVO".equals(cbxStts.getValue().toUpperCase())) ? "1" : "0");
 						catProdService.insertRow(row);
+						if(Flags.remote_valid)remoteCatProdService.insertRow(row);
 						// if("0".equals(row.getEstatus())){
 						inactiveChildren(treeItem, row.getEstatus());
 						// }
@@ -316,6 +322,7 @@ public class GestProdController {
 			row = productsMap.get(Integer.parseInt(idProd));
 			row.setEstatus(stts);
 			catProdService.insertRow(row);
+			if(Flags.remote_valid)remoteCatProdService.insertRow(row);
 			inactiveChildren(el, stts);
 
 		}
@@ -335,6 +342,7 @@ public class GestProdController {
 			idProd = arrayStr[0].substring(2, arrayStr[0].length()).trim();
 			row = productsMap.get(Integer.parseInt(idProd));
 			catProdService.deleteRow(row);
+			if(Flags.remote_valid)remoteCatProdService.deleteRow(row);
 			deleteChildren(el);
 
 		}
@@ -450,6 +458,7 @@ public class GestProdController {
 
 					}
 					catProdService.insertRow(row);
+					if(Flags.remote_valid)remoteCatProdService.insertRow(row);
 					getTblCatProducts();
 					stageProd.close();
 

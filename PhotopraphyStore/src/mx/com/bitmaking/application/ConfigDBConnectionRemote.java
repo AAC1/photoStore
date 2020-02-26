@@ -38,7 +38,7 @@ public class ConfigDBConnectionRemote {
     @Bean(name = "remoteEntityManager")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder) {
          return builder.dataSource(mysqlDataSource()).persistenceUnit("remote").properties(jpaProperties())
-                   .packages("mx.com.bitmaking.application.remote").build();
+                   .packages("mx.com.bitmaking.application").build();
      }
   /* @Bean(name = "remoteTransactionManager")
    public PlatformTransactionManager transactionManager(EntityManagerFactoryBuilder builder) {

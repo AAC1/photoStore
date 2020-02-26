@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import mx.com.bitmaking.application.local.entity.Store_cliente_prod_cost;
+import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
 @Repository
 public interface IStoreClteProdCostRepo extends JpaRepository<Store_cliente_prod_cost, Long>{
 	

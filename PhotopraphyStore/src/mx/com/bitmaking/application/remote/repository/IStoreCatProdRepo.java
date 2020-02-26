@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import mx.com.bitmaking.application.remote.entity.Store_cat_prod;
+import mx.com.bitmaking.application.entity.Store_cat_prod;
 
 
 @Repository("remoteStoreCatProdRepo")

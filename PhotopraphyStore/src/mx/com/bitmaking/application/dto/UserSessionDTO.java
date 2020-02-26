@@ -1,9 +1,9 @@
-package mx.com.bitmaking.application.local.dto;
+package mx.com.bitmaking.application.dto;
 
 import java.util.HashMap;
 import java.util.List;
 
-import mx.com.bitmaking.application.local.entity.Store_menu;
+import mx.com.bitmaking.application.entity.Store_menu;
 
 
 public final class UserSessionDTO {

@@ -1,8 +1,8 @@
-package mx.com.bitmaking.application.local.service;
+package mx.com.bitmaking.application.service;
 
 import java.util.List;
 
-import mx.com.bitmaking.application.local.entity.Store_fotografo;
+import mx.com.bitmaking.application.entity.Store_fotografo;
 
 public interface IStoreFotografoService {
 

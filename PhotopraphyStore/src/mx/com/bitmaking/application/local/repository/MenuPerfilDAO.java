@@ -12,8 +12,8 @@ import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import mx.com.bitmaking.application.local.dto.UserSession;
-import mx.com.bitmaking.application.local.entity.Store_menu;
+import mx.com.bitmaking.application.dto.UserSession;
+import mx.com.bitmaking.application.entity.Store_menu;
 
 @Repository
 public class MenuPerfilDAO implements IMenuPerfilDAO{

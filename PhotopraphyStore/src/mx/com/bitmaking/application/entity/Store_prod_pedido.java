@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.remote.entity;
+package mx.com.bitmaking.application.entity;
 
 import java.math.BigDecimal;
 

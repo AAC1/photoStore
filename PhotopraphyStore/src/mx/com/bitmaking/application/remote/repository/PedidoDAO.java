@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import mx.com.bitmaking.application.remote.dto.UserSession;
+import mx.com.bitmaking.application.dto.UserSession;
 
 @Repository("remotePedidoDAO")
 public class PedidoDAO implements IPedidoDAO{

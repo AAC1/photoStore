@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import mx.com.bitmaking.application.dto.CostProductsDTO;
-import mx.com.bitmaking.application.local.entity.Store_cliente_prod_cost;
+import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
 
 @Repository("localCatProdDAO")
 public class CatProdDAO implements ICatProdDAO {

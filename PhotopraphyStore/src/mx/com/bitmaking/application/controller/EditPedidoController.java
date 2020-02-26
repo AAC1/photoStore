@@ -3,6 +3,7 @@ package mx.com.bitmaking.application.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.jfoenix.controls.JFXButton;
@@ -11,8 +12,9 @@ import com.jfoenix.controls.JFXTextField;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import mx.com.bitmaking.application.local.entity.Store_cat_estatus;
-import mx.com.bitmaking.application.local.service.IStoreCatEstatusService;
+import mx.com.bitmaking.application.entity.Store_cat_estatus;
+import mx.com.bitmaking.application.service.IStoreCatEstatusService;
+import mx.com.bitmaking.application.util.Flags;
 @Component
 public class EditPedidoController {
 	@FXML
@@ -35,7 +37,12 @@ public class EditPedidoController {
 	
 
 	@Autowired
+	@Qualifier("StoreCatEstatusService")
 	IStoreCatEstatusService catEstatusService;
+
+	@Autowired
+	@Qualifier("remoteStoreCatEstatusService")
+	IStoreCatEstatusService remoteCatEstatusService;
 	
 	/**
 	 * @return the btnAccept
@@ -118,7 +125,8 @@ public class EditPedidoController {
 		cbxEstatus.setItems(FXCollections.observableArrayList(arrayStts));
 		*/
 		cbxEstatus.getItems().removeAll(cbxEstatus.getItems());
-		List<Store_cat_estatus> lstEstatus = catEstatusService.getListEstatus();
+		List<Store_cat_estatus> lstEstatus = (Flags.remote_valid)?remoteCatEstatusService.getListEstatus():
+																	catEstatusService.getListEstatus();
 		String[] arrayStts = new String[lstEstatus.size()];
 		for(int i=0; i<lstEstatus.size();i++) {
 			arrayStts[i] = lstEstatus.get(i).getEstatus();

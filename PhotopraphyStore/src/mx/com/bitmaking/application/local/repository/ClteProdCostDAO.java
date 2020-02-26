@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import mx.com.bitmaking.application.dto.PedidosReporteDTO;
-import mx.com.bitmaking.application.local.entity.Store_pedido;
+import mx.com.bitmaking.application.entity.Store_pedido;
 
 @Repository("localClteProdCostDAO")
 public class ClteProdCostDAO implements IClteProdCostDAO{

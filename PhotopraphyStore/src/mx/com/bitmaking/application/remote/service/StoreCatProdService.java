@@ -7,16 +7,17 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.bitmaking.application.dto.CostProductsDTO;
-import mx.com.bitmaking.application.local.entity.Store_cat_prod;
+import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.local.repository.ICatProdDAO;
 import mx.com.bitmaking.application.local.repository.IStoreCatProdRepo;
+import mx.com.bitmaking.application.service.IStoreCatProdService;
 
 /**
  * @author albcervantes
@@ -42,12 +43,14 @@ public class StoreCatProdService implements IStoreCatProdService{ // implements 
 	private SessionFactory entityManager;
 */
 	@Override
+	@Transactional(value = "remoteTransactionManager")
 	public List<Store_cat_prod> getCatalogoProduct(){
 		List<Store_cat_prod> resp = new ArrayList<>();
 		
 		return catProductRepo.getActiveProducts();
 	}
 	@Override
+	@Transactional(value = "remoteTransactionManager")
 	public List<Store_cat_prod> getAllCatalogoProduct(){
 		List<Store_cat_prod> resp = catProductRepo.findAll();
 		for(int i=0; i<resp.size();i++){
@@ -60,12 +63,14 @@ public class StoreCatProdService implements IStoreCatProdService{ // implements 
 		return resp;
 	}
 	@Override
+	@Transactional(value = "remoteTransactionManager")
 	public boolean insertRow(Store_cat_prod row) {
 		
 		catProductRepo.save(row);
 		return true;
 	}
 	@Override
+	@Transactional(value = "remoteTransactionManager")
 	public boolean deleteRow(Store_cat_prod row) {
 		
 		catProductRepo.delete(row);
@@ -73,6 +78,7 @@ public class StoreCatProdService implements IStoreCatProdService{ // implements 
 	}
 	
 	@Override
+	@Transactional(value = "remoteTransactionManager")
 	public LinkedHashMap<Integer, Store_cat_prod> getAllCatalogoProduct2() {
 		LinkedHashMap<Integer, Store_cat_prod> hasResp = new LinkedHashMap<>();
 		
@@ -93,7 +99,7 @@ public class StoreCatProdService implements IStoreCatProdService{ // implements 
 	
 	//@SuppressWarnings("unchecked")
 	@Override
-	@Transactional
+	@Transactional(value = "remoteTransactionManager")
 	public LinkedHashMap<Integer, CostProductsDTO> getCostProdByClient(int cliente) {
 		List<CostProductsDTO> resp = catProdDAO.getListCostos(cliente);
 		LinkedHashMap<Integer, CostProductsDTO> hasResp = new LinkedHashMap<>();

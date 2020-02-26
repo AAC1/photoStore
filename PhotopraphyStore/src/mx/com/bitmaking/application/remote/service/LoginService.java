@@ -7,10 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.bitmaking.application.dto.ResponseDTO;
-import mx.com.bitmaking.application.remote.dto.UserSession;
-import mx.com.bitmaking.application.remote.dto.UserSessionDTO;
+import mx.com.bitmaking.application.dto.UserSession;
+import mx.com.bitmaking.application.dto.UserSessionDTO;
 import mx.com.bitmaking.application.remote.repository.ILoginDAO;
 import mx.com.bitmaking.application.remote.repository.IMenuPerfilDAO;
+import mx.com.bitmaking.application.service.ILoginService;
 import mx.com.bitmaking.application.util.Constantes;
 
 

@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import mx.com.bitmaking.application.remote.entity.Store_cat_prod;
-import mx.com.bitmaking.application.remote.entity.Store_pedido;
+import mx.com.bitmaking.application.entity.Store_cat_prod;
+import mx.com.bitmaking.application.entity.Store_pedido;
 
 @Repository("remoteStorePedidoRepo")
 public interface IStorePedidoRepo extends JpaRepository<Store_pedido,Long>{

@@ -10,18 +10,20 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManagerFactory;
-import javax.transaction.Transactional;
+
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.bitmaking.application.dto.PedidosReporteDTO;
-import mx.com.bitmaking.application.local.entity.Store_pedido;
+import mx.com.bitmaking.application.entity.Store_pedido;
 import mx.com.bitmaking.application.local.repository.IClteProdCostDAO;
 import mx.com.bitmaking.application.local.repository.IPedidoDAO;
 import mx.com.bitmaking.application.local.repository.IStorePedidoRepo;
+import mx.com.bitmaking.application.service.IStorePedidoService;
 import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.GeneralMethods;
 import net.sf.jasperreports.engine.JRException;
@@ -45,7 +47,7 @@ public class StorePedidoService implements IStorePedidoService {
 	private boolean export =false;
 	
 	
-	@Transactional
+	@Transactional(value = "remoteTransactionManager")
 	@Override
 	public List<PedidosReporteDTO> consultPedido(String qry) {
 		List<PedidosReporteDTO> resp = new ArrayList<>();
@@ -57,7 +59,7 @@ public class StorePedidoService implements IStorePedidoService {
 		return resp;
 	}
 	
-	@Transactional
+	@Transactional(value = "remoteTransactionManager")
 	@Override
 	public boolean generaXLS(FileInputStream fileInputStream, String qry, String titulo,
 				String pathReport,String pathParent) throws JRException{
@@ -115,7 +117,7 @@ public class StorePedidoService implements IStorePedidoService {
 		return export;
 	}
 	
-	@Transactional
+	@Transactional(value = "remoteTransactionManager")
 	@Override
 	public String getCurrentNumberFolio(String pref) {
 	
@@ -150,6 +152,7 @@ public class StorePedidoService implements IStorePedidoService {
 	}
 
 	@Override
+	@Transactional(value = "remoteTransactionManager")
 	public boolean guardaPedido(Store_pedido pedido) {
 		boolean resp=false;
 		try {

@@ -47,7 +47,7 @@ public class ConfigDBConnectionLocal {
     @Bean(name = "entityManager")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder) {
          return builder.dataSource(mysqlDataSource()).persistenceUnit("primary").properties(jpaProperties())
-                   .packages("mx.com.bitmaking.application.local").build();
+                   .packages("mx.com.bitmaking.application").build();
     }
    /*
    @Bean

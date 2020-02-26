@@ -3,19 +3,20 @@ package mx.com.bitmaking.application.remote.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
 
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.dto.ProdPedidosReporteDTO;
-import mx.com.bitmaking.application.local.entity.Store_prod_pedido;
+import mx.com.bitmaking.application.entity.Store_prod_pedido;
 import mx.com.bitmaking.application.local.repository.IStorePedidoRepo;
 import mx.com.bitmaking.application.local.repository.IStoreProdPedidoRepo;
+import mx.com.bitmaking.application.service.IStoreProdPedidoService;
 
 @Service("remoteStoreProdPedidoService")
 public class StoreProdPedidoService implements IStoreProdPedidoService{
@@ -29,7 +30,7 @@ public class StoreProdPedidoService implements IStoreProdPedidoService{
 	private IStorePedidoRepo pedidoRepo;
 	
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value = "remoteTransactionManager")
 	@Override
 	public List<Store_prod_pedido> getListProdPedidos(String pedidos) {
 		List<Store_prod_pedido> results =null;
@@ -58,6 +59,7 @@ public class StoreProdPedidoService implements IStoreProdPedidoService{
 	}
 
 	@Override
+	@Transactional(value = "remoteTransactionManager")
 	public boolean guardaProdsByPedido(String folio, Store_prod_pedido producto) {
 		int id_pedido = pedidoRepo.getIdByFolio(folio);
 		System.out.println("Id_pedido_saved:"+id_pedido);

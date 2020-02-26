@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.jfoenix.controls.JFXButton;
@@ -23,20 +24,33 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.local.repository.ICatProdDAO;
-import mx.com.bitmaking.application.local.service.IStoreCatProdService;
-import mx.com.bitmaking.application.local.service.IStoreClteProdCostService;
-import mx.com.bitmaking.application.local.service.IStoreFotografoService;
+import mx.com.bitmaking.application.service.IStoreCatProdService;
+import mx.com.bitmaking.application.service.IStoreClteProdCostService;
+import mx.com.bitmaking.application.service.IStoreFotografoService;
 
 @Component
 public class SelectProductoVtaController {
+	//@Autowired
+	//ICatProdDAO catProdDAO;
 	@Autowired
-	ICatProdDAO catProdDAO;
-	@Autowired
+	@Qualifier("StoreCatProdService")
 	IStoreCatProdService storeCatProdService;
 	@Autowired
+	@Qualifier("StoreFotografoService")
 	IStoreFotografoService clienteService;
 	@Autowired 
+	@Qualifier("StoreClteProdCostService")
 	IStoreClteProdCostService clteProdCostService;
+	
+	@Autowired
+	@Qualifier("remoteStoreCatProdService")
+	IStoreCatProdService remoteStoreCatProdService;
+	@Autowired
+	@Qualifier("remoteStoreFotografoService")
+	IStoreFotografoService remoteClienteService;
+	@Autowired 
+	@Qualifier("remoteStoreClteProdCostService")
+	IStoreClteProdCostService remoteClteProdCostService;
 	
 	//@FXML private TreeView<String> treeProd;
 	@FXML private JFXButton btnSalir;

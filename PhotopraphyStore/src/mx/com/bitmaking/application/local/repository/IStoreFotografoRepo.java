@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import mx.com.bitmaking.application.local.entity.Store_fotografo;
+import mx.com.bitmaking.application.entity.Store_fotografo;
 
 @Repository
 public interface IStoreFotografoRepo  extends JpaRepository<Store_fotografo,Long>{

@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import mx.com.bitmaking.application.dto.PedidosReporteDTO;
-import mx.com.bitmaking.application.remote.entity.Store_pedido;
+import mx.com.bitmaking.application.entity.Store_pedido;
 
 @Repository("remoteClteProdCostDAO")
 public class ClteProdCostDAO implements IClteProdCostDAO{

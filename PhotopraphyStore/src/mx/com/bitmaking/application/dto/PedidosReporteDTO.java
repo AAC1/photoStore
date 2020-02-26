@@ -1,6 +1,6 @@
 package mx.com.bitmaking.application.dto;
 
-import mx.com.bitmaking.application.local.entity.Store_pedido;
+import mx.com.bitmaking.application.entity.Store_pedido;
 
 public class PedidosReporteDTO extends Store_pedido{
 	private String estatus;

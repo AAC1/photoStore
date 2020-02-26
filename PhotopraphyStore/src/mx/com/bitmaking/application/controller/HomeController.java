@@ -30,8 +30,8 @@ import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.MystoreApplication;
-import mx.com.bitmaking.application.local.dto.UserSessionDTO;
-import mx.com.bitmaking.application.local.entity.Store_menu;
+import mx.com.bitmaking.application.dto.UserSessionDTO;
+import mx.com.bitmaking.application.entity.Store_menu;
 import mx.com.bitmaking.application.util.Flags;
 
 @Component
@@ -58,7 +58,7 @@ public class HomeController {
 	 @Autowired
 	 private ApplicationContext context ;
 	 UserSessionDTO instance = null;
-	 mx.com.bitmaking.application.remote.dto.UserSessionDTO remoteInstance = null;
+	 mx.com.bitmaking.application.dto.UserSessionDTO remoteInstance = null;
 	 
 	 
 	 
@@ -71,14 +71,17 @@ public class HomeController {
 
 
 	public void initialize() {
+		remoteInstance = UserSessionDTO.getInstance();
+		remoteInitialize();
+		/*
 		if(Flags.remote_valid) {
-			remoteInstance = mx.com.bitmaking.application.remote.dto.UserSessionDTO.getInstance();
+			remoteInstance = UserSessionDTO.getInstance();
 			remoteInitialize();
 		}else {
 			instance = UserSessionDTO.getInstance();
 			localInitialize();
 		}
-		
+		*/
 		
 		titleHome.getStyleClass().add("label-title");
 		//menuContainer.getStyleClass().add("rootMenu");
@@ -110,7 +113,7 @@ public class HomeController {
 			Parent parent = menuContainer.getParent(); // the Parent (or Scene) that contains the TextFields
 			Label textField = null;
 			
-			for(mx.com.bitmaking.application.remote.entity.Store_menu el:remoteInstance.getMenuAccess()) {
+			for(Store_menu el:remoteInstance.getMenuAccess()) {
 				textField=(Label) parent.lookup("#"+el.getFx_id());
 				if (textField != null) {
 					textField.setVisible(true);

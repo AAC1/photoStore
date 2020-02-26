@@ -33,17 +33,16 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
-import mx.com.bitmaking.application.local.dto.UserSessionDTO;
-import mx.com.bitmaking.application.local.entity.Store_cat_estatus;
-
-import mx.com.bitmaking.application.local.entity.Store_fotografo;
-import mx.com.bitmaking.application.local.entity.Store_pedido;
-import mx.com.bitmaking.application.local.entity.Store_prod_pedido;
-import mx.com.bitmaking.application.local.service.IStoreCatEstatusService;
-import mx.com.bitmaking.application.local.service.IStoreCatProdService;
-import mx.com.bitmaking.application.local.service.IStoreFotografoService;
-import mx.com.bitmaking.application.local.service.IStorePedidoService;
-import mx.com.bitmaking.application.local.service.IStoreProdPedidoService;
+import mx.com.bitmaking.application.dto.UserSessionDTO;
+import mx.com.bitmaking.application.entity.Store_cat_estatus;
+import mx.com.bitmaking.application.entity.Store_fotografo;
+import mx.com.bitmaking.application.entity.Store_pedido;
+import mx.com.bitmaking.application.entity.Store_prod_pedido;
+import mx.com.bitmaking.application.service.IStoreCatEstatusService;
+import mx.com.bitmaking.application.service.IStoreCatProdService;
+import mx.com.bitmaking.application.service.IStoreFotografoService;
+import mx.com.bitmaking.application.service.IStorePedidoService;
+import mx.com.bitmaking.application.service.IStoreProdPedidoService;
 
 import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.Flags;
@@ -88,13 +87,35 @@ public class VentaController {
 	IStoreCatProdService catProdService;
 	
 	@Autowired
+	@Qualifier("StoreFotografoService")
 	IStoreFotografoService fotografoService;
 	@Autowired
+	@Qualifier("StoreCatEstatusService")
 	IStoreCatEstatusService catEstatusService;
 	@Autowired
+	@Qualifier("StorePedidoService")
 	IStorePedidoService pedidoService;
 	@Autowired
+	@Qualifier("StoreProdPedidoService")
 	IStoreProdPedidoService prodPedidoService;
+	
+	@Autowired
+	@Qualifier("remoteStoreCatProdService")
+	IStoreCatProdService remoteCatProdService;
+	
+	@Autowired
+	@Qualifier("remoteStoreFotografoService")
+	IStoreFotografoService remoteFotografoService;
+	@Autowired
+	@Qualifier("remoteStoreCatEstatusService")
+	IStoreCatEstatusService remoteCatEstatusService;
+	@Autowired
+	@Qualifier("remoteStorePedidoService")
+	IStorePedidoService remotePedidoService;
+	@Autowired
+	@Qualifier("remoteStoreProdPedidoService")
+	IStoreProdPedidoService remoteProdPedidoService;
+	
 	
 	@Autowired
 	 private ApplicationContext context ;
@@ -104,7 +125,6 @@ public class VentaController {
 	List<Store_cat_estatus> lstEstatus = null;
 	CostProductsDTO rowProd = null;
 	UserSessionDTO instance = null;
-	mx.com.bitmaking.application.remote.dto.UserSessionDTO remoteInstance = null;
 	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	/**
@@ -115,12 +135,9 @@ public class VentaController {
 	}
 
 	public void initialize() {
-		if(Flags.remote_valid) {
-			remoteInstance = mx.com.bitmaking.application.remote.dto.UserSessionDTO.getInstance();
-		}
-		else {
-			instance = UserSessionDTO.getInstance();
-		}
+		
+		instance = UserSessionDTO.getInstance();
+		
 		responsiveGUI();
 		initForm();
 		
@@ -136,9 +153,9 @@ public class VentaController {
 	}
 	
 	private void generateFolio(){
-		String prefijo = Flags.remote_valid?
-						pedidoService.getCurrentNumberFolio(remoteInstance.getPrefijo()):
-						pedidoService.getCurrentNumberFolio(instance.getPrefijo());
+		String prefijo =// Flags.remote_valid?
+					//remotePedidoService.getCurrentNumberFolio(instance.getPrefijo()):
+					pedidoService.getCurrentNumberFolio(instance.getPrefijo());
 		
 		inputFolio.setText(prefijo);
 	}
@@ -237,6 +254,7 @@ public class VentaController {
 						pedidoObj.setFec_entregado(sdf.parse(sdf.format(new Date())));
 					}
 					pedidoService.guardaPedido(pedidoObj);
+					if(Flags.remote_valid)remotePedidoService.guardaPedido(pedidoObj);
 					
 					ObservableList<CostProductsDTO> lstProds = tbProductos.getItems();
 					Store_prod_pedido product = null;
@@ -249,6 +267,7 @@ public class VentaController {
 						product.setDescripcion(el.getProducto());
 						
 						prodPedidoService.guardaProdsByPedido(pedidoObj.getFolio(), product);
+						if(Flags.remote_valid)remoteProdPedidoService.guardaProdsByPedido(pedidoObj.getFolio(), product);
 					}
 					if(stageBusqProd!=null) stageBusqProd.close();
 					/* IMPRIME TICKET */
@@ -297,7 +316,7 @@ public class VentaController {
 	}
 	private void getLstEstatus() {
 		cbxEstatus.getItems().removeAll(cbxEstatus.getItems());
-		lstEstatus = catEstatusService.getListEstatus();
+		lstEstatus = (Flags.remote_valid)?remoteCatEstatusService.getListEstatus():catEstatusService.getListEstatus();
 		String[] arrayStts = new String[lstEstatus.size()];
 		for(int i=0; i<lstEstatus.size();i++) {
 			arrayStts[i] = lstEstatus.get(i).getEstatus();
@@ -325,11 +344,8 @@ public class VentaController {
 	
 	private void fillCbxClte() {
 		cbxCliente.getItems().removeAll(cbxCliente.getItems());
-		if(fotografoService ==null){
-			GeneralMethods.modalMsg("ERROR", "Ha ocurrido un error", "Servicio no disponible");
-			return;
-		}
-		lstFoto = fotografoService.getActiveClients();
+		
+		lstFoto = (Flags.remote_valid)?remoteFotografoService.getActiveClients():fotografoService.getActiveClients();
 		String[] arrayClte = new String[lstFoto.size()];
 		
 		int idx=0;

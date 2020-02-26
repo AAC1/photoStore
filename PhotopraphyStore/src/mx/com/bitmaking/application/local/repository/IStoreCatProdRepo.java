@@ -9,7 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import mx.com.bitmaking.application.local.entity.Store_cat_prod;
+import mx.com.bitmaking.application.entity.Store_cat_prod;
 
 @Repository("localStoreCatProdRepo")
 public interface IStoreCatProdRepo extends JpaRepository<Store_cat_prod, Long> {

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -42,13 +43,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.dto.PedidosReporteDTO;
 import mx.com.bitmaking.application.dto.ProdPedidosReporteDTO;
-import mx.com.bitmaking.application.local.entity.Store_cat_estatus;
-import mx.com.bitmaking.application.local.entity.Store_pedido;
-import mx.com.bitmaking.application.local.entity.Store_prod_pedido;
-import mx.com.bitmaking.application.local.service.IStoreCatEstatusService;
-import mx.com.bitmaking.application.local.service.IStorePedidoService;
-import mx.com.bitmaking.application.local.service.IStoreProdPedidoService;
+import mx.com.bitmaking.application.entity.Store_cat_estatus;
+import mx.com.bitmaking.application.entity.Store_pedido;
+import mx.com.bitmaking.application.entity.Store_prod_pedido;
+import mx.com.bitmaking.application.service.IStoreCatEstatusService;
+import mx.com.bitmaking.application.service.IStorePedidoService;
+import mx.com.bitmaking.application.service.IStoreProdPedidoService;
 import mx.com.bitmaking.application.util.Constantes;
+import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
 @Component
@@ -120,12 +122,25 @@ public class BusqPedidoRepController {
 	private TableColumn<Store_prod_pedido, BigDecimal> colCostTotalProd;
 	
 	@Autowired
+	@Qualifier("StoreCatEstatusService")
 	IStoreCatEstatusService catEstatusService;
-	
 	@Autowired
+	@Qualifier("StorePedidoService")
 	private IStorePedidoService pedidoService;
 	@Autowired
+	@Qualifier("StoreProdPedidoService")
 	private IStoreProdPedidoService prodPedidoService;
+
+	@Autowired
+	@Qualifier("remoteStoreCatEstatusService")
+	IStoreCatEstatusService remoteCatEstatusService;
+	
+	@Autowired
+	@Qualifier("remoteStorePedidoService")
+	private IStorePedidoService remotePedidoService;
+	@Autowired
+	@Qualifier("remoteStoreProdPedidoService")
+	private IStoreProdPedidoService remoteProdPedidoService;
 
 	@Autowired
 	private ApplicationContext context ;
@@ -245,6 +260,7 @@ public class BusqPedidoRepController {
 							}
 							objPedido.setDescripcion(ctrller.getInputDesc().getText());
 							pedidoService.editPedido(objPedido);
+							if(Flags.remote_valid)remotePedidoService.editPedido(objPedido);
 							searchPedido();
 							if(stage!=null) stage.close();
 						} catch (ParseException e) {
@@ -291,7 +307,9 @@ public class BusqPedidoRepController {
 			String pathReport=Constantes.PATH_XLS+"reporte_"+formatoD.format(new Date())+".xls";
 			String qry = generateQry();
 			String titulo="MACROFOTO S.A de C.V.";
-			boolean export = pedidoService.generaXLS(fileInputStream,qry,titulo,pathReport,file.getParent()+"/");
+			boolean export = (Flags.remote_valid)?
+					remotePedidoService.generaXLS(fileInputStream,qry,titulo,pathReport,file.getParent()+"/"):
+					pedidoService.generaXLS(fileInputStream,qry,titulo,pathReport,file.getParent()+"/");
 			if(export)
 				GeneralMethods.modalMsg("", "Exportación Terminada.", " Vaya a la ruta: "+pathReport
 						);
@@ -323,7 +341,8 @@ public class BusqPedidoRepController {
 		tblProducts.getItems().removeAll(tblProducts.getItems());
 		
 		String qry = generateQry();
-		List<PedidosReporteDTO> lstPedidos = pedidoService.consultPedido(qry);
+		List<PedidosReporteDTO> lstPedidos = (Flags.remote_valid)?remotePedidoService.consultPedido(qry):
+																	pedidoService.consultPedido(qry);
 		List<Store_prod_pedido> lstProductos = null;
 		
 		if (lstPedidos == null || lstPedidos.size() == 0) {
@@ -359,7 +378,9 @@ public class BusqPedidoRepController {
 		}
 		
 		System.out.println("Pedidos: "+inPedido);
-		List<Store_prod_pedido> lstProductos=prodPedidoService.getListProdPedidos(inPedido);
+		List<Store_prod_pedido> lstProductos=(Flags.remote_valid)?
+							remoteProdPedidoService.getListProdPedidos(inPedido):
+									prodPedidoService.getListProdPedidos(inPedido);
 		tblProducts.getItems().removeAll(tblProducts.getItems());
 		tblProducts.setItems(FXCollections.observableList(lstProductos));
 		
@@ -411,7 +432,9 @@ public class BusqPedidoRepController {
 	private void getLstEstatus() {
 		
 		cbxBusqEstatus.getItems().removeAll(cbxBusqEstatus.getItems());
-		List<Store_cat_estatus> lstEstatus = catEstatusService.getListEstatus();
+		List<Store_cat_estatus> lstEstatus = (Flags.remote_valid)?
+												remoteCatEstatusService.getListEstatus():
+												catEstatusService.getListEstatus();
 		String[] arrayStts = new String[lstEstatus.size()];
 		for(int i=0; i<lstEstatus.size();i++) {
 			arrayStts[i] = lstEstatus.get(i).getEstatus();

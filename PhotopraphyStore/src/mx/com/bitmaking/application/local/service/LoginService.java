@@ -9,14 +9,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.bitmaking.application.dto.ResponseDTO;
-import mx.com.bitmaking.application.local.dto.UserSession;
-import mx.com.bitmaking.application.local.dto.UserSessionDTO;
+import mx.com.bitmaking.application.dto.UserSession;
+import mx.com.bitmaking.application.dto.UserSessionDTO;
 import mx.com.bitmaking.application.local.repository.ILoginDAO;
 import mx.com.bitmaking.application.local.repository.IMenuPerfilDAO;
+import mx.com.bitmaking.application.service.ILoginService;
 import mx.com.bitmaking.application.util.Constantes;
 
 
-@Service
+@Service("LoginService")
 public class LoginService implements ILoginService{
 
 	@Autowired

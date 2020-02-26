@@ -1,6 +1,6 @@
-package mx.com.bitmaking.application.local.service;
+package mx.com.bitmaking.application.service;
 
-import mx.com.bitmaking.application.local.entity.Store_cliente_prod_cost;
+import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
 
 public interface IStoreClteProdCostService {
 	public Store_cliente_prod_cost getRowByIdProdAndClient(int idCliente,int idProd);

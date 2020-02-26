@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.local.entity;
+package mx.com.bitmaking.application.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
