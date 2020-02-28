@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -14,6 +15,8 @@ import org.hibernate.type.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
+
+import com.mysql.jdbc.exceptions.jdbc4.MySQLDataException;
 
 import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.idao.IStoreCatProdDAO;
@@ -89,11 +92,15 @@ public class StoreCatProdDAO implements IStoreCatProdDAO {
 	}
 
 	@Override
-	public boolean delete(Store_cat_prod row) {
+	public boolean delete(Store_cat_prod row) throws Exception {
 		Session session = sessionFactory.getCurrentSession();
 		System.out.println("id_prodTO Delete:"+row.getId_prod());
-		Store_cat_prod el = session.get(Store_cat_prod.class, row.getId_prod());
-		session.delete(el);
+		try{
+			Store_cat_prod el = session.get(Store_cat_prod.class, row.getId_prod());
+			session.delete(el);
+		}catch(HibernateException e){
+			throw new Exception("No se Pudo eliminar registro:"+e.getMessage());
+		}
 	//	session.flush();
 		return true;
 	}

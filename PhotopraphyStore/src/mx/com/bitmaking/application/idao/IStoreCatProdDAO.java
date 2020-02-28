@@ -24,7 +24,7 @@ public interface IStoreCatProdDAO {
 	
 	public boolean save(Store_cat_prod row);	
 	
-	public boolean delete(Store_cat_prod row);
+	public boolean delete(Store_cat_prod row)throws Exception;
 	
 	public boolean update(Store_cat_prod row);	
 }

@@ -76,7 +76,7 @@ public abstract class AbstractStoreCatProdService implements IStoreCatProdServic
 		return true;
 	}
 	@Override
-	public boolean deleteRow(Store_cat_prod row) {
+	public boolean deleteRow(Store_cat_prod row)throws Exception {
 		
 		getCatProductRepo().delete(row);
 		

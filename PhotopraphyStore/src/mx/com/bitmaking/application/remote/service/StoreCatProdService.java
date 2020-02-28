@@ -51,11 +51,11 @@ public class StoreCatProdService extends AbstractStoreCatProdService{ //implemen
 	
 	@Transactional(value = "remoteTransactionManager")
 	public boolean insertRow(Store_cat_prod row) {
-		return super.deleteRow(row);
+		return super.insertRow(row);
 	}
 	
 	@Transactional(value = "remoteTransactionManager")
-	public boolean deleteRow(Store_cat_prod row) {
+	public boolean deleteRow(Store_cat_prod row)throws Exception {
 		return super.deleteRow(row);
 	}
 	
@@ -72,7 +72,7 @@ public class StoreCatProdService extends AbstractStoreCatProdService{ //implemen
 	
 	@Transactional(value="transactionManager")
 	public boolean updateRow(Store_cat_prod row) {
-		return super.deleteRow(row);
+		return super.updateRow(row);
 	}
 	@Override
 	public IStoreCatProdDAO getCatProductRepo() {

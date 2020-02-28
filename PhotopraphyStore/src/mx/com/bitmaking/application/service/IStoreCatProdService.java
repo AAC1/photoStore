@@ -25,7 +25,7 @@ public interface IStoreCatProdService {
 
 	public LinkedHashMap<Integer,Store_cat_prod> getAllCatalogoProduct2();
 	public boolean insertRow(Store_cat_prod row);
-	public boolean deleteRow(Store_cat_prod row);
+	public boolean deleteRow(Store_cat_prod row)throws Exception;
 	public boolean updateRow(Store_cat_prod row);
 	
 	public LinkedHashMap<Integer, CostProductsDTO> getCostProdByClient(int cliente);

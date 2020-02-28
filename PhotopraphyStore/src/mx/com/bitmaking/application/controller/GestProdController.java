@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Component;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLDataException;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -65,7 +68,7 @@ public class GestProdController {
 	private Stage stageProd = null;
 	LinkedHashMap<Integer, Store_cat_prod> productsMap = null;
 	Store_cat_prod catProdModif = null;
-
+	private boolean deleted=false;
 	public JFXButton getBtnSalir() {
 		return btnSalir;
 	}
@@ -85,7 +88,7 @@ public class GestProdController {
 		return new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-
+				deleted=true;
 				try {
 					deleteChildren(treeItem);
 					String[] arrayStr = treeItem.getValue().split("\\|");
@@ -93,8 +96,13 @@ public class GestProdController {
 					String idProd = arrayStr[0].substring(2, arrayStr[0].length()).trim();
 					Store_cat_prod row = productsMap.get(Integer.parseInt(idProd));
 					row.setEstatus(("ACTIVO".equals(row.getEstatus().toUpperCase())) ? "1" : "0");
-					catProdService.deleteRow(row);
-					if(Flags.remote_valid)remoteCatProdService.deleteRow(row);
+					if(deleted){//valida si algun hijo no se pudo eliminar
+						catProdService.deleteRow(row);
+						if(Flags.remote_valid)remoteCatProdService.deleteRow(row);
+					}else{
+						GeneralMethods.modalMsg("", "", "Algunos productos no fueron eliminados. \n"
+								+ "Valide que no se encuentren en pedidos.");
+					}
 					getTblCatProducts();
 					stageProd.close();
 
@@ -133,6 +141,8 @@ public class GestProdController {
 						GeneralMethods.modalMsg("Error", "", "Seleccione algún producto");
 						return;
 					}
+					
+					
 					FXMLLoader fxmlLoader = new FXMLLoader(
 							getClass().getResource("/mx/com/bitmaking/application/view/ModalConfirm.fxml"));
 
@@ -153,7 +163,7 @@ public class GestProdController {
 					List<String> lstStts = new ArrayList<>();
 					lstStts.add("Activo");
 					lstStts.add("Inactivo");
-					modalObj.getLblMsg().setText("¿Seguro que desea eliminar el producto?");
+					modalObj.getLblMsg().setText("¿Seguro que desea eliminar el producto?\nSolo se eliminaran productos que no se encuentren en pedidos.");
 
 					modalObj.getBtnCancelar().addEventHandler(MouseEvent.MOUSE_CLICKED, closeModalEditProd());
 					modalObj.getBtnConfirm().addEventHandler(MouseEvent.MOUSE_CLICKED, acceptDelProd(treeItem));
@@ -342,8 +352,13 @@ public class GestProdController {
 
 			idProd = arrayStr[0].substring(2, arrayStr[0].length()).trim();
 			row = productsMap.get(Integer.parseInt(idProd));
-			catProdService.deleteRow(row);
-			if(Flags.remote_valid)remoteCatProdService.deleteRow(row);
+			try{
+				catProdService.deleteRow(row);
+				if(Flags.remote_valid)remoteCatProdService.deleteRow(row);
+			}catch(Exception e){
+				deleted=false;
+				System.out.println(e.getMessage());
+			}
 			deleteChildren(el);
 
 		}

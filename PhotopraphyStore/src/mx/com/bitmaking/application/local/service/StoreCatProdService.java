@@ -62,7 +62,7 @@ public class StoreCatProdService extends AbstractStoreCatProdService{ // impleme
 	}
 
 	@Transactional(value="transactionManager")
-	public boolean deleteRow(Store_cat_prod row) {
+	public boolean deleteRow(Store_cat_prod row)throws Exception {
 		return super.deleteRow(row);
 	}
 	
