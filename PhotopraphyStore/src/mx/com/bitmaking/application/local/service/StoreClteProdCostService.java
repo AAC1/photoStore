@@ -6,34 +6,35 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import mx.com.bitmaking.application.abstractservice.AbstractStoreClteProdCostService;
 import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
 import mx.com.bitmaking.application.idao.IStoreClteProdCostDAO;
 import mx.com.bitmaking.application.service.IStoreClteProdCostService;
 
 @Service("StoreClteProdCostService")
-//(value="transactionManager")
-public class StoreClteProdCostService implements IStoreClteProdCostService{
+
+public class StoreClteProdCostService extends AbstractStoreClteProdCostService{//implements IStoreClteProdCostService{
 
 	@Autowired
 	@Qualifier("StoreClteProdCostDAO")
 	IStoreClteProdCostDAO clteProdCostRepo;
 	
-	@Override
+	
 	@Transactional(value="transactionManager")
 	public Store_cliente_prod_cost getRowByIdProdAndClient(int idCliente, int idProd) {
-		
-		return clteProdCostRepo.getRowByIdProdAndClient(idCliente, idProd);
+		return super.getRowByIdProdAndClient(idCliente, idProd);
 	}
-	@Override
 	@Transactional(value="transactionManager")
 	public  void insertRow(Store_cliente_prod_cost costProdObj) {
-		clteProdCostRepo.save(costProdObj);
-		
+		super.insertRow(costProdObj);
 	}
-	@Override
+	@Transactional(value="transactionManager")
 	public void updateRow(Store_cliente_prod_cost costProdObj) {
-		clteProdCostRepo.update(costProdObj);
-		
+		super.updateRow(costProdObj);
+	}
+	@Transactional(value="transactionManager")
+	public IStoreClteProdCostDAO getClteProdCostRepo() {
+		return clteProdCostRepo;
 	}
 
 }
