@@ -9,35 +9,29 @@ import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import mx.com.bitmaking.application.abstractdao.AbstractClteProdCostDAO;
 import mx.com.bitmaking.application.dto.PedidosReporteDTO;
 import mx.com.bitmaking.application.entity.Store_pedido;
 import mx.com.bitmaking.application.idao.IClteProdCostDAO;
 
 @Repository("remoteClteProdCostDAO")
-public class ClteProdCostDAO implements IClteProdCostDAO{
+public class ClteProdCostDAO extends AbstractClteProdCostDAO{//implements IClteProdCostDAO{
 	
 	@Autowired
 	@Qualifier("remoteSessionFactory")
 	protected SessionFactory sessionFactory;
 	
-	
-	@Override
+	@Transactional("remoteTransactionManager")
 	public List<PedidosReporteDTO> consultaPedido(String qry) {
-		List<PedidosReporteDTO> results = new ArrayList<>();
-		try{
- 
-			SQLQuery query= sessionFactory.getCurrentSession().createSQLQuery(qry);
-			
-			query.setResultTransformer(Transformers.aliasToBean(PedidosReporteDTO.class));
-			
-			results =query.list();
-		
-		}catch(Exception e) {
-			e.printStackTrace();
-		
-		}
-		return results;
+		return super.consultaPedido(qry);
+	}
+
+
+	@Override
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
 	}
 
 }

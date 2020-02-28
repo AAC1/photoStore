@@ -8,38 +8,27 @@ import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import mx.com.bitmaking.application.abstractdao.AbstractStoreFotografoDAO;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.entity.Store_fotografo;
 import mx.com.bitmaking.application.idao.IStoreFotografoDAO;
 
 @Repository("StoreFotografoDAO")
-public class StoreFotografoDAO implements IStoreFotografoDAO{
+public class StoreFotografoDAO extends AbstractStoreFotografoDAO{// implements IStoreFotografoDAO{
 	@Autowired
 	@Qualifier("sessionFactory")
 	protected SessionFactory sessionFactory;
 	
-	@Override
+	@Transactional(value="transactionManager")
 	public List<Store_fotografo> getActiveClients() {
-		List<Store_fotografo> results = null;
-		StringBuilder qry = new StringBuilder();
-		qry.append(" SELECT s.* ");
-		qry.append(" FROM Store_fotografo s WHERE estatus=1 ");
-		
-		try{
- 
-			SQLQuery query= sessionFactory.getCurrentSession().createSQLQuery(qry.toString());
-			
-			query.setResultTransformer(Transformers.aliasToBean(Store_fotografo.class));
-			
-			results =query.list();
-		
-		}catch(Exception e) {
-			e.printStackTrace();
-		
-		}
-		
-		return results;
+		return super.getActiveClients();
+	}
+
+	@Override
+	public SessionFactory getSessionFActory() {
+		return sessionFactory;
 	}
 
 }

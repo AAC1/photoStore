@@ -1,7 +1,7 @@
 /**
  * 
  */
-package mx.com.bitmaking.application.remote.repository;
+package mx.com.bitmaking.application.abstractdao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import mx.com.bitmaking.application.abstractdao.AbstractCatEstatusDAO;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.entity.Store_cat_estatus;
 import mx.com.bitmaking.application.idao.ICatEstatusDAO;
@@ -25,21 +24,24 @@ import mx.com.bitmaking.application.idao.ICatEstatusDAO;
  * @author ayalaja
  *
  */
-@Repository("remoteCatEstatusDAO")
-public class CatEstatusDAO extends AbstractCatEstatusDAO {// implements ICatEstatusDAO{
+public abstract class AbstractCatEstatusDAO implements ICatEstatusDAO{
+	/*
 	@Autowired
-	@Qualifier("remoteSessionFactory")
+	@Qualifier("sessionFactory")
 	protected SessionFactory sessionFactory;
+	*/
+	public abstract SessionFactory getSessionFactory();
 	
-	@Transactional("remoteTransactionManager")
-	public List<Store_cat_estatus> findAll() {
-		return super.findAll();
-	}
-
-
+	@SuppressWarnings("unchecked")
 	@Override
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
+	public List<Store_cat_estatus> findAll() {
+		List<Store_cat_estatus> resp= new ArrayList<>();
+		SQLQuery qry = getSessionFactory().getCurrentSession().createSQLQuery("SELECT s.* FROM Store_cat_estatus s");
+		qry.setResultTransformer(Transformers.aliasToBean(Store_cat_estatus.class));
+		qry.addScalar("id_estatus",new IntegerType());
+		qry.addScalar("estatus",new StringType());
+		resp = qry.list();
+		return resp;
 	}
 	
 }

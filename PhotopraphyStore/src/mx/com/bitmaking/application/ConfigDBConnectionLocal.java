@@ -30,7 +30,8 @@ import javafx.application.Application;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = {"mx.com.bitmaking.application.local","mx.com.bitmaking.application.entity",
-								"mx.com.bitmaking.application.idao","mx.com.bitmaking.application.service"},
+								"mx.com.bitmaking.application.idao","mx.com.bitmaking.application.service",
+								"mx.com.bitmaking.application.abstractdao","mx.com.bitmaking.application.abstractservice"},
 	entityManagerFactoryRef = "entityManager", transactionManagerRef = "transactionManager") 
 public class ConfigDBConnectionLocal {
 //	@Autowired

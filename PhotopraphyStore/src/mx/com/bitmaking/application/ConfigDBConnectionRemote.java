@@ -25,7 +25,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages ={"mx.com.bitmaking.application.remote","mx.com.bitmaking.application.entity",
-										 "mx.com.bitmaking.application.idao","mx.com.bitmaking.application.service"},
+										 "mx.com.bitmaking.application.idao","mx.com.bitmaking.application.service",
+										 "mx.com.bitmaking.application.abstractdao","mx.com.bitmaking.application.abstractservice"},
 	entityManagerFactoryRef = "remoteEntityManager", transactionManagerRef = "remoteTransactionManager") 
 public class ConfigDBConnectionRemote {
 	

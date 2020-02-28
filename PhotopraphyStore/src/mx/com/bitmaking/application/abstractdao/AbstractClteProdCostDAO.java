@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.local.repository;
+package mx.com.bitmaking.application.abstractdao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,29 +9,37 @@ import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import mx.com.bitmaking.application.abstractdao.AbstractClteProdCostDAO;
 import mx.com.bitmaking.application.dto.PedidosReporteDTO;
 import mx.com.bitmaking.application.entity.Store_pedido;
 import mx.com.bitmaking.application.idao.IClteProdCostDAO;
 
-@Repository("ClteProdCostDAO")
-public class ClteProdCostDAO extends AbstractClteProdCostDAO{//implements IClteProdCostDAO{
-	
+
+public abstract class AbstractClteProdCostDAO implements IClteProdCostDAO{
+	/*
 	@Autowired
 	@Qualifier("sessionFactory")
 	protected SessionFactory sessionFactory;
+	*/
 	
-	@Transactional(value="transactionManager")
-	public List<PedidosReporteDTO> consultaPedido(String qry) {
-		return super.consultaPedido(qry);
-	}
-
-
+	public abstract SessionFactory getSessionFactory();
+	
 	@Override
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
+	public List<PedidosReporteDTO> consultaPedido(String qry) {
+		List<PedidosReporteDTO> results = new ArrayList<>();
+		try{
+ 
+			SQLQuery query= getSessionFactory().getCurrentSession().createSQLQuery(qry);
+			
+			query.setResultTransformer(Transformers.aliasToBean(PedidosReporteDTO.class));
+			
+			results =query.list();
+		
+		}catch(Exception e) {
+			e.printStackTrace();
+		
+		}
+		return results;
 	}
 
 }

@@ -15,84 +15,43 @@ import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import mx.com.bitmaking.application.abstractdao.AbstractStoreClteProdCostDAO;
 import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
 import mx.com.bitmaking.application.idao.IStoreClteProdCostDAO;
 @Repository("remoteStoreClteProdCostDAO")
-public class StoreClteProdCostDAO implements IStoreClteProdCostDAO{
+public class StoreClteProdCostDAO extends AbstractStoreClteProdCostDAO{//implements IStoreClteProdCostDAO{
 	@Autowired
 	@Qualifier("remoteSessionFactory")
 	protected SessionFactory sessionFactory;
 
-	@Override
+	@Transactional("remoteTransactionManager")
 	public Store_cliente_prod_cost getRowByIdProdAndClient(int idCliente, int idProd) {
-		StringBuilder sQry = new StringBuilder();
-		
-		sQry.append("select s.* ");
-		sQry.append("FROM Store_cliente_prod_cost s WHERE s.id_cliente=:idCliente AND s.id_prod=:idProd");
-		SQLQuery qry = sessionFactory.getCurrentSession()
-				.createSQLQuery(sQry.toString());
-		
-		qry.setInteger("idCliente", idCliente);
-		qry.setInteger("idProd", idProd);
-		//Validar si es necesario agregar escalar
-		qry.setResultTransformer(Transformers.aliasToBean(Store_cliente_prod_cost.class));
-		qry.addScalar("id_clte_prod_cost", new IntegerType());
-		qry.addScalar("id_cliente", new IntegerType());
-		qry.addScalar("id_prod", new IntegerType());
-		qry.addScalar("bar_code", new StringType());
-		qry.addScalar("costo", new BigDecimalType());
-		
-		Store_cliente_prod_cost resp = (Store_cliente_prod_cost)qry.setMaxResults(1).uniqueResult();
-		return resp;
-
+		return super.getRowByIdProdAndClient(idCliente, idProd);
 	}
-
+	@Transactional("remoteTransactionManager")
+	public List<Store_cliente_prod_cost> getRowByIdProd( int idProd) {
+		return super.getRowByIdProd(idProd);
+	}
+	@Transactional("remoteTransactionManager")
 	public void save(Store_cliente_prod_cost costProdObj) {
-		 sessionFactory.getCurrentSession().saveOrUpdate(costProdObj);
+		super.save(costProdObj);
 	}
-
-	@Override
+	@Transactional("remoteTransactionManager")
 	public void update(Store_cliente_prod_cost costProdObj) {
-		sessionFactory.getCurrentSession().update(costProdObj);
-		
+		 super.update(costProdObj);
 	}
-
-	@Override
+	@Transactional("remoteTransactionManager")
 	public void deleteRowsByIdProd(List<Store_cliente_prod_cost> rows) {
-		Session session = sessionFactory.getCurrentSession();
-		 Store_cliente_prod_cost row = null;
-		 try {
-			 for(Store_cliente_prod_cost el: rows) {
-				  row=session.get(Store_cliente_prod_cost.class, el.getId_clte_prod_cost());
-				  session.delete(row);
-			 }
-		 }catch(Exception e) {
-			 e.printStackTrace();
-		 }
+		super.deleteRowsByIdProd(rows);
 	}
-
+	
 	@Override
-	public List<Store_cliente_prod_cost> getRowByIdProd(int idProd) {
-		StringBuilder sQry = new StringBuilder();
-		List<Store_cliente_prod_cost> resp = new ArrayList<>();
-		sQry.append("select s.* ");
-		sQry.append("FROM Store_cliente_prod_cost s WHERE  s.id_prod=:idProd");
-		SQLQuery qry = sessionFactory.getCurrentSession()
-				.createSQLQuery(sQry.toString());
-		
-		qry.setInteger("idProd", idProd);
-		//Validar si es necesario agregar escalar
-		qry.setResultTransformer(Transformers.aliasToBean(Store_cliente_prod_cost.class));
-		qry.addScalar("id_clte_prod_cost", new IntegerType());
-		qry.addScalar("id_cliente", new IntegerType());
-		qry.addScalar("id_prod", new IntegerType());
-		qry.addScalar("bar_code", new StringType());
-		qry.addScalar("costo", new BigDecimalType());
-		
-		resp = qry.list();
-		return resp;
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
 	}
+	
 	
 
 }
