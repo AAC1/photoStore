@@ -1,5 +1,7 @@
 package mx.com.bitmaking.application.idao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -12,4 +14,8 @@ public interface IStoreClteProdCostDAO {
 	public void save(Store_cliente_prod_cost costProdObj);
 
 	public void update(Store_cliente_prod_cost costProdObj);
+
+	public void deleteRowsByIdProd(List<Store_cliente_prod_cost> rows);
+
+	List<Store_cliente_prod_cost> getRowByIdProd(int idProd);
 }

@@ -20,6 +20,7 @@ import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.idao.ICatProdDAO;
 import mx.com.bitmaking.application.idao.IStoreCatProdDAO;
+import mx.com.bitmaking.application.idao.IStoreClteProdCostDAO;
 import mx.com.bitmaking.application.service.IStoreCatProdService;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
@@ -40,6 +41,9 @@ public class StoreCatProdService extends AbstractStoreCatProdService{ // impleme
 	@Qualifier("CatProdDAO")
 	private ICatProdDAO catProdDAO;
 	
+	@Autowired 
+	@Qualifier(value = "StoreClteProdCostDAO")
+	private IStoreClteProdCostDAO storeClteProdCostDAO;
 
 	@Transactional(value="transactionManager")
 	public List<Store_cat_prod> getCatalogoProduct(){
@@ -84,6 +88,11 @@ public class StoreCatProdService extends AbstractStoreCatProdService{ // impleme
 	@Override
 	public ICatProdDAO getCatProdDAO() {
 		return catProdDAO;
+	}
+
+	@Override
+	public IStoreClteProdCostDAO getIStoreClteProdCostDAO() {
+		return storeClteProdCostDAO;
 	}
 	
 }

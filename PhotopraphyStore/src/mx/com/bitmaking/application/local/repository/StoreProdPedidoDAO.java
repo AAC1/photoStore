@@ -1,5 +1,8 @@
 package mx.com.bitmaking.application.local.repository;
 
+import java.util.List;
+
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,5 +23,7 @@ public class StoreProdPedidoDAO implements IStoreProdPedidoDAO{
 	public void save(Store_prod_pedido producto) {
 		sessionFactory.getCurrentSession().save(producto);
 	}
+
+
 
 }

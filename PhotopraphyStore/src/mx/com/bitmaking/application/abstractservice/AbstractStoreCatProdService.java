@@ -19,6 +19,8 @@ import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.idao.ICatProdDAO;
 import mx.com.bitmaking.application.idao.IStoreCatProdDAO;
+import mx.com.bitmaking.application.idao.IStoreClteProdCostDAO;
+import mx.com.bitmaking.application.idao.IStoreProdPedidoDAO;
 import mx.com.bitmaking.application.service.IStoreCatProdService;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
@@ -40,7 +42,7 @@ public abstract class AbstractStoreCatProdService implements IStoreCatProdServic
 */
 	public abstract IStoreCatProdDAO getCatProductRepo();
 	public abstract ICatProdDAO getCatProdDAO();
-	
+	public abstract IStoreClteProdCostDAO getIStoreClteProdCostDAO();
 	@Override
 	@Transactional(value="transactionManager")
 	public List<Store_cat_prod> getCatalogoProduct(){
@@ -77,7 +79,8 @@ public abstract class AbstractStoreCatProdService implements IStoreCatProdServic
 	}
 	@Override
 	public boolean deleteRow(Store_cat_prod row)throws Exception {
-		
+		/*Borra primero los costos de los productos*/
+		getIStoreClteProdCostDAO().deleteRowsByIdProd(getIStoreClteProdCostDAO().getRowByIdProd(row.getId_prod()));
 		getCatProductRepo().delete(row);
 		
 		return true;

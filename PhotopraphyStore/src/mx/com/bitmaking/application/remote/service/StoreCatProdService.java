@@ -19,7 +19,9 @@ import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.idao.ICatProdDAO;
 import mx.com.bitmaking.application.idao.IStoreCatProdDAO;
+import mx.com.bitmaking.application.idao.IStoreClteProdCostDAO;
 import mx.com.bitmaking.application.service.IStoreCatProdService;
+import mx.com.bitmaking.application.service.IStoreClteProdCostService;
 
 /**
  * @author albcervantes
@@ -37,6 +39,10 @@ public class StoreCatProdService extends AbstractStoreCatProdService{ //implemen
 	@Autowired 
 	@Qualifier(value = "remoteCatProdDAO")
 	private ICatProdDAO catProdDAO;
+	
+	@Autowired 
+	@Qualifier(value = "remoteStoreClteProdCostDAO")
+	private IStoreClteProdCostDAO storeClteProdCostDAO;
 
 	
 	@Transactional(value = "remoteTransactionManager")
@@ -81,5 +87,10 @@ public class StoreCatProdService extends AbstractStoreCatProdService{ //implemen
 	@Override
 	public ICatProdDAO getCatProdDAO() {
 		return catProdDAO;
+	}
+
+	@Override
+	public IStoreClteProdCostDAO getIStoreClteProdCostDAO() {
+		return storeClteProdCostDAO;
 	}
 }

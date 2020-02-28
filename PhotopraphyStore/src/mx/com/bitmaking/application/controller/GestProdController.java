@@ -13,8 +13,7 @@ import org.springframework.stereotype.Component;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import com.mysql.jdbc.exceptions.jdbc4.MySQLDataException;
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -100,8 +99,7 @@ public class GestProdController {
 						catProdService.deleteRow(row);
 						if(Flags.remote_valid)remoteCatProdService.deleteRow(row);
 					}else{
-						GeneralMethods.modalMsg("", "", "Algunos productos no fueron eliminados. \n"
-								+ "Valide que no se encuentren en pedidos.");
+						GeneralMethods.modalMsg("", "", "Algunos productos no fueron eliminados.");
 					}
 					getTblCatProducts();
 					stageProd.close();
@@ -154,16 +152,17 @@ public class GestProdController {
 					stageProd.setScene(scene);
 					stageProd.setTitle("Eliminar Producto");
 					stageProd.setMinHeight(190.0);
-					stageProd.setMinWidth(550.0);
+					stageProd.setMinWidth(500.0);
 					stageProd.setMaxHeight(190.0);
-					stageProd.setMaxWidth(550.0);
+					stageProd.setMaxWidth(500.0);
 					stageProd.initModality(Modality.APPLICATION_MODAL);
 
 					ModalConfirmController modalObj = fxmlLoader.getController(); 
 					List<String> lstStts = new ArrayList<>();
 					lstStts.add("Activo");
 					lstStts.add("Inactivo");
-					modalObj.getLblMsg().setText("¿Seguro que desea eliminar el producto?\nSolo se eliminaran productos que no se encuentren en pedidos.");
+					modalObj.getLblMsg().setText("¿Seguro que desea eliminar el producto?\n"
+							+ "Solo se eliminar\u00E1n los costos relacionados con los clientes");
 
 					modalObj.getBtnCancelar().addEventHandler(MouseEvent.MOUSE_CLICKED, closeModalEditProd());
 					modalObj.getBtnConfirm().addEventHandler(MouseEvent.MOUSE_CLICKED, acceptDelProd(treeItem));

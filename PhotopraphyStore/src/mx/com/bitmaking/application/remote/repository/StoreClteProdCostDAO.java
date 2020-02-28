@@ -1,7 +1,11 @@
 package mx.com.bitmaking.application.remote.repository;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.SQLQuery;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.BigDecimalType;
@@ -52,6 +56,42 @@ public class StoreClteProdCostDAO implements IStoreClteProdCostDAO{
 	public void update(Store_cliente_prod_cost costProdObj) {
 		sessionFactory.getCurrentSession().update(costProdObj);
 		
+	}
+
+	@Override
+	public void deleteRowsByIdProd(List<Store_cliente_prod_cost> rows) {
+		Session session = sessionFactory.getCurrentSession();
+		 Store_cliente_prod_cost row = null;
+		 try {
+			 for(Store_cliente_prod_cost el: rows) {
+				  row=session.get(Store_cliente_prod_cost.class, el.getId_clte_prod_cost());
+				  session.delete(row);
+			 }
+		 }catch(Exception e) {
+			 e.printStackTrace();
+		 }
+	}
+
+	@Override
+	public List<Store_cliente_prod_cost> getRowByIdProd(int idProd) {
+		StringBuilder sQry = new StringBuilder();
+		List<Store_cliente_prod_cost> resp = new ArrayList<>();
+		sQry.append("select s.* ");
+		sQry.append("FROM Store_cliente_prod_cost s WHERE  s.id_prod=:idProd");
+		SQLQuery qry = sessionFactory.getCurrentSession()
+				.createSQLQuery(sQry.toString());
+		
+		qry.setInteger("idProd", idProd);
+		//Validar si es necesario agregar escalar
+		qry.setResultTransformer(Transformers.aliasToBean(Store_cliente_prod_cost.class));
+		qry.addScalar("id_clte_prod_cost", new IntegerType());
+		qry.addScalar("id_cliente", new IntegerType());
+		qry.addScalar("id_prod", new IntegerType());
+		qry.addScalar("bar_code", new StringType());
+		qry.addScalar("costo", new BigDecimalType());
+		
+		resp = qry.list();
+		return resp;
 	}
 	
 
