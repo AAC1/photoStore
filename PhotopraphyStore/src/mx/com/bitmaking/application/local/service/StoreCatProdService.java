@@ -10,14 +10,15 @@ import java.util.List;
 //import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
-import mx.com.bitmaking.application.local.repository.ICatProdDAO;
-import mx.com.bitmaking.application.local.repository.IStoreCatProdRepo;
+import mx.com.bitmaking.application.idao.ICatProdDAO;
+import mx.com.bitmaking.application.idao.IStoreCatProdDAO;
 import mx.com.bitmaking.application.service.IStoreCatProdService;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
@@ -31,9 +32,11 @@ import mx.com.bitmaking.application.util.GeneralMethods;
 public class StoreCatProdService implements IStoreCatProdService{ // implements IStoreCatProdService
 	
 	@Autowired
-	private IStoreCatProdRepo catProductRepo;
+	@Qualifier("StoreCatProdDAO")
+	private IStoreCatProdDAO catProductRepo;
 	
 	@Autowired 
+	@Qualifier("CatProdDAO")
 	private ICatProdDAO catProdDAO;
 	
 //	@Autowired
@@ -69,6 +72,15 @@ public class StoreCatProdService implements IStoreCatProdService{ // implements 
 	public boolean insertRow(Store_cat_prod row) {
 		
 		catProductRepo.save(row);
+		
+		return true;
+	}
+
+	@Override
+	@Transactional(value="transactionManager")
+	public boolean updateRow(Store_cat_prod row) {
+		
+		catProductRepo.update(row);
 		
 		return true;
 	}

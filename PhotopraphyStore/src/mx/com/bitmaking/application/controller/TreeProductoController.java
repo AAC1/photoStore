@@ -1,5 +1,6 @@
 package mx.com.bitmaking.application.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -23,7 +24,6 @@ import javafx.scene.input.MouseEvent;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
 import mx.com.bitmaking.application.entity.Store_fotografo;
-import mx.com.bitmaking.application.local.repository.ICatProdDAO;
 import mx.com.bitmaking.application.service.IStoreCatProdService;
 import mx.com.bitmaking.application.service.IStoreClteProdCostService;
 import mx.com.bitmaking.application.service.IStoreFotografoService;
@@ -281,10 +281,10 @@ public class TreeProductoController {
 						System.out.println("idProd:"+row.getId_prod());
 						System.out.println("costProdObj:"+costProdObj.getId_clte_prod_cost());
 						costProdObj.setCosto(inputCosto.getText()==null||inputCosto.getText().length()==0?
-														null:Double.parseDouble(inputCosto.getText()));
+														null:new BigDecimal(inputCosto.getText()));
 						/*ACtualiza o inserta nuevo registro*/
-						clteProdCostService.insertRow(costProdObj);
-						if(Flags.remote_valid) remoteClteProdCostService.insertRow(costProdObj);
+						clteProdCostService.updateRow(costProdObj);
+						if(Flags.remote_valid) remoteClteProdCostService.updateRow(costProdObj);
 						
 						inputName.setText("");
 						cbxStts.setValue("");

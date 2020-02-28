@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.remote.service;
+package mx.com.bitmaking.application.abstractservice;
 
 import java.io.FileInputStream;
 import java.sql.Connection;
@@ -11,7 +11,6 @@ import java.util.Map;
 
 import javax.persistence.EntityManagerFactory;
 
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,7 @@ import mx.com.bitmaking.application.dto.PedidosReporteDTO;
 import mx.com.bitmaking.application.entity.Store_pedido;
 import mx.com.bitmaking.application.idao.IClteProdCostDAO;
 import mx.com.bitmaking.application.idao.IPedidoDAO;
+import mx.com.bitmaking.application.idao.IStoreProdPedidoDAO;
 import mx.com.bitmaking.application.service.IStorePedidoService;
 import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.GeneralMethods;
@@ -34,43 +34,44 @@ import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
-@Service("remoteStorePedidoService")
-public class StorePedidoService implements IStorePedidoService {
+//@Service("StorePedidoService")
+public abstract class AbstractStorePedidoService implements IStorePedidoService {
+	/*
 	@Autowired
-	@Qualifier("remoteSessionFactory")
+	@Qualifier("sessionFactory")
 	protected SessionFactory sessionFactory;
 	
 	@Autowired
-	@Qualifier("remoteClteProdCostDAO")
+	@Qualifier("ClteProdCostDAO")
 	private IClteProdCostDAO clteProdCostoDao;
 	
 	@Autowired
-	@Qualifier("remotePedidoDAO")
+	@Qualifier("PedidoDAO")
 	private IPedidoDAO pedidoDao;
-	//@Autowired
-	//private IStorePedidoRepo pedidoRepo;
-	
+	*/
 	private boolean export =false;
 	
 	
-	@Transactional(value = "remoteTransactionManager")
+	public abstract IClteProdCostDAO getClteProdCostoDao();
+	public abstract IPedidoDAO getPedidoDao();
+	public abstract SessionFactory getSessionFactory();
+	
 	@Override
 	public List<PedidosReporteDTO> consultPedido(String qry) {
 		List<PedidosReporteDTO> resp = new ArrayList<>();
 		try {
-			resp = clteProdCostoDao.consultaPedido(qry);
+			resp = getClteProdCostoDao().consultaPedido(qry);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return resp;
 	}
 	
-	@Transactional(value = "remoteTransactionManager")
 	@Override
 	public boolean generaXLS(FileInputStream fileInputStream, String qry, String titulo,
 				String pathReport,String pathParent) throws JRException{
 		export=false;
-		Session session = sessionFactory.getCurrentSession();
+		Session session = getSessionFactory().getCurrentSession();
 		session.doWork(connection -> {
 			
 				try {
@@ -123,14 +124,13 @@ public class StorePedidoService implements IStorePedidoService {
 		return export;
 	}
 	
-	@Transactional(value = "remoteTransactionManager")
 	@Override
 	public String getCurrentNumberFolio(String pref) {
 	
 		SimpleDateFormat sd = new SimpleDateFormat("yyMMdd");
 		String prefijo =pref+"-"+sd.format(new Date());
 		System.out.println("Prefijo:"+prefijo);
-		int number = pedidoDao.getCurrentNumberFolio(prefijo);
+		int number = getPedidoDao().getCurrentNumberFolio(prefijo);
 		if(number<0) {
 			GeneralMethods.modalMsg("ERROR", "", "No fue posible generar siguiente folio");
 			return "";
@@ -158,11 +158,10 @@ public class StorePedidoService implements IStorePedidoService {
 	}
 
 	@Override
-	@Transactional(value = "remoteTransactionManager")
 	public boolean guardaPedido(Store_pedido pedido) {
 		boolean resp=false;
 		try {
-			pedidoDao.save(pedido);
+			getPedidoDao().save(pedido);
 			resp=true;
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -170,7 +169,7 @@ public class StorePedidoService implements IStorePedidoService {
 		
 		return resp;
 	}
-	@Transactional(value = "remoteTransactionManager")
+	
 	@Override
 	public  void editPedido(PedidosReporteDTO in) {
 		Store_pedido pedidoEntity =new Store_pedido();
@@ -185,7 +184,7 @@ public class StorePedidoService implements IStorePedidoService {
 		pedidoEntity.setMonto_total(in.getMonto_total());
 		pedidoEntity.setId_estatus(in.getId_estatus());
 		
-		pedidoDao.update(pedidoEntity);
+		getPedidoDao().update(pedidoEntity);
 	}
 
 }

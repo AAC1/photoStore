@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.local.service;
+package mx.com.bitmaking.application.abstractservice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +18,9 @@ import mx.com.bitmaking.application.idao.IPedidoDAO;
 import mx.com.bitmaking.application.idao.IStoreProdPedidoDAO;
 import mx.com.bitmaking.application.service.IStoreProdPedidoService;
 
-@Service("StoreProdPedidoService")
-public class StoreProdPedidoService implements IStoreProdPedidoService{
+//@Service("StoreProdPedidoService")
+public abstract class AbstractStoreProdPedidoService implements IStoreProdPedidoService{
+	/*
 	@Autowired
 	@Qualifier("sessionFactory")
 	protected SessionFactory sessionFactory;
@@ -32,10 +33,13 @@ public class StoreProdPedidoService implements IStoreProdPedidoService{
 	@Autowired
 	@Qualifier("PedidoDAO")
 	private IPedidoDAO pedidoRepo;
-	//private IStorePedidoRepo pedidoRepo;
+	*/
+	
+	public abstract IStoreProdPedidoDAO getProdPedidoRepo();
+	public abstract IPedidoDAO getPedidoDao();
+	public abstract SessionFactory getSessionFactory();
 	
 	@SuppressWarnings("unchecked")
-	@Transactional(value="transactionManager")
 	@Override
 	public List<Store_prod_pedido> getListProdPedidos(String pedidos) {
 		List<Store_prod_pedido> results =null;
@@ -47,7 +51,7 @@ public class StoreProdPedidoService implements IStoreProdPedidoService{
 		
 		try{
  
-			SQLQuery query= sessionFactory.getCurrentSession().createSQLQuery(qry.toString());
+			SQLQuery query= getSessionFactory().getCurrentSession().createSQLQuery(qry.toString());
 			
 			query.setResultTransformer(Transformers.aliasToBean(Store_prod_pedido.class));
 			
@@ -64,13 +68,12 @@ public class StoreProdPedidoService implements IStoreProdPedidoService{
 	}
 
 	@Override
-	@Transactional(value="transactionManager")
 	public boolean guardaProdsByPedido(String folio, Store_prod_pedido producto) {
-		int id_pedido = pedidoRepo.getIdByFolio(folio);
+		int id_pedido = getPedidoDao().getIdByFolio(folio);
 		System.out.println("Id_pedido_saved:"+id_pedido);
 		
 		producto.setId_pedido(id_pedido);
-		prodPedidoRepo.save(producto);
+		getProdPedidoRepo().save(producto);
 		
 		return false;
 	}

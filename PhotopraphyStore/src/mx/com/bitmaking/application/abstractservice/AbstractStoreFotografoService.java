@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.remote.service;
+package mx.com.bitmaking.application.abstractservice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,28 +12,28 @@ import mx.com.bitmaking.application.entity.Store_fotografo;
 import mx.com.bitmaking.application.idao.IStoreFotografoDAO;
 import mx.com.bitmaking.application.service.IStoreFotografoService;
 
-@Service("remoteStoreFotografoService")
-public class StoreFotografoService implements IStoreFotografoService {
-
+@Service("StoreFotografoService")
+public abstract class AbstractStoreFotografoService implements IStoreFotografoService {
+/*
 	@Autowired
-	@Qualifier("remoteStoreFotografoDAO")
+	@Qualifier("StoreFotografoDAO")
 	IStoreFotografoDAO fotografoRepo;
-//	IStoreFotografoRepo fotografoRepo;
+	*/
+	public abstract IStoreFotografoDAO getFotografoRepo();
 	
 	/**
 	 * Obtiene clientes con estatus=1 (Activos)
 	 */
 	@Override
-	@Transactional(value = "remoteTransactionManager")
 	public List<Store_fotografo> getActiveClients() {
 		List<Store_fotografo> lstResp = new ArrayList<>();
 		Store_fotografo clteGral = new Store_fotografo();
 		clteGral.setId_fotografo(0);
-		clteGral.setFotografo("Cliente general");
+		clteGral.setFotografo("Cliente general");;
 		
 		lstResp.add(clteGral);
 		
-		lstResp.addAll(fotografoRepo.getActiveClients());
+		lstResp.addAll(getFotografoRepo().getActiveClients());
 		return lstResp;
 	}
 

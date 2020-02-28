@@ -1,5 +1,7 @@
 package mx.com.bitmaking.application.entity;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -20,7 +22,7 @@ public class Store_cliente_prod_cost {
 	private int id_prod;
 	
 	@Column
-	private Double costo;
+	private BigDecimal costo;
 	
 	@Column
 	private String bar_code;
@@ -57,11 +59,11 @@ public class Store_cliente_prod_cost {
 		this.id_prod = id_prod;
 	}
 
-	public Double getCosto() {
+	public BigDecimal getCosto() {
 		return costo;
 	}
 
-	public void setCosto(Double costo) {
+	public void setCosto(BigDecimal costo) {
 		this.costo = costo;
 	}
 

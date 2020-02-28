@@ -169,6 +169,7 @@ public class GestProdController {
 	 * Consulta Tabla de productos
 	 */
 	private void getTblCatProducts() {
+		inputName.setText("");
 		List<String> lstStts = new ArrayList<>();
 		lstStts.add("Activo");
 		lstStts.add("Inactivo");
@@ -290,8 +291,8 @@ public class GestProdController {
 						Store_cat_prod row = catProdModif;
 						row.setProducto(inputName.getText());
 						row.setEstatus(("ACTIVO".equals(cbxStts.getValue().toUpperCase())) ? "1" : "0");
-						catProdService.insertRow(row);
-						if(Flags.remote_valid)remoteCatProdService.insertRow(row);
+						catProdService.updateRow(row);
+						if(Flags.remote_valid)remoteCatProdService.updateRow(row);
 						// if("0".equals(row.getEstatus())){
 						inactiveChildren(treeItem, row.getEstatus());
 						// }

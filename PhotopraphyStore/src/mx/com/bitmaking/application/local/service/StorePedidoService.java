@@ -14,14 +14,15 @@ import javax.persistence.EntityManagerFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.bitmaking.application.dto.PedidosReporteDTO;
 import mx.com.bitmaking.application.entity.Store_pedido;
-import mx.com.bitmaking.application.local.repository.IClteProdCostDAO;
-import mx.com.bitmaking.application.local.repository.IPedidoDAO;
-import mx.com.bitmaking.application.local.repository.IStorePedidoRepo;
+import mx.com.bitmaking.application.idao.IClteProdCostDAO;
+import mx.com.bitmaking.application.idao.IPedidoDAO;
+import mx.com.bitmaking.application.idao.IStoreProdPedidoDAO;
 import mx.com.bitmaking.application.service.IStorePedidoService;
 import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.GeneralMethods;
@@ -36,13 +37,19 @@ import net.sf.jasperreports.engine.util.JRLoader;
 @Service("StorePedidoService")
 public class StorePedidoService implements IStorePedidoService {
 	@Autowired
+	@Qualifier("sessionFactory")
 	protected SessionFactory sessionFactory;
+	
 	@Autowired
+	@Qualifier("ClteProdCostDAO")
 	private IClteProdCostDAO clteProdCostoDao;
+	
 	@Autowired
+	@Qualifier("PedidoDAO")
 	private IPedidoDAO pedidoDao;
-	@Autowired
-	private IStorePedidoRepo pedidoRepo;
+	
+//	@Autowired
+//	private IStoreProdPedidoDAO pedidoRepo;
 	private boolean export =false;
 	
 	
@@ -155,7 +162,7 @@ public class StorePedidoService implements IStorePedidoService {
 	public boolean guardaPedido(Store_pedido pedido) {
 		boolean resp=false;
 		try {
-			pedidoRepo.save(pedido);
+			pedidoDao.save(pedido);
 			resp=true;
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -163,7 +170,8 @@ public class StorePedidoService implements IStorePedidoService {
 		
 		return resp;
 	}
-
+	
+	@Transactional(value="transactionManager")
 	@Override
 	public  void editPedido(PedidosReporteDTO in) {
 		Store_pedido pedidoEntity =new Store_pedido();
@@ -178,8 +186,7 @@ public class StorePedidoService implements IStorePedidoService {
 		pedidoEntity.setMonto_total(in.getMonto_total());
 		pedidoEntity.setId_estatus(in.getId_estatus());
 		
-		guardaPedido(pedidoEntity);
-		
+		pedidoDao.update(pedidoEntity);
 	}
 
 }

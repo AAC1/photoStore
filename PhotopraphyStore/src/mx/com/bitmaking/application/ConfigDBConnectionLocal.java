@@ -29,7 +29,8 @@ import javafx.application.Application;
 @Profile("!test")      
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "mx.com.bitmaking.application.local",
+@EnableJpaRepositories(basePackages = {"mx.com.bitmaking.application.local","mx.com.bitmaking.application.entity",
+								"mx.com.bitmaking.application.idao","mx.com.bitmaking.application.service"},
 	entityManagerFactoryRef = "entityManager", transactionManagerRef = "transactionManager") 
 public class ConfigDBConnectionLocal {
 //	@Autowired

@@ -15,11 +15,13 @@ import org.springframework.stereotype.Repository;
 
 import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
+import mx.com.bitmaking.application.idao.ICatProdDAO;
 
-@Repository("localCatProdDAO")
+@Repository("CatProdDAO")
 public class CatProdDAO implements ICatProdDAO {
 	
 	@Autowired
+	@Qualifier("sessionFactory")
 	protected SessionFactory sessionFactory;
 	
 //	@Autowired
@@ -69,7 +71,7 @@ public class CatProdDAO implements ICatProdDAO {
  
 			SQLQuery query= sessionFactory.getCurrentSession().createSQLQuery(qry.toString());
 			
-			query.setDouble("costo", objProd.getCosto());
+			query.setBigDecimal("costo", objProd.getCosto());
 			query.setString("barcode", objProd.getBar_code());
 			query.setInteger("idProd", objProd.getId_prod());
 			query.setInteger("cliente", objProd.getId_cliente());

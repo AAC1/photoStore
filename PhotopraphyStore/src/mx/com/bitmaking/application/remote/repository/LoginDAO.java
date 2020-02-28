@@ -20,8 +20,9 @@ import org.springframework.stereotype.Repository;
 
 import mx.com.bitmaking.application.dto.UserSession;
 import mx.com.bitmaking.application.entity.Store_usuario;
+import mx.com.bitmaking.application.idao.ILoginDAO;
 
-@Repository("remoteloginDAO")
+@Repository("remoteLoginDAO")
 public class LoginDAO implements ILoginDAO{
 	
 	@Autowired

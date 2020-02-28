@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.local.repository;
+package mx.com.bitmaking.application.idao;
 
 import java.util.List;
 

@@ -344,7 +344,7 @@ public class VentaController {
 	
 	private void fillCbxClte() {
 		cbxCliente.getItems().removeAll(cbxCliente.getItems());
-		
+		System.out.println("es remoto?"+Flags.remote_valid);
 		lstFoto = (Flags.remote_valid)?remoteFotografoService.getActiveClients():fotografoService.getActiveClients();
 		String[] arrayClte = new String[lstFoto.size()];
 		

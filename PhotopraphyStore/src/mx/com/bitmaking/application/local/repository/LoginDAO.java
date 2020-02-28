@@ -2,9 +2,12 @@ package mx.com.bitmaking.application.local.repository;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import org.hibernate.Hibernate;
 import org.hibernate.SQLQuery;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.IntegerType;
@@ -12,18 +15,25 @@ import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
 import org.hibernate.type.Type;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import mx.com.bitmaking.application.dto.UserSession;
+import mx.com.bitmaking.application.entity.Store_usuario;
+import mx.com.bitmaking.application.idao.ILoginDAO;
 
-@Repository("localLoginDAO")
+@Repository("LoginDAO")
 public class LoginDAO implements ILoginDAO{
 	
 	@Autowired
+	@Qualifier("sessionFactory")
 	protected SessionFactory sessionFactory;
+	//@PersistenceContext(unitName = "remote")
+	//@Qualifier("remoteEntityManager")
+	//private EntityManager entityManager;
 	
 	@Override
-	public UserSession getUsr(String usr) throws Exception {
+	public UserSession getUsr(String usr) {
 		UserSession results = null;
 		StringBuilder qry = new StringBuilder();
 		qry.append(" SELECT id_usr,login,nombre,correo,telefono,intentos,bloqueado,");
@@ -37,7 +47,13 @@ public class LoginDAO implements ILoginDAO{
 			{
 				throw new Exception("No hay conexión");
 			}
-			SQLQuery query= sessionFactory.getCurrentSession().createSQLQuery(qry.toString());
+			//Query query = entityManager.
+			SQLQuery query =sessionFactory.getCurrentSession().createSQLQuery(qry.toString());
+					//entityManager.
+				//createQuery(qry.toString()).unwrap(SQLQuery.class);
+					//sessionFactory.getCurrentSession().createSQLQuery(qry.toString());
+			 
+			
 			query.setString("usr", usr);
 			query.addScalar("id_usr",new LongType());
 			query.addScalar("login",new StringType());
@@ -51,11 +67,11 @@ public class LoginDAO implements ILoginDAO{
 			
 			query.setResultTransformer(Transformers.aliasToBean(UserSession.class));
 			
-			results =(UserSession) query.setMaxResults(1).uniqueResult();
+			results =(UserSession) query.setMaxResults(1).uniqueResult();//getSingleResult();//
 		
 		}catch(Exception e) {
 			e.printStackTrace();
-		
+			
 		}
 		
 		return results;
@@ -68,7 +84,7 @@ public class LoginDAO implements ILoginDAO{
 		StringBuilder qry = new StringBuilder();
 		qry.append(" update store_usuario SET bloqueado=1, intentos=0");
 		qry.append(" WHERE login=:usr ");
-		
+	//	Query query = entityManager.createQuery(qry.toString()); 
 		SQLQuery query= sessionFactory.getCurrentSession().createSQLQuery(qry.toString());
 		query.setString("usr", usr);
 		query.executeUpdate();
@@ -89,6 +105,7 @@ public class LoginDAO implements ILoginDAO{
 		try{
  
 			SQLQuery query= sessionFactory.getCurrentSession().createSQLQuery(qry.toString());
+			//Query query = entityManager.createQuery(qry.toString()); 
 			
 			query.setString("usr", usr);
 			query.setString("passwd", passwd);
@@ -110,7 +127,7 @@ public class LoginDAO implements ILoginDAO{
 			
 			query.setResultTransformer(Transformers.aliasToBean(UserSession.class));
 			
-			results =(UserSession) query.setMaxResults(1).uniqueResult();
+			results =(UserSession) query.setMaxResults(1).uniqueResult();//getSingleResult();//
 		
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -130,7 +147,7 @@ public class LoginDAO implements ILoginDAO{
 		SQLQuery query= sessionFactory.getCurrentSession().createSQLQuery(qry.toString());
 		query.setString("usr", usr);
 		query.setInteger("intentos", intentos);
-		
+		//Query query = entityManager.createQuery(qry.toString()); 
 		query.executeUpdate();
 	}
 

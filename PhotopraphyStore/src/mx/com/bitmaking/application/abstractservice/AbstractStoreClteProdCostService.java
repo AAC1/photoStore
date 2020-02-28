@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.local.service;
+package mx.com.bitmaking.application.abstractservice;
 //import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,27 +12,27 @@ import mx.com.bitmaking.application.service.IStoreClteProdCostService;
 
 @Service("StoreClteProdCostService")
 //(value="transactionManager")
-public class StoreClteProdCostService implements IStoreClteProdCostService{
-
+public abstract class AbstractStoreClteProdCostService implements IStoreClteProdCostService{
+/*
 	@Autowired
 	@Qualifier("StoreClteProdCostDAO")
 	IStoreClteProdCostDAO clteProdCostRepo;
+	*/
+	public abstract IStoreClteProdCostDAO getClteProdCostRepo();
 	
 	@Override
-	@Transactional(value="transactionManager")
 	public Store_cliente_prod_cost getRowByIdProdAndClient(int idCliente, int idProd) {
 		
-		return clteProdCostRepo.getRowByIdProdAndClient(idCliente, idProd);
+		return getClteProdCostRepo().getRowByIdProdAndClient(idCliente, idProd);
 	}
 	@Override
-	@Transactional(value="transactionManager")
 	public  void insertRow(Store_cliente_prod_cost costProdObj) {
-		clteProdCostRepo.save(costProdObj);
+		getClteProdCostRepo().save(costProdObj);
 		
 	}
 	@Override
 	public void updateRow(Store_cliente_prod_cost costProdObj) {
-		clteProdCostRepo.update(costProdObj);
+		getClteProdCostRepo().update(costProdObj);
 		
 	}
 

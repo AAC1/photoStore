@@ -8,26 +8,31 @@ import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.dto.ProdPedidosReporteDTO;
 import mx.com.bitmaking.application.entity.Store_prod_pedido;
-import mx.com.bitmaking.application.local.repository.IStorePedidoRepo;
-import mx.com.bitmaking.application.local.repository.IStoreProdPedidoRepo;
+import mx.com.bitmaking.application.idao.IPedidoDAO;
+import mx.com.bitmaking.application.idao.IStoreProdPedidoDAO;
 import mx.com.bitmaking.application.service.IStoreProdPedidoService;
 
 @Service("remoteStoreProdPedidoService")
 public class StoreProdPedidoService implements IStoreProdPedidoService{
 	@Autowired
+	@Qualifier("remoteSessionFactory")
 	protected SessionFactory sessionFactory;
 	
 	@Autowired
-	private IStoreProdPedidoRepo prodPedidoRepo;
+	@Qualifier("remoteStoreProdPedidoDAO")
+	private IStoreProdPedidoDAO prodPedidoRepo;
+	//private IStoreProdPedidoRepo prodPedidoRepo;
 	
 	@Autowired
-	private IStorePedidoRepo pedidoRepo;
+	@Qualifier("remotePedidoDAO")
+	private IPedidoDAO pedidoRepo;
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(value = "remoteTransactionManager")

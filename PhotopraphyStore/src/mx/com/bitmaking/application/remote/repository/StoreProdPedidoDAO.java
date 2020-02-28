@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.local.repository;
+package mx.com.bitmaking.application.remote.repository;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +8,11 @@ import org.springframework.stereotype.Repository;
 import mx.com.bitmaking.application.entity.Store_prod_pedido;
 import mx.com.bitmaking.application.idao.IStoreProdPedidoDAO;
 
-@Repository("StoreProdPedidoDAO")
+@Repository("remoteStoreProdPedidoDAO")
 public class StoreProdPedidoDAO implements IStoreProdPedidoDAO{
 	
 	@Autowired
-	@Qualifier("sessionFactory")
+	@Qualifier("remoteSessionFactory")
 	protected SessionFactory sessionFactory;
 
 	

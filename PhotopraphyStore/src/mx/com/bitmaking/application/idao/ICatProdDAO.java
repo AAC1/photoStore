@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.remote.repository;
+package mx.com.bitmaking.application.idao;
 
 import java.util.LinkedHashMap;
 import java.util.List;

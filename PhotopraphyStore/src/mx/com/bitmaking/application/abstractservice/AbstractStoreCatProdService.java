@@ -1,12 +1,13 @@
 /**
  * 
  */
-package mx.com.bitmaking.application.remote.service;
+package mx.com.bitmaking.application.abstractservice;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+//import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,44 +20,37 @@ import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.idao.ICatProdDAO;
 import mx.com.bitmaking.application.idao.IStoreCatProdDAO;
 import mx.com.bitmaking.application.service.IStoreCatProdService;
+import mx.com.bitmaking.application.util.GeneralMethods;
 
 /**
  * @author albcervantes
  *
  */
 
-@Service("remoteStoreCatProdService")
-@Scope("prototype")
-public class StoreCatProdService implements IStoreCatProdService{ // implements IStoreCatProdService
-	
-	@Autowired
-	@Qualifier(value = "remoteStoreCatProdDAO")
-	private IStoreCatProdDAO catProductRepo;
-	//private IStoreCatProdRepo catProductRepo;
-	
-	@Autowired 
-	@Qualifier(value = "remoteCatProdDAO")
-	private ICatProdDAO catProdDAO;
-	
-//	@Autowired
-//	@Qualifier(value = "entityManager")
-//	EntityManager entityManager;
-
+//@Service("StoreCatProdService")
+public abstract class AbstractStoreCatProdService implements IStoreCatProdService{ // implements IStoreCatProdService
 	/*
 	@Autowired
-	private SessionFactory entityManager;
+	@Qualifier("StoreCatProdDAO")
+	private IStoreCatProdDAO catProductRepo;
+	
+	@Autowired 
+	@Qualifier("CatProdDAO")
+	private ICatProdDAO catProdDAO;
 */
+	public abstract IStoreCatProdDAO getCatProductRepo();
+	public abstract ICatProdDAO getCatProdDAO();
+	
 	@Override
-	@Transactional(value = "remoteTransactionManager")
+	@Transactional(value="transactionManager")
 	public List<Store_cat_prod> getCatalogoProduct(){
 		List<Store_cat_prod> resp = new ArrayList<>();
 		
-		return catProductRepo.getActiveProducts();
+		return getCatProductRepo().getActiveProducts();
 	}
 	@Override
-	@Transactional(value = "remoteTransactionManager")
 	public List<Store_cat_prod> getAllCatalogoProduct(){
-		List<Store_cat_prod> resp = catProductRepo.findAll();
+		List<Store_cat_prod> resp = getCatProductRepo().findAll();
 		for(int i=0; i<resp.size();i++){
 			if("1".equals(resp.get(i).getEstatus())){
 				resp.get(i).setEstatus("Activo");
@@ -67,26 +61,33 @@ public class StoreCatProdService implements IStoreCatProdService{ // implements 
 		return resp;
 	}
 	@Override
-	@Transactional(value = "remoteTransactionManager")
 	public boolean insertRow(Store_cat_prod row) {
 		
-		catProductRepo.save(row);
+		getCatProductRepo().save(row);
+		
+		return true;
+	}
+
+	@Override
+	public boolean updateRow(Store_cat_prod row) {
+		
+		getCatProductRepo().update(row);
+		
 		return true;
 	}
 	@Override
-	@Transactional(value = "remoteTransactionManager")
 	public boolean deleteRow(Store_cat_prod row) {
 		
-		catProductRepo.delete(row);
+		getCatProductRepo().delete(row);
+		
 		return true;
 	}
 	
 	@Override
-	@Transactional(value = "remoteTransactionManager")
 	public LinkedHashMap<Integer, Store_cat_prod> getAllCatalogoProduct2() {
 		LinkedHashMap<Integer, Store_cat_prod> hasResp = new LinkedHashMap<>();
 		
-		List<Store_cat_prod> resp = catProductRepo.findAll();
+		List<Store_cat_prod> resp = getCatProductRepo().findAll();
 		
 		for(int i=0; i<resp.size();i++){
 			
@@ -103,9 +104,8 @@ public class StoreCatProdService implements IStoreCatProdService{ // implements 
 	
 	//@SuppressWarnings("unchecked")
 	@Override
-	@Transactional(value = "remoteTransactionManager")
 	public LinkedHashMap<Integer, CostProductsDTO> getCostProdByClient(int cliente) {
-		List<CostProductsDTO> resp = catProdDAO.getListCostos(cliente);
+		List<CostProductsDTO> resp = getCatProdDAO().getListCostos(cliente);
 		LinkedHashMap<Integer, CostProductsDTO> hasResp = new LinkedHashMap<>();
 		
 		for( CostProductsDTO el: resp){
@@ -115,12 +115,5 @@ public class StoreCatProdService implements IStoreCatProdService{ // implements 
 		}
 		return hasResp;
 	}
-	@Override
-	@Transactional(value="transactionManager")
-	public boolean updateRow(Store_cat_prod row) {
-		
-		catProductRepo.update(row);
-		
-		return true;
-	}
+	
 }

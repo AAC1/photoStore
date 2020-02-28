@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import mx.com.bitmaking.application.dto.PedidosReporteDTO;
 import mx.com.bitmaking.application.entity.Store_pedido;
+import mx.com.bitmaking.application.idao.IClteProdCostDAO;
 
 @Repository("remoteClteProdCostDAO")
 public class ClteProdCostDAO implements IClteProdCostDAO{
