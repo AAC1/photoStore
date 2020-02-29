@@ -13,6 +13,7 @@ import javax.persistence.EntityManagerFactory;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -21,11 +22,14 @@ import org.springframework.transaction.annotation.Transactional;
 import mx.com.bitmaking.application.abstractservice.AbstractStorePedidoService;
 import mx.com.bitmaking.application.dto.PedidosReporteDTO;
 import mx.com.bitmaking.application.entity.Store_pedido;
+import mx.com.bitmaking.application.entity.Update_info;
 import mx.com.bitmaking.application.idao.IClteProdCostDAO;
 import mx.com.bitmaking.application.idao.IPedidoDAO;
 import mx.com.bitmaking.application.idao.IStoreProdPedidoDAO;
+import mx.com.bitmaking.application.idao.IUpdateInfoDAO;
 import mx.com.bitmaking.application.service.IStorePedidoService;
 import mx.com.bitmaking.application.util.Constantes;
+import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -49,6 +53,10 @@ public class StorePedidoService extends AbstractStorePedidoService{//implements 
 	@Qualifier("PedidoDAO")
 	private IPedidoDAO pedidoDao;
 	
+	@Autowired
+	@Qualifier("UpdateInfoDAO")
+	private IUpdateInfoDAO updateInfoDAO;
+	
 	private boolean export =false;
 	
 	
@@ -71,6 +79,12 @@ public class StorePedidoService extends AbstractStorePedidoService{//implements 
 	
 	@Transactional(value="transactionManager")
 	public boolean guardaPedido(Store_pedido pedido) {
+		if(!Flags.remote_valid) {//genera JSON para actualizar más adelante
+			Update_info objInfo = updateInfoDAO.getInfo();
+			JSONObject json=new JSONObject(new String(objInfo.getJson_data()));
+			
+		}
+		
 		return super.guardaPedido(pedido);
 	}
 	

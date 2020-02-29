@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -33,6 +34,7 @@ import mx.com.bitmaking.application.MystoreApplication;
 import mx.com.bitmaking.application.dto.UserSessionDTO;
 import mx.com.bitmaking.application.entity.Store_menu;
 import mx.com.bitmaking.application.util.Flags;
+import mx.com.bitmaking.application.util.GeneralMethods;
 
 @Component
 //@Scope("prototype")
@@ -57,6 +59,8 @@ public class HomeController {
   //	private MystoreApplication storeApp;
 	 @Autowired
 	 private ApplicationContext context ;
+	 
+	 
 	 UserSessionDTO instance = null;
 	 mx.com.bitmaking.application.dto.UserSessionDTO remoteInstance = null;
 	 
@@ -95,6 +99,7 @@ public class HomeController {
 		imgAvatar.setImage(image);
 		*/
 		itemVenta.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("Venta",true,false));
+		
 		lblGestionCat.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("GestionProductos",true,false));
 		lblReportes.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("BusqPedidoReporte",false,false));
 		lblGestCostProd.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("CostProdByClient",false,false));
@@ -218,7 +223,21 @@ public class HomeController {
 
 			@Override
 			public void handle(MouseEvent event) {
-				//System.out.println(event.getSource());
+				
+				switch(scene){
+		        case "Venta":case "BusqPedidoReporte":
+		        	if(!Flags.remote_valid) {
+		        		GeneralMethods.modalMsg("", "", "Base de datos remota no disponible. Se usar\u00E1 la Base de datos local");
+	        			
+	        		}
+			        break;
+	        	default:
+	        		if(!Flags.remote_valid) {
+	        			GeneralMethods.modalMsg("", "", "Base de datos remota no disponible. Intentelo m\u00E1s tarde reiniciando la aplicaci\u00F3n");
+	        			return;
+	        		}
+	        		return;
+		        }
 				try {
 					menuContainer.setVisible(false);
 				/*	lblGestionCat.setVisible(false);
@@ -227,7 +246,7 @@ public class HomeController {
 					backgroundOnMenu.setVisible(false);
 					*/
 					bodyContainer.getChildren().clear();
-		
+					
 			        FXMLLoader loader = //storeApp.initializeFXML("view/"+scene+".fxml");
 			        		new FXMLLoader(getClass().getResource("/mx/com/bitmaking/application/view/"+scene+".fxml"));
 			        loader.setControllerFactory(context::getBean);
@@ -235,6 +254,7 @@ public class HomeController {
 			        if(hasCss) 
 			        	sceneHome.getStylesheets().add(getClass().getResource("/mx/com/bitmaking/application/assets/css/"+scene+".css").toExternalForm());
 			        if(!newWindow){
+			        	
 				        ((Region)sceneHome).prefWidthProperty().bind(bodyContainer.widthProperty().multiply(1.0));
 				        ((Region)sceneHome).prefHeightProperty().bind(bodyContainer.heightProperty().multiply(1.0));
 				        ((Region)sceneHome).relocate(0, 0);
@@ -260,6 +280,7 @@ public class HomeController {
 				        }
 			        }
 			        else{
+			        	
 			        	Scene scene = new Scene(sceneHome,620,460);
 			        	Stage primaryStage =new Stage();
 			        	primaryStage.initModality(Modality.APPLICATION_MODAL); //Evitar que otras ventanas se puedan modificar

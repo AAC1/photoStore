@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.remote.repository;
+package mx.com.bitmaking.application.remote.dao;
 
 import java.util.ArrayList;
 import java.util.List;

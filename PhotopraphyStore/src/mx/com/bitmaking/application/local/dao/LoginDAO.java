@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.remote.repository;
+package mx.com.bitmaking.application.local.dao;
 
 import java.util.List;
 
@@ -24,27 +24,27 @@ import mx.com.bitmaking.application.dto.UserSession;
 import mx.com.bitmaking.application.entity.Store_usuario;
 import mx.com.bitmaking.application.idao.ILoginDAO;
 
-@Repository("remoteLoginDAO")
+@Repository("LoginDAO")
 public class LoginDAO extends AbstractLoginDAO{ //implements ILoginDAO{
 	
 	@Autowired
-	@Qualifier("remoteSessionFactory")
+	@Qualifier("sessionFactory")
 	protected SessionFactory sessionFactory;
 	
-	@Transactional("remoteTransactionManager")
+	@Transactional(value="transactionManager")
 	public UserSession getUsr(String usr) {
 		return super.getUsr(usr);
 	}
-	@Transactional("remoteTransactionManager")
+	@Transactional(value="transactionManager")
 	public void bloqueaUsr(String usr) {
 		super.bloqueaUsr(usr);
 	}
-	@Transactional("remoteTransactionManager")
+	@Transactional(value="transactionManager")
 	public UserSession getUsrByPasswd(String usr, String passwd) {
 		return super.getUsrByPasswd(usr, passwd);
 
 	}
-	@Transactional("remoteTransactionManager")
+	@Transactional(value="transactionManager")
 	public void updateIntentos(String usr,int intentos) {
 		super.updateIntentos(usr, intentos);
 	}
@@ -53,6 +53,7 @@ public class LoginDAO extends AbstractLoginDAO{ //implements ILoginDAO{
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
+
 
 
 }

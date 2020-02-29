@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.local.repository;
+package mx.com.bitmaking.application.remote.dao;
 
 import java.util.List;
 
@@ -15,13 +15,13 @@ import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.entity.Store_fotografo;
 import mx.com.bitmaking.application.idao.IStoreFotografoDAO;
 
-@Repository("StoreFotografoDAO")
+@Repository("remoteStoreFotografoDAO")
 public class StoreFotografoDAO extends AbstractStoreFotografoDAO{// implements IStoreFotografoDAO{
 	@Autowired
-	@Qualifier("sessionFactory")
+	@Qualifier("remoteSessionFactory")
 	protected SessionFactory sessionFactory;
 	
-	@Transactional(value="transactionManager")
+	@Transactional("remoteTransactionManager")
 	public List<Store_fotografo> getActiveClients() {
 		return super.getActiveClients();
 	}

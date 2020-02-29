@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.local.repository;
+package mx.com.bitmaking.application.local.dao;
 
 import java.util.ArrayList;
 import java.util.List;

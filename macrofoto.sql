@@ -226,3 +226,12 @@ value('MCO00000008','Fotos_Infantiles',6,'150','900',1),
 	('MCO00000083','Marcos_5x10',2,'55','110',2);
     
 select * from store_prod_pedido;
+
+drop table if exists update_info;
+create table update_info (
+id_update_info INT primary KEY AUTO_INCREMENT,
+data longblob ,
+direction char(10),
+branch_updated int#Aplica para BD remota, saber cuantos brnaches han actualizado
+);
+

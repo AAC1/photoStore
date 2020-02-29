@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.remote.repository;
+package mx.com.bitmaking.application.local.dao;
 
 
 import java.util.ArrayList;
@@ -20,29 +20,31 @@ import org.springframework.transaction.annotation.Transactional;
 import mx.com.bitmaking.application.abstractdao.AbstractStoreClteProdCostDAO;
 import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
 import mx.com.bitmaking.application.idao.IStoreClteProdCostDAO;
-@Repository("remoteStoreClteProdCostDAO")
-public class StoreClteProdCostDAO extends AbstractStoreClteProdCostDAO{//implements IStoreClteProdCostDAO{
+
+@Repository("StoreClteProdCostDAO")
+public class StoreClteProdCostDAO extends AbstractStoreClteProdCostDAO{// implements IStoreClteProdCostDAO{
+	
 	@Autowired
-	@Qualifier("remoteSessionFactory")
+	@Qualifier("sessionFactory")
 	protected SessionFactory sessionFactory;
 
-	@Transactional("remoteTransactionManager")
+	@Transactional(value="transactionManager")
 	public Store_cliente_prod_cost getRowByIdProdAndClient(int idCliente, int idProd) {
 		return super.getRowByIdProdAndClient(idCliente, idProd);
 	}
-	@Transactional("remoteTransactionManager")
+	@Transactional(value="transactionManager")
 	public List<Store_cliente_prod_cost> getRowByIdProd( int idProd) {
 		return super.getRowByIdProd(idProd);
 	}
-	@Transactional("remoteTransactionManager")
+	@Transactional(value="transactionManager")
 	public void save(Store_cliente_prod_cost costProdObj) {
 		super.save(costProdObj);
 	}
-	@Transactional("remoteTransactionManager")
+	@Transactional(value="transactionManager")
 	public void update(Store_cliente_prod_cost costProdObj) {
 		 super.update(costProdObj);
 	}
-	@Transactional("remoteTransactionManager")
+	@Transactional(value="transactionManager")
 	public void deleteRowsByIdProd(List<Store_cliente_prod_cost> rows) {
 		super.deleteRowsByIdProd(rows);
 	}
@@ -51,7 +53,6 @@ public class StoreClteProdCostDAO extends AbstractStoreClteProdCostDAO{//impleme
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
-	
 	
 
 }

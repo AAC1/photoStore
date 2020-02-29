@@ -1,5 +1,8 @@
-package mx.com.bitmaking.application.remote.repository;
+package mx.com.bitmaking.application.local.dao;
 
+import java.util.List;
+
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,11 +13,11 @@ import mx.com.bitmaking.application.abstractdao.AbstractStoreProdPedidoDAO;
 import mx.com.bitmaking.application.entity.Store_prod_pedido;
 import mx.com.bitmaking.application.idao.IStoreProdPedidoDAO;
 
-@Repository("remoteStoreProdPedidoDAO")
+@Repository("StoreProdPedidoDAO")
 public class StoreProdPedidoDAO extends AbstractStoreProdPedidoDAO{// implements IStoreProdPedidoDAO{
 	
 	@Autowired
-	@Qualifier("remoteSessionFactory")
+	@Qualifier("sessionFactory")
 	protected SessionFactory sessionFactory;
 
 	@Transactional("remoteTransactionManager")
@@ -22,11 +25,11 @@ public class StoreProdPedidoDAO extends AbstractStoreProdPedidoDAO{// implements
 		super.save(producto);
 	}
 
+
 	@Override
 	public SessionFactory getSessionfActory() {
 		return sessionFactory;
 	}
-
 
 
 

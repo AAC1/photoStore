@@ -1,7 +1,4 @@
-/**
- * 
- */
-package mx.com.bitmaking.application.local.repository;
+package mx.com.bitmaking.application.local.dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,35 +7,33 @@ import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.IntegerType;
+import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import mx.com.bitmaking.application.abstractdao.AbstractCatEstatusDAO;
-import mx.com.bitmaking.application.dto.CostProductsDTO;
-import mx.com.bitmaking.application.entity.Store_cat_estatus;
-import mx.com.bitmaking.application.idao.ICatEstatusDAO;
+import mx.com.bitmaking.application.abstractdao.AbstractMenuPerfilDAO;
+import mx.com.bitmaking.application.dto.UserSession;
+import mx.com.bitmaking.application.entity.Store_menu;
+import mx.com.bitmaking.application.idao.IMenuPerfilDAO;
 
-/**
- * @author ayalaja
- *
- */
-@Repository("CatEstatusDAO")
-public class CatEstatusDAO extends AbstractCatEstatusDAO {// implements ICatEstatusDAO{
+@Repository("MenuPerfilDAO")
+public class MenuPerfilDAO extends AbstractMenuPerfilDAO{// implements IMenuPerfilDAO{
+	
 	@Autowired
 	@Qualifier("sessionFactory")
 	protected SessionFactory sessionFactory;
 	
 	@Transactional(value="transactionManager")
-	public List<Store_cat_estatus> findAll() {
-		return super.findAll();
+	public List<Store_menu> getFxIdByPerfil(int id_perfil) {
+		return super.getFxIdByPerfil(id_perfil);
 	}
 
 	@Override
-	public SessionFactory getSessionFactory() {
+	public SessionFactory getSessionfActory() {
 		return sessionFactory;
 	}
-	
+
 }
