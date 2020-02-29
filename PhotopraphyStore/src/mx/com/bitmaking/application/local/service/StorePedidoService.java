@@ -81,8 +81,14 @@ public class StorePedidoService extends AbstractStorePedidoService{//implements 
 	public boolean guardaPedido(Store_pedido pedido) {
 		if(!Flags.remote_valid) {//genera JSON para actualizar más adelante
 			Update_info objInfo = updateInfoDAO.getInfo();
-			JSONObject json=new JSONObject(new String(objInfo.getJson_data()));
-			
+			JSONObject json = null;
+			if(objInfo ==null ){
+				json=new JSONObject();
+				json.append("table", "Store_pedido");
+			}else{
+			 json=new JSONObject(new String(objInfo.getJson_data()));
+			}
+			System.out.println("json:"+json.toString());
 		}
 		
 		return super.guardaPedido(pedido);

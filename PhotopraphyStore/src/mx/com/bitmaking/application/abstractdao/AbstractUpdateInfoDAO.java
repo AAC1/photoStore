@@ -19,7 +19,7 @@ public abstract class AbstractUpdateInfoDAO implements IUpdateInfoDAO {
 	@Override
 	public Update_info getInfo() {
 		StringBuilder sQry = new StringBuilder();
-		sQry.append("SELECT s.* FROM Update_info ");
+		sQry.append("SELECT s.* FROM Update_info s");
 		SQLQuery sql = getSessionFactory().getCurrentSession().createSQLQuery(sQry.toString());
 		sql.addScalar("id_update_info", new IntegerType());
 		sql.addScalar("json_data", new ByteType());
