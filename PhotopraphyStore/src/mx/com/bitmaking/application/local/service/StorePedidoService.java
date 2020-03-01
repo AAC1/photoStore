@@ -79,6 +79,7 @@ public class StorePedidoService extends AbstractStorePedidoService{//implements 
 	
 	@Transactional(value="transactionManager")
 	public boolean guardaPedido(Store_pedido pedido) {
+		/*
 		if(!Flags.remote_valid) {//genera JSON para actualizar más adelante
 			Update_info objInfo = updateInfoDAO.getInfo();
 			JSONObject json = null;
@@ -90,7 +91,7 @@ public class StorePedidoService extends AbstractStorePedidoService{//implements 
 			}
 			System.out.println("json:"+json.toString());
 		}
-		
+		*/
 		return super.guardaPedido(pedido);
 	}
 	

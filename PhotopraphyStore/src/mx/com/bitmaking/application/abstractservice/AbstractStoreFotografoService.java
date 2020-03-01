@@ -12,7 +12,7 @@ import mx.com.bitmaking.application.entity.Store_fotografo;
 import mx.com.bitmaking.application.idao.IStoreFotografoDAO;
 import mx.com.bitmaking.application.service.IStoreFotografoService;
 
-@Service("StoreFotografoService")
+//@Service("StoreFotografoService")
 public abstract class AbstractStoreFotografoService implements IStoreFotografoService {
 /*
 	@Autowired

@@ -10,7 +10,7 @@ import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
 import mx.com.bitmaking.application.idao.IStoreClteProdCostDAO;
 import mx.com.bitmaking.application.service.IStoreClteProdCostService;
 
-@Service("StoreClteProdCostService")
+//@Service("StoreClteProdCostService")
 //(value="transactionManager")
 public abstract class AbstractStoreClteProdCostService implements IStoreClteProdCostService{
 /*
