@@ -223,7 +223,7 @@ public class HomeController {
 
 			@Override
 			public void handle(MouseEvent event) {
-				
+				/*
 				switch(scene){
 		        case "Venta":case "BusqPedidoReporte":
 		        	if(!Flags.remote_valid) {
@@ -238,6 +238,7 @@ public class HomeController {
 	        		}
 	        		return;
 		        }
+				*/
 				try {
 					menuContainer.setVisible(false);
 				/*	lblGestionCat.setVisible(false);
