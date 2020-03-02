@@ -20,6 +20,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
@@ -166,49 +167,54 @@ public class CostProdByClteController {
 		return new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				catProdModif = null;
-				inputName.setText("");
-				cbxStts.setValue("");
-				inputCosto.setText("");
-				inputBarcode.setText("");
-				try {
-
-					if (productsMap == null || productsMap.size() == 0) {
-				//		 GeneralMethods.modalMsg("WARNING", "", "No hay registro a modificar");
-						return;
-					}
-
-					ObservableList<TreeItem<String>> objTree = treeProd.getSelectionModel().getSelectedItems();
-					TreeItem<String> treeItem = objTree.get(0);
-					if (treeItem == null) {
-				//		GeneralMethods.modalMsg("WARNING", "", "No hay registro seleccionado");
-						return;
-					}
-					int idx = treeProd.getSelectionModel().getSelectedIndex();
-
-					String strRow = treeItem.getValue();
-
-					if (strRow == null || strRow.length() == 0 || idx <= 0) {
-						// GeneralMethods.modalMsg("WARNING", "", "Para
-						// modificar, debes seleccionar un registro");
-						return;
-					} else {
-						System.out.println(strRow);
-						String[] arrayStr = strRow.split("\\|");
-						System.out.println(arrayStr[0]);
-						String idProd = arrayStr[0].substring(2, arrayStr[0].length()).trim();
-						catProdModif = productsMap.get(Integer.parseInt(idProd));
-						inputName.setText(catProdModif.getProducto());
-						cbxStts.setValue(catProdModif.getEstatus());
-						inputCosto.setText(catProdModif.getCosto()==null?"":String.valueOf(catProdModif.getCosto()));
-						inputBarcode.setText(catProdModif.getBar_code()==null?"":catProdModif.getBar_code());
-						
-					}
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
+				getDetails();
 			}
 		};
+	}
+	
+	private void getDetails() {
+		catProdModif = null;
+		inputName.setText("");
+		cbxStts.setValue("");
+		inputCosto.setText("");
+		inputBarcode.setText("");
+		try {
+
+			if (productsMap == null || productsMap.size() == 0) {
+		//		 GeneralMethods.modalMsg("WARNING", "", "No hay registro a modificar");
+				return;
+			}
+
+			ObservableList<TreeItem<String>> objTree = treeProd.getSelectionModel().getSelectedItems();
+			TreeItem<String> treeItem = objTree.get(0);
+			if (treeItem == null) {
+		//		GeneralMethods.modalMsg("WARNING", "", "No hay registro seleccionado");
+				return;
+			}
+			int idx = treeProd.getSelectionModel().getSelectedIndex();
+
+			String strRow = treeItem.getValue();
+
+			if (strRow == null || strRow.length() == 0 || idx <= 0) {
+				// GeneralMethods.modalMsg("WARNING", "", "Para
+				// modificar, debes seleccionar un registro");
+				return;
+			} else {
+				System.out.println(strRow);
+				String[] arrayStr = strRow.split("\\|");
+				System.out.println(arrayStr[0]);
+				String idProd = arrayStr[0].substring(2, arrayStr[0].length()).trim();
+				catProdModif = productsMap.get(Integer.parseInt(idProd));
+				inputName.setText(catProdModif.getProducto());
+				cbxStts.setValue(catProdModif.getEstatus());
+				inputCosto.setText(catProdModif.getCosto()==null?"":String.valueOf(catProdModif.getCosto()));
+				inputBarcode.setText(catProdModif.getBar_code()==null?"":catProdModif.getBar_code());
+				
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
 	}
 
 	private EventHandler<MouseEvent> acceptModifProd() {
@@ -335,6 +341,14 @@ public class CostProdByClteController {
 			nodoPadre.getChildren().add(nodo);
 			generateTreeProd(hashMap, el.getValue().getId_prod(),nodo);
 			
+		}
+	}
+	
+	@FXML 
+	private void selectByArrow(KeyEvent e) {
+		System.out.println("entra:"+e.getCode().toString());
+		if("DOWN".equals(e.getCode().toString()) || "UP".equals(e.getCode().toString())){
+			getDetails();
 		}
 	}
 }

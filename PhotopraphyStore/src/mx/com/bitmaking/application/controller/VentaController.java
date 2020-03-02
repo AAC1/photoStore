@@ -214,8 +214,10 @@ public class VentaController {
 			GeneralMethods.modalMsg("ERROR", "", "Seleccione un estatus para el pedido");
 			return;
 		}
-		if(inputMontoAnt.getText() ==null || inputMontoAnt.getText().length()==0 || Double.parseDouble(inputMontoAnt.getText()) > Double.parseDouble(inputMonto.getText()) || Double.parseDouble(inputMontoAnt.getText()) <=0) {
-			GeneralMethods.modalMsg("ERROR", "", "Valide que el monto anticipo no sea cero, vació o sea mayor al importe total");
+		String montoAnt=inputMontoAnt.getText().replace(",", "");
+		String monto=inputMonto.getText().replace(",", "");
+		if(inputMontoAnt.getText() ==null || inputMontoAnt.getText().length()==0 || Double.parseDouble(montoAnt) > Double.parseDouble(monto) || Double.parseDouble(montoAnt) <=0) {
+			GeneralMethods.modalMsg("ERROR", "", "Valide que el monto anticipo no sea cero, vacío o sea mayor al importe total");
 			return;
 		}
 		

@@ -24,6 +24,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
@@ -223,45 +224,7 @@ public class GestProdController {
 		return new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				catProdModif = null;
-				inputName.setText("");
-				cbxStts.setValue("");
-				try {
-
-					if (productsMap == null || productsMap.size() == 0) {
-						// GeneralMethods.modalMsg("WARNING", "", "No hay
-						// registro a modificar");
-						return;
-					}
-
-					ObservableList<TreeItem<String>> objTree = treeProd.getSelectionModel().getSelectedItems();
-					TreeItem<String> treeItem = objTree.get(0);
-					if (treeItem == null) {
-						// GeneralMethods.modalMsg("WARNING", "", "No hay
-						// registro seleccionado");
-						return;
-					}
-					int idx = treeProd.getSelectionModel().getSelectedIndex();
-
-					String strRow = treeItem.getValue();
-
-					if (strRow == null || strRow.length() == 0 || idx <= 0) {// ||
-																				// row.length()==0
-						// GeneralMethods.modalMsg("WARNING", "", "Para
-						// modificar, debes seleccionar un registro");
-						return;
-					} else {
-						System.out.println(strRow);
-						String[] arrayStr = strRow.split("\\|");
-						System.out.println(arrayStr[0]);
-						String idProd = arrayStr[0].substring(2, arrayStr[0].length()).trim();
-						catProdModif = productsMap.get(Integer.parseInt(idProd));
-						inputName.setText(catProdModif.getProducto());
-						cbxStts.setValue(catProdModif.getEstatus());
-					}
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
+				getDetails();
 			}
 		};
 	}
@@ -317,6 +280,50 @@ public class GestProdController {
 
 		};
 	}
+	
+	private void getDetails() {
+		System.out.println("entra: en getDetails");
+		catProdModif = null;
+		inputName.setText("");
+		cbxStts.setValue("");
+		try {
+
+			if (productsMap == null || productsMap.size() == 0) {
+				// GeneralMethods.modalMsg("WARNING", "", "No hay
+				// registro a modificar");
+				return;
+			}
+
+			ObservableList<TreeItem<String>> objTree = treeProd.getSelectionModel().getSelectedItems();
+			TreeItem<String> treeItem = objTree.get(0);
+			if (treeItem == null) {
+				// GeneralMethods.modalMsg("WARNING", "", "No hay
+				// registro seleccionado");
+				return;
+			}
+			int idx = treeProd.getSelectionModel().getSelectedIndex();
+
+			String strRow = treeItem.getValue();
+
+			if (strRow == null || strRow.length() == 0 || idx <= 0) {// ||
+																		// row.length()==0
+				// GeneralMethods.modalMsg("WARNING", "", "Para
+				// modificar, debes seleccionar un registro");
+				return;
+			} else {
+				System.out.println(strRow);
+				String[] arrayStr = strRow.split("\\|");
+				System.out.println(arrayStr[0]);
+				String idProd = arrayStr[0].substring(2, arrayStr[0].length()).trim();
+				catProdModif = productsMap.get(Integer.parseInt(idProd));
+				inputName.setText(catProdModif.getProducto());
+				cbxStts.setValue(catProdModif.getEstatus());
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
 
 	private void inactiveChildren(TreeItem<String> treeItem, String stts) {
 		ObservableList<TreeItem<String>> children = treeItem.getChildren();
@@ -505,4 +512,13 @@ public class GestProdController {
 		// colEstatus.prefWidthProperty().bind(tblProducts.widthProperty().multiply(0.4));
 
 	}
+	
+	@FXML 
+	private void selectByArrow(KeyEvent e) {
+		System.out.println("entra:"+e.getCode().toString());
+		if("DOWN".equals(e.getCode().toString()) || "UP".equals(e.getCode().toString())){
+			getDetails();
+		}
+	}
+
 }

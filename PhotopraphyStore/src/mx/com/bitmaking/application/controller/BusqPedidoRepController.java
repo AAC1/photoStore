@@ -37,6 +37,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
@@ -513,5 +514,13 @@ public class BusqPedidoRepController {
 		colCostUniProd.prefWidthProperty().bind(tblProducts.widthProperty().multiply(0.2));
 		colCostTotalProd.prefWidthProperty().bind(tblProducts.widthProperty().multiply(0.2));
 		
+	}
+	
+	@FXML 
+	private void selectByArrow(KeyEvent e) {
+		System.out.println("entra:"+e.getCode().toString());
+		if("DOWN".equals(e.getCode().toString()) || "UP".equals(e.getCode().toString())){
+			getProdByPedido();
+		}
 	}
 }
