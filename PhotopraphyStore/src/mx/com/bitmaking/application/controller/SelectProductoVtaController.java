@@ -137,9 +137,9 @@ public class SelectProductoVtaController {
 	private void iniSect() {
 		inputBarcodeSearch.setText("");
 		tblProducto.getItems().removeAll(tblProducto.getItems());
-		colBarCode.prefWidthProperty().bind(tblProducto.widthProperty().multiply(0.3));
-		colProducto.prefWidthProperty().bind(tblProducto.widthProperty().multiply(0.5));
-		colCosto.prefWidthProperty().bind(tblProducto.widthProperty().multiply(0.2));
+		colBarCode.prefWidthProperty().bind(tblProducto.widthProperty().multiply(0.0)); //Cero para evitar que se muestre
+		colProducto.prefWidthProperty().bind(tblProducto.widthProperty().multiply(0.6));
+		colCosto.prefWidthProperty().bind(tblProducto.widthProperty().multiply(0.4));
 		
 		colBarCode.setCellValueFactory(new PropertyValueFactory<CostProductsDTO, String>("bar_code"));
 		colProducto.setCellValueFactory(new PropertyValueFactory<CostProductsDTO, String>("producto"));
