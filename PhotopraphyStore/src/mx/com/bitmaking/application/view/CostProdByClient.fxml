@@ -22,7 +22,7 @@
             <JFXButton fx:id="btnAcceptModif" layoutX="29.0" layoutY="301.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #04A138 #04A138;" text="✔ Aceptar" textFill="WHITE" visible="false" AnchorPane.rightAnchor="281.0" AnchorPane.topAnchor="301.0" />
             <JFXButton fx:id="btnCancenModif" layoutX="155.0" layoutY="301.0" onMouseClicked="#cancelModif" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #A12D04 #A12D04;" text="✘ Cancelar" textFill="WHITE" visible="false" AnchorPane.rightAnchor="155.0" AnchorPane.topAnchor="301.0" />
             <JFXButton fx:id="btnSalir" layoutX="282.0" layoutY="301.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #505050; -fx-text-fill: white;" styleClass="btn-gral" text=" ◄ Salir" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="301.0" />
-            <Label fx:id="lblCosto1" layoutX="35.0" layoutY="227.0" prefHeight="17.0" prefWidth="157.0" text="Código de barras" />
+            <Label fx:id="lblBarcode" layoutX="35.0" layoutY="227.0" prefHeight="17.0" prefWidth="157.0" text="Código de barras" />
             <JFXTextField fx:id="inputBarcode" disable="true" layoutX="31.0" layoutY="248.0" prefHeight="27.0" prefWidth="359.0" />
          </children>
       </AnchorPane>

@@ -18,6 +18,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyEvent;
@@ -69,6 +70,7 @@ public class CostProdByClteController {
 	@FXML private JFXComboBox<String> cbxStts;
 	@FXML private JFXComboBox<String> cbxCliente;
 	@FXML private JFXTextField inputCosto;
+	@FXML private Label lblBarcode;
 	private List<Store_fotografo> lstClte = null;
 	LinkedHashMap<Integer, CostProductsDTO> productsMap = null;
 	CostProductsDTO catProdModif = null;
@@ -100,6 +102,7 @@ public class CostProdByClteController {
 		inputCosto.textProperty().addListener(GeneralMethods.formatNumber(inputCosto));
 		
 		inputBarcode.setVisible(false);//Para la siguiente fase se agrega
+		lblBarcode.setVisible(false);
 	}
 	
 	
