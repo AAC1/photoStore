@@ -144,7 +144,7 @@ public class PrinterService implements Printable{
 		for (CostProductsDTO el : listProds) {
 			txt = el.getProducto() + " x" + el.getCantidad();
 			preTxt =nCharacter(nCharacters, txt, false, true);
-			totalCost.add(el.getCosto());
+			totalCost=totalCost.add(el.getCosto());
 			costo = GeneralMethods.formatCurrentNumber(String.valueOf(el.getCosto()));
 			//System.out.println("preTxt:"+preTxt);
 			nlastLine = preTxt.lastIndexOf('\n');

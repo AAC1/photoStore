@@ -168,7 +168,7 @@ public class VentaController {
 		}
 		
 		inputMontoAnt.setText("0");
-		cbxEstatus.setValue("");
+		
 		cbxEstatus.setValue("PENDIENTE");
 		inputTelefono.setText("");
 		inputCliente.setText("");
@@ -212,6 +212,10 @@ public class VentaController {
 		idxSelected = cbxEstatus.getSelectionModel().getSelectedIndex();
 		if(idxSelected <0) {
 			GeneralMethods.modalMsg("ERROR", "", "Seleccione un estatus para el pedido");
+			return;
+		}
+		if(inputMontoAnt.getText() ==null || inputMontoAnt.getText().length()==0 || Double.parseDouble(inputMontoAnt.getText()) > Double.parseDouble(inputMonto.getText()) || Double.parseDouble(inputMontoAnt.getText()) <=0) {
+			GeneralMethods.modalMsg("ERROR", "", "Valide que el monto anticipo no sea cero, vació o sea mayor al importe total");
 			return;
 		}
 		
