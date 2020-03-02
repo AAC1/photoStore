@@ -263,6 +263,7 @@ public class VentaController {
 						product.setBar_code(el.getBar_code());
 						product.setCantidad(el.getCantidad());
 						product.setCosto_total(el.getCosto());
+						System.out.println("cost_uni_adding:"+el.getCostoUnitario());
 						product.setCosto_unitario(el.getCostoUnitario());
 						product.setDescripcion(el.getProducto());
 						
@@ -465,9 +466,9 @@ public class VentaController {
 		auxObj.setCantidad(Integer.parseInt(cant));
 		auxObj.setCosto(new BigDecimal(auxObj.getCantidad()*(Double.parseDouble(costAux))));
 		auxObj.setProducto(inputProd.getText());
-		auxObj.setCostoUnitario(new BigDecimal(inputPrecioUni.getText()));
+		auxObj.setCostoUnitario(new BigDecimal(inputCostoProd.getText()));
 		auxObj.setBar_code(inputBarcode.getText());
-		
+		System.out.println("Costo Unitario:"+auxObj.getCostoUnitario());
 		tbProductos.getItems().add(auxObj);
 		rowProd=null;
 		inputCantProd.setText("");

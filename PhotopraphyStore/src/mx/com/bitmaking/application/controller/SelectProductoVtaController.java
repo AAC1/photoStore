@@ -151,7 +151,8 @@ public class SelectProductoVtaController {
 	private void searchByBarcode(KeyEvent e) {
 		System.out.println("entra:"+e.getCode().toString());
 		if("ENTER".equals(e.getCode().toString()) ){
-			getTblCatProductsByBarCode(inputBarcodeSearch.getText().trim());
+			//getTblCatProductsByBarCode(inputBarcodeSearch.getText().trim()); /Filtro por barcode
+			getTblCatProductsByProducto(inputBarcodeSearch.getText().trim());
 		}
 	}
 	
@@ -181,6 +182,31 @@ public class SelectProductoVtaController {
 		}
 	//	tblProducto.getItems().removeAll(tblProducto.getItems());
 		tblProducto.setItems(FXCollections.observableList(lstProd));
+	}
+	
+
+	private void getTblCatProductsByProducto(String valueToSearch) {
+		
+		lstProd = new ArrayList<>();
+		List<CostProductsDTO>allList = new ArrayList<>();
+		getTblCatProducts();
+		//getDescProducts(productsMap, 0, allList, new CostProductsDTO(), new StringBuilder(),"");
+//		if(valueToSearch.trim().length()==0) {
+			
+	//		tblProducto.getItems().removeAll(tblProducto.getItems());
+	//		tblProducto.setItems(FXCollections.observableList(lstProd));
+		//	return;
+	//	}
+		//for (Map.Entry<Integer,CostProductsDTO> el : productsMap.entrySet()) {
+		for (CostProductsDTO el : lstProd) {
+			if((el.getProducto()!=null && el.getProducto().toUpperCase().contains(valueToSearch.toUpperCase()))||
+				(el.getProducto()==null || el.getProducto().length()==0)	
+			) {
+				allList.add(el);
+			}
+		}
+		tblProducto.getItems().removeAll(tblProducto.getItems());
+		tblProducto.setItems(FXCollections.observableList(allList));
 	}
 	
 	protected void getTblCatProducts() {
