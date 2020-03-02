@@ -237,6 +237,7 @@ branch_updated int#Aplica para BD remota, saber cuantos brnaches han actualizado
 alter table store_pedido modify monto_total decimal(10,2);
 alter table store_pedido modify monto_ant decimal(10,2);
 
+alter table store_usuario modify passwd VARCHAR(300);
 
 update store_usuario  set passwd ='ee4f56c332dfdf0c0604971ee7c53c439a25db31217712accd3a1fa9712b39cc'
 WHERE id_usr in(1,2);
