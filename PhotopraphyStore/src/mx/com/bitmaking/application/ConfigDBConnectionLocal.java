@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -25,6 +26,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javafx.application.Application;
+import mx.com.bitmaking.application.util.Constantes;
+import mx.com.bitmaking.application.util.GeneralMethods;
 
 @Profile("!test")      
 @Configuration
@@ -36,12 +39,15 @@ import javafx.application.Application;
 public class ConfigDBConnectionLocal {
 //	@Autowired
   //  private EntityManagerFactory entityManagerFactory;
-
+	@Value("${db.password}")
+	private String passwd ;
+	
     @Bean(name = "dataSource")  
     @Primary
     @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource mysqlDataSource() {
-         return DataSourceBuilder.create().build();
+         return DataSourceBuilder.create()
+        		 .password(GeneralMethods.desencriptar(passwd, Constantes.SALT)).build();
     }
     
     @PersistenceContext(unitName = "primary")  

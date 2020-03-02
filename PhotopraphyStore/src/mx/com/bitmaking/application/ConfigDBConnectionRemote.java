@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -21,6 +22,9 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import mx.com.bitmaking.application.util.Constantes;
+import mx.com.bitmaking.application.util.GeneralMethods;
+
 @Profile("!test")      
 @Configuration
 @EnableTransactionManagement
@@ -29,11 +33,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 										 "mx.com.bitmaking.application.abstractdao","mx.com.bitmaking.application.abstractservice"},
 	entityManagerFactoryRef = "remoteEntityManager", transactionManagerRef = "remoteTransactionManager") 
 public class ConfigDBConnectionRemote {
+	@Value("${db-remote.password}")
+	private String passwd ;
 	
 	@Bean(name = "remoteDataSource")  
     @ConfigurationProperties(prefix = "spring.datasource-remote")
     public DataSource mysqlDataSource() {
-         return DataSourceBuilder.create().build();
+		 return DataSourceBuilder.create()
+				 .password(GeneralMethods.desencriptar(passwd, Constantes.SALT)).build();
     }
     
     @PersistenceContext(unitName = "remote")  
