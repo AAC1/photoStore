@@ -241,5 +241,10 @@ alter table store_pedido modify monto_ant decimal(10,2);
 update store_usuario  set passwd ='ee4f56c332dfdf0c0604971ee7c53c439a25db31217712accd3a1fa9712b39cc'
 WHERE id_usr in(1,2);
 
+select * from test;
 update store_usuario  set passwd ='b2a485e9743a031a2bf4d74f8c9c643b1244bd85a8d002598fa47aa9c106f9e7'
 WHERE id_usr in(3);
+
+
+
+
