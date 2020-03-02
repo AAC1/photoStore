@@ -169,7 +169,7 @@ public class VentaController {
 		
 		inputMontoAnt.setText("0");
 		cbxEstatus.setValue("");
-		//cbxEstatus.setValue("Pendiente");
+		cbxEstatus.setValue("PENDIENTE");
 		inputTelefono.setText("");
 		inputCliente.setText("");
 		inputMonto.setText("0");
@@ -438,8 +438,8 @@ public class VentaController {
 	@FXML private void addProdToTable() {
 		String cant =inputCantProd.getText();
 		cant = cant.replaceAll("[^0-9]", ""); 
-		if(cant==null || cant.trim().length()==0) {
-			GeneralMethods.modalMsg("", "", "Ingrese una cantidad");
+		if(cant==null || cant.trim().length()==0 || Integer.parseInt(cant)<=0) {
+			GeneralMethods.modalMsg("", "", "Ingrese una cantidad mayor a cero.");
 			return;
 		}
 		if(inputCostoProd.getText()==null || inputCostoProd.getText().trim().length()==0 
