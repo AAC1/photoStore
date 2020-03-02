@@ -23,7 +23,7 @@
             </TableView>
          </children>
       </AnchorPane>
-      <Label fx:id="lblCosto11" layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="157.0" text="Código de barras" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <Label fx:id="lblCosto11" layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="157.0" text="Productos" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
       <JFXTextField fx:id="inputBarcodeSearch" layoutX="128.0" layoutY="9.0" onKeyReleased="#searchByBarcode" prefHeight="27.0" prefWidth="235.0" AnchorPane.leftAnchor="128.0" AnchorPane.topAnchor="9.0" />
    </children>
 </AnchorPane>
