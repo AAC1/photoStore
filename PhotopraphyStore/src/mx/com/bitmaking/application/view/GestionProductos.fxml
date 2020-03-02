@@ -12,7 +12,7 @@
       <JFXButton fx:id="btnAddProd" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #037AB6; -fx-text-fill: white;" styleClass="btn-gral" text="✚ Agregar" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
       <JFXButton fx:id="btnEliminarProd" layoutX="272.0" layoutY="14.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #A12D04 #A12D04; -fx-text-fill: white;" styleClass="btn-gral" text="✖ Eliminar" AnchorPane.leftAnchor="272.0" AnchorPane.topAnchor="14.0" />
       <JFXButton fx:id="btnEdtProd" layoutX="143.0" layoutY="14.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #C37B00; -fx-text-fill: white;" styleClass="btn-gral" text="▬ Modificar" AnchorPane.leftAnchor="143.0" AnchorPane.topAnchor="14.0" />
-      <TreeView fx:id="treeProd" layoutX="10.0" layoutY="61.0" prefHeight="211.0" prefWidth="367.0" styleClass="tree-gral" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="61.0" />
+      <TreeView fx:id="treeProd" layoutX="10.0" layoutY="61.0" onKeyReleased="#selectByArrow" prefHeight="211.0" prefWidth="367.0" styleClass="tree-gral" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="61.0" />
       <AnchorPane layoutX="383.0" layoutY="59.0" prefHeight="211.0" prefWidth="393.0" style="-fx-background-color: rgba(216,216,216,0.5);" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="383.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="61.0">
          <children>
             <Label layoutX="34.0" layoutY="6.0" prefHeight="17.0" prefWidth="118.0" text="Nombre" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="86.0" AnchorPane.topAnchor="6.0" />

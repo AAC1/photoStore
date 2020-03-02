@@ -10,7 +10,7 @@
 <AnchorPane fx:id="bodyCatProd" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="458.0" prefWidth="857.0" style="-fx-background-color: rgba(255,255,255,0.8);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.CostProdByClteController">
    <children>
       <JFXButton fx:id="btnEdtProd" layoutX="289.0" layoutY="15.0" onMouseClicked="#editProd" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #C37B00; -fx-text-fill: white;" styleClass="btn-gral" text="▬ Modificar" AnchorPane.leftAnchor="289.0" AnchorPane.topAnchor="15.0" />
-      <TreeView fx:id="treeProd" layoutX="10.0" layoutY="61.0" prefHeight="211.0" prefWidth="397.0" styleClass="tree-gral" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="61.0" />
+      <TreeView fx:id="treeProd" layoutX="10.0" layoutY="61.0" onKeyReleased="#selectByArrow" prefHeight="211.0" prefWidth="397.0" styleClass="tree-gral" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="61.0" />
       <AnchorPane layoutX="417.0" layoutY="59.0" prefHeight="211.0" prefWidth="271.0" style="-fx-background-color: rgba(216,216,216,0.5) rgba(216,216,216,0.5);" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="417.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="61.0">
          <children>
             <Label layoutX="34.0" layoutY="6.0" prefHeight="17.0" prefWidth="118.0" text="Nombre" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="86.0" AnchorPane.topAnchor="6.0" />
