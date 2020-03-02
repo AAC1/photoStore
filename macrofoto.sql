@@ -234,4 +234,6 @@ data longblob ,
 direction char(10),
 branch_updated int#Aplica para BD remota, saber cuantos brnaches han actualizado
 );
+alter table store_pedido modify monto_total decimal(10,2);
+alter table store_pedido modify monto_ant decimal(10,2);
 
