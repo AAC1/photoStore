@@ -90,18 +90,20 @@ public class LoginController {
 			openModal("Home",true);
 			return;
 		}*/
-		Flags.remote_valid=true;
+		//Flags.remote_valid=true;//Valor inicial para incluir login remoto
+		Flags.remote_valid=false;
 		try {
 		ResponseDTO resp = null;
 		
-			try {
-				resp = remoteLoginService.validUsr(inputUsr.getText(), inputPasswd.getText());
-			}
+		//	try {
+				resp = loginService.validUsr(inputUsr.getText(), inputPasswd.getText());;
+						// remoteLoginService.validUsr(inputUsr.getText(), inputPasswd.getText());
+		/*	}
 			catch(Exception e) {
 				Flags.remote_valid = false;
 				System.out.println("Logueo local, no hay conexion remoto");
 				resp =loginService.validUsr(inputUsr.getText(), inputPasswd.getText());
-			}
+			}*/
 			if(resp==null) {
 				GeneralMethods.modalMsg("ERROR", "", "No fue posible validar acceso");
 				return ;
