@@ -79,36 +79,50 @@ public class GeneralMethods {
 					if(newValue.contains(".")) {
 						String number = newValue.substring(0, newValue.lastIndexOf("."));
 						
+						if(number.length()> Constantes.NUMBER_LENGTH) {
+							number = number.substring(0,Constantes.NUMBER_LENGTH);
+						}
+						
+						
 						String dec = newValue.substring(newValue.lastIndexOf("."), newValue.length());
 						number = number.replaceAll("[^0-9]", "");
 						
-						dec = dec.replaceAll("[^0-9]+", "");
+						dec = dec.replaceAll("[^0-9]", "");
 						dec = dec.equals("")?"":dec;
-						
+						dec = (dec.length()>Constantes.DEC_LENGTH)?dec.substring(0,Constantes.DEC_LENGTH):dec;
 						
 						newValue = number+"."+dec;
+						System.out.println("NewValue_pre: "+newValue);
 						//if("".equals(dec)){
 							decimalForm = String.format("%,d",Integer.parseInt(number));
 							decimalForm+="."+dec;
 						//}else{
-						if(dec.length()>=2)	{
-							decimalForm = String.format("%,.2f",Double.parseDouble(newValue));
+						if(dec.length()>Constantes.DEC_LENGTH)	{
+							decimalForm = String.format("%,."+Constantes.DEC_LENGTH+"f",Double.parseDouble(newValue));
 						}
+						field.setText(decimalForm);
 					}
 					else{
-						newValue = newValue.replaceAll("[^0-9]", "");
-						decimalForm = String.format("%,d",Integer.parseInt(newValue));
+						if(newValue.length() > Constantes.NUMBER_LENGTH) {
+							field.setText(oldValue);
+							
+						}else {
+						
+							newValue = newValue.replaceAll("[^0-9]", "");
+							if("".equals(newValue.trim()))decimalForm="";
+							else decimalForm = String.format("%,d",Integer.parseInt(newValue));
+							field.setText(decimalForm);
+						}
 					}
 
-					System.out.println("NewValue: "+decimalForm);
-					newValue = decimalForm;
+				//	System.out.println("NewValue: "+decimalForm);
 					
-					if(newValue.length() > Constantes.NUMBER_LENGTH) {
-						field.setText(oldValue);
-					}else {
+					//if(newValue.length() > Constantes.NUMBER_LENGTH) {
+					//	field.setText(oldValue);
+				//	}else {
 						
-						field.setText(newValue);
-					}
+					//	field.setText(decimalForm);
+				//	}
 					
 				}
 			}

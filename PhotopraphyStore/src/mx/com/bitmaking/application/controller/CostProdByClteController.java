@@ -96,7 +96,10 @@ public class CostProdByClteController {
 		getTblCatProducts(0);
 		treeProd.addEventHandler(MouseEvent.MOUSE_CLICKED, showDetails());
 		btnAcceptModif.addEventHandler(MouseEvent.MOUSE_CLICKED, acceptModifProd());
-
+		
+		inputCosto.textProperty().addListener(GeneralMethods.formatNumber(inputCosto));
+		
+		inputBarcode.setVisible(false);//Para la siguiente fase se agrega
 	}
 	
 	
@@ -207,6 +210,8 @@ public class CostProdByClteController {
 				catProdModif = productsMap.get(Integer.parseInt(idProd));
 				inputName.setText(catProdModif.getProducto());
 				cbxStts.setValue(catProdModif.getEstatus());
+				System.out.println("getCosto:select: "+catProdModif.getCosto());
+				
 				inputCosto.setText(catProdModif.getCosto()==null?"":String.valueOf(catProdModif.getCosto()));
 				inputBarcode.setText(catProdModif.getBar_code()==null?"":catProdModif.getBar_code());
 				
@@ -270,8 +275,11 @@ public class CostProdByClteController {
 						System.out.println("idClte:"+objClte.getId_fotografo());
 						System.out.println("idProd:"+row.getId_prod());
 						System.out.println("costProdObj:"+costProdObj.getId_clte_prod_cost());
-						costProdObj.setCosto(inputCosto.getText()==null||inputCosto.getText().length()==0?
-														null:new BigDecimal(inputCosto.getText()));
+						
+						String costoProd = inputCosto.getText()==null?"":inputCosto.getText().replace(",", "");
+						costProdObj.setCosto(inputCosto.getText().length()==0?
+														null:new BigDecimal(costoProd.trim()));
+						
 						/*ACtualiza o inserta nuevo registro*/
 						clteProdCostService.insertRow(costProdObj);
 						if(Flags.remote_valid)remoteClteProdCostService.insertRow(costProdObj);
