@@ -1,5 +1,8 @@
 package mx.com.bitmaking.application.util;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -189,6 +192,22 @@ public class GeneralMethods {
 		}
 		return decimalForm;
 	}
-
+	public static String cifraSha256(String text,String salt) {
+		String resp="";
+		try{
+			MessageDigest sha256=MessageDigest.getInstance("SHA-256");
+			sha256.update((text+salt).getBytes("UTF-8"));
+			byte[] digest = sha256.digest();
+			StringBuffer sb=new StringBuffer();
+			for(int i=0; i <digest.length;i++){
+			    sb.append(String.format("%02x", digest[i]));
+			}
+			resp=sb.toString(); //2bb80d5...527a25b
+			
+		}catch(NoSuchAlgorithmException| UnsupportedEncodingException e){
+			e.printStackTrace();
+		}
+		return resp;
+	}
 
 }

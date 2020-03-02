@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 import mx.com.bitmaking.application.dto.ResponseDTO;
 import mx.com.bitmaking.application.dto.UserSessionDTO;
 import mx.com.bitmaking.application.service.ILoginService;
+import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
@@ -94,9 +95,10 @@ public class LoginController {
 		Flags.remote_valid=false;
 		try {
 		ResponseDTO resp = null;
-		
+		String passwd = GeneralMethods.cifraSha256(inputPasswd.getText(), Constantes.SALT);
+		System.out.println("passwd:"+passwd);
 		//	try {
-				resp = loginService.validUsr(inputUsr.getText(), inputPasswd.getText());;
+				resp = loginService.validUsr(inputUsr.getText(), passwd);
 						// remoteLoginService.validUsr(inputUsr.getText(), inputPasswd.getText());
 		/*	}
 			catch(Exception e) {
