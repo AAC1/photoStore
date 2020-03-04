@@ -15,8 +15,10 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +28,7 @@ import javafx.scene.Scene;
 
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -338,19 +341,25 @@ public class VentaController {
 			inputCliente.setDisable(true);
 			return;
 		}
-		
+		String clteSelected = cbxCliente.getEditor().getText();
 		inputCliente.setText("");
 		System.out.println("idxClte: "+idxClte);
-		if(idxClte ==0 ) {
+		System.out.println("cbxCliente.getEditor().getText():"+cbxCliente.getEditor().getText());
+		System.out.println("cbxCliente.getPromptText():"+cbxCliente.getPromptText());
+		System.out.println("cbxCliente.getSelectionModel().getSelectedIndex():"+cbxCliente.getSelectionModel().getSelectedIndex());
+	//	if(idxClte ==0 ) {
+		if("".equals(clteSelected.trim())){
 			inputCliente.setDisable(false);
 		}else {
 			inputCliente.setDisable(true);
-			inputCliente.setText(lstFoto.get((idxClte)).getFotografo());
+			inputCliente.setText(clteSelected);//(lstFoto.get((idxClte)).getFotografo());
 		}
 	}
 	
 	private void fillCbxClte() {
 		cbxCliente.getItems().removeAll(cbxCliente.getItems());
+		cbxCliente.setEditable(true);
+		cbxCliente.setMaxHeight(Double.MAX_VALUE);
 		System.out.println("es remoto?"+Flags.remote_valid);
 		lstFoto = (Flags.remote_valid)?remoteFotografoService.getActiveClients():fotografoService.getActiveClients();
 		String[] arrayClte = new String[lstFoto.size()];
@@ -359,8 +368,33 @@ public class VentaController {
 		for(Store_fotografo el: lstFoto){
 			arrayClte[idx++] = el.getFotografo();
 		}
-		cbxCliente.setItems(FXCollections.observableArrayList(arrayClte));
-				
+		FilteredList<String> filteredItems = new FilteredList<String>(FXCollections.observableArrayList(arrayClte), p -> true);
+		
+	//	cbxCliente.setItems(FXCollections.observableArrayList(arrayClte));
+		cbxCliente.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
+            final TextField editor = cbxCliente.getEditor();
+            final String selected = cbxCliente.getSelectionModel().getSelectedItem();
+
+            // This needs run on the GUI thread to avoid the error described
+            // here: https://bugs.openjdk.java.net/browse/JDK-8081700.
+            Platform.runLater(() -> {
+                // If the no item in the list is selected or the selected item
+                // isn't equal to the current input, we refilter the list.
+                if (selected == null || !selected.equals(editor.getText())) {
+                    filteredItems.setPredicate(item -> {
+                        // We return true for any items that starts with the
+                        // same letters as the input. We use toUpperCase to
+                        // avoid case sensitivity.
+                        if (item.toUpperCase().startsWith(newValue.toUpperCase())) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    });
+                }
+            });	
+		});
+		cbxCliente.setItems(filteredItems);
 	}
 	
 	@FXML
