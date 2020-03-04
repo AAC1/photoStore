@@ -1,5 +1,5 @@
 <?php
-
+/*
 function getConnection($username,$password,$serverName,$database){
     $conn = new mysqli($serverName, $username, $password,$database);
 
@@ -9,6 +9,6 @@ function getConnection($username,$password,$serverName,$database){
     }
     return $conn;
 }
-
+*/
 
 ?>

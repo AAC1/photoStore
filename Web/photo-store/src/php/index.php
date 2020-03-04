@@ -102,7 +102,7 @@
             ng-click="toggleMenu()">
         &#x2630;
         </button>
-        <div ng-view="ng-view" class=""container >&nbsp;</div>
+        <div ng-view="ng-view" class="" container >&nbsp;</div>
         
     </div>
     

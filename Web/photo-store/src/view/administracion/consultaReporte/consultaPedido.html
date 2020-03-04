@@ -1,0 +1,44 @@
+<h1>Consulta Pedido</h1>
+<article class="fluid-container ">
+    <div class="row col-md-12">
+        <div class=" col-md-3">
+
+        </div>
+        <div class=" col-md-9">
+            <h4>Pedidos</h4>
+            <div class=" col-md-12 overflowDiv">
+
+                <table class="table ">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Folio</th>
+                            <th>Cliente</th>
+                            <th>Contacto </th>
+                            <th>Descripci&oacute;n</th>
+                            <th>Estatus</th>
+                            <th>Fec. del pedido</th>
+                            <th>Fec. entregado</th>
+                            <th>Monto de anticipo</th>
+                            <th>Costo total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-for="let item of listPedidos">
+                            <td>{{item.folio}}</td>
+                            <td>{{item.cliente}}</td>
+                            <td>{{item.telefono}}</td>
+                            <td>{{item.descripcion}}</td>
+                            <td>{{item.id_estatus}}</td>
+                            <td>{{item.fec_pedido}}</td>
+                            <td>{{item.fec_entregado}}</td>
+                            <td>{{item.monto_ant}}</td>
+                            <td>{{item.monto_total}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <pre>listPedidos={{listPedidos}}</pre>
+    </div>
+
+</article>

@@ -29,7 +29,7 @@ app.config(['$mdDateLocaleProvider', '$routeProvider', '$httpProvider',
             //   when('/login', { templateUrl: '../view/login/login.php', controller: 'loginController' }).
         when('/gestion/producto', { templateUrl: 'src/view/administracion/gestionProducto/gestProducto.php', controller: 'gestProdController' }).
         when('/gestion/costoProducto', { templateUrl: 'src/view/administracion/gestionCostoProducto/gestCostoProducto.php', controller: 'gestCostProdController' }).
-        when('/reporte', { templateUrl: 'src/view/administracion/consultaReporte/reporte.php', controller: 'reporteController' }).
+        when('/reporte', { templateUrl: 'src/view/administracion/consultaReporte/consultaPedido.html', controller: 'reporteController' }).
         otherwise({ redirectTo: '/home' });
 
         $mdDateLocaleProvider.formatDate = function(date) {
@@ -43,6 +43,7 @@ app.controller('mainController', ['$rootScope', '$routeParams', '$scope', '$http
     function($rootScope, $routeParams, $scope, $http,
         $location, $timeout, $mdDialog) {
         $rootScope.showBackgroundImg = true;
+        $rootScope.baseUrl = 'http://localhost/photo-store/src/php';
         console.log("entra mainController");
         $scope.toggleMenu = function(idElement) {
 
