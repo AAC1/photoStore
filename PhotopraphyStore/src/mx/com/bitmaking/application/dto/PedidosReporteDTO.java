@@ -1,9 +1,21 @@
 package mx.com.bitmaking.application.dto;
 
+import java.math.BigDecimal;
+
 import mx.com.bitmaking.application.entity.Store_pedido;
 
 public class PedidosReporteDTO extends Store_pedido{
 	private String estatus;
+	private BigDecimal monto_pendiente;
+	
+	
+	public BigDecimal getMonto_pendiente() {
+		return monto_pendiente;
+	}
+
+	public void setMonto_pendiente(BigDecimal monto_pendiente) {
+		this.monto_pendiente = monto_pendiente;
+	}
 
 	/**
 	 * @return the estatus

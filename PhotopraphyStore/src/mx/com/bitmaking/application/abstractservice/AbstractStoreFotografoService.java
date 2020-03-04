@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import mx.com.bitmaking.application.entity.Store_fotografo;
 import mx.com.bitmaking.application.idao.IStoreFotografoDAO;
 import mx.com.bitmaking.application.service.IStoreFotografoService;
+import mx.com.bitmaking.application.util.Constantes;
 
 //@Service("StoreFotografoService")
 public abstract class AbstractStoreFotografoService implements IStoreFotografoService {
@@ -29,7 +30,7 @@ public abstract class AbstractStoreFotografoService implements IStoreFotografoSe
 		List<Store_fotografo> lstResp = new ArrayList<>();
 		Store_fotografo clteGral = new Store_fotografo();
 		clteGral.setId_fotografo(0);
-		clteGral.setFotografo("Cliente general");;
+		clteGral.setFotografo(Constantes.CLTE_GRAL);
 		
 		lstResp.add(clteGral);
 		

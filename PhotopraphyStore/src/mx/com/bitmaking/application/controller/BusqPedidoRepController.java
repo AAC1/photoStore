@@ -107,6 +107,8 @@ public class BusqPedidoRepController {
 	private TableColumn<PedidosReporteDTO, BigDecimal> colMontoAnt;
 	@FXML
 	private TableColumn<PedidosReporteDTO, BigDecimal> colMontoTotal;
+	@FXML
+	private TableColumn<PedidosReporteDTO, BigDecimal> colMontoPendiente;
 	
 	//PARA TABLA DE PRODUCTOS DE PEDIDOS
 	@FXML
@@ -396,7 +398,7 @@ public class BusqPedidoRepController {
 		StringBuilder qry = new StringBuilder();
 		qry.delete(0, qry.length());
 		qry.append("SELECT p.id_pedido, p.folio, p.cliente, p.telefono, p.descripcion, p.fec_pedido,");
-		qry.append(" p.fec_entregado, p.monto_ant, p.monto_total,");
+		qry.append(" p.fec_entregado, p.monto_ant, p.monto_total, (IFNULL(p.monto_total,0) - IFNULL(p.monto_ant,0) ) monto_pendiente, ");
 		qry.append(" (select s.estatus from Store_cat_estatus s where s.id_estatus=p.id_estatus) as estatus");
 		qry.append(" FROM Store_pedido p ");
 
@@ -469,6 +471,7 @@ public class BusqPedidoRepController {
 		colEstatus.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, String>("estatus"));
 		colMontoAnt.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, BigDecimal>("monto_ant"));
 		colMontoTotal.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, BigDecimal>("monto_total"));
+		colMontoPendiente.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, BigDecimal>("monto_pendiente"));
 		
 		//COLUMNAS DE PRODUCTOS DE PEDIDO
 		colBarcodeProd.setCellValueFactory(new PropertyValueFactory<Store_prod_pedido, String>("bar_code"));
@@ -505,7 +508,7 @@ public class BusqPedidoRepController {
 		colEstatus.prefWidthProperty().bind(tblPedido.widthProperty().multiply(0.2));
 		colMontoAnt.prefWidthProperty().bind(tblPedido.widthProperty().multiply(0.2));
 		colMontoTotal.prefWidthProperty().bind(tblPedido.widthProperty().multiply(0.2));
-		
+		colMontoPendiente.prefWidthProperty().bind(tblPedido.widthProperty().multiply(0.2));
 		
 		//TABLA PARA PRODUCTOS DE PEDIDOS:
 		colBarcodeProd.prefWidthProperty().bind(tblProducts.widthProperty().multiply(0.2));

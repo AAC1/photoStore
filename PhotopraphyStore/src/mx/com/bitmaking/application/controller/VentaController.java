@@ -1,5 +1,6 @@
 package mx.com.bitmaking.application.controller;
 
+import java.awt.event.KeyListener;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,6 +31,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -54,7 +58,7 @@ import mx.com.bitmaking.application.util.PrinterService;
 
 @Component
 //@Scope("prototype")
-public class VentaController {
+public class VentaController  {
 	@FXML private JFXButton btnConsultPedido;
 	@FXML private JFXButton  btnEditarPedido;
 	@FXML private JFXButton  btnSalir;
@@ -121,14 +125,15 @@ public class VentaController {
 	
 	
 	@Autowired
-	 private ApplicationContext context ;
+	private ApplicationContext context ;
 	
-	Stage stageBusqProd = null;
-	List<Store_fotografo> lstFoto = null;
-	List<Store_cat_estatus> lstEstatus = null;
-	CostProductsDTO rowProd = null;
-	UserSessionDTO instance = null;
-	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private Stage stageBusqProd = null;
+	private List<Store_fotografo> lstFoto = null;
+	private List<Store_cat_estatus> lstEstatus = null;
+	private CostProductsDTO rowProd = null;
+	private UserSessionDTO instance = null;
+	private SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	
 	
 	/**
 	 * @return the btnSalir
@@ -174,7 +179,8 @@ public class VentaController {
 		
 		cbxEstatus.setValue("PENDIENTE");
 		inputTelefono.setText("");
-		inputCliente.setText("");
+		inputCliente.setText(Constantes.CLTE_GRAL);
+		inputCliente.setDisable(false);
 		inputMonto.setText("0");
 		inputMontoAnt.setText("0");
 		inputDesc.setText("");
@@ -208,10 +214,12 @@ public class VentaController {
 			GeneralMethods.modalMsg("ERROR", "", "Seleccione un cliente y agregue productos");
 			return;
 		}
-		if(idxSelected ==0 &&( inputCliente.getText() ==null || "".equals(inputCliente.getText().trim()))) {
+		/*
+		if(( inputCliente.getText() ==null || "".equals(inputCliente.getText().trim()))) {
+			
 			GeneralMethods.modalMsg("ERROR", "", "Agregue el nombre del cliente");
 			return;
-		}
+		}*/
 		idxSelected = cbxEstatus.getSelectionModel().getSelectedIndex();
 		if(idxSelected <0) {
 			GeneralMethods.modalMsg("ERROR", "", "Seleccione un estatus para el pedido");
@@ -252,7 +260,10 @@ public class VentaController {
 					}
 					
 					pedidoObj.setFolio(inputFolio.getText());
-					pedidoObj.setCliente(inputCliente.getText());
+					if((Constantes.CLTE_GRAL).equals(cbxCliente.getEditor().getText())) {
+						pedidoObj.setCliente(Constantes.CLTE_GRAL+" "+inputTelefono.getText());
+					}else
+						pedidoObj.setCliente(inputCliente.getText());
 					pedidoObj.setTelefono(inputTelefono.getText());
 					pedidoObj.setDescripcion(inputDesc.getText());
 					pedidoObj.setFec_pedido(sdf.parse(sdf.format(new Date())));
@@ -336,6 +347,11 @@ public class VentaController {
 	@FXML 
 	private void selectCte() {
 		
+		setClte();
+	}
+	
+	private void setClte() {
+		
 		int idxClte = cbxCliente.getSelectionModel().getSelectedIndex() ;
 		if(lstFoto ==null || idxClte<0) {
 			inputCliente.setDisable(true);
@@ -343,18 +359,44 @@ public class VentaController {
 		}
 		String clteSelected = cbxCliente.getEditor().getText();
 		inputCliente.setText("");
+		System.out.println("clteSelected: "+clteSelected);
 		System.out.println("idxClte: "+idxClte);
 		System.out.println("cbxCliente.getEditor().getText():"+cbxCliente.getEditor().getText());
 		System.out.println("cbxCliente.getPromptText():"+cbxCliente.getPromptText());
 		System.out.println("cbxCliente.getSelectionModel().getSelectedIndex():"+cbxCliente.getSelectionModel().getSelectedIndex());
 	//	if(idxClte ==0 ) {
-		if("".equals(clteSelected.trim())){
+		if(Constantes.CLTE_GRAL.equals(clteSelected.trim())){
 			inputCliente.setDisable(false);
 		}else {
-			inputCliente.setDisable(true);
-			inputCliente.setText(clteSelected);//(lstFoto.get((idxClte)).getFotografo());
+			String item = "";
+			for (Store_fotografo el : lstFoto) {
+		        if (clteSelected.toUpperCase().equals(el.getFotografo().toUpperCase().trim())) {
+		        	item =el.getFotografo();
+		        	break;
+		        }
+		    }
+			System.out.println("item:"+item);
+			if(!"".equals(item.trim())) {
+				inputCliente.setDisable(true);
+				inputCliente.setText(item);//(lstFoto.get((idxClte)).getFotografo());
+			}
+			
 		}
 	}
+	/*
+	@FXML
+	private void inputSelectCte(KeyEvent keyEvent) {
+		cbxCliente.show();
+		cbxCliente.setMaxHeight(Double.MAX_VALUE);
+		System.out.println("inputSelectCte 1:"+keyEvent.getCode().toString());
+		System.out.println("inputSelectCte 1_1:"+keyEvent.getText());
+		System.out.println("inputSelectCte 2_2:"+keyEvent.getEventType().getName());
+		
+       
+		if (keyEvent.getCode() == KeyCode.ENTER){
+			setClte();
+		}
+	}*/
 	
 	private void fillCbxClte() {
 		cbxCliente.getItems().removeAll(cbxCliente.getItems());
@@ -366,32 +408,96 @@ public class VentaController {
 		
 		int idx=0;
 		for(Store_fotografo el: lstFoto){
-			arrayClte[idx++] = el.getFotografo();
+			arrayClte[idx++] = el.getFotografo().trim();
 		}
 		FilteredList<String> filteredItems = new FilteredList<String>(FXCollections.observableArrayList(arrayClte), p -> true);
 		
 	//	cbxCliente.setItems(FXCollections.observableArrayList(arrayClte));
+		/*
+		cbxCliente.getEditor().setOnKeyReleased(keyEvent -> {
+			cbxCliente.show();
+			cbxCliente.setMaxHeight(Double.MAX_VALUE);
+			System.out.println("1:"+keyEvent.getCode().toString());
+			System.out.println("1_1:"+keyEvent.getText());
+			System.out.println("2_2:"+keyEvent.getEventType().getName());
+			
+           
+			if (keyEvent.getCode() == KeyCode.ENTER){
+				setClte();
+			}
+		});*/
+		/*(KeyEvent.ANY, keyEvent -> {
+			cbxCliente.show();
+			cbxCliente.setMaxHeight(Double.MAX_VALUE);
+			System.out.println("1:"+keyEvent.getCode().toString());
+			System.out.println("1_1:"+keyEvent.getText());
+			System.out.println("2_2:"+keyEvent.getEventType().getName());
+			
+            if("ENTER".equals(keyEvent.getCode().toString())) {
+            	setClte();
+            }
+        });*/
+		/*
+		cbxCliente.getEditor().setOnKeyTyped(new EventHandler<KeyEvent>() {
+
+            @Override
+            public void handle(KeyEvent event) {
+            	cbxCliente.setMaxHeight(Double.MAX_VALUE);
+				System.out.println("ky_typed 1:"+event.getCode().toString());
+				System.out.println("ky_typed 1_1:"+event.getText());
+				System.out.println("ky_typed 2_2:"+event.getEventType().getName());
+                if (event.getCode() == KeyCode.ENTER) {
+                    System.out.println("Enter Pressed");
+                    setClte();
+                }
+            }
+        });*/
+		/*	
+		cbxCliente.getEditor().addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
+			
+				System.out.println("1:"+keyEvent.getTarget());
+				System.out.println("1_1:"+keyEvent.getText());
+				System.out.println("2_2:"+keyEvent.getEventType().getName());
+				setClte();
+				cbxCliente.setMaxHeight(Double.MAX_VALUE);
+				
+	            if("ENTER".equals(keyEvent.getCode().toString())) {
+	            	System.out.println("Enter");
+	            }
+	       });
+		*/
 		cbxCliente.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
+			
             final TextField editor = cbxCliente.getEditor();
             final String selected = cbxCliente.getSelectionModel().getSelectedItem();
-
+          
             // This needs run on the GUI thread to avoid the error described
             // here: https://bugs.openjdk.java.net/browse/JDK-8081700.
             Platform.runLater(() -> {
+            //	cbxCliente.hide();
+           // 	cbxCliente.show();
+            	
+            	cbxCliente.setMaxHeight(Double.MAX_VALUE);
                 // If the no item in the list is selected or the selected item
                 // isn't equal to the current input, we refilter the list.
-                if (selected == null || !selected.equals(editor.getText())) {
+                if (selected == null || !selected.toUpperCase().equals(editor.getText().toUpperCase())) {
                     filteredItems.setPredicate(item -> {
                         // We return true for any items that starts with the
                         // same letters as the input. We use toUpperCase to
                         // avoid case sensitivity.
-                        if (item.toUpperCase().startsWith(newValue.toUpperCase())) {
-                            return true;
+                        if (item.toUpperCase().contains(newValue.toUpperCase())) {
+                        	cbxCliente.hide();
+                        	cbxCliente.show();
+                        	
+                        	return true;
+                            
                         } else {
                             return false;
                         }
                     });
                 }
+                
+                
             });	
 		});
 		cbxCliente.setItems(filteredItems);
@@ -657,4 +763,5 @@ public class VentaController {
 			}};
 		
 	}
+
 }
