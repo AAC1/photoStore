@@ -182,12 +182,12 @@ public class VentaController  {
 		cbxEstatus.setValue("PENDIENTE");
 		inputTelefono.setText("");
 		inputCliente.setText("");
-		cbxCliente.getEditor().setText("");
+	//	cbxCliente.getEditor().setText("");
 		inputCliente.setDisable(false);
 		inputMonto.setText("0");
 		inputMontoAnt.setText("0");
 		inputDesc.setText("");
-		inputCantProd.setText("0");
+		inputCantProd.setText("1");
 		inputCostoProd.setText("0");
 		inputProd.setText("");
 		
