@@ -182,7 +182,7 @@ public class VentaController  {
 		cbxEstatus.setValue("PENDIENTE");
 		inputTelefono.setText("");
 		inputCliente.setText("");
-		cbxCliente.getEditor().setText(Constantes.CLTE_GRAL);
+		cbxCliente.getEditor().setText("");
 		inputCliente.setDisable(false);
 		inputMonto.setText("0");
 		inputMontoAnt.setText("0");
@@ -299,6 +299,10 @@ public class VentaController  {
 												instance);
 					/* REINICIA FORMULARIO */
 					initForm();
+					cbxCliente.setVisibleRowCount(10);
+					cbxCliente.setMaxHeight(Double.MAX_VALUE);
+					cbxCliente.getEditor().setText(Constantes.CLTE_GRAL);
+					cbxCliente.hide();
 					System.out.println(layoutPrinter);
 					PrinterService.printTicket(Constantes.PRINTER_NAME, layoutPrinter);
 					
@@ -404,8 +408,7 @@ public class VentaController  {
 	private void fillCbxClte() {
 		cbxCliente.getItems().removeAll(cbxCliente.getItems());
 		cbxCliente.setEditable(true);
-		cbxCliente.setVisibleRowCount(8);
-		cbxCliente.setMaxHeight(Double.MAX_VALUE);
+		
 		
 		System.out.println("es remoto?"+Flags.remote_valid);
 		lstFoto = (Flags.remote_valid)?remoteFotografoService.getActiveClients():fotografoService.getActiveClients();
@@ -439,6 +442,7 @@ public class VentaController  {
                         if (item.toUpperCase().contains(newValue.toUpperCase())) {
                         	cbxCliente.hide();
                         	cbxCliente.setMaxHeight(Double.MAX_VALUE);
+                        	cbxCliente.setVisibleRowCount(15);
                         	cbxCliente.show();
                         	
                         	return true;
@@ -453,6 +457,9 @@ public class VentaController  {
             });	
 		});
 		cbxCliente.setItems(filteredItems);
+		cbxCliente.setVisibleRowCount(10);
+		cbxCliente.setMaxHeight(Double.MAX_VALUE);
+		cbxCliente.getEditor().setText(Constantes.CLTE_GRAL);
 	}
 	
 	@FXML
