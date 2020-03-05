@@ -147,6 +147,8 @@ public class VentaController  {
 		instance = UserSessionDTO.getInstance();
 		
 		responsiveGUI();
+		fillCbxClte(); //llena combo de clientes
+		
 		initForm();
 		
 	//	btnEliminaPedido.setVisible(false);
@@ -168,7 +170,7 @@ public class VentaController  {
 		inputFolio.setText(prefijo);
 	}
 	private void initForm() {
-		fillCbxClte(); //llena combo de clientes
+		
 		getLstEstatus();//Llena combo de estatus
 		
 		if(instance !=null ) {
@@ -179,7 +181,8 @@ public class VentaController  {
 		
 		cbxEstatus.setValue("PENDIENTE");
 		inputTelefono.setText("");
-		inputCliente.setText(Constantes.CLTE_GRAL);
+		inputCliente.setText("");
+		cbxCliente.getEditor().setText(Constantes.CLTE_GRAL);
 		inputCliente.setDisable(false);
 		inputMonto.setText("0");
 		inputMontoAnt.setText("0");
@@ -401,7 +404,9 @@ public class VentaController  {
 	private void fillCbxClte() {
 		cbxCliente.getItems().removeAll(cbxCliente.getItems());
 		cbxCliente.setEditable(true);
+		cbxCliente.setVisibleRowCount(8);
 		cbxCliente.setMaxHeight(Double.MAX_VALUE);
+		
 		System.out.println("es remoto?"+Flags.remote_valid);
 		lstFoto = (Flags.remote_valid)?remoteFotografoService.getActiveClients():fotografoService.getActiveClients();
 		String[] arrayClte = new String[lstFoto.size()];
@@ -411,61 +416,7 @@ public class VentaController  {
 			arrayClte[idx++] = el.getFotografo().trim();
 		}
 		FilteredList<String> filteredItems = new FilteredList<String>(FXCollections.observableArrayList(arrayClte), p -> true);
-		
-	//	cbxCliente.setItems(FXCollections.observableArrayList(arrayClte));
-		/*
-		cbxCliente.getEditor().setOnKeyReleased(keyEvent -> {
-			cbxCliente.show();
-			cbxCliente.setMaxHeight(Double.MAX_VALUE);
-			System.out.println("1:"+keyEvent.getCode().toString());
-			System.out.println("1_1:"+keyEvent.getText());
-			System.out.println("2_2:"+keyEvent.getEventType().getName());
-			
-           
-			if (keyEvent.getCode() == KeyCode.ENTER){
-				setClte();
-			}
-		});*/
-		/*(KeyEvent.ANY, keyEvent -> {
-			cbxCliente.show();
-			cbxCliente.setMaxHeight(Double.MAX_VALUE);
-			System.out.println("1:"+keyEvent.getCode().toString());
-			System.out.println("1_1:"+keyEvent.getText());
-			System.out.println("2_2:"+keyEvent.getEventType().getName());
-			
-            if("ENTER".equals(keyEvent.getCode().toString())) {
-            	setClte();
-            }
-        });*/
-		/*
-		cbxCliente.getEditor().setOnKeyTyped(new EventHandler<KeyEvent>() {
-
-            @Override
-            public void handle(KeyEvent event) {
-            	cbxCliente.setMaxHeight(Double.MAX_VALUE);
-				System.out.println("ky_typed 1:"+event.getCode().toString());
-				System.out.println("ky_typed 1_1:"+event.getText());
-				System.out.println("ky_typed 2_2:"+event.getEventType().getName());
-                if (event.getCode() == KeyCode.ENTER) {
-                    System.out.println("Enter Pressed");
-                    setClte();
-                }
-            }
-        });*/
-		/*	
-		cbxCliente.getEditor().addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
-			
-				System.out.println("1:"+keyEvent.getTarget());
-				System.out.println("1_1:"+keyEvent.getText());
-				System.out.println("2_2:"+keyEvent.getEventType().getName());
-				setClte();
-				cbxCliente.setMaxHeight(Double.MAX_VALUE);
-				
-	            if("ENTER".equals(keyEvent.getCode().toString())) {
-	            	System.out.println("Enter");
-	            }
-	       });
-		*/
+	
 		cbxCliente.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
 			
             final TextField editor = cbxCliente.getEditor();
@@ -487,6 +438,7 @@ public class VentaController  {
                         // avoid case sensitivity.
                         if (item.toUpperCase().contains(newValue.toUpperCase())) {
                         	cbxCliente.hide();
+                        	cbxCliente.setMaxHeight(Double.MAX_VALUE);
                         	cbxCliente.show();
                         	
                         	return true;
