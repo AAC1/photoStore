@@ -374,6 +374,7 @@ public class VentaController  {
 	//	if(idxClte ==0 ) {
 		if(Constantes.CLTE_GRAL.equals(clteSelected.trim())){
 			inputCliente.setDisable(false);
+			cbxCliente.hide();
 		}else {
 			String item = "";
 			for (Store_fotografo el : lstFoto) {
@@ -386,6 +387,7 @@ public class VentaController  {
 			if(!"".equals(item.trim())) {
 				inputCliente.setDisable(true);
 				inputCliente.setText(item);//(lstFoto.get((idxClte)).getFotografo());
+				cbxCliente.hide();
 			}
 			
 		}
@@ -428,23 +430,24 @@ public class VentaController  {
             // This needs run on the GUI thread to avoid the error described
             // here: https://bugs.openjdk.java.net/browse/JDK-8081700.
             Platform.runLater(() -> {
-            //	cbxCliente.hide();
+          //  	cbxCliente.hide();
            // 	cbxCliente.show();
             	
             	cbxCliente.setMaxHeight(Double.MAX_VALUE);
                 // If the no item in the list is selected or the selected item
                 // isn't equal to the current input, we refilter the list.
                 if (selected == null || !selected.toUpperCase().equals(editor.getText().toUpperCase())) {
+                	
                     filteredItems.setPredicate(item -> {
                         // We return true for any items that starts with the
                         // same letters as the input. We use toUpperCase to
                         // avoid case sensitivity.
                         if (item.toUpperCase().contains(newValue.toUpperCase())) {
-                        	cbxCliente.hide();
+                        //	cbxCliente.hide();
                         	cbxCliente.setMaxHeight(Double.MAX_VALUE);
                         	cbxCliente.setVisibleRowCount(15);
-                        	cbxCliente.show();
                         	
+                        	cbxCliente.show();
                         	return true;
                             
                         } else {
@@ -460,6 +463,7 @@ public class VentaController  {
 		cbxCliente.setVisibleRowCount(10);
 		cbxCliente.setMaxHeight(Double.MAX_VALUE);
 		cbxCliente.getEditor().setText(Constantes.CLTE_GRAL);
+		cbxCliente.show();cbxCliente.hide();
 	}
 	
 	@FXML
@@ -534,6 +538,8 @@ public class VentaController  {
 				//System.out.println(event.getSource());
 				try {
 					initForm();
+					cbxCliente.getEditor().setText(Constantes.CLTE_GRAL);
+					
 					if(stageBusqProd!=null) stageBusqProd.close();
 		        } catch(Exception ex) {
 					ex.printStackTrace();

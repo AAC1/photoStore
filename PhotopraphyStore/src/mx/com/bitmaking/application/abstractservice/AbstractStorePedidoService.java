@@ -1,6 +1,8 @@
 package mx.com.bitmaking.application.abstractservice;
 
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,6 +12,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManagerFactory;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.HashPrintServiceAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.PrintServiceAttributeSet;
+import javax.print.attribute.standard.Copies;
+import javax.print.attribute.standard.PrinterName;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -18,6 +26,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javafx.print.Printer;
+import javafx.print.PrinterJob;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import mx.com.bitmaking.application.dto.PedidosReporteDTO;
 import mx.com.bitmaking.application.entity.Store_pedido;
 import mx.com.bitmaking.application.idao.IClteProdCostDAO;
@@ -30,6 +43,8 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
+import net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -94,7 +109,7 @@ public abstract class AbstractStorePedidoService implements IStorePedidoService 
 		try {
 			// Instanciamos el objeto para crear el PDF
 			pdfResolucionInforme = (JasperReport) JRLoader.loadObject(fileInputStream);
-
+			
 			// Preparamos los valores que se van a escribir en el reporte
 			Map<String, Object> parametrosReporte = new HashMap<>();
 			parametrosReporte.put("qry", qry);
@@ -104,19 +119,31 @@ public abstract class AbstractStorePedidoService implements IStorePedidoService 
 			JasperPrint jasperPrint;
 			jasperPrint = JasperFillManager.fillReport(pdfResolucionInforme, parametrosReporte, connection);
 			JRXlsExporter exporterXLS = new JRXlsExporter();
-			// exporterXLS.setExporterInput(new SimpleExporterInput(reportFile));
-			// exporterXLS.setExporterOutput(new
-			// SimpleOutputStreamExporterOutput(Constantes.PATH_XLS));
-
+			/*
+			PrintRequestAttributeSet printRequestAttributeSet = new HashPrintRequestAttributeSet();
+			printRequestAttributeSet.add(new Copies(1));
+			PrinterJob pJ = setFormat("XLS");
+			System.out.println("PrinterName:"+pJ.getPrinter().getName());
+			PrinterName printerName = new PrinterName(pJ.getPrinter().getName(), null);
+			PrintServiceAttributeSet printServiceAttributeSet = new HashPrintServiceAttributeSet();
+			printServiceAttributeSet.add(printerName);
+			
+			JRPrintServiceExporter exporterXLS = new JRPrintServiceExporter();
+			*/
 			exporterXLS.setParameter(JRXlsExporterParameter.JASPER_PRINT, jasperPrint);
 			exporterXLS.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
 			exporterXLS.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
 			exporterXLS.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
 			exporterXLS.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
 			exporterXLS.setParameter(JRXlsExporterParameter.OUTPUT_FILE_NAME, pathReport);
-
+		//	exporterXLS.setParameter(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET, printRequestAttributeSet);
+		//	exporterXLS.setParameter(JRPrintServiceExporterParameter.PRINT_SERVICE_ATTRIBUTE_SET, printServiceAttributeSet);
+		//	exporterXLS.setParameter(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG, Boolean.FALSE);
+		  //  exporterXLS.setParameter(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG, Boolean.FALSE);
+		  
 			exporterXLS.exportReport();
-		
+			
+			
 			export = true;
 		} catch (JRException ex) {
 			throw new JRException(ex.getMessage(),ex);

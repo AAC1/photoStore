@@ -5,7 +5,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -15,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.hssf.eventusermodel.AbortableHSSFListener;
+import org.aspectj.bridge.AbortException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -40,6 +45,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.dto.PedidosReporteDTO;
@@ -313,10 +319,12 @@ public class BusqPedidoRepController {
 			boolean export = (Flags.remote_valid)?
 					remotePedidoService.generaXLS(fileInputStream,qry,titulo,pathReport,file.getParent()+"/"):
 					pedidoService.generaXLS(fileInputStream,qry,titulo,pathReport,file.getParent()+"/");
-			if(export)
-				GeneralMethods.modalMsg("", "Exportación Terminada.", " Vaya a la ruta: "+pathReport
-						);
-			else
+			
+			if(export) {
+				File fataExported = new File(pathReport);
+			//	GeneralMethods.modalMsg("", "Exportación Terminada.", " Vaya a la ruta: "+pathReport);
+				saveFile(stage, fataExported.toPath());
+			}else
 				GeneralMethods.modalMsg("ERROR", "", "Ha ocurrido un error al generar reporte");
 		} /*catch(MalformedURLException e){
 			GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar la plantilla del reporte");
@@ -338,6 +346,28 @@ public class BusqPedidoRepController {
 
 	}
 	
+	public void saveFile(Stage stage,Path path) {
+		//File file = new File(filename);
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Guarda archivo");
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XLS files (*.xls)", "*.xls");
+		fileChooser.getExtensionFilters().add(extFilter);
+		File dest = fileChooser.showSaveDialog(stage);
+		
+		if (dest != null) {
+		    try {
+		        Files.copy(path, dest.toPath());
+		        Files.deleteIfExists(path);
+		        
+		    } catch (IOException ex) {
+		//    	GeneralMethods.modalMsg("", "Error IO: "+ex.getMessage());
+		    }catch (AbortException ex) {
+		    	
+		    }
+		}else {
+			GeneralMethods.modalMsg("", "Archivo guardado en la ruta por default", " Vaya a la ruta: "+Constantes.PATH_XLS);
+		}
+	}
 	
 	public void searchPedido(){
 		tblPedido.getItems().removeAll(tblPedido.getItems());
