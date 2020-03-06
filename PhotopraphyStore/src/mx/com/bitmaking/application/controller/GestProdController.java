@@ -397,10 +397,10 @@ public class GestProdController {
 						stageProd = new Stage();
 						stageProd.setScene(scene);
 						stageProd.setTitle("Editar Producto");
-						stageProd.setMinHeight(350.0);
-						stageProd.setMinWidth(350.0);
-						stageProd.setMaxHeight(350.0);
-						stageProd.setMaxWidth(350.0);
+						stageProd.setMinHeight(500.0);
+						stageProd.setMinWidth(402.0);
+						stageProd.setMaxHeight(500.0);
+						stageProd.setMaxWidth(402.0);
 						stageProd.initModality(Modality.APPLICATION_MODAL);
 
 						EditaProdController edtProd = fxmlLoader.getController();

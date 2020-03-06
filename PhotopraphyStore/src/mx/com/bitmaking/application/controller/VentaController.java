@@ -265,6 +265,7 @@ public class VentaController  {
 					pedidoObj.setFolio(inputFolio.getText());
 					if((Constantes.CLTE_GRAL).equals(cbxCliente.getEditor().getText())) {
 						pedidoObj.setCliente(Constantes.CLTE_GRAL+" "+inputTelefono.getText());
+						
 					}else
 						pedidoObj.setCliente(inputCliente.getText());
 					pedidoObj.setTelefono(inputTelefono.getText());
@@ -301,7 +302,8 @@ public class VentaController  {
 					initForm();
 					cbxCliente.setVisibleRowCount(10);
 					cbxCliente.setMaxHeight(Double.MAX_VALUE);
-					cbxCliente.getEditor().setText(Constantes.CLTE_GRAL);
+					cbxCliente.getEditor().setText("");
+					cbxCliente.setValue(Constantes.CLTE_GRAL);
 					cbxCliente.hide();
 					System.out.println(layoutPrinter);
 					PrinterService.printTicket(Constantes.PRINTER_NAME, layoutPrinter);
@@ -374,6 +376,7 @@ public class VentaController  {
 	//	if(idxClte ==0 ) {
 		if(Constantes.CLTE_GRAL.equals(clteSelected.trim())){
 			inputCliente.setDisable(false);
+			cbxCliente.setValue(Constantes.CLTE_GRAL);
 			cbxCliente.hide();
 		}else {
 			String item = "";
@@ -387,6 +390,7 @@ public class VentaController  {
 			if(!"".equals(item.trim())) {
 				inputCliente.setDisable(true);
 				inputCliente.setText(item);//(lstFoto.get((idxClte)).getFotografo());
+				cbxCliente.setValue(item);
 				cbxCliente.hide();
 			}
 			
@@ -462,7 +466,8 @@ public class VentaController  {
 		cbxCliente.setItems(filteredItems);
 		cbxCliente.setVisibleRowCount(10);
 		cbxCliente.setMaxHeight(Double.MAX_VALUE);
-		cbxCliente.getEditor().setText(Constantes.CLTE_GRAL);
+		//cbxCliente.getEditor().setText(Constantes.CLTE_GRAL);
+		cbxCliente.setValue(Constantes.CLTE_GRAL);
 		cbxCliente.show();cbxCliente.hide();
 	}
 	
@@ -538,8 +543,8 @@ public class VentaController  {
 				//System.out.println(event.getSource());
 				try {
 					initForm();
-					cbxCliente.getEditor().setText(Constantes.CLTE_GRAL);
-					
+					//cbxCliente.getEditor().setText(Constantes.CLTE_GRAL);
+					cbxCliente.setValue(Constantes.CLTE_GRAL);
 					if(stageBusqProd!=null) stageBusqProd.close();
 		        } catch(Exception ex) {
 					ex.printStackTrace();

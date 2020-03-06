@@ -1,5 +1,7 @@
 package mx.com.bitmaking.application.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -13,6 +15,15 @@ import org.springframework.stereotype.Component;
 import com.jfoenix.controls.JFXButton;
 
 import com.jfoenix.controls.JFXTextField;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.Barcode128;
+import com.itextpdf.text.pdf.BarcodeEAN;
+import com.itextpdf.text.pdf.BarcodeQRCode;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -26,6 +37,7 @@ import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.service.IStoreCatProdService;
 import mx.com.bitmaking.application.service.IStoreClteProdCostService;
 import mx.com.bitmaking.application.service.IStoreFotografoService;
+import mx.com.bitmaking.application.util.Constantes;
 
 @Component
 public class SelectProductoVtaController {
@@ -163,6 +175,7 @@ public class SelectProductoVtaController {
 		inputBarcodeSearch.setText("");
 		tblProducto.getItems().removeAll(tblProducto.getItems());
 		getTblCatProducts();
+		ganerateBarcode();
 	}
 	
 	private void getTblCatProductsByBarCode(String valueToSearch) {
@@ -278,6 +291,47 @@ public class SelectProductoVtaController {
 			generateTreeProd(hashMap, el.getValue().getId_prod(),nodo);
 			
 		}
+	}
+	
+	private void ganerateBarcode(){
+		try {
+		Document document =  new Document(PageSize.A4);
+        PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(
+        							new File(Constantes.PATH_XLS+"barcode.pdf")));
+         
+        document.open();
+        
+        String code ="OAX-2003070001";
+		BarcodeEAN barcodeEAN = new BarcodeEAN();
+        barcodeEAN.setCodeType(BarcodeEAN.EAN13);
+        barcodeEAN.setCode(code);
+        PdfContentByte pdfContentByte = pdfWriter.getDirectContent();
+        
+        Barcode128 barcode128 = new Barcode128();
+        barcode128.setCode(code);
+        barcode128.setCodeType(Barcode128.CODE128);
+        Image code128Image = barcode128.createImageWithBarcode(pdfContentByte, null, null);
+        code128Image.setAbsolutePosition(10, 700);
+        code128Image.scalePercent(100);
+        document.add(code128Image);
+/*
+        Image codeEANImage = barcodeEAN.createImageWithBarcode(pdfContentByte, null, null);
+        codeEANImage.setAbsolutePosition(20, 600);
+        codeEANImage.scalePercent(100);
+        document.add(codeEANImage);
+*/
+        BarcodeQRCode barcodeQrcode = new BarcodeQRCode(code, 1, 1, null);
+        Image qrcodeImage = barcodeQrcode.getImage();
+        qrcodeImage.setAbsolutePosition(20, 500);
+        qrcodeImage.scalePercent(100);
+        document.add(qrcodeImage);
+        
+        document.close();
+        
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }
