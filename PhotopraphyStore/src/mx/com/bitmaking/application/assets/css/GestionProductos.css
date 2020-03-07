@@ -39,15 +39,16 @@
 	-fx-text-fill: white;
 }
 .mainTree .tree-cell {
-    -fx-background-color: #0a0a0a ;
+    -fx-background-color: #3d3d3d ;
     -fx-text-fill: #ffffff ;
 }
+/*
 .tree-table-row-cell:selected{
     -fx-background-color: green;
      -fx-table-cell-border-color: green;
     -fx-text-fill: #ffffff ;
 }
-
+*/
 /*
 .table-column{
 	-fx-background-color: #5F686C;

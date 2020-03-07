@@ -116,8 +116,10 @@ public class EditaProdController {
 		treeCategoria.getSelectionModel().select(0);
 		treeCategoria.getStyleClass().add("mainTree");
 		root.setExpanded(true);
-		fillCbxCategoria(0);//categoria incial
+		
 		setFilterPopup();
+		fillCbxCategoria(0);//categoria incial
+		
 	}
 	
 	private void setFilterPopup() {
@@ -125,8 +127,6 @@ public class EditaProdController {
 		autoCompletePopup.setSelectionHandler(event -> {
 			cbxCategoria.setValue(event.getObject());
 		});
-		autoCompletePopup.getSuggestions().removeAll(autoCompletePopup.getSuggestions());
-		autoCompletePopup.getSuggestions().addAll(cbxCategoria.getItems());
 		
 		TextField editor = cbxCategoria.getEditor();
 		editor.textProperty().addListener(observable -> {
@@ -151,21 +151,21 @@ public class EditaProdController {
 		
 		cbxCategoria.getItems().removeAll(cbxCategoria.getItems());
 		
-				
-		if(storeCatProdService ==null){
-			System.out.println("Valor nulo");
-		}
+		
 		List<Store_cat_prod> lstCat = (Flags.remote_valid)?
 									remoteStoreCatProdService.getCatByPadre(idPadre):
 									storeCatProdService.getCatByPadre(idPadre);
 		List<String> lsStrCat = new ArrayList<>(); 	
-		lsStrCat.add(Constantes.TXT_NUEVA_CATEGORIA);
+		//lsStrCat.add(Constantes.TXT_NUEVA_CATEGORIA);
 		for(Store_cat_prod el:lstCat) {
 			
 			lsStrCat.add("p"+el.getId_prod()+" | "+el.getProducto());
 		}
 		cbxCategoria.setItems(FXCollections.observableList(lsStrCat));
-	
+		if(autoCompletePopup.getSuggestions() !=null)
+			autoCompletePopup.getSuggestions().removeAll(autoCompletePopup.getSuggestions());
+		autoCompletePopup.getSuggestions().addAll(cbxCategoria.getItems());
+		
 		
 	}
 	
@@ -184,21 +184,29 @@ public class EditaProdController {
 						itemExists = true; break;
 					}
 				}
-				if(!itemExists) {
-					return;
-				}
+				TreeItem<String> hijo = null;
+				if(itemExists) {
 				
-				String[] arrayCat = cat.split("\\|");
-				if(arrayCat.length>=2) {
-					if(arrayCat[0].contains("p")) {
-						fillCbxCategoria(Integer.parseInt(arrayCat[0].substring(1, arrayCat[0].length()).trim()));
+					String[] arrayCat = cat.split("\\|");
+					if(arrayCat.length>=2) {
+						if(arrayCat[0].contains("p")) {
+							fillCbxCategoria(Integer.parseInt(arrayCat[0].substring(1, arrayCat[0].length()).trim()));
+						}
 					}
+					
+					
+				}else {
+
+					cbxCategoria.getItems().removeAll(cbxCategoria.getItems());
+					autoCompletePopup.getSuggestions().removeAll(autoCompletePopup.getSuggestions());
+					cbxCategoria.setValue("");cbxCategoria.getEditor().setText("");
 				}
-				TreeItem<String> hijo = new TreeItem<>(cat);
-				
+				hijo = new TreeItem<>(cat);
 				treeCategoria.getSelectionModel().getSelectedItem().getChildren().add(hijo);
 				treeCategoria.getSelectionModel().select(hijo);
 				treeCategoria.refresh();
+				treeCategoria.scrollTo(treeCategoria.getRow(hijo));
+				
 			}
 		}
 	}
@@ -213,8 +221,39 @@ public class EditaProdController {
 			System.out.println("item:"+cbxCategoria.getSelectionModel().getSelectedItem());
 			System.out.println("item_editor:"+cbxCategoria.getEditor().getText());
 			cbxCategoria.setValue(cbxCategoria.getEditor().getText());
+			selectCategoria();
 		}
 		
+	}
+	@FXML
+	private void removeNodeCat() {
+		boolean itemExists=false;
+		TreeItem<String> parent = treeCategoria.getSelectionModel().getSelectedItem().getParent();
+		if(parent!=null) {
+			
+			System.out.println("No es nulo "+parent.getValue());
+			treeCategoria.getSelectionModel().getSelectedItem().getParent().getChildren().removeAll(
+					treeCategoria.getSelectionModel().getSelectedItem().getParent().getChildren());
+			treeCategoria.getSelectionModel().select(parent);
+			treeCategoria.refresh();
+			if(parent.getValue()==null || "null".equals(parent.getValue()) ) {
+				fillCbxCategoria(0);
+				
+			}else if(parent.getValue().contains("|")) {
+				try {
+					int id = (Integer.parseInt(parent.getValue().substring(1, parent.getValue().indexOf("|")).trim()));
+					System.out.println("idPadre:"+id);
+					fillCbxCategoria(id);
+				}catch(NumberFormatException e) {
+					System.out.println(e.getMessage());
+				}
+			}
+		//	cbxCategoria.setValue("null".equals(parent.getValue())?"":parent.getValue());
+			
+		}else {
+			System.out.println("Es null");
+			fillCbxCategoria(0);
+		}
 	}
 	
 	
