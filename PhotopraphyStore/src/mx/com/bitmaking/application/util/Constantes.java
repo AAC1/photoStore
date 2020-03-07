@@ -14,4 +14,5 @@ public class Constantes {
 	public static final String SALT="3d777fc8f098c8c18e457560352c4c619296801b65614cb9e49ec005aee55352";
 	public static final String passwd="";
 	public static final String CLTE_GRAL = "Cliente general";
+	public static final String TXT_NUEVA_CATEGORIA = "Nueva categoría";
 }

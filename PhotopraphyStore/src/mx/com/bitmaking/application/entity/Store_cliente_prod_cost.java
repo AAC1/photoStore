@@ -24,9 +24,7 @@ public class Store_cliente_prod_cost {
 	@Column
 	private BigDecimal costo;
 	
-	@Column
-	private String bar_code;
-	
+
 	
 
 	/**
@@ -67,14 +65,5 @@ public class Store_cliente_prod_cost {
 		this.costo = costo;
 	}
 
-	public String getBar_code() {
-		return bar_code;
-	}
 
-	public void setBar_code(String bar_code) {
-		this.bar_code = bar_code;
-	}
-	
-	
-	
 }

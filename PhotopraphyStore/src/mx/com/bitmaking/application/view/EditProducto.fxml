@@ -17,13 +17,13 @@
       <JFXButton fx:id="btnAccept" layoutX="42.0" layoutY="257.0" prefHeight="27.0" prefWidth="123.0" style="-fx-background-color: #04A138 #04A138; -fx-text-fill: white;" styleClass="btn-gral" text="✔ Aceptar" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="148.0" />
       <JFXTextField fx:id="inputBarcode" layoutX="37.0" layoutY="332.0" prefHeight="27.0" prefWidth="240.0" styleClass="input-gral" AnchorPane.bottomAnchor="123.0" AnchorPane.leftAnchor="37.0" AnchorPane.rightAnchor="36.0" />
       <Label layoutX="37.0" layoutY="315.0" prefHeight="17.0" prefWidth="240.0" styleClass="label-title" text="Código de Barras" AnchorPane.bottomAnchor="150.0" />
-      <TreeView fx:id="treeCetegoria" layoutX="32.0" layoutY="37.0" prefHeight="153.0" prefWidth="179.0" AnchorPane.bottomAnchor="292.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="191.0" AnchorPane.topAnchor="37.0" />
+      <TreeView fx:id="treeCategoria" layoutX="32.0" layoutY="37.0" mouseTransparent="true" prefHeight="153.0" prefWidth="179.0" style="-fx-text-fill: white;" AnchorPane.bottomAnchor="292.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="191.0" AnchorPane.topAnchor="37.0" />
       <Label layoutX="32.0" layoutY="14.0" prefHeight="17.0" prefWidth="339.0" styleClass="label-title" text="Agregar Categoria del producto (opcional):" />
-      <JFXTextField fx:id="inputProdName1" layoutX="220.0" layoutY="54.0" prefHeight="27.0" prefWidth="139.0" styleClass="input-gral" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="36.0" />
       <Label layoutX="220.0" layoutY="37.0" prefHeight="17.0" prefWidth="139.0" styleClass="label-title" text="Categoria" AnchorPane.leftAnchor="220.0" />
-      <JFXButton fx:id="btnAddCat" layoutX="220.0" layoutY="104.0" prefHeight="27.0" prefWidth="146.0" style="-fx-background-color: #037AB6; -fx-text-fill: white;" styleClass="btn-gral" text="✚Agregar" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="36.0" />
+      <JFXButton fx:id="btnAddCat" layoutX="220.0" layoutY="104.0" onMouseClicked="#selectCategoria" prefHeight="27.0" prefWidth="146.0" style="-fx-background-color: #037AB6; -fx-text-fill: white;" styleClass="btn-gral" text="✚Agregar" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="36.0" />
       <JFXButton fx:id="btnRemoveCat" layoutX="220.0" layoutY="139.0" prefHeight="27.0" prefWidth="146.0" style="-fx-background-color: #037AB6; -fx-text-fill: white;" styleClass="btn-gral" text="▬ Quitar" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="36.0" />
-      <JFXTextField fx:id="inputBarcode1" layoutX="37.0" layoutY="384.0" prefHeight="27.0" prefWidth="329.0" styleClass="input-gral" AnchorPane.bottomAnchor="71.0" AnchorPane.leftAnchor="37.0" AnchorPane.rightAnchor="36.0" />
+      <JFXTextField fx:id="inputCosto" layoutX="37.0" layoutY="384.0" prefHeight="27.0" prefWidth="329.0" styleClass="input-gral" AnchorPane.bottomAnchor="71.0" AnchorPane.leftAnchor="37.0" AnchorPane.rightAnchor="36.0" />
       <Label layoutX="37.0" layoutY="367.0" prefHeight="17.0" prefWidth="329.0" styleClass="label-title" text="Costo (Aplicará a todos los clientes)" AnchorPane.bottomAnchor="98.0" AnchorPane.leftAnchor="37.0" AnchorPane.rightAnchor="36.0" />
+      <JFXComboBox fx:id="cbxCategoria" editable="true" layoutX="220.0" layoutY="64.0" onInputMethodTextChanged="#filterCbxCat" onKeyReleased="#filterCbxCat" onKeyTyped="#filterCbxCat" prefHeight="27.0" prefWidth="146.0" styleClass="cbx-gral" />
    </children>
 </AnchorPane>

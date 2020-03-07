@@ -247,5 +247,12 @@ update store_usuario  set passwd ='b2a485e9743a031a2bf4d74f8c9c643b1244bd85a8d00
 WHERE id_usr in(3);
 
 
+ALTER TABLE `macrofoto`.`store_cat_prod` 
+ADD COLUMN `barcode` VARCHAR(45) NULL AFTER `estatus`,
+ADD UNIQUE INDEX `barcode_UNIQUE` (`barcode` ASC);
+
+ALTER TABLE `macrofoto`.`store_cliente_prod_cost` 
+DROP COLUMN `bar_code`;
+
 
 

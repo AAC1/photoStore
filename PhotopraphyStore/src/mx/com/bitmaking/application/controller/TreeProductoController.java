@@ -275,7 +275,7 @@ public class TreeProductoController {
 						Store_cliente_prod_cost costProdObj = (Flags.remote_valid)?
 								remoteClteProdCostService.getRowByIdProdAndClient(objClte.getId_fotografo(), row.getId_prod()):
 								clteProdCostService.getRowByIdProdAndClient(objClte.getId_fotografo(), row.getId_prod());
-						costProdObj.setBar_code(inputBarcode.getText());
+					//	costProdObj.setBar_code(inputBarcode.getText());
 						
 						System.out.println("idClte:"+objClte.getId_fotografo());
 						System.out.println("idProd:"+row.getId_prod());

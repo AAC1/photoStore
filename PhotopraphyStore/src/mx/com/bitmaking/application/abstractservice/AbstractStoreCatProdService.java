@@ -40,19 +40,20 @@ public abstract class AbstractStoreCatProdService implements IStoreCatProdServic
 	@Qualifier("CatProdDAO")
 	private ICatProdDAO catProdDAO;
 */
-	public abstract IStoreCatProdDAO getCatProductRepo();
+
 	public abstract ICatProdDAO getCatProdDAO();
 	public abstract IStoreClteProdCostDAO getIStoreClteProdCostDAO();
+	
 	@Override
 	@Transactional(value="transactionManager")
 	public List<Store_cat_prod> getCatalogoProduct(){
 		List<Store_cat_prod> resp = new ArrayList<>();
 		
-		return getCatProductRepo().getActiveProducts();
+		return getCatProdDAO().getActiveProducts();
 	}
 	@Override
 	public List<Store_cat_prod> getAllCatalogoProduct(){
-		List<Store_cat_prod> resp = getCatProductRepo().findAll();
+		List<Store_cat_prod> resp = getCatProdDAO().findAll();
 		for(int i=0; i<resp.size();i++){
 			if("1".equals(resp.get(i).getEstatus())){
 				resp.get(i).setEstatus("Activo");
@@ -65,15 +66,15 @@ public abstract class AbstractStoreCatProdService implements IStoreCatProdServic
 	@Override
 	public boolean insertRow(Store_cat_prod row) {
 		
-		getCatProductRepo().save(row);
+		getCatProdDAO().save(row);
 		
 		return true;
 	}
 
 	@Override
-	public boolean updateRow(Store_cat_prod row) {
+	public boolean updateRow(Store_cat_prod row)throws  Exception{
 		
-		getCatProductRepo().update(row);
+		getCatProdDAO().update(row);
 		
 		return true;
 	}
@@ -81,7 +82,7 @@ public abstract class AbstractStoreCatProdService implements IStoreCatProdServic
 	public boolean deleteRow(Store_cat_prod row)throws Exception {
 		/*Borra primero los costos de los productos*/
 		getIStoreClteProdCostDAO().deleteRowsByIdProd(getIStoreClteProdCostDAO().getRowByIdProd(row.getId_prod()));
-		getCatProductRepo().delete(row);
+		getCatProdDAO().delete(row);
 		
 		return true;
 	}
@@ -90,7 +91,7 @@ public abstract class AbstractStoreCatProdService implements IStoreCatProdServic
 	public LinkedHashMap<Integer, Store_cat_prod> getAllCatalogoProduct2() {
 		LinkedHashMap<Integer, Store_cat_prod> hasResp = new LinkedHashMap<>();
 		
-		List<Store_cat_prod> resp = getCatProductRepo().findAll();
+		List<Store_cat_prod> resp = getCatProdDAO().findAll();
 		
 		for(int i=0; i<resp.size();i++){
 			
@@ -119,4 +120,10 @@ public abstract class AbstractStoreCatProdService implements IStoreCatProdServic
 		return hasResp;
 	}
 	
+
+	@Override
+		public List<Store_cat_prod> getCatByPadre(int idPadre) {
+			List<Store_cat_prod> resp = getCatProdDAO().getCatByPadre(idPadre);
+			return resp;
+		}
 }

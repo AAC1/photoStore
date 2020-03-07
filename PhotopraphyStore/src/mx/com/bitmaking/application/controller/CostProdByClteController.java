@@ -273,7 +273,7 @@ public class CostProdByClteController {
 							costProdObj.setId_cliente(objClte.getId_fotografo());
 							costProdObj.setId_prod(row.getId_prod());
 						}
-						costProdObj.setBar_code(inputBarcode.getText()==null?"":inputBarcode.getText());
+					//	costProdObj.setBar_code(inputBarcode.getText()==null?"":inputBarcode.getText());
 						
 						System.out.println("idClte:"+objClte.getId_fotografo());
 						System.out.println("idProd:"+row.getId_prod());

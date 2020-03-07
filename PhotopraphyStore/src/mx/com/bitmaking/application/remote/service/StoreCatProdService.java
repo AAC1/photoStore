@@ -29,12 +29,9 @@ import mx.com.bitmaking.application.service.IStoreClteProdCostService;
  */
 
 @Service("remoteStoreCatProdService")
-@Scope("prototype")
+
 public class StoreCatProdService extends AbstractStoreCatProdService{ //implements IStoreCatProdService{ 
 	
-	@Autowired
-	@Qualifier(value = "remoteStoreCatProdDAO")
-	private IStoreCatProdDAO catProductRepo;
 	
 	@Autowired 
 	@Qualifier(value = "remoteCatProdDAO")
@@ -76,14 +73,18 @@ public class StoreCatProdService extends AbstractStoreCatProdService{ //implemen
 		return super.getCostProdByClient(cliente);
 	}
 	
-	@Transactional(value="transactionManager")
-	public boolean updateRow(Store_cat_prod row) {
+	@Transactional(value="remoteTransactionManager")
+	public boolean updateRow(Store_cat_prod row)throws Exception {
 		return super.updateRow(row);
 	}
-	@Override
-	public IStoreCatProdDAO getCatProductRepo() {
-		return catProductRepo;
+	
+	@Transactional(value="remoteTransactionManager")
+	public List<Store_cat_prod> getCatByPadre(int idPadre) {
+		return super.getCatByPadre(idPadre);
 	}
+	
+
+
 	@Override
 	public ICatProdDAO getCatProdDAO() {
 		return catProdDAO;
@@ -93,4 +94,7 @@ public class StoreCatProdService extends AbstractStoreCatProdService{ //implemen
 	public IStoreClteProdCostDAO getIStoreClteProdCostDAO() {
 		return storeClteProdCostDAO;
 	}
+
+	
+	
 }

@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.bitmaking.application.abstractdao.AbstractCatProdDAO;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
+import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
 import mx.com.bitmaking.application.idao.ICatProdDAO;
 
@@ -34,6 +35,35 @@ public class CatProdDAO extends AbstractCatProdDAO {// implements ICatProdDAO {
 	public boolean updateCostProduct(Store_cliente_prod_cost objProd) {
 		return super.updateCostProduct(objProd);
 	}
+
+
+
+	@Transactional(value="transactionManager")
+	public List<Store_cat_prod> getActiveProducts() {
+		return super.getActiveProducts();
+	}
+	@Transactional(value="transactionManager")
+	public List<Store_cat_prod> getAllActiveProducts() {
+		return super.getAllActiveProducts();
+	}
+	@Transactional(value="transactionManager")
+	public List<Store_cat_prod> findAll() {
+		return super.findAll();
+	}
+	@Transactional(value="transactionManager")
+	public boolean save(Store_cat_prod row) {
+		return super.save(row);
+	}
+	@Transactional(value="transactionManager")
+	public boolean delete(Store_cat_prod row) throws Exception {
+		return super.delete(row);
+	}
+	@Transactional(value="transactionManager")
+	public boolean update(Store_cat_prod row)throws Exception {
+		return super.update(row);
+	}
+
+	
 	
 	@Override
 	public SessionFactory getSessionFactory() {

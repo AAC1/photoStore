@@ -8,6 +8,7 @@ import java.util.Map;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.jfoenix.controls.JFXButton;
@@ -60,14 +61,18 @@ public class GestProdController {
 	private JFXTextField inputName;
 	@FXML
 	private JFXComboBox<String> cbxStts;
-
 	@FXML
 	private AnchorPane bodyCatProd;
 	@FXML
 	private TreeView<String> treeProd;
+	
+	@Autowired
+	private ApplicationContext context ;
+	
 	private Stage stageProd = null;
 	LinkedHashMap<Integer, Store_cat_prod> productsMap = null;
 	Store_cat_prod catProdModif = null;
+	
 	private boolean deleted=false;
 	public JFXButton getBtnSalir() {
 		return btnSalir;
@@ -262,6 +267,7 @@ public class GestProdController {
 						cancelModif();
 						Store_cat_prod row = catProdModif;
 						row.setProducto(inputName.getText());
+					//	row.setBarcode(inputBarcode.getText());
 						row.setEstatus(("ACTIVO".equals(cbxStts.getValue().toUpperCase())) ? "1" : "0");
 						catProdService.updateRow(row);
 						if(Flags.remote_valid)remoteCatProdService.updateRow(row);
@@ -387,7 +393,7 @@ public class GestProdController {
 					case "A":
 						FXMLLoader fxmlLoader = new FXMLLoader(
 								getClass().getResource("/mx/com/bitmaking/application/view/EditProducto.fxml"));
-
+						fxmlLoader.setControllerFactory(context::getBean);
 						Parent sceneEdit = fxmlLoader.load();
 						Scene scene = new Scene(sceneEdit, 300, 350);
 						scene.getStylesheets()
@@ -413,7 +419,7 @@ public class GestProdController {
 						edtProd.getBtnAccept().addEventHandler(MouseEvent.MOUSE_CLICKED,
 								acceptEditProd(edtProd, typeForm));
 						edtProd.getBtnCancel().addEventHandler(MouseEvent.MOUSE_CLICKED, closeModalEditProd());
-
+						
 						stageProd.show();
 						break;
 					case "M":

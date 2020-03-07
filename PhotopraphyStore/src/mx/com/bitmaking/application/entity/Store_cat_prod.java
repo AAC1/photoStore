@@ -24,11 +24,20 @@ public class Store_cat_prod {
 	
 	@Column(name="producto")
 	private String producto;
-	
+
 	@Column(name="estatus")
 	private String estatus;
-	
 
+	@Column(name="barcode")
+	private String barcode;
+	
+	
+	public String getBarcode() {
+		return barcode;
+	}
+	public void setBarcode(String barcode) {
+		this.barcode = barcode;
+	}
 	public int getId_padre_prod() {
 		return id_padre_prod;
 	}

@@ -30,12 +30,8 @@ import mx.com.bitmaking.application.util.GeneralMethods;
  */
 
 @Service("StoreCatProdService")
-@Scope("prototype")
 public class StoreCatProdService extends AbstractStoreCatProdService{ // implements IStoreCatProdService
 	
-	@Autowired
-	@Qualifier("StoreCatProdDAO")
-	private IStoreCatProdDAO catProductRepo;
 	
 	@Autowired 
 	@Qualifier("CatProdDAO")
@@ -61,7 +57,7 @@ public class StoreCatProdService extends AbstractStoreCatProdService{ // impleme
 	}
 
 	@Transactional(value="transactionManager")
-	public boolean updateRow(Store_cat_prod row) {
+	public boolean updateRow(Store_cat_prod row)throws Exception {
 		return super.updateRow(row);
 	}
 
@@ -80,11 +76,12 @@ public class StoreCatProdService extends AbstractStoreCatProdService{ // impleme
 	public LinkedHashMap<Integer, CostProductsDTO> getCostProdByClient(int cliente) {
 		return super.getCostProdByClient(cliente);
 	}
-	
-	@Override
-	public IStoreCatProdDAO getCatProductRepo() {
-		return catProductRepo;
+	@Transactional(value="transactionManager")
+	public List<Store_cat_prod> getCatByPadre(int idPadre) {
+		return super.getCatByPadre(idPadre);
 	}
+	
+	
 	@Override
 	public ICatProdDAO getCatProdDAO() {
 		return catProdDAO;
