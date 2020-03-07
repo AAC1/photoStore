@@ -24,11 +24,12 @@ public interface IStoreCatProdService {
 	public List<Store_cat_prod> getAllCatalogoProduct();
 
 	public LinkedHashMap<Integer,Store_cat_prod> getAllCatalogoProduct2();
-	public boolean insertRow(Store_cat_prod row);
+	public Integer insertRow(Store_cat_prod row);
 	public boolean deleteRow(Store_cat_prod row)throws Exception;
 	public boolean updateRow(Store_cat_prod row) throws Exception;
 	
 	public LinkedHashMap<Integer, CostProductsDTO> getCostProdByClient(int cliente);
 	public List<Store_cat_prod>  getCatByPadre(int idPadre);
+	public Store_cat_prod getCatById(int idProd);
 	
 }

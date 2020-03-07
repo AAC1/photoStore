@@ -52,7 +52,7 @@ public class StoreCatProdService extends AbstractStoreCatProdService{ // impleme
 	}
 	
 	@Transactional(value="transactionManager")
-	public boolean insertRow(Store_cat_prod row) {
+	public Integer insertRow(Store_cat_prod row) {
 		return super.insertRow(row);
 	}
 
@@ -79,6 +79,11 @@ public class StoreCatProdService extends AbstractStoreCatProdService{ // impleme
 	@Transactional(value="transactionManager")
 	public List<Store_cat_prod> getCatByPadre(int idPadre) {
 		return super.getCatByPadre(idPadre);
+	}
+
+	@Transactional(value="transactionManager")
+	public Store_cat_prod getCatById(int idPadre) {
+		return super.getCatById(idPadre);
 	}
 	
 	

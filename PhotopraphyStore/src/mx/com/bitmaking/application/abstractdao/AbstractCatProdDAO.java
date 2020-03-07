@@ -150,11 +150,12 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 	}
 
 	@Override
-	public boolean save(Store_cat_prod row) {
+	public Integer save(Store_cat_prod row) {
 		Session session =getSessionFactory().getCurrentSession();
-		session.saveOrUpdate(row);
+		int resp = (Integer)session.save(row);//saveOrUpdate(row);
+		System.out.println("ID_SAVED_DAO: "+resp);
 	//	session.flush();
-		return true;
+		return resp;
 	}
 
 	@Override
@@ -215,5 +216,33 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 		}
 		return results;
 	}
-
+	
+	public Store_cat_prod getCatByIdProd(int idProd){
+		Store_cat_prod results = null;
+		StringBuilder qry = new StringBuilder();
+		qry.append(" SELECT p.* ");
+		qry.append(" FROM Store_cat_prod p ");
+		qry.append(" WHERE p.id_prod = :idProd ");
+		
+		
+		try{
+ 
+			SQLQuery query= getSessionFactory().getCurrentSession().createSQLQuery(qry.toString());
+			
+			query.setInteger("idProd", idProd);
+			query.setResultTransformer(Transformers.aliasToBean(Store_cat_prod.class));
+			query.addScalar("id_prod", new IntegerType());
+			query.addScalar("id_padre_prod", new IntegerType());
+			query.addScalar("producto", new StringType());
+			query.addScalar("estatus", new StringType());
+			query.addScalar("barcode", new StringType());
+			
+			results =(Store_cat_prod) query.setMaxResults(1).uniqueResult();
+		
+		}catch(Exception e) {
+			e.printStackTrace();
+		
+		}
+		return results;
+	}
 }

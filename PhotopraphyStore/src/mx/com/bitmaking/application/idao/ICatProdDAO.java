@@ -21,7 +21,7 @@ public interface ICatProdDAO {
 
 	public List<Store_cat_prod> findAll();
 
-	public boolean save(Store_cat_prod row);
+	public Integer save(Store_cat_prod row);
 
 	public boolean delete(Store_cat_prod row) throws Exception;
 
@@ -32,5 +32,7 @@ public interface ICatProdDAO {
 	public boolean updateCostProduct(Store_cliente_prod_cost objProd);
 
 	List<Store_cat_prod> getCatByPadre(int idPadre);
+
+	public Store_cat_prod getCatByIdProd(int idProd);
 
 }

@@ -60,6 +60,8 @@ public class GestProdController {
 	@FXML
 	private JFXTextField inputName;
 	@FXML
+	private JFXTextField inputBarcode;
+	@FXML
 	private JFXComboBox<String> cbxStts;
 	@FXML
 	private AnchorPane bodyCatProd;
@@ -167,8 +169,8 @@ public class GestProdController {
 					List<String> lstStts = new ArrayList<>();
 					lstStts.add("Activo");
 					lstStts.add("Inactivo");
-					modalObj.getLblMsg().setText("¿Seguro que desea eliminar el producto?\n"
-							+ "Solo se eliminar\u00E1n los costos relacionados con los clientes");
+					modalObj.getLblMsg().setText("¿Seguro que desea eliminar el registro?\n"
+							+ "Se eliminar\u00E1n los costos de los productos relacionados");
 
 					modalObj.getBtnCancelar().addEventHandler(MouseEvent.MOUSE_CLICKED, closeModalEditProd());
 					modalObj.getBtnConfirm().addEventHandler(MouseEvent.MOUSE_CLICKED, acceptDelProd(treeItem));
@@ -277,6 +279,7 @@ public class GestProdController {
 						cancelModif();
 						inputName.setText("");
 						cbxStts.setValue("");
+						inputBarcode.setText("");
 						getTblCatProducts();
 					}
 				} catch (Exception ex) {
@@ -292,6 +295,7 @@ public class GestProdController {
 		catProdModif = null;
 		inputName.setText("");
 		cbxStts.setValue("");
+		inputBarcode.setText("");
 		try {
 
 			if (productsMap == null || productsMap.size() == 0) {
@@ -324,6 +328,7 @@ public class GestProdController {
 				catProdModif = productsMap.get(Integer.parseInt(idProd));
 				inputName.setText(catProdModif.getProducto());
 				cbxStts.setValue(catProdModif.getEstatus());
+				inputBarcode.setText(catProdModif.getBarcode());
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -344,9 +349,13 @@ public class GestProdController {
 			idProd = arrayStr[0].substring(2, arrayStr[0].length()).trim();
 			row = productsMap.get(Integer.parseInt(idProd));
 			row.setEstatus(stts);
-			catProdService.insertRow(row);
-			if(Flags.remote_valid)remoteCatProdService.insertRow(row);
-			inactiveChildren(el, stts);
+			try {
+				catProdService.updateRow(row);//catProdService.insertRow(row);
+				if(Flags.remote_valid)remoteCatProdService.updateRow(row);//remoteCatProdService.insertRow(row);
+				inactiveChildren(el, stts);
+			}catch(Exception e) {
+				GeneralMethods.modalMsg("ERROR", "", e.getMessage());
+			}
 
 		}
 
@@ -468,13 +477,20 @@ public class GestProdController {
 
 				row.setProducto(edtProd.getInputProdName().getText());
 				row.setEstatus(("ACTIVO".equals(edtProd.getCbxEstatusProd().getValue().toUpperCase())) ? "1" : "0");
+				row.setBarcode(edtProd.getInputBarcode().getText());
+				
 				if (catProdModif == null) {
 					row.setId_padre_prod(0);
 				} else {
 					row.setId_padre_prod(catProdModif.getId_prod());
 				}
 				try {
-					if ("M".equals(typeForm)) {
+					if ("A".equals(typeForm)) {
+						
+						saveOrUpdateTree(edtProd.getTreeCategoria().getRoot(),0,row);
+						
+					}
+					else if ("M".equals(typeForm)) {
 						ObservableList<Store_cat_prod> lsRow = null;// tblProducts.getSelectionModel().getSelectedItems();
 						if (lsRow == null || lsRow.size() == 0) {
 							GeneralMethods.modalMsg("WARNING", "",
@@ -484,9 +500,10 @@ public class GestProdController {
 						row.setId_prod(lsRow.get(0).getId_prod());
 						// catProdService.updateRow(row);
 
+					
+						catProdService.updateRow(row);//.insertRow(row);
+						if(Flags.remote_valid)remoteCatProdService.updateRow(row);//.insertRow(row);
 					}
-					catProdService.insertRow(row);
-					if(Flags.remote_valid)remoteCatProdService.insertRow(row);
 					getTblCatProducts();
 					stageProd.close();
 
@@ -497,6 +514,58 @@ public class GestProdController {
 		};
 	}
 
+	private void saveOrUpdateTree(TreeItem<String> treeItem,int id_padre_prod,Store_cat_prod rowProd) {
+		System.out.println("idpadre: "+id_padre_prod);
+		ObservableList<TreeItem<String>> children = treeItem.getChildren();
+		// TreeItem<String> item = null;
+		String[] arrayStr = null;
+		int idProd = 0;
+		String valProd = "";
+		Store_cat_prod objProd = null;
+		int newId = 0;
+		if(children.size()==0) {
+			rowProd.setId_padre_prod(id_padre_prod);
+			catProdService.insertRow(rowProd);
+			return;
+		}
+		
+		for (TreeItem<String> el : children) {
+
+			arrayStr = el.getValue().split("\\|");
+			if(el.getValue().contains("|")) {
+				try {
+					idProd = Integer.parseInt(arrayStr[0].substring(1, arrayStr[0].length()).trim());
+					valProd = arrayStr[1];
+				}catch(Exception e) {
+					valProd = el.getValue();
+					idProd=0;
+					System.out.println(e.getMessage());
+				}
+			}else {
+				valProd = el.getValue();
+			}
+			
+			try{
+				objProd = catProdService.getCatById(idProd);
+				if(objProd==null) {
+					objProd = new Store_cat_prod();
+					objProd.setEstatus("1");
+					objProd.setId_padre_prod(id_padre_prod);
+					objProd.setProducto(valProd);
+					newId = catProdService.insertRow(objProd);
+					if(Flags.remote_valid) {newId=remoteCatProdService.insertRow(objProd);}
+				}else {
+					//catProdService.updateRow(objProd);
+					newId = objProd.getId_prod();
+				}
+				
+				saveOrUpdateTree(el,newId,rowProd);
+			}catch(Exception e){
+				deleted=false;
+				System.out.println(e.getMessage());
+			}
+		}
+	}
 	private EventHandler<MouseEvent> closeModalEditProd() {
 		return new EventHandler<MouseEvent>() {
 

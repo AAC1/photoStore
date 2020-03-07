@@ -51,7 +51,7 @@ public class CatProdDAO extends AbstractCatProdDAO {// implements ICatProdDAO {
 		return super.findAll();
 	}
 	@Transactional(value="transactionManager")
-	public boolean save(Store_cat_prod row) {
+	public Integer save(Store_cat_prod row) {
 		return super.save(row);
 	}
 	@Transactional(value="transactionManager")
@@ -62,8 +62,10 @@ public class CatProdDAO extends AbstractCatProdDAO {// implements ICatProdDAO {
 	public boolean update(Store_cat_prod row)throws Exception {
 		return super.update(row);
 	}
-
-	
+	@Transactional(value="transactionManager")
+	public Store_cat_prod getCatByIdProd(int idPadre) {
+		return super.getCatByIdProd(idPadre);
+	}
 	
 	@Override
 	public SessionFactory getSessionFactory() {
