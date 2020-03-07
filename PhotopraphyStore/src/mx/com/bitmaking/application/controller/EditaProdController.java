@@ -53,7 +53,29 @@ public class EditaProdController {
 	@Qualifier("remoteStoreCatProdService")
 	IStoreCatProdService remoteStoreCatProdService;
 	
+	TreeItem<String> root =null;
+	TreeItem<String> actualNodo =null;
+	JFXAutoCompletePopup<String> autoCompletePopup =null;
 	
+	
+	public TreeView<String> getTreeCategoria() {
+		return treeCategoria;
+	}
+	public void setTreeCategoria(TreeView<String> treeCategoria) {
+		this.treeCategoria = treeCategoria;
+	}
+	public JFXTextField getInputBarcode() {
+		return inputBarcode;
+	}
+	public void setInputBarcode(JFXTextField inputBarcode) {
+		this.inputBarcode = inputBarcode;
+	}
+	public JFXTextField getInputCosto() {
+		return inputCosto;
+	}
+	public void setInputCosto(JFXTextField inputCosto) {
+		this.inputCosto = inputCosto;
+	}
 	/**
 	 * @return the btnAccept
 	 */
@@ -105,10 +127,6 @@ public class EditaProdController {
 	}
 	
 
-	
-	TreeItem<String> root =null;
-	TreeItem<String> actualNodo =null;
-	JFXAutoCompletePopup<String> autoCompletePopup =null;
 	public void initialize() {
 		
 		root = new TreeItem<>();
@@ -213,10 +231,10 @@ public class EditaProdController {
 	
 	@FXML
 	private void filterCbxCat(KeyEvent event) {
-		System.out.println("code:"+event.getCode());
-		System.out.println("text:"+event.getText());
-		System.out.println("character:"+event.getCharacter());
-		System.out.println("event:"+event);
+//		System.out.println("code:"+event.getCode());
+//		System.out.println("text:"+event.getText());
+//		System.out.println("character:"+event.getCharacter());
+//		System.out.println("event:"+event);
 		if(event.getCode() == KeyCode.ENTER) {
 			System.out.println("item:"+cbxCategoria.getSelectionModel().getSelectedItem());
 			System.out.println("item_editor:"+cbxCategoria.getEditor().getText());
@@ -227,11 +245,10 @@ public class EditaProdController {
 	}
 	@FXML
 	private void removeNodeCat() {
-		boolean itemExists=false;
+
 		TreeItem<String> parent = treeCategoria.getSelectionModel().getSelectedItem().getParent();
 		if(parent!=null) {
 			
-			System.out.println("No es nulo "+parent.getValue());
 			treeCategoria.getSelectionModel().getSelectedItem().getParent().getChildren().removeAll(
 					treeCategoria.getSelectionModel().getSelectedItem().getParent().getChildren());
 			treeCategoria.getSelectionModel().select(parent);
@@ -248,10 +265,8 @@ public class EditaProdController {
 					System.out.println(e.getMessage());
 				}
 			}
-		//	cbxCategoria.setValue("null".equals(parent.getValue())?"":parent.getValue());
 			
 		}else {
-			System.out.println("Es null");
 			fillCbxCategoria(0);
 		}
 	}
