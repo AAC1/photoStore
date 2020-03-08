@@ -1,5 +1,6 @@
 package mx.com.bitmaking.application.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -31,7 +32,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
+import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
+import mx.com.bitmaking.application.entity.Store_fotografo;
 import mx.com.bitmaking.application.service.IStoreCatProdService;
+import mx.com.bitmaking.application.service.IStoreClteProdCostService;
+import mx.com.bitmaking.application.service.IStoreFotografoService;
 import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
@@ -44,7 +49,20 @@ public class GestProdController {
 	@Autowired
 	@Qualifier("remoteStoreCatProdService")
 	IStoreCatProdService remoteCatProdService;
-
+	
+	@Autowired
+	@Qualifier("StoreFotografoService")
+	IStoreFotografoService clienteService;
+	@Autowired
+	@Qualifier("remoteStoreFotografoService")
+	IStoreFotografoService remoteClienteService;
+	@Autowired 
+	@Qualifier("StoreClteProdCostService")
+	IStoreClteProdCostService clteProdCostService;
+	@Autowired 
+	@Qualifier("remoteStoreClteProdCostService")
+	IStoreClteProdCostService remoteClteProdCostService;
+	
 	@FXML
 	private JFXButton btnAddProd;
 	@FXML
@@ -486,8 +504,8 @@ public class GestProdController {
 				}
 				try {
 					if ("A".equals(typeForm)) {
-						
-						saveOrUpdateTree(edtProd.getTreeCategoria().getRoot(),0,row);
+						String costo = edtProd.getInputCosto().getText().replace(",", "");
+						saveOrUpdateTree(edtProd.getTreeCategoria().getRoot(),0,row,costo);
 						
 					}
 					else if ("M".equals(typeForm)) {
@@ -514,7 +532,7 @@ public class GestProdController {
 		};
 	}
 
-	private void saveOrUpdateTree(TreeItem<String> treeItem,int id_padre_prod,Store_cat_prod rowProd) {
+	private void saveOrUpdateTree(TreeItem<String> treeItem,int id_padre_prod,Store_cat_prod rowProd,String costo) {
 		System.out.println("idpadre: "+id_padre_prod);
 		ObservableList<TreeItem<String>> children = treeItem.getChildren();
 		// TreeItem<String> item = null;
@@ -525,7 +543,8 @@ public class GestProdController {
 		int newId = 0;
 		if(children.size()==0) {
 			rowProd.setId_padre_prod(id_padre_prod);
-			catProdService.insertRow(rowProd);
+			idProd = catProdService.insertRow(rowProd);
+			saveCostosByCliente(idProd,costo);
 			return;
 		}
 		
@@ -559,13 +578,27 @@ public class GestProdController {
 					newId = objProd.getId_prod();
 				}
 				
-				saveOrUpdateTree(el,newId,rowProd);
+				saveOrUpdateTree(el,newId,rowProd,costo);
 			}catch(Exception e){
 				deleted=false;
 				System.out.println(e.getMessage());
 			}
 		}
 	}
+	private void saveCostosByCliente(int idProd, String costo) {
+		List<Store_fotografo>  lstClte = (Flags.remote_valid)?remoteClienteService.getActiveClients():clienteService.getActiveClients();
+		Store_cliente_prod_cost clteProdCost = null;
+		for(Store_fotografo fo: lstClte) {
+			clteProdCost = new Store_cliente_prod_cost();
+			clteProdCost.setCosto(new BigDecimal(costo));
+			clteProdCost.setId_cliente(fo.getId_fotografo());
+			clteProdCost.setId_prod(idProd);
+			clteProdCostService.insertRow(clteProdCost);
+			if(Flags.remote_valid)remoteClteProdCostService.insertRow(clteProdCost);
+		}
+		
+	}
+
 	private EventHandler<MouseEvent> closeModalEditProd() {
 		return new EventHandler<MouseEvent>() {
 

@@ -156,7 +156,7 @@ public class CostProdByClteController {
 		ObservableList<TreeItem<String>> objTree = treeProd.getSelectionModel().getSelectedItems();
 		TreeItem<String> treeItem = objTree.get(0);
 		if(treeItem.getChildren().size()>0){
-			GeneralMethods.modalMsg("WARNING", "", "Solo es permitido modificar o asignar costos y barcode a registros sin subgrupos");
+			GeneralMethods.modalMsg("WARNING", "", "Solo es permitido modificar o asignar costos  a registros sin subgrupos");
 			return;
 		}
 		treeProd.setDisable(true);

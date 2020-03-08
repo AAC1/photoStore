@@ -26,6 +26,7 @@ import mx.com.bitmaking.application.idao.ICatProdDAO;
 import mx.com.bitmaking.application.service.IStoreCatProdService;
 import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.Flags;
+import mx.com.bitmaking.application.util.GeneralMethods;
 
 @Component
 //@Scope("prototype")
@@ -137,7 +138,8 @@ public class EditaProdController {
 		
 		setFilterPopup();
 		fillCbxCategoria(0);//categoria incial
-		
+
+		inputCosto.textProperty().addListener(GeneralMethods.formatNumber(inputCosto));
 	}
 	
 	private void setFilterPopup() {
