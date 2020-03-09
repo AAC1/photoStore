@@ -154,7 +154,7 @@ public class EditaProdController {
 		    //I choose to use the contains method while ignoring cases
 		    autoCompletePopup.filter(item -> item.toLowerCase().contains(editor.getText().toLowerCase()));
 		    //Hide the autocomplete popup if the filtered suggestions is empty or when the box's original popup is open
-		    if (autoCompletePopup.getFilteredSuggestions().isEmpty() || autoCompletePopup.showingProperty().get() 
+		    if (autoCompletePopup.getFilteredSuggestions().isEmpty() 
 		    	|| editor.getText().trim().length()==0) {
 		        autoCompletePopup.hide();
 		    } 

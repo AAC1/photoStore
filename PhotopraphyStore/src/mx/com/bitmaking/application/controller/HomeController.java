@@ -310,7 +310,7 @@ public class HomeController {
 			public void handle(MouseEvent event) {
 				//System.out.println(event.getSource());
 				try {
-					menuContainer.setVisible(false);/*
+					menuContainer.setVisible(true);/*
 					lblGestionCat.setVisible(false);
 					lblReportes.setVisible(false);
 					lblGestCostProd.setVisible(false);
