@@ -254,5 +254,7 @@ ADD UNIQUE INDEX `barcode_UNIQUE` (`barcode` ASC);
 ALTER TABLE `macrofoto`.`store_cliente_prod_cost` 
 DROP COLUMN `bar_code`;
 
+ALTER TABLE `macrofoto`.`store_cat_prod` 
+ADD COLUMN `img_barcode` LONGBLOB NULL AFTER `barcode`;
 
 

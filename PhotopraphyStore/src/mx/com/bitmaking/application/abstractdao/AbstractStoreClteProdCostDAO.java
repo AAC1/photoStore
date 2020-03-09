@@ -44,7 +44,6 @@ public abstract class AbstractStoreClteProdCostDAO implements IStoreClteProdCost
 		qry.addScalar("id_clte_prod_cost", new IntegerType());
 		qry.addScalar("id_cliente", new IntegerType());
 		qry.addScalar("id_prod", new IntegerType());
-		qry.addScalar("bar_code", new StringType());
 		qry.addScalar("costo", new BigDecimalType());
 		
 		Store_cliente_prod_cost resp = (Store_cliente_prod_cost)qry.setMaxResults(1).uniqueResult();
@@ -68,7 +67,6 @@ public abstract class AbstractStoreClteProdCostDAO implements IStoreClteProdCost
 		qry.addScalar("id_clte_prod_cost", new IntegerType());
 		qry.addScalar("id_cliente", new IntegerType());
 		qry.addScalar("id_prod", new IntegerType());
-		qry.addScalar("bar_code", new StringType());
 		qry.addScalar("costo", new BigDecimalType());
 		
 		resp = qry.list();

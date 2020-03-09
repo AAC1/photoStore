@@ -285,10 +285,16 @@ public class GestProdController {
 						return;
 					} else {
 						cancelModif();
+						
+						
+							
 						Store_cat_prod row = catProdModif;
 						row.setProducto(inputName.getText());
 					//	row.setBarcode(inputBarcode.getText());
 						row.setEstatus(("ACTIVO".equals(cbxStts.getValue().toUpperCase())) ? "1" : "0");
+						row.setBarcode(inputBarcode.getText());
+						row.setImg_barcode(GeneralMethods.generateImgBarcode(inputBarcode.getText()));
+						
 						catProdService.updateRow(row);
 						if(Flags.remote_valid)remoteCatProdService.updateRow(row);
 						// if("0".equals(row.getEstatus())){
@@ -461,6 +467,10 @@ public class GestProdController {
 						btnCancenModif.setVisible(true);
 						cbxStts.setDisable(false);
 						inputName.setDisable(false);
+						ObservableList<TreeItem<String>> lstTree = treeProd.getSelectionModel().getSelectedItem().getChildren();
+						System.out.println("treeItems:"+lstTree.size());
+						if(lstTree.isEmpty())//Valida que no tenga hijos
+						{System.out.println("Es hijo");	inputBarcode.setDisable(false);}
 
 						break;
 					default:
@@ -482,7 +492,7 @@ public class GestProdController {
 		cbxStts.setDisable(true);
 		inputName.setDisable(true);
 		treeProd.setDisable(false);
-
+		inputBarcode.setDisable(true);
 	}
 
 	private EventHandler<MouseEvent> acceptEditProd(EditaProdController edtProd, String typeForm) {
@@ -496,7 +506,7 @@ public class GestProdController {
 				row.setProducto(edtProd.getInputProdName().getText());
 				row.setEstatus(("ACTIVO".equals(edtProd.getCbxEstatusProd().getValue().toUpperCase())) ? "1" : "0");
 				row.setBarcode(edtProd.getInputBarcode().getText());
-				
+				row.setImg_barcode(GeneralMethods.generateImgBarcode(row.getBarcode())); //Genera IMG para barcode
 				if (catProdModif == null) {
 					row.setId_padre_prod(0);
 				} else {
@@ -543,7 +553,12 @@ public class GestProdController {
 		int newId = 0;
 		if(children.size()==0) {
 			rowProd.setId_padre_prod(id_padre_prod);
+		//	rowProd.setImg_barcode(GeneralMethods.generateImgBarcode(rowProd.getBarcode()));
+			System.out.println("byte[]:");System.out.println(rowProd.getImg_barcode());
+			
 			idProd = catProdService.insertRow(rowProd);
+
+			
 			saveCostosByCliente(idProd,costo);
 			return;
 		}
@@ -571,10 +586,12 @@ public class GestProdController {
 					objProd.setEstatus("1");
 					objProd.setId_padre_prod(id_padre_prod);
 					objProd.setProducto(valProd);
+					
 					newId = catProdService.insertRow(objProd);
 					if(Flags.remote_valid) {newId=remoteCatProdService.insertRow(objProd);}
 				}else {
 					//catProdService.updateRow(objProd);
+					
 					newId = objProd.getId_prod();
 				}
 				

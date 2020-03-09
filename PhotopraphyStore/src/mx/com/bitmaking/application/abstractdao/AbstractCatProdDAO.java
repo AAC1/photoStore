@@ -21,6 +21,7 @@ import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
 import mx.com.bitmaking.application.idao.ICatProdDAO;
+import mx.com.bitmaking.application.util.GeneralMethods;
 
 
 public abstract class AbstractCatProdDAO implements ICatProdDAO {
@@ -176,6 +177,11 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 	public boolean update(Store_cat_prod row)throws Exception {
 		try {
 		Session session =getSessionFactory().getCurrentSession();
+//		Store_cat_prod el = session.get(Store_cat_prod.class, row.getId_prod());
+//		el.setProducto(row.getProducto());
+//		el.setEstatus(row.getEstatus());
+//		el.setBarcode(row.getBarcode());
+//		el.setImg_barcode(row.getImg_barcode());
 		session.update(row);
 	//	session.flush();
 		}catch (HibernateException e) {

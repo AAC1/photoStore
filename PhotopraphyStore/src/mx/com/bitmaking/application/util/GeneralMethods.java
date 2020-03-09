@@ -1,6 +1,15 @@
 package mx.com.bitmaking.application.util;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -15,7 +24,16 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
+import javax.imageio.ImageIO;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.Barcode128;
+import com.itextpdf.text.pdf.BarcodeEAN;
+import com.itextpdf.text.pdf.BarcodeQRCode;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.jfoenix.controls.JFXTextField;
 
 import javafx.beans.value.ChangeListener;
@@ -284,5 +302,69 @@ public class GeneralMethods {
 		}
         return datos;
     }
+    
+    public static byte[] generateImgBarcode(String code){
+    	byte[] resp = null;
+//    	PdfWriter pdfWriter = null;
+//    	Document document = null;
+    	if(code ==null || "".equals(code))return null;
+		try {
+//		document =  new Document(PageSize.A0);//PageSize.A4
+//        pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(
+//        							new File(Constantes.PATH_XLS+"barcode.pdf")));
+//        document.open();
+//        PdfContentByte pdfContentByte = pdfWriter.getDirectContent();
+        
+        Barcode128 barcode128 = new Barcode128();
+        barcode128.setCode(code);
+        barcode128.setCodeType(Barcode128.CODE128);
 
+//        Image code128Image = barcode128.createImageWithBarcode(pdfContentByte, null, null);
+//        code128Image.setAbsolutePosition(10, 700);
+//        code128Image.scalePercent(100);
+//        document.add(code128Image);
+//        document.close();
+        
+        java.awt.Image awtImage = barcode128.createAwtImage(Color.BLACK,Color.WHITE);
+        BufferedImage bufferimage = new BufferedImage(awtImage.getWidth(null),awtImage.getHeight(null),
+        												BufferedImage.TYPE_INT_RGB);//ImageIO.read(new File("myimage.jpg"));
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        Graphics2D g = bufferimage.createGraphics();
+        g.drawImage(awtImage, 0, 0, null);
+        g.dispose();
+        ImageIO.write(bufferimage, "jpg", output );
+        resp = output.toByteArray();
+   //     resp=Files.readAllBytes(new File(Constantes.PATH_XLS+"barcode.pdf").toPath());
+        /*
+        BarcodeQRCode barcodeQrcode = new BarcodeQRCode(code, 1, 1, null);
+        Image qrcodeImage = barcodeQrcode.getImage();
+    //    qrcodeImage.setAbsolutePosition(20, 500);
+        qrcodeImage.scalePercent(100);
+        document.add(qrcodeImage);
+        */
+       
+        
+		}catch(Exception e) {
+			e.printStackTrace();
+		}/*finally {
+			if(document !=null) {
+				
+				if( document.isOpen() && document.getPageNumber()>0){ 
+			//		document.close();
+				
+				}
+				try {
+					Files.deleteIfExists(new File(Constantes.PATH_XLS+"barcode.pdf").toPath());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(pdfWriter!=null) {
+				pdfWriter.close();
+				
+			}
+		}*/
+		return resp;
+	}
 }

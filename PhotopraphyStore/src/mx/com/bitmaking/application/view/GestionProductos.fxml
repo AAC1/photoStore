@@ -19,11 +19,11 @@
             <JFXTextField fx:id="inputName" disable="true" layoutX="36.0" layoutY="27.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="27.0" />
             <JFXComboBox fx:id="cbxStts" disable="true" layoutX="35.0" layoutY="104.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="104.0" />
             <Label layoutX="36.0" layoutY="81.0" prefHeight="17.0" prefWidth="322.0" text="Estatus" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="81.0" />
-            <JFXButton fx:id="btnAcceptModif" layoutX="21.0" layoutY="170.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #04A138 #04A138;" text="✔ Aceptar" textFill="WHITE" visible="false" AnchorPane.rightAnchor="252.0" AnchorPane.topAnchor="170.0" />
-            <JFXButton fx:id="btnCancenModif" layoutX="144.0" layoutY="170.0" onMouseClicked="#cancelModif" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #A12D04 #A12D04;" text="✘ Cancelar" textFill="WHITE" visible="false" AnchorPane.rightAnchor="129.0" AnchorPane.topAnchor="170.0" />
-            <JFXButton fx:id="btnSalir" layoutX="262.0" layoutY="232.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #505050; -fx-text-fill: white;" styleClass="btn-gral" text=" ◄ Salir" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="11.0" />
             <Label layoutX="33.0" layoutY="152.0" prefHeight="17.0" prefWidth="322.0" text="Código de barras" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="38.0" AnchorPane.topAnchor="152.0" />
             <JFXTextField fx:id="inputBarcode" disable="true" layoutX="35.0" layoutY="173.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="173.0" />
+            <JFXButton fx:id="btnAcceptModif" layoutX="14.0" layoutY="236.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #04A138 #04A138;" text="✔ Aceptar" textFill="WHITE" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="259.0" />
+            <JFXButton fx:id="btnCancenModif" layoutX="138.0" layoutY="236.0" onMouseClicked="#cancelModif" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #A12D04 #A12D04;" text="✘ Cancelar" textFill="WHITE" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="135.0" />
+            <JFXButton fx:id="btnSalir" layoutX="262.0" layoutY="232.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #505050; -fx-text-fill: white;" styleClass="btn-gral" text=" ◄ Salir" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="11.0" />
          </children>
       </AnchorPane>
    </children>
