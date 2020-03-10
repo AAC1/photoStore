@@ -106,6 +106,7 @@ public class HomeController {
 		lblReportes.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("BusqPedidoReporte",false,false));
 		lblGestCostProd.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("CostProdByClient",false,false));
 		lblUsr.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("GestionUsuarios",false,false));
+		lblSucursales.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("GestionSucursales",false,false));
 	//	menuHamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, showMenuContainer());
 		
 	}
