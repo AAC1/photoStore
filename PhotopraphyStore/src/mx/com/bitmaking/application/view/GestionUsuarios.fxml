@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="533.0" prefWidth="692.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.UsuarioController">
+   <children>
+      <AnchorPane prefHeight="245.0" prefWidth="692.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <JFXButton fx:id="btnAgregar" layoutX="299.0" layoutY="17.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #037AB6; -fx-text-fill: white;" styleClass="btn-gral" text="✚ Agregar" AnchorPane.rightAnchor="273.0" AnchorPane.topAnchor="17.0" />
+            <JFXButton fx:id="btnEditar" layoutX="427.0" layoutY="17.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #C37B00; -fx-text-fill: white;" styleClass="btn-gral" text="▬ Modificar" AnchorPane.rightAnchor="145.0" AnchorPane.topAnchor="17.0" />
+            <JFXButton fx:id="btnEliminar" layoutX="556.0" layoutY="17.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #A12D04 #A12D04; -fx-text-fill: white;" styleClass="btn-gral" text="✖ Eliminar" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="17.0" />
+            <JFXButton fx:id="btnDesbloquear" layoutX="427.0" layoutY="17.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #00A4A4; -fx-text-fill: white;" styleClass="btn-gral" text="⍉ Desbloquear" visible="false" />
+            <TableView fx:id="tblUsr" layoutX="96.0" layoutY="57.0" prefHeight="174.0" prefWidth="650.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="57.0">
+              <columns>
+                <TableColumn fx:id="colUsuario" prefWidth="75.0" text="Usuario" />
+                <TableColumn fx:id="colLogin" prefWidth="75.0" text="Login" />
+                  <TableColumn fx:id="colTelefono" prefWidth="75.0" text="Teléfono" />
+                  <TableColumn fx:id="colCorreo" prefWidth="75.0" text="Correo" />
+                  <TableColumn fx:id="colDireccion" prefWidth="75.0" text="Dirección" />
+                  <TableColumn fx:id="colSucursal" prefWidth="75.0" text="Sucursal" />
+                  <TableColumn fx:id="colPerfil" prefWidth="75.0" text="Perfil" />
+                  <TableColumn fx:id="colEstatus" prefWidth="75.0" text="Estatus" />
+              </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="242.0" prefHeight="291.0" prefWidth="692.0" style="-fx-background-color: rgba(255,255,255,0.8);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="242.0">
+         <children>
+            <Label layoutX="26.0" layoutY="14.0" text="Usuario" />
+            <JFXTextField fx:id="inputLogin" layoutX="26.0" layoutY="31.0" prefHeight="25.0" prefWidth="200.0" />
+            <Label layoutX="246.0" layoutY="14.0" text="Contraseña" />
+            <JFXTextField fx:id="inputPasswd" layoutX="246.0" layoutY="31.0" prefHeight="25.0" prefWidth="200.0" />
+            <Label layoutX="26.0" layoutY="73.0" text="Correo" />
+            <JFXTextField fx:id="inputEmail" layoutX="26.0" layoutY="90.0" prefHeight="25.0" prefWidth="200.0" />
+            <Label layoutX="246.0" layoutY="73.0" text="Telefono" />
+            <JFXTextField fx:id="inputTelefono" layoutX="246.0" layoutY="90.0" prefHeight="25.0" prefWidth="200.0" />
+            <Label layoutX="26.0" layoutY="126.0" text="Perfil" />
+            <JFXTextField fx:id="inputPerfil" layoutX="26.0" layoutY="143.0" prefHeight="25.0" prefWidth="200.0" />
+            <Label layoutX="246.0" layoutY="126.0" text="Estatus" />
+            <JFXComboBox fx:id="cbxStts" layoutX="246.0" layoutY="143.0" prefHeight="25.0" prefWidth="200.0" />
+            <JFXButton fx:id="btnAccept" layoutX="428.0" layoutY="189.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #04A138 #04A138;" text="✔ Aceptar" textFill="WHITE" visible="false" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="144.0" />
+            <JFXButton fx:id="btnCancel" layoutX="558.0" layoutY="189.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #A12D04 #A12D04;" text="✘ Cancelar" textFill="WHITE" visible="false" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="14.0" />
+            <Label layoutX="26.0" layoutY="181.0" text="Bloqueado" />
+            <JFXComboBox fx:id="cbxBloqueado" layoutX="26.0" layoutY="198.0" prefHeight="25.0" prefWidth="200.0" />
+            <Label layoutX="461.0" layoutY="14.0" text="Nombre de Usuario" AnchorPane.leftAnchor="464.0" />
+            <JFXTextField fx:id="inputUsr" layoutX="464.0" layoutY="30.0" prefHeight="25.0" prefWidth="200.0" AnchorPane.leftAnchor="464.0" AnchorPane.rightAnchor="32.0" />
+            <Label layoutX="463.0" layoutY="73.0" text="Dirección" AnchorPane.leftAnchor="464.0" />
+            <JFXTextField fx:id="inputDir" layoutX="464.0" layoutY="89.0" prefHeight="25.0" prefWidth="196.0" AnchorPane.leftAnchor="464.0" AnchorPane.rightAnchor="32.0" />
+            <Label layoutX="466.0" layoutY="126.0" text="Sucursal" AnchorPane.leftAnchor="464.0" />
+            <JFXTextField fx:id="inputSucursal" layoutX="464.0" layoutY="142.0" prefHeight="25.0" prefWidth="196.0" AnchorPane.leftAnchor="464.0" AnchorPane.rightAnchor="32.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

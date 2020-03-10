@@ -48,6 +48,8 @@ public class HomeController {
 	@FXML private Label itemVenta;
 	@FXML private Label lblGestCostProd;
 	@FXML private Label lblUsrSession;
+	@FXML private Label lblUsr;
+	@FXML private Label lblSucursales;
 	@FXML private JFXHamburger menuHamburger;
 	@FXML private AnchorPane menuContainer;
 	@FXML private AnchorPane bodyContainer;
@@ -103,6 +105,7 @@ public class HomeController {
 		lblGestionCat.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("GestionProductos",true,false));
 		lblReportes.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("BusqPedidoReporte",false,false));
 		lblGestCostProd.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("CostProdByClient",false,false));
+		lblUsr.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("GestionUsuarios",false,false));
 	//	menuHamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, showMenuContainer());
 		
 	}
@@ -287,7 +290,7 @@ public class HomeController {
 			        	primaryStage.initModality(Modality.APPLICATION_MODAL); //Evitar que otras ventanas se puedan modificar
 			        	primaryStage.setScene(scene);
 						primaryStage.centerOnScreen();
-				        primaryStage.setTitle("Foto Estudio S.A de C.V.");
+				        primaryStage.setTitle("Macrofoto Digital S.A de C.V.");
 						primaryStage.setMinHeight(460.0);
 						primaryStage.setMinWidth(620.0);
 						primaryStage.setMaxHeight(450.0);

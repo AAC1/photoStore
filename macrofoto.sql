@@ -258,3 +258,8 @@ ALTER TABLE `macrofoto`.`store_cat_prod`
 ADD COLUMN `img_barcode` LONGBLOB NULL AFTER `barcode`;
 
 
+INSERT INTO `macrofoto`.`store_menu` (`id_padre`, `menu_desc`, `uri`, `fx_id`, `estatus`) VALUES ('2', 'Usuarios', 'usuarios', 'lblUsr', '1');
+INSERT INTO `macrofoto`.`store_menu` (`id_padre`, `menu_desc`, `uri`, `fx_id`,`estatus`) VALUES ('2', 'Sucursales', 'sucursales', 'lblSucursales','1');
+
+insert into store_menu_perfil(id_perfil,id_menu)
+VALUES(2,6),(2,7);
