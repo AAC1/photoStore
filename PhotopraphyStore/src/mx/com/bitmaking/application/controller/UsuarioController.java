@@ -52,7 +52,7 @@ public class UsuarioController {
 	@FXML private JFXTextField inputTelefono;
 	@FXML private JFXTextField inputUsr;
 	@FXML private JFXTextField inputDir;
-	@FXML private JFXTextField inputSucursal;
+	@FXML private JFXComboBox<String> cbxSucursal;
 	@FXML private JFXComboBox<String> cbxPerfil;
 	@FXML private JFXComboBox<String> cbxStts;
 	@FXML private JFXComboBox<String> cbxBloqueado;
@@ -103,23 +103,33 @@ public class UsuarioController {
 	
 	private void initForm() {
 		List<String> lstStts = new ArrayList<>();
-		lstStts.add("Activo");
-		lstStts.add("Inactivo");
+		lstStts.add("ACTIVO");
+		lstStts.add("INACTIVO");
+		
+		List<String> lstBloq = new ArrayList<>();
+		lstBloq.add("BLOQUEADO");
+		lstBloq.add("NO BLOQUEADO");
 		
 		cbxStts.getItems().removeAll(cbxStts.getItems());
 		cbxStts.setItems(FXCollections.observableList(lstStts));
 		
-		cbxBusqEstatus.getItems().removeAll(cbxStts.getItems());
+		cbxBusqEstatus.getItems().removeAll(cbxBusqEstatus.getItems());
 		cbxBusqEstatus.setItems(FXCollections.observableList(lstStts));
+		
+		cbxBloqueado.getItems().removeAll(cbxBloqueado.getItems());
+		cbxBloqueado.setItems(FXCollections.observableList(lstBloq));
 		
 		List<Store_perfil> lst = (Flags.remote_valid)?remoteStorePerfilService.getAllProfiles():storePerfilService.getAllProfiles();
 		lstProfile = new ArrayList<>();
 		for(Store_perfil el:lst) {
 			lstProfile.add(el.getPerfil());
 		}
-		
+
 		cbxBusqPerfil.getItems().removeAll(cbxBusqPerfil.getItems());
 		cbxBusqPerfil.setItems(FXCollections.observableList(lstProfile));
+
+		cbxPerfil.getItems().removeAll(cbxPerfil.getItems());
+		cbxPerfil.setItems(FXCollections.observableList(lstProfile));
 		
 	}
 	private void responsiveGUI() {
@@ -147,12 +157,13 @@ public class UsuarioController {
 	
 	@FXML
 	private void openSearch() {
+		cleanBusqform();
 		containerBusqResp.setVisible(true);
 	}
 	@FXML
 	private void closeSearch() {
 		containerBusqResp.setVisible(false);
-		cleanBusqform();
+		
 	}
 	@FXML
 	private void cleanBusqform() {
@@ -168,7 +179,111 @@ public class UsuarioController {
 				inputBusqUsuario.getText(),cbxBusqEstatus.getValue(),
 				inputBusqSucursal.getText(),cbxBusqPerfil.getValue());
 		
+		tblUsr.getItems().removeAll(tblUsr.getItems());
 		tblUsr.setItems(FXCollections.observableList(lstUsrs));
 		
+	}
+	@FXML
+	private void selectUsr() {
+		UsuariosDTO usrDto = tblUsr.getSelectionModel().getSelectedItem();
+		if(usrDto ==null)return;
+		
+		inputLogin.setText(usrDto.getLogin());
+		inputPasswd.setText(usrDto.getPasswd());
+		inputUsr.setText(usrDto.getNombre());
+		inputEmail.setText(usrDto.getCorreo());
+		inputTelefono.setText(usrDto.getTelefono());
+		inputDir.setText(usrDto.getDireccion());
+		cbxPerfil.setValue(usrDto.getPerfil());
+		cbxStts.setValue(usrDto.getEstatus());
+		cbxSucursal.setValue(usrDto.getSucursal());
+		cbxBloqueado.setValue(usrDto.getBloqueado()==1?"BLOQUEADO":"NO BLOQUEADO");
+		
+		
+	}
+	
+	@FXML
+	private void addUsr() {
+		btnAgregar.setDisable(true);
+		btnEditar.setDisable(true);
+		btnEliminar.setDisable(true);
+		btnCancel.setVisible(true);
+		btnAccept.setVisible(true);
+		tblUsr.setDisable(true);
+		
+		inputLogin.setText("");
+		inputPasswd.setText("");
+		inputUsr.setText("");
+		inputEmail.setText("");
+		inputTelefono.setText("");
+		inputDir.setText("");
+		cbxPerfil.setValue("");
+		cbxStts.setValue("ACTIVO");
+		cbxSucursal.setValue("");
+		cbxBloqueado.setValue("NO BLOQUEADO");
+		enableInputs();
+	
+	}
+	@FXML
+	private void editUsr() {
+		btnAgregar.setDisable(true);
+		btnEditar.setDisable(true);
+		btnEliminar.setDisable(true);
+		btnCancel.setVisible(true);
+		btnAccept.setVisible(true);
+		tblUsr.setDisable(true);
+		enableInputs();
+		inputPasswd.setDisable(true);
+		
+	}
+	
+	@FXML
+	private void deleteUsr() {
+		
+	}
+	@FXML
+	public void cancelEditUsr() {
+		btnAgregar.setDisable(false);
+		btnEditar.setDisable(false);
+		btnEliminar.setDisable(false);
+		btnCancel.setVisible(false);
+		btnAccept.setVisible(false);
+		tblUsr.setDisable(false);
+		disableInputs();
+	}
+	@FXML 
+	private void acceptUsr() {
+		btnAccept.setDisable(false);
+		btnEditar.setDisable(false);
+		btnEliminar.setDisable(false);
+		btnCancel.setVisible(false);
+		btnAccept.setVisible(false);
+		buscaUsuario();
+	}
+	
+	private void disableInputs() {
+		inputLogin.setDisable(true);
+		inputPasswd.setDisable(true);
+		inputUsr.setDisable(true);
+		inputEmail.setDisable(true);
+		inputTelefono.setDisable(true);
+		inputDir.setDisable(true);
+		cbxPerfil.setDisable(true);
+		cbxStts.setDisable(true);
+		cbxSucursal.setDisable(true);
+		cbxBloqueado.setDisable(true);
+	}
+
+	private void enableInputs() {
+		inputLogin.setDisable(false);
+		inputPasswd.setDisable(false);
+		inputUsr.setDisable(false);
+		inputEmail.setDisable(false);
+		inputTelefono.setDisable(false);
+		inputDir.setDisable(false);
+		cbxPerfil.setDisable(false);
+		cbxStts.setDisable(false);
+		cbxSucursal.setDisable(false);
+		cbxBloqueado.setDisable(false);
 	}
 }
