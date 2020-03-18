@@ -82,8 +82,12 @@ public class UsuarioController {
 
 	public void initialize() {
 		responsiveGUI();
+		initForm();
 	}
 	
+	private void initForm() {
+		
+	}
 	private void responsiveGUI() {
 		/* resize de acuerdo al tamaño del Pane padre */
 		colUsuario.prefWidthProperty().bind(tblUsr.widthProperty().multiply(0.3));

@@ -59,7 +59,7 @@
             <JFXButton fx:id="btnSalir" layoutX="558.0" layoutY="242.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #505050; -fx-text-fill: white;" styleClass="btn-gral" text=" ◄ Salir" AnchorPane.bottomAnchor="19.0" AnchorPane.rightAnchor="16.0" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="containerBusqResp" layoutX="3.0" layoutY="10.0" prefHeight="462.0" prefWidth="269.0" style="-fx-background-color: #f8f9fa;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="containerBusqResp" layoutX="3.0" layoutY="10.0" prefHeight="462.0" prefWidth="269.0" style="-fx-background-color: #f8f9fa;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <JFXTextField fx:id="inputBusqLogin" layoutX="41.0" layoutY="91.0" prefHeight="25.0" prefWidth="198.0" styleClass="input-gral" />
             <JFXTextField fx:id="inputBusqUsuario" layoutX="41.0" layoutY="148.0" prefHeight="25.0" prefWidth="198.0" styleClass="input-gral" />
