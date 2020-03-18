@@ -5,7 +5,7 @@ import java.util.List;
 import mx.com.bitmaking.application.dto.UsuariosDTO;
 import mx.com.bitmaking.application.entity.Store_usuario;
 import mx.com.bitmaking.application.idao.IStoreUsuarioDAO;
-import mx.com.bitmaking.application.service.IStoreUsuarioService;
+import mx.com.bitmaking.application.iservice.IStoreUsuarioService;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
 public abstract class AbstractStoreUsuarioService implements IStoreUsuarioService {

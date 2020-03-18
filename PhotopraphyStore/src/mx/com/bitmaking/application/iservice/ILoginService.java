@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.service;
+package mx.com.bitmaking.application.iservice;
 
 import mx.com.bitmaking.application.dto.ResponseDTO;
 

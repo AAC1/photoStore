@@ -2,7 +2,7 @@ package mx.com.bitmaking.application.abstractservice;
 
 import mx.com.bitmaking.application.entity.Update_info;
 import mx.com.bitmaking.application.idao.IUpdateInfoDAO;
-import mx.com.bitmaking.application.service.IUpdateInfoService;
+import mx.com.bitmaking.application.iservice.IUpdateInfoService;
 
 public abstract class AbstracUpdateInfoService implements IUpdateInfoService{
 

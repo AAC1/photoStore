@@ -1,6 +1,7 @@
 package mx.com.bitmaking.application.controller;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import mx.com.bitmaking.application.dto.UsuariosDTO;
+import mx.com.bitmaking.application.entity.Store_perfil;
 import mx.com.bitmaking.application.entity.Store_prod_pedido;
-import mx.com.bitmaking.application.service.IStoreUsuarioService;
+import mx.com.bitmaking.application.iservice.IStorePerfilService;
+import mx.com.bitmaking.application.iservice.IStoreUsuarioService;
+import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
 @Component
@@ -72,6 +76,18 @@ public class UsuarioController {
 	@Qualifier("remoteStoreUsuarioService")
 	IStoreUsuarioService remoteStoreUsuarioService;
 	
+	
+	@Autowired
+	@Qualifier("StorePerfilService")
+	IStorePerfilService storePerfilService;
+
+	@Autowired
+	@Qualifier("remoteStorePerfilService")
+	IStorePerfilService remoteStorePerfilService;
+	
+	private List<String> lstProfile = null;
+	
+	
 	public JFXButton getBtnSalir() {
 		return btnSalir;
 	}
@@ -86,6 +102,24 @@ public class UsuarioController {
 	}
 	
 	private void initForm() {
+		List<String> lstStts = new ArrayList<>();
+		lstStts.add("Activo");
+		lstStts.add("Inactivo");
+		
+		cbxStts.getItems().removeAll(cbxStts.getItems());
+		cbxStts.setItems(FXCollections.observableList(lstStts));
+		
+		cbxBusqEstatus.getItems().removeAll(cbxStts.getItems());
+		cbxBusqEstatus.setItems(FXCollections.observableList(lstStts));
+		
+		List<Store_perfil> lst = (Flags.remote_valid)?remoteStorePerfilService.getAllProfiles():storePerfilService.getAllProfiles();
+		lstProfile = new ArrayList<>();
+		for(Store_perfil el:lst) {
+			lstProfile.add(el.getPerfil());
+		}
+		
+		cbxBusqPerfil.getItems().removeAll(cbxBusqPerfil.getItems());
+		cbxBusqPerfil.setItems(FXCollections.observableList(lstProfile));
 		
 	}
 	private void responsiveGUI() {

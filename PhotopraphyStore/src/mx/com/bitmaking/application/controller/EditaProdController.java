@@ -23,7 +23,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.idao.ICatProdDAO;
-import mx.com.bitmaking.application.service.IStoreCatProdService;
+import mx.com.bitmaking.application.iservice.IStoreCatProdService;
 import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;

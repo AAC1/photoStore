@@ -20,8 +20,8 @@ import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.idao.ICatProdDAO;
 import mx.com.bitmaking.application.idao.IStoreCatProdDAO;
 import mx.com.bitmaking.application.idao.IStoreClteProdCostDAO;
-import mx.com.bitmaking.application.service.IStoreCatProdService;
-import mx.com.bitmaking.application.service.IStoreClteProdCostService;
+import mx.com.bitmaking.application.iservice.IStoreCatProdService;
+import mx.com.bitmaking.application.iservice.IStoreClteProdCostService;
 
 /**
  * @author albcervantes

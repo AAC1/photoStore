@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.bitmaking.application.entity.Store_fotografo;
 import mx.com.bitmaking.application.idao.IStoreFotografoDAO;
-import mx.com.bitmaking.application.service.IStoreFotografoService;
+import mx.com.bitmaking.application.iservice.IStoreFotografoService;
 import mx.com.bitmaking.application.util.Constantes;
 
 //@Service("StoreFotografoService")
