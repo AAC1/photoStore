@@ -25,6 +25,7 @@
                   <TableColumn fx:id="colEstatus" prefWidth="75.0" text="Estatus" />
               </columns>
             </TableView>
+            <JFXButton fx:id="btnOpenBusq" layoutX="21.0" layoutY="15.0" onMouseClicked="#openSearch" prefHeight="35.0" prefWidth="35.0" style="-fx-background-color: #ffffff; -fx-text-fill: #005490; -fx-border-color: #005490; -fx-border-radius: 9px;" styleClass="btn-gral" text="🔍" textFill="#005490" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="15.0" />
          </children>
       </AnchorPane>
       <AnchorPane layoutY="242.0" prefHeight="291.0" prefWidth="692.0" style="-fx-background-color: rgba(255,255,255,0.8);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="242.0">
@@ -44,6 +45,22 @@
             <JFXButton fx:id="btnAccept" layoutX="296.0" layoutY="239.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #04A138 #04A138;" text="✔ Aceptar" textFill="WHITE" visible="false" AnchorPane.bottomAnchor="22.0" AnchorPane.rightAnchor="273.0" />
             <JFXButton fx:id="btnCancel" layoutX="426.0" layoutY="239.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #A12D04 #A12D04;" text="✘ Cancelar" textFill="WHITE" visible="false" AnchorPane.bottomAnchor="22.0" AnchorPane.rightAnchor="145.0" />
             <JFXButton fx:id="btnSalir" layoutX="558.0" layoutY="239.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #505050; -fx-text-fill: white;" styleClass="btn-gral" text=" ◄ Salir" AnchorPane.bottomAnchor="22.0" AnchorPane.rightAnchor="16.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="containerBusqResp" layoutX="13.0" layoutY="20.0" prefHeight="462.0" prefWidth="269.0" style="-fx-background-color: #f8f9fa;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <JFXTextField fx:id="inputBusqSucursal" layoutX="41.0" layoutY="91.0" prefHeight="25.0" prefWidth="198.0" styleClass="input-gral" />
+            <JFXTextField fx:id="inputBusqPrefijo" layoutX="41.0" layoutY="148.0" prefHeight="25.0" prefWidth="198.0" styleClass="input-gral" />
+            <JFXComboBox fx:id="cbxBusqEstatus" layoutX="41.0" layoutY="206.0" prefHeight="25.0" prefWidth="198.0" styleClass="input-gral" />
+            <Label alignment="CENTER" layoutX="15.0" layoutY="6.0" prefHeight="37.0" prefWidth="255.0" styleClass="lbl-title" text="CONSULTA USUARIOS" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="6.0" />
+            <Label layoutX="14.0" layoutY="74.0" prefHeight="17.0" prefWidth="139.0" text="Sucursal" />
+            <Label layoutX="14.0" layoutY="131.0" prefHeight="17.0" prefWidth="139.0" text="Prefijo" />
+            <Label layoutX="14.0" layoutY="189.0" prefHeight="17.0" prefWidth="139.0" text="Estatus" />
+            <JFXButton fx:id="btnClean" layoutX="139.0" layoutY="413.0" onMouseClicked="#cleanBusqform" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: #037AB6 #037AB6;" styleClass="btn-gral" text="⚙ Limpiar " textFill="WHITE" AnchorPane.bottomAnchor="17.0" />
+            <JFXButton fx:id="btnBuscar" layoutX="7.0" layoutY="413.0" onMouseClicked="#buscaSucursal" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: #04A138;" styleClass="btn-gral" text="✔ Buscar" textFill="WHITE" AnchorPane.bottomAnchor="17.0" />
+            <JFXButton fx:id="btnCloseBusq" layoutX="228.0" layoutY="7.0" onMouseClicked="#closeSearch" prefHeight="35.0" prefWidth="35.0" style="-fx-background-color: #ffffff; -fx-text-fill: #A12D04 #A12D04; -fx-border-color: #A12D04 #A12D04; -fx-border-radius: 9px;" styleClass="btn-gral" text="✖" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="7.0" />
+            <Label layoutX="14.0" layoutY="250.0" prefHeight="17.0" prefWidth="139.0" text="Razón Social" />
+            <JFXTextField fx:id="inputBusqRazonSocial" layoutX="40.0" layoutY="274.0" prefHeight="25.0" prefWidth="198.0" styleClass="input-gral" />
          </children>
       </AnchorPane>
    </children>

@@ -24,11 +24,21 @@ public class Store_usuario {
 	@Column
 	private int bloqueado;
 	@Column
+	private int intentos;
+	@Column
 	private int activo;
 	@Column
 	private int id_perfil;
 	@Column
 	private int id_sucursal;
+	
+	
+	public int getIntentos() {
+		return intentos;
+	}
+	public void setIntentos(int intentos) {
+		this.intentos = intentos;
+	}
 	/**
 	 * @return the id_usr
 	 */

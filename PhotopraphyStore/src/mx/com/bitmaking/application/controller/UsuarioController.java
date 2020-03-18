@@ -1,5 +1,8 @@
 package mx.com.bitmaking.application.controller;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -9,11 +12,16 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import mx.com.bitmaking.application.dto.UsuariosDTO;
+import mx.com.bitmaking.application.entity.Store_prod_pedido;
 import mx.com.bitmaking.application.service.IStoreUsuarioService;
+import mx.com.bitmaking.application.util.GeneralMethods;
 
 @Component
 public class UsuarioController {
@@ -44,6 +52,17 @@ public class UsuarioController {
 	@FXML private JFXComboBox<String> cbxPerfil;
 	@FXML private JFXComboBox<String> cbxStts;
 	@FXML private JFXComboBox<String> cbxBloqueado;
+	
+	@FXML private AnchorPane containerBusqResp;
+	@FXML private JFXButton btnOpenBusq;
+	@FXML private JFXButton btnCloseBusq;
+	@FXML private JFXButton btnBuscar;
+	@FXML private JFXButton btnClean;
+	@FXML private JFXTextField inputBusqLogin;
+	@FXML private JFXTextField inputBusqUsuario;
+	@FXML private JFXTextField inputBusqSucursal;
+	@FXML private JFXComboBox<String> cbxBusqEstatus;
+	@FXML private JFXComboBox<String> cbxBusqPerfil;
 	
 	@Autowired
 	@Qualifier("StoreUsuarioService")
@@ -76,6 +95,42 @@ public class UsuarioController {
 		colPerfil.prefWidthProperty().bind(tblUsr.widthProperty().multiply(0.2));
 		colEstatus.prefWidthProperty().bind(tblUsr.widthProperty().multiply(0.2));
 		
+		//COLUMNAS DE PRODUCTOS DE PEDIDO
+		colUsuario.setCellValueFactory(new PropertyValueFactory<UsuariosDTO, String>("nombre"));
+		colLogin.setCellValueFactory(new PropertyValueFactory<UsuariosDTO, String>("login"));
+		colTelefono.setCellValueFactory(new PropertyValueFactory<UsuariosDTO, String>("telefono"));
+		colCorreo.setCellValueFactory(new PropertyValueFactory<UsuariosDTO, String>("correo"));
+		colDireccion.setCellValueFactory(new PropertyValueFactory<UsuariosDTO, String>("direccion"));
+		colSucursal.setCellValueFactory(new PropertyValueFactory<UsuariosDTO, String>("sucursal"));
+		colPerfil.setCellValueFactory(new PropertyValueFactory<UsuariosDTO, String>("perfil"));
+		colEstatus.setCellValueFactory(new PropertyValueFactory<UsuariosDTO, String>("estatus"));
+		
 	}
 	
+	@FXML
+	private void openSearch() {
+		containerBusqResp.setVisible(true);
+	}
+	@FXML
+	private void closeSearch() {
+		containerBusqResp.setVisible(false);
+		cleanBusqform();
+	}
+	@FXML
+	private void cleanBusqform() {
+		inputBusqLogin.setText("");
+		inputBusqUsuario.setText("");
+		inputBusqSucursal.setText("");
+		cbxBusqEstatus.setValue("");
+		cbxBusqPerfil.setValue("");
+	}
+	@FXML
+	private void buscaUsuario() {
+		List<UsuariosDTO> lstUsrs = storeUsuarioService.getUsrsByFilter(inputBusqLogin.getText(),
+				inputBusqUsuario.getText(),cbxBusqEstatus.getValue(),
+				inputBusqSucursal.getText(),cbxBusqPerfil.getValue());
+		
+		tblUsr.setItems(FXCollections.observableList(lstUsrs));
+		
+	}
 }
