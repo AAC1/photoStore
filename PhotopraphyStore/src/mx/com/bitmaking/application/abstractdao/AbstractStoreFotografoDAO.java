@@ -22,6 +22,7 @@ public abstract class AbstractStoreFotografoDAO implements IStoreFotografoDAO{
 */
 	public abstract SessionFactory getSessionFActory();
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Store_fotografo> getActiveClients() {
 		List<Store_fotografo> results = null;

@@ -19,10 +19,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import mx.com.bitmaking.application.dto.SucursalDTO;
 import mx.com.bitmaking.application.dto.UsuariosDTO;
 import mx.com.bitmaking.application.entity.Store_perfil;
 import mx.com.bitmaking.application.entity.Store_prod_pedido;
+import mx.com.bitmaking.application.entity.Store_sucursal;
 import mx.com.bitmaking.application.iservice.IStorePerfilService;
+import mx.com.bitmaking.application.iservice.IStoreSucursalService;
 import mx.com.bitmaking.application.iservice.IStoreUsuarioService;
 import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
@@ -85,9 +88,18 @@ public class UsuarioController {
 	@Qualifier("remoteStorePerfilService")
 	IStorePerfilService remoteStorePerfilService;
 	
+	
+	@Autowired
+	@Qualifier("StoreSucursalService")
+	IStoreSucursalService sucursalService;
+	
+	@Autowired
+	@Qualifier("remoteStoreSucursalService")
+	IStoreSucursalService remoteSucursalService;
+	
 	private List<String> lstProfile = null;
-	
-	
+	private List<String>lstSucursal = null;
+	List<Store_sucursal> lstSuc = null;
 	public JFXButton getBtnSalir() {
 		return btnSalir;
 	}
@@ -130,6 +142,19 @@ public class UsuarioController {
 
 		cbxPerfil.getItems().removeAll(cbxPerfil.getItems());
 		cbxPerfil.setItems(FXCollections.observableList(lstProfile));
+		
+		lstSuc =  (Flags.remote_valid)?
+				remoteSucursalService.getSuc("", "", ""):sucursalService.getSuc("", "", "");
+				
+		lstSucursal = new ArrayList<>();
+		if(lstSuc==null)lstSuc = new ArrayList<>();
+		
+		for(Store_sucursal el:lstSuc) {
+			lstSucursal.add(el.getSucursal());
+		}
+	
+		cbxSucursal.getItems().removeAll(cbxSucursal.getItems());
+		cbxSucursal.setItems(FXCollections.observableList(lstSucursal));
 		
 	}
 	private void responsiveGUI() {
@@ -175,9 +200,13 @@ public class UsuarioController {
 	}
 	@FXML
 	private void buscaUsuario() {
-		List<UsuariosDTO> lstUsrs = storeUsuarioService.getUsrsByFilter(inputBusqLogin.getText(),
+		List<UsuariosDTO> lstUsrs = (Flags.remote_valid)?
+				remoteStoreUsuarioService.getUsrsByFilter(inputBusqLogin.getText(),
 				inputBusqUsuario.getText(),cbxBusqEstatus.getValue(),
-				inputBusqSucursal.getText(),cbxBusqPerfil.getValue());
+				inputBusqSucursal.getText(),cbxBusqPerfil.getValue()):
+				storeUsuarioService.getUsrsByFilter(inputBusqLogin.getText(),
+							inputBusqUsuario.getText(),cbxBusqEstatus.getValue(),
+							inputBusqSucursal.getText(),cbxBusqPerfil.getValue());
 		
 		tblUsr.getItems().removeAll(tblUsr.getItems());
 		tblUsr.setItems(FXCollections.observableList(lstUsrs));

@@ -6,8 +6,8 @@ import mx.com.bitmaking.application.dto.SucursalDTO;
 import mx.com.bitmaking.application.entity.Store_sucursal;
 
 public interface IStoreSucursalService {
-	public List<SucursalDTO> getSuc(String sQry);
-	public void save(SucursalDTO obj);
-	public void update(SucursalDTO obj);
-	public void delete(SucursalDTO obj);
+	public List<Store_sucursal> getSuc(String sucursal,String prefijo,String razonSocial);
+	public void save(Store_sucursal obj);
+	public void update(Store_sucursal obj);
+	public void delete(Store_sucursal obj);
 }
