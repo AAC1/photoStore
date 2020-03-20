@@ -38,8 +38,8 @@ public class StoreUsuarioDAO extends AbstractStoreUsuarioDAO{
 	}
 
 	@Transactional(value="transactionManager")
-	public void deleteUsr(Store_usuario objUsr) {
-		super.deleteUsr(objUsr);
+	public void deleteUsr(int idUsr) {
+		super.deleteUsr(idUsr);
 	}
 	
 	

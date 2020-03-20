@@ -263,3 +263,5 @@ INSERT INTO `macrofoto`.`store_menu` (`id_padre`, `menu_desc`, `uri`, `fx_id`,`e
 
 insert into store_menu_perfil(id_perfil,id_menu)
 VALUES(2,6),(2,7);
+
+alter table store_usuario modify telefono VARCHAR(10);

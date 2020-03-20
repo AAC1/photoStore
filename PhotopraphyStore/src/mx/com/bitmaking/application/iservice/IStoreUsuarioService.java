@@ -10,6 +10,6 @@ public interface IStoreUsuarioService {
 												String sucursal,String perfil);
 	
 	public void saveUser(Store_usuario objUsr);
-	public void deleteUser(Store_usuario objUsr);
+	public void deleteUser(int idUsr);
 	
 }

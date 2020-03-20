@@ -48,9 +48,9 @@ public abstract class AbstractStoreUsuarioDAO implements IStoreUsuarioDAO {
 	}
 
 	@Override
-	public void deleteUsr(Store_usuario objUsr) {
+	public void deleteUsr(int idUsr) {
 		Session session =getSessionFactory().getCurrentSession();
-		Store_usuario usr =session.get(Store_usuario.class, objUsr.getId_usr());
+		Store_usuario usr =session.get(Store_usuario.class, idUsr);
 		getSessionFactory().getCurrentSession().delete(usr);
 	}
 	

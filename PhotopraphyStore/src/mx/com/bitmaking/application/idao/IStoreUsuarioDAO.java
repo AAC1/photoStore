@@ -9,6 +9,6 @@ public interface IStoreUsuarioDAO {
 	
 	public List<UsuariosDTO> getUsr(String qry);
 	public void saveUsr(Store_usuario objUsr);
-	public void deleteUsr(Store_usuario objUsr);
+	public void deleteUsr(int idUsr);
 
 }

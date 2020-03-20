@@ -42,8 +42,8 @@ public abstract class AbstractStoreUsuarioService implements IStoreUsuarioServic
 	}
 
 	@Override
-	public void deleteUser(Store_usuario objUsr) {
-		getStoreUsuarioDAO().deleteUsr(objUsr);
+	public void deleteUser(int idUsr) {
+		getStoreUsuarioDAO().deleteUsr(idUsr);
 	}
 	
 	public abstract IStoreUsuarioDAO getStoreUsuarioDAO();

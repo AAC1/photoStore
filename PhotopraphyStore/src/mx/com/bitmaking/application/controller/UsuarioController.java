@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.jfoenix.controls.JFXButton;
@@ -14,11 +15,18 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 
 import javafx.collections.FXCollections;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import mx.com.bitmaking.application.dto.SucursalDTO;
 import mx.com.bitmaking.application.dto.UsuariosDTO;
 import mx.com.bitmaking.application.entity.Store_perfil;
@@ -28,6 +36,7 @@ import mx.com.bitmaking.application.entity.Store_usuario;
 import mx.com.bitmaking.application.iservice.IStorePerfilService;
 import mx.com.bitmaking.application.iservice.IStoreSucursalService;
 import mx.com.bitmaking.application.iservice.IStoreUsuarioService;
+import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
@@ -73,6 +82,9 @@ public class UsuarioController {
 	@FXML private JFXComboBox<String> cbxBusqPerfil;
 	
 	@Autowired
+	private ApplicationContext context ;
+	
+	@Autowired
 	@Qualifier("StoreUsuarioService")
 	IStoreUsuarioService storeUsuarioService;
 
@@ -97,7 +109,7 @@ public class UsuarioController {
 	@Autowired
 	@Qualifier("remoteStoreSucursalService")
 	IStoreSucursalService remoteSucursalService;
-	
+	private Stage stageBusqProd = null;
 	private List<String> lstProfile = null;
 	private List<String>lstSucursal = null;
 	List<Store_perfil> lstPerfil = null;
@@ -261,6 +273,11 @@ public class UsuarioController {
 	}
 	@FXML
 	private void editUsr() {
+		UsuariosDTO objUsr = tblUsr.getSelectionModel().getSelectedItem();
+		if(objUsr==null){
+			GeneralMethods.modalMsg("INFO", "", "Seleccione un usuario");
+			return;
+		}
 		btnAgregar.setDisable(true);
 		btnEditar.setDisable(true);
 		btnEliminar.setDisable(true);
@@ -276,7 +293,42 @@ public class UsuarioController {
 	@FXML
 	private void deleteUsr() {
 		tipoForm="D";
+		UsuariosDTO objUsr = tblUsr.getSelectionModel().getSelectedItem();
+		if(objUsr==null){
+			GeneralMethods.modalMsg("INFO", "", "Seleccione un usuario");
+			return;
+		}
+		ModalConfirmController ctrl = openModalConfirm();
+		if(ctrl==null)return;
+		
+		ctrl.getBtnCancelar().addEventHandler(MouseEvent.MOUSE_CLICKED, closeWindow());
+		ctrl.getLblMsg().setText("¿Seguro que desea cancelar el usuario:"+objUsr.getLogin()+" ?");
+		ctrl.getBtnConfirm().addEventHandler(MouseEvent.MOUSE_CLICKED,acceptDeleteUsr(objUsr));
+		
 	}
+	private EventHandler<MouseEvent> acceptDeleteUsr(UsuariosDTO objUsr) {
+		
+		return new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				//System.out.println(event.getSource());
+				try {
+					if(Flags.remote_valid)
+						remoteStoreUsuarioService.deleteUser(objUsr.getId_usr());
+					else 
+						storeUsuarioService.deleteUser(objUsr.getId_usr());
+					if(stageBusqProd!=null) stageBusqProd.close();
+					disableInputs();
+					clearInputs();
+					buscaUsuario();
+					
+		        } catch(Exception ex) {
+					ex.printStackTrace();
+				}
+			}};
+	}
+
 	@FXML
 	public void cancelEditUsr() {
 		btnAgregar.setDisable(false);
@@ -319,7 +371,7 @@ public class UsuarioController {
 			return;
 		}
 		
-		btnAccept.setDisable(false);
+		btnAgregar.setDisable(false);
 		btnEditar.setDisable(false);
 		btnEliminar.setDisable(false);
 		btnCancel.setVisible(false);
@@ -345,7 +397,7 @@ public class UsuarioController {
 		//	usuario.setPasswd(objUsr.getPasswd());
 		}
 		
-		 if(Flags.remote_valid)
+		if(Flags.remote_valid)
 			remoteStoreUsuarioService.saveUser(usuario);
 		else 
 			storeUsuarioService.saveUser(usuario);
@@ -390,5 +442,42 @@ public class UsuarioController {
 		cbxStts.setDisable(false);
 		cbxSucursal.setDisable(false);
 		cbxBloqueado.setDisable(false);
+	}
+	private ModalConfirmController openModalConfirm(){
+		ModalConfirmController ctrl = null;
+		try {
+			
+			//FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/com/bitmaking/application/view/TreeProduct.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/com/bitmaking/application/view/ModalConfirm.fxml"));
+			fxmlLoader.setControllerFactory(context::getBean);
+			Parent sceneEdit= fxmlLoader.load();
+			Scene scene = new Scene(sceneEdit,3013,165);
+			scene.getStylesheets().add(getClass().getResource("/mx/com/bitmaking/application/assets/css/GestionProductos.css").toExternalForm());
+			stageBusqProd = new Stage();
+			stageBusqProd.setScene(scene);
+			stageBusqProd.setTitle("Confirmación");
+			stageBusqProd.setMinHeight(200.0);
+			stageBusqProd.setMinWidth(350.0);
+			stageBusqProd.setMaxHeight(350.0);
+			stageBusqProd.setMaxWidth(200.0);
+			stageBusqProd.initModality(Modality.APPLICATION_MODAL); 
+			stageBusqProd.show();
+			ctrl = fxmlLoader.getController(); //Obtiene controller de la nueva ventana
+			
+	    } catch(Exception ex) {
+			ex.printStackTrace();
+			GeneralMethods.modalMsg("ERROR", "", ex.getMessage());
+		}
+		return ctrl;
+	}
+	private EventHandler<MouseEvent> closeWindow() {
+		return new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				if(stageBusqProd!=null) stageBusqProd.close();
+			}
+		};
+
+
 	}
 }

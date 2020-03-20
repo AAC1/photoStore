@@ -27,8 +27,8 @@ public class StoreUsuarioService extends AbstractStoreUsuarioService{
 		super.saveUser(objUsr);
 	}
 
-	public void deleteUser(Store_usuario objUsr) {
-		super.deleteUser(objUsr);
+	public void deleteUser(int idUsr) {
+		super.deleteUser(idUsr);
 	}
 
 	@Override
