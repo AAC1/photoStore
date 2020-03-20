@@ -14,7 +14,7 @@ import mx.com.bitmaking.application.dto.UserSession;
 import mx.com.bitmaking.application.dto.UserSessionDTO;
 import mx.com.bitmaking.application.idao.ILoginDAO;
 import mx.com.bitmaking.application.idao.IMenuPerfilDAO;
-import mx.com.bitmaking.application.service.ILoginService;
+import mx.com.bitmaking.application.iservice.ILoginService;
 import mx.com.bitmaking.application.util.Constantes;
 
 

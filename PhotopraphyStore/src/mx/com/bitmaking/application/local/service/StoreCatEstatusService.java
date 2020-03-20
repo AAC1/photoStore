@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import mx.com.bitmaking.application.abstractservice.AbstractStoreCatEstatusService;
 import mx.com.bitmaking.application.entity.Store_cat_estatus;
 import mx.com.bitmaking.application.idao.ICatEstatusDAO;
-import mx.com.bitmaking.application.service.IStoreCatEstatusService;
+import mx.com.bitmaking.application.iservice.IStoreCatEstatusService;
 
 @Service("StoreCatEstatusService")
 public class StoreCatEstatusService extends AbstractStoreCatEstatusService{//implements IStoreCatEstatusService {

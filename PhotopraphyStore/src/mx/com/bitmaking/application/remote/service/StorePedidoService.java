@@ -24,7 +24,7 @@ import mx.com.bitmaking.application.dto.PedidosReporteDTO;
 import mx.com.bitmaking.application.entity.Store_pedido;
 import mx.com.bitmaking.application.idao.IClteProdCostDAO;
 import mx.com.bitmaking.application.idao.IPedidoDAO;
-import mx.com.bitmaking.application.service.IStorePedidoService;
+import mx.com.bitmaking.application.iservice.IStorePedidoService;
 import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.GeneralMethods;
 import net.sf.jasperreports.engine.JRException;

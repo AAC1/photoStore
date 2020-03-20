@@ -13,7 +13,7 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import mx.com.bitmaking.application.entity.Store_cat_estatus;
-import mx.com.bitmaking.application.service.IStoreCatEstatusService;
+import mx.com.bitmaking.application.iservice.IStoreCatEstatusService;
 import mx.com.bitmaking.application.util.Flags;
 @Component
 public class EditPedidoController {

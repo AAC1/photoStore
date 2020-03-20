@@ -17,7 +17,7 @@ import mx.com.bitmaking.application.abstractservice.AbstractStoreProdPedidoServi
 import mx.com.bitmaking.application.entity.Store_prod_pedido;
 import mx.com.bitmaking.application.idao.IPedidoDAO;
 import mx.com.bitmaking.application.idao.IStoreProdPedidoDAO;
-import mx.com.bitmaking.application.service.IStoreProdPedidoService;
+import mx.com.bitmaking.application.iservice.IStoreProdPedidoService;
 
 @Service("StoreProdPedidoService")
 public class StoreProdPedidoService extends AbstractStoreProdPedidoService{//implements IStoreProdPedidoService{

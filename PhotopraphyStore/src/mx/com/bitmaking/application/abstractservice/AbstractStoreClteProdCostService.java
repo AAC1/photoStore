@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
 import mx.com.bitmaking.application.idao.IStoreClteProdCostDAO;
-import mx.com.bitmaking.application.service.IStoreClteProdCostService;
+import mx.com.bitmaking.application.iservice.IStoreClteProdCostService;
 
 //@Service("StoreClteProdCostService")
 //(value="transactionManager")

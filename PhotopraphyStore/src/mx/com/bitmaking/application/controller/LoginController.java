@@ -24,7 +24,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.dto.ResponseDTO;
 import mx.com.bitmaking.application.dto.UserSessionDTO;
-import mx.com.bitmaking.application.service.ILoginService;
+import mx.com.bitmaking.application.iservice.ILoginService;
 import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;

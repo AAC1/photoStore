@@ -27,7 +27,7 @@ import mx.com.bitmaking.application.idao.IClteProdCostDAO;
 import mx.com.bitmaking.application.idao.IPedidoDAO;
 import mx.com.bitmaking.application.idao.IStoreProdPedidoDAO;
 import mx.com.bitmaking.application.idao.IUpdateInfoDAO;
-import mx.com.bitmaking.application.service.IStorePedidoService;
+import mx.com.bitmaking.application.iservice.IStorePedidoService;
 import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;

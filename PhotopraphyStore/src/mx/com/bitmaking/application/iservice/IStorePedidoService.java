@@ -1,4 +1,4 @@
-package mx.com.bitmaking.application.service;
+package mx.com.bitmaking.application.iservice;
 
 import java.io.FileInputStream;
 import java.util.List;
