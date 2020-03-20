@@ -38,14 +38,12 @@ public abstract class AbstractStoreUsuarioService implements IStoreUsuarioServic
 
 	@Override
 	public void saveUser(Store_usuario objUsr) {
-		// TODO Auto-generated method stub
-
+		 getStoreUsuarioDAO().saveUsr(objUsr);
 	}
 
 	@Override
 	public void deleteUser(Store_usuario objUsr) {
-		// TODO Auto-generated method stub
-
+		getStoreUsuarioDAO().deleteUsr(objUsr);
 	}
 	
 	public abstract IStoreUsuarioDAO getStoreUsuarioDAO();

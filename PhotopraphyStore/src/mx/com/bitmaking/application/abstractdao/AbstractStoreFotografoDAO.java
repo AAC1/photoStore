@@ -40,7 +40,7 @@ public abstract class AbstractStoreFotografoDAO implements IStoreFotografoDAO{
 		
 		}catch(Exception e) {
 			e.printStackTrace();
-		
+			
 		}
 		
 		return results;

@@ -24,6 +24,7 @@ import mx.com.bitmaking.application.dto.UsuariosDTO;
 import mx.com.bitmaking.application.entity.Store_perfil;
 import mx.com.bitmaking.application.entity.Store_prod_pedido;
 import mx.com.bitmaking.application.entity.Store_sucursal;
+import mx.com.bitmaking.application.entity.Store_usuario;
 import mx.com.bitmaking.application.iservice.IStorePerfilService;
 import mx.com.bitmaking.application.iservice.IStoreSucursalService;
 import mx.com.bitmaking.application.iservice.IStoreUsuarioService;
@@ -99,7 +100,9 @@ public class UsuarioController {
 	
 	private List<String> lstProfile = null;
 	private List<String>lstSucursal = null;
+	List<Store_perfil> lstPerfil = null;
 	List<Store_sucursal> lstSuc = null;
+	private String tipoForm = "";
 	public JFXButton getBtnSalir() {
 		return btnSalir;
 	}
@@ -131,9 +134,10 @@ public class UsuarioController {
 		cbxBloqueado.getItems().removeAll(cbxBloqueado.getItems());
 		cbxBloqueado.setItems(FXCollections.observableList(lstBloq));
 		
-		List<Store_perfil> lst = (Flags.remote_valid)?remoteStorePerfilService.getAllProfiles():storePerfilService.getAllProfiles();
+		lstPerfil = (Flags.remote_valid)?remoteStorePerfilService.getAllProfiles():storePerfilService.getAllProfiles();
 		lstProfile = new ArrayList<>();
-		for(Store_perfil el:lst) {
+		if(lstPerfil ==null)lstPerfil=new ArrayList<>();
+		for(Store_perfil el:lstPerfil) {
 			lstProfile.add(el.getPerfil());
 		}
 
@@ -197,6 +201,7 @@ public class UsuarioController {
 		inputBusqSucursal.setText("");
 		cbxBusqEstatus.setValue("");
 		cbxBusqPerfil.setValue("");
+		clearInputs();
 	}
 	@FXML
 	private void buscaUsuario() {
@@ -239,6 +244,7 @@ public class UsuarioController {
 		btnCancel.setVisible(true);
 		btnAccept.setVisible(true);
 		tblUsr.setDisable(true);
+		tipoForm="A";
 		
 		inputLogin.setText("");
 		inputPasswd.setText("");
@@ -261,6 +267,7 @@ public class UsuarioController {
 		btnCancel.setVisible(true);
 		btnAccept.setVisible(true);
 		tblUsr.setDisable(true);
+		tipoForm ="M";
 		enableInputs();
 		inputPasswd.setDisable(true);
 		
@@ -268,7 +275,7 @@ public class UsuarioController {
 	
 	@FXML
 	private void deleteUsr() {
-		
+		tipoForm="D";
 	}
 	@FXML
 	public void cancelEditUsr() {
@@ -278,15 +285,73 @@ public class UsuarioController {
 		btnCancel.setVisible(false);
 		btnAccept.setVisible(false);
 		tblUsr.setDisable(false);
+		tipoForm="";
 		disableInputs();
 	}
 	@FXML 
 	private void acceptUsr() {
+		
+		if(!"M".equals(tipoForm) && !"A".equals(tipoForm)) {
+			GeneralMethods.modalMsg("ERROR", "", "No se pudo identificar la accion a ejecutar: "+tipoForm);
+			return;
+		}
+		
+		if(inputLogin.getText()==null || "".equals(inputLogin.getText().trim())) {
+			GeneralMethods.modalMsg("ERROR", "", "Ingrese un usuario para la cuenta del empleado");
+			return;
+		}
+		if(inputPasswd.getText()==null || "".equals(inputPasswd.getText().trim())) {
+			GeneralMethods.modalMsg("ERROR", "", "Ingrese una contraseña para la cuenta del empleado");
+			return;
+		}
+		if(inputUsr.getText()==null || "".equals(inputUsr.getText().trim())) {
+			GeneralMethods.modalMsg("ERROR", "", "Ingrese el nombre del empleado");
+			return;
+		}
+		int rowPerfil=cbxPerfil.getSelectionModel().getSelectedIndex();
+		if(rowPerfil<0) {
+			GeneralMethods.modalMsg("ERROR", "", "Seleccione un perfil para el usuario");
+			return;
+		}
+		int rowSuc = cbxSucursal.getSelectionModel().getSelectedIndex();
+		if(rowSuc<0) {
+			GeneralMethods.modalMsg("ERROR", "", "Seleccione una sucursal para el usuario");
+			return;
+		}
+		
 		btnAccept.setDisable(false);
 		btnEditar.setDisable(false);
 		btnEliminar.setDisable(false);
 		btnCancel.setVisible(false);
 		btnAccept.setVisible(false);
+		tblUsr.setDisable(false);
+		
+		Store_usuario usuario = new Store_usuario();
+		usuario.setActivo("ACTIVO".equals(cbxStts.getValue())?1:0);
+		usuario.setBloqueado("BLOQUEADO".equals(cbxBloqueado.getValue())?1:0);
+		usuario.setCorreo(inputEmail.getText());
+		usuario.setDireccion(inputDir.getText());
+		usuario.setId_perfil(lstPerfil.get(rowPerfil).getId_perfil());
+		usuario.setId_sucursal(lstSuc.get(rowSuc).getId_sucursal());
+		usuario.setIntentos(0);
+		usuario.setLogin(inputLogin.getText().trim());
+		usuario.setPasswd(inputPasswd.getText());
+		usuario.setTelefono(inputTelefono.getText());
+		usuario.setNombre(inputUsr.getText());
+		if("M".equals(tipoForm)) {
+			UsuariosDTO objUsr = tblUsr.getSelectionModel().getSelectedItem();
+			
+			usuario.setId_usr(objUsr.getId_usr());
+		//	usuario.setPasswd(objUsr.getPasswd());
+		}
+		
+		 if(Flags.remote_valid)
+			remoteStoreUsuarioService.saveUser(usuario);
+		else 
+			storeUsuarioService.saveUser(usuario);
+		
+		disableInputs();
+		clearInputs();
 		buscaUsuario();
 	}
 	
@@ -302,7 +367,18 @@ public class UsuarioController {
 		cbxSucursal.setDisable(true);
 		cbxBloqueado.setDisable(true);
 	}
-
+	private void clearInputs() {
+		inputLogin.setText("");
+		inputPasswd.setText("");
+		inputUsr.setText("");
+		inputEmail.setText("");
+		inputTelefono.setText("");
+		inputDir.setText("");
+		cbxPerfil.setValue("");
+		cbxStts.setValue("");
+		cbxSucursal.setValue("");
+		cbxBloqueado.setValue("");
+	}
 	private void enableInputs() {
 		inputLogin.setDisable(false);
 		inputPasswd.setDisable(false);

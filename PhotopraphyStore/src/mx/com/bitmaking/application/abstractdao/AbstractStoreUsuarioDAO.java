@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.IntegerType;
@@ -43,12 +44,14 @@ public abstract class AbstractStoreUsuarioDAO implements IStoreUsuarioDAO {
 
 	@Override
 	public void saveUsr(Store_usuario objUsr) {
-		
+		getSessionFactory().getCurrentSession().saveOrUpdate(objUsr);
 	}
 
 	@Override
 	public void deleteUsr(Store_usuario objUsr) {
-		
+		Session session =getSessionFactory().getCurrentSession();
+		Store_usuario usr =session.get(Store_usuario.class, objUsr.getId_usr());
+		getSessionFactory().getCurrentSession().delete(usr);
 	}
 	
 	public abstract SessionFactory getSessionFactory();
