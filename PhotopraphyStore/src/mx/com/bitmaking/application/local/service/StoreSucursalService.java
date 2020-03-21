@@ -39,7 +39,7 @@ public class StoreSucursalService extends AbstractStoreSucursalService{
 		super.update(obj);
 	}
 
-	public void delete(SucursalDTO obj) {
-		super.delete(obj);
+	public void delete(int idSuc) {
+		super.delete(idSuc);
 	}
 }

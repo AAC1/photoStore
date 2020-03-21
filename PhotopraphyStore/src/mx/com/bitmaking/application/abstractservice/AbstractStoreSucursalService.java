@@ -39,9 +39,9 @@ public abstract class AbstractStoreSucursalService implements IStoreSucursalServ
 	}
 
 	@Override
-	public void delete(Store_sucursal obj) {
+	public void delete(int idSuc) {
 		
-		getStoreSucursalDAO().delete(obj);
+		getStoreSucursalDAO().delete(idSuc);
 		
 	}
 

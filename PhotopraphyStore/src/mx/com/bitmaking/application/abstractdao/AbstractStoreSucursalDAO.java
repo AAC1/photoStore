@@ -39,8 +39,8 @@ public abstract class AbstractStoreSucursalDAO implements IStoreSucursalDAO {
 	}
 
 	@Override
-	public void delete(Store_sucursal obj) {
-		Store_sucursal suc = getSessionFactory().getCurrentSession().get(Store_sucursal.class, obj.getId_sucursal());
+	public void delete(int idSuc) {
+		Store_sucursal suc = getSessionFactory().getCurrentSession().get(Store_sucursal.class, idSuc);
 		getSessionFactory().getCurrentSession().delete(suc);
 		
 	}

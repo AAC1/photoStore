@@ -44,8 +44,8 @@ public class StoreSucursalDAO extends AbstractStoreSucursalDAO{
 		
 	}
 
-	public void delete(Store_sucursal obj) {
-		super.delete(obj);
+	public void delete(int idSuc) {
+		super.delete(idSuc);
 	}
 
 }

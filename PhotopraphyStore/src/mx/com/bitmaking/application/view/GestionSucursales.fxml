@@ -11,9 +11,9 @@
    <children>
       <AnchorPane prefHeight="245.0" prefWidth="692.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <JFXButton fx:id="btnAgregar" layoutX="299.0" layoutY="17.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #037AB6; -fx-text-fill: white;" styleClass="btn-gral" text="✚ Agregar" AnchorPane.rightAnchor="273.0" AnchorPane.topAnchor="17.0" />
-            <JFXButton fx:id="btnEditar" layoutX="427.0" layoutY="17.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #C37B00; -fx-text-fill: white;" styleClass="btn-gral" text="▬ Modificar" AnchorPane.rightAnchor="145.0" AnchorPane.topAnchor="17.0" />
-            <JFXButton fx:id="btnEliminar" layoutX="556.0" layoutY="17.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #A12D04 #A12D04; -fx-text-fill: white;" styleClass="btn-gral" text="✖ Eliminar" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="17.0" />
+            <JFXButton fx:id="btnAgregar" layoutX="299.0" layoutY="17.0" onMouseClicked="#addSuc" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #037AB6; -fx-text-fill: white;" styleClass="btn-gral" text="✚ Agregar" AnchorPane.rightAnchor="273.0" AnchorPane.topAnchor="17.0" />
+            <JFXButton fx:id="btnEditar" layoutX="427.0" layoutY="17.0" onMouseClicked="#editSuc" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #C37B00; -fx-text-fill: white;" styleClass="btn-gral" text="▬ Modificar" AnchorPane.rightAnchor="145.0" AnchorPane.topAnchor="17.0" />
+            <JFXButton fx:id="btnEliminar" layoutX="556.0" layoutY="17.0" onMouseClicked="#deleteSuc" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #A12D04 #A12D04; -fx-text-fill: white;" styleClass="btn-gral" text="✖ Eliminar" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="17.0" />
             <TableView fx:id="tblSucursal" layoutX="96.0" layoutY="57.0" prefHeight="174.0" prefWidth="650.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="57.0">
               <columns>
                 <TableColumn fx:id="colSucursal" prefWidth="75.0" text="Sucursal" />
