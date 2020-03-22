@@ -25,6 +25,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.dto.UsuariosDTO;
 import mx.com.bitmaking.application.entity.Store_sucursal;
+import mx.com.bitmaking.application.entity.Store_usuario;
 import mx.com.bitmaking.application.iservice.IStoreSucursalService;
 import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
@@ -119,6 +120,18 @@ public class SucursalController {
 	}
 	
 	@FXML
+	private void selectSuc() {
+		Store_sucursal objSuc = tblSucursal.getSelectionModel().getSelectedItem();
+		if(objSuc ==null)return;
+		
+		inputSucursal.setText(objSuc.getSucursal());
+		inputRazonSocial.setText(objSuc.getRazon_social());
+		inputTelefono.setText(objSuc.getTelefono());
+		inputDir.setText(objSuc.getDireccion());
+		inputPrefijo.setText(objSuc.getPrefijo());		
+	}
+	
+	@FXML
 	private void addSuc() {
 		btnAgregar.setDisable(true);
 		btnEditar.setDisable(true);
@@ -170,6 +183,70 @@ public class SucursalController {
 		ctrl.getBtnConfirm().addEventHandler(MouseEvent.MOUSE_CLICKED,acceptDeleteSuc(objSuc));
 		
 	}
+	@FXML
+	public void cancelEditSuc() {
+		btnAgregar.setDisable(false);
+		btnEditar.setDisable(false);
+		btnEliminar.setDisable(false);
+		btnCancel.setVisible(false);
+		btnAccept.setVisible(false);
+		tblSucursal.setDisable(false);
+		tipoForm="";
+		disableInputs();
+	}
+	@FXML 
+	private void acceptSuc() {
+		
+		if(!"M".equals(tipoForm) && !"A".equals(tipoForm)) {
+			GeneralMethods.modalMsg("ERROR", "", "No se pudo identificar la accion a ejecutar: "+tipoForm);
+			return;
+		}
+		
+		if(inputSucursal.getText()==null || "".equals(inputSucursal.getText().trim())) {
+			GeneralMethods.modalMsg("ERROR", "", "Ingrese el nombre de la sucursal");
+			return;
+		}
+		if(inputRazonSocial.getText()==null || "".equals(inputRazonSocial.getText().trim())) {
+			GeneralMethods.modalMsg("ERROR", "", "Ingrese una raz\u00F3n social");
+			return;
+		}
+		if(inputPrefijo.getText()==null || "".equals(inputPrefijo.getText().trim())) {
+			GeneralMethods.modalMsg("ERROR", "", "Ingrese un prefijo para la sucursal");
+			return;
+		}
+		
+		
+		btnAgregar.setDisable(false);
+		btnEditar.setDisable(false);
+		btnEliminar.setDisable(false);
+		btnCancel.setVisible(false);
+		btnAccept.setVisible(false);
+		tblSucursal.setDisable(false);
+		
+		Store_sucursal sucursal = new Store_sucursal();
+		sucursal.setDireccion(inputDir.getText());
+		sucursal.setSucursal(inputSucursal.getText().trim());
+		sucursal.setRazon_social(inputRazonSocial.getText());
+		sucursal.setTelefono(inputTelefono.getText());
+		sucursal.setPrefijo(inputPrefijo.getText());
+		if("M".equals(tipoForm)){
+			Store_sucursal objSuc = tblSucursal.getSelectionModel().getSelectedItem();
+			if(objSuc ==null){
+				return;
+			}
+			sucursal.setId_sucursal(objSuc.getId_sucursal());
+		}
+		if(Flags.remote_valid)
+			remoteSucursalService.save(sucursal);
+		else 
+			sucursalService.save(sucursal);
+		
+		disableInputs();
+		clearInputs();
+		buscaSucursal();
+	}
+	
+	
 	private EventHandler<MouseEvent> acceptDeleteSuc(Store_sucursal objSuc) {
 		
 		return new EventHandler<MouseEvent>() {

@@ -38,7 +38,7 @@ public class StoreSucursalService extends AbstractStoreSucursalService{
 	public void update(Store_sucursal obj) {
 		super.update(obj);
 	}
-
+	@Transactional(value="transactionManager")
 	public void delete(int idSuc) {
 		super.delete(idSuc);
 	}

@@ -43,7 +43,7 @@ public class StoreSucursalDAO extends AbstractStoreSucursalDAO{
 		super.update(obj);
 		
 	}
-
+	@Transactional(value="remoteTransactionManager")
 	public void delete(int idSuc) {
 		super.delete(idSuc);
 	}

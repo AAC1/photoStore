@@ -14,7 +14,7 @@
             <JFXButton fx:id="btnAgregar" layoutX="299.0" layoutY="17.0" onMouseClicked="#addSuc" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #037AB6; -fx-text-fill: white;" styleClass="btn-gral" text="✚ Agregar" AnchorPane.rightAnchor="273.0" AnchorPane.topAnchor="17.0" />
             <JFXButton fx:id="btnEditar" layoutX="427.0" layoutY="17.0" onMouseClicked="#editSuc" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #C37B00; -fx-text-fill: white;" styleClass="btn-gral" text="▬ Modificar" AnchorPane.rightAnchor="145.0" AnchorPane.topAnchor="17.0" />
             <JFXButton fx:id="btnEliminar" layoutX="556.0" layoutY="17.0" onMouseClicked="#deleteSuc" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #A12D04 #A12D04; -fx-text-fill: white;" styleClass="btn-gral" text="✖ Eliminar" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="17.0" />
-            <TableView fx:id="tblSucursal" layoutX="96.0" layoutY="57.0" prefHeight="174.0" prefWidth="650.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="57.0">
+            <TableView fx:id="tblSucursal" layoutX="96.0" layoutY="57.0" onMouseClicked="#selectSuc" prefHeight="174.0" prefWidth="650.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="57.0">
               <columns>
                 <TableColumn fx:id="colSucursal" prefWidth="75.0" text="Sucursal" />
                 <TableColumn fx:id="colRazonSocial" prefWidth="75.0" text="Razón Social" />
@@ -38,8 +38,8 @@
             <JFXTextField fx:id="inputTelefono" layoutX="26.0" layoutY="86.0" prefHeight="25.0" prefWidth="200.0" />
             <Label layoutX="246.0" layoutY="70.0" text="Dirección" AnchorPane.leftAnchor="246.0" />
             <JFXTextField fx:id="inputDir" layoutX="246.0" layoutY="86.0" prefHeight="25.0" prefWidth="423.0" AnchorPane.leftAnchor="246.0" AnchorPane.rightAnchor="50.0" />
-            <JFXButton fx:id="btnAccept" layoutX="296.0" layoutY="239.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #04A138 #04A138;" text="✔ Aceptar" textFill="WHITE" visible="false" AnchorPane.bottomAnchor="22.0" AnchorPane.rightAnchor="273.0" />
-            <JFXButton fx:id="btnCancel" layoutX="426.0" layoutY="239.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #A12D04 #A12D04;" text="✘ Cancelar" textFill="WHITE" visible="false" AnchorPane.bottomAnchor="22.0" AnchorPane.rightAnchor="145.0" />
+            <JFXButton fx:id="btnAccept" layoutX="296.0" layoutY="239.0" onMouseClicked="#acceptSuc" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #04A138 #04A138;" text="✔ Aceptar" textFill="WHITE" visible="false" AnchorPane.bottomAnchor="22.0" AnchorPane.rightAnchor="273.0" />
+            <JFXButton fx:id="btnCancel" layoutX="426.0" layoutY="239.0" onMouseClicked="#cancelEditSuc" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #A12D04 #A12D04;" text="✘ Cancelar" textFill="WHITE" visible="false" AnchorPane.bottomAnchor="22.0" AnchorPane.rightAnchor="145.0" />
             <JFXButton fx:id="btnSalir" layoutX="558.0" layoutY="239.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #505050; -fx-text-fill: white;" styleClass="btn-gral" text=" ◄ Salir" AnchorPane.bottomAnchor="22.0" AnchorPane.rightAnchor="16.0" />
          </children>
       </AnchorPane>
