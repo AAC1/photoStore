@@ -1,6 +1,5 @@
 package mx.com.bitmaking.application.controller;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,16 +26,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import mx.com.bitmaking.application.dto.SucursalDTO;
 import mx.com.bitmaking.application.dto.UsuariosDTO;
 import mx.com.bitmaking.application.entity.Store_perfil;
-import mx.com.bitmaking.application.entity.Store_prod_pedido;
 import mx.com.bitmaking.application.entity.Store_sucursal;
 import mx.com.bitmaking.application.entity.Store_usuario;
 import mx.com.bitmaking.application.iservice.IStorePerfilService;
 import mx.com.bitmaking.application.iservice.IStoreSucursalService;
 import mx.com.bitmaking.application.iservice.IStoreUsuarioService;
-import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
 

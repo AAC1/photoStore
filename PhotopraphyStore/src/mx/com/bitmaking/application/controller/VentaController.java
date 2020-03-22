@@ -1,6 +1,5 @@
 package mx.com.bitmaking.application.controller;
 
-import java.awt.event.KeyListener;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,8 +31,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -717,20 +714,6 @@ public class VentaController  {
 		tbColCosto.prefWidthProperty().bind(tbProductos.widthProperty().multiply(0.2));
 		
 	}
-	private EventHandler<MouseEvent> closeVta() {
-		return new EventHandler<MouseEvent>() {
 
-			@Override
-			public void handle(MouseEvent event) {
-				//System.out.println(event.getSource());
-				try {
-					
-			       
-		        } catch(Exception ex) {
-					ex.printStackTrace();
-				}
-			}};
-		
-	}
 
 }

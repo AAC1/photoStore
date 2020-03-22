@@ -1,7 +1,5 @@
 package mx.com.bitmaking.application.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -15,15 +13,6 @@ import org.springframework.stereotype.Component;
 import com.jfoenix.controls.JFXButton;
 
 import com.jfoenix.controls.JFXTextField;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.pdf.Barcode128;
-import com.itextpdf.text.pdf.BarcodeEAN;
-import com.itextpdf.text.pdf.BarcodeQRCode;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfWriter;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -32,12 +21,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.iservice.IStoreCatProdService;
 import mx.com.bitmaking.application.iservice.IStoreClteProdCostService;
 import mx.com.bitmaking.application.iservice.IStoreFotografoService;
-import mx.com.bitmaking.application.util.Constantes;
 
 @Component
 public class SelectProductoVtaController {

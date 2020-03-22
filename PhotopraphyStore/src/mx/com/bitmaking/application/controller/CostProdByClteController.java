@@ -24,13 +24,11 @@ import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
-import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
 import mx.com.bitmaking.application.entity.Store_fotografo;
 import mx.com.bitmaking.application.iservice.IStoreCatProdService;
 import mx.com.bitmaking.application.iservice.IStoreClteProdCostService;
 import mx.com.bitmaking.application.iservice.IStoreFotografoService;
-import mx.com.bitmaking.application.local.service.StoreClteProdCostService;
 import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
