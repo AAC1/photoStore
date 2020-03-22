@@ -1,5 +1,6 @@
 package mx.com.bitmaking.application.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,11 +17,16 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import mx.com.bitmaking.application.dto.CostProductsDTO;
+import mx.com.bitmaking.application.dto.UsuariosDTO;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.idao.ICatProdDAO;
 import mx.com.bitmaking.application.iservice.IStoreCatProdService;
@@ -46,6 +52,14 @@ public class EditaProdController {
 	@FXML private JFXButton btnAddCat;
 	@FXML private JFXButton btnRemoveCat;
 	
+	@FXML private TableView<CostProductsDTO> tblProds;
+	@FXML private JFXButton btnAddProd;
+	@FXML private JFXButton btnRemoveProd;
+	
+	@FXML private TableColumn<CostProductsDTO, String>colProd;
+	@FXML private TableColumn<CostProductsDTO, String>colBarcode;
+	@FXML private TableColumn<CostProductsDTO, BigDecimal>colCosto;
+	
 	@Autowired
 	@Qualifier("StoreCatProdService")
 	IStoreCatProdService storeCatProdService;
@@ -59,6 +73,19 @@ public class EditaProdController {
 	JFXAutoCompletePopup<String> autoCompletePopup =null;
 	
 	
+	
+	/**
+	 * @return the tblProds
+	 */
+	public TableView<CostProductsDTO> getTblProds() {
+		return tblProds;
+	}
+	/**
+	 * @param tblProds the tblProds to set
+	 */
+	public void setTblProds(TableView<CostProductsDTO> tblProds) {
+		this.tblProds = tblProds;
+	}
 	public TreeView<String> getTreeCategoria() {
 		return treeCategoria;
 	}
@@ -138,6 +165,7 @@ public class EditaProdController {
 		
 		setFilterPopup();
 		fillCbxCategoria(0);//categoria incial
+		responsiveGUI();
 
 		inputCosto.textProperty().addListener(GeneralMethods.formatNumber(inputCosto));
 	}
@@ -271,6 +299,56 @@ public class EditaProdController {
 		}else {
 			fillCbxCategoria(0);
 		}
+	}
+	
+	@FXML
+	private void removeRowProd() {
+		CostProductsDTO row = tblProds.getSelectionModel().getSelectedItem();
+		if(row !=null)
+			tblProds.getItems().remove(row);
+		
+	}
+	
+	@FXML
+	private void addRowProd() {
+		if(inputProdName.getText()==null || "".equals(inputProdName.getText().trim())){
+			GeneralMethods.modalMsg("WARNING", "", "Ingrese el nombre de producto");
+			return;
+		}
+		if(inputBarcode.getText()==null || "".equals(inputBarcode.getText().trim())){
+			GeneralMethods.modalMsg("WARNING", "", "Ingrese c\u00F3digo de barras");
+			return;
+		}
+		if(inputCosto.getText()==null || "".equals(inputCosto.getText().trim())){
+			GeneralMethods.modalMsg("WARNING", "", "Asigne un valor para el producto");
+			return;
+		}
+		CostProductsDTO row = new CostProductsDTO();
+		row.setBar_code(inputBarcode.getText());
+		String costo = inputCosto.getText().replace(",", "");
+		
+		row.setCosto(new BigDecimal(costo));
+		row.setProducto(inputProdName.getText());
+		row.setEstatus(("ACTIVO".equals(cbxEstatusProd.getValue().toUpperCase())) ? "1" : "0");
+		
+		tblProds.getItems().add(row);
+		
+		inputBarcode.setText("");
+		inputCosto.setText("");
+		cbxEstatusProd.setValue("Value");
+		inputProdName.setText("");
+		
+	}
+	
+	private void responsiveGUI(){
+		/* resize de acuerdo al tamaño del Pane padre */
+		colProd.prefWidthProperty().bind(tblProds.widthProperty().multiply(0.4));
+		colBarcode.prefWidthProperty().bind(tblProds.widthProperty().multiply(0.4));
+		colCosto.prefWidthProperty().bind(tblProds.widthProperty().multiply(0.2));
+		//COLUMNAS DE PRODUCTOS DE PEDIDO
+		colProd.setCellValueFactory(new PropertyValueFactory<CostProductsDTO, String>("producto"));
+		colBarcode.setCellValueFactory(new PropertyValueFactory<CostProductsDTO, String>("bar_code"));
+		colCosto.setCellValueFactory(new PropertyValueFactory<CostProductsDTO, BigDecimal>("costo"));
 	}
 	
 	

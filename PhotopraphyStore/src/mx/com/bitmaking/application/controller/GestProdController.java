@@ -31,6 +31,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
 import mx.com.bitmaking.application.entity.Store_fotografo;
@@ -501,21 +502,12 @@ public class GestProdController {
 			@Override
 			public void handle(MouseEvent event) {
 				// System.out.println(event.getSource());
-				Store_cat_prod row = new Store_cat_prod();
-
-				row.setProducto(edtProd.getInputProdName().getText());
-				row.setEstatus(("ACTIVO".equals(edtProd.getCbxEstatusProd().getValue().toUpperCase())) ? "1" : "0");
-				row.setBarcode(edtProd.getInputBarcode().getText());
-				row.setImg_barcode(GeneralMethods.generateImgBarcode(row.getBarcode())); //Genera IMG para barcode
-				if (catProdModif == null) {
-					row.setId_padre_prod(0);
-				} else {
-					row.setId_padre_prod(catProdModif.getId_prod());
-				}
+				
 				try {
 					if ("A".equals(typeForm)) {
+						ObservableList<CostProductsDTO> rows = edtProd.getTblProds().getItems();
 						String costo = edtProd.getInputCosto().getText().replace(",", "");
-						saveOrUpdateTree(edtProd.getTreeCategoria().getRoot(),0,row,costo);
+						saveOrUpdateTree(edtProd.getTreeCategoria().getRoot(),0,rows);
 						
 					}
 					else if ("M".equals(typeForm)) {
@@ -525,6 +517,18 @@ public class GestProdController {
 									"Para modificar un producto, debes seleccionar un registro");
 							return;
 						}
+						Store_cat_prod row = new Store_cat_prod();
+						
+						if (catProdModif == null) {
+							row.setId_padre_prod(0);
+						} else {
+							row.setId_padre_prod(catProdModif.getId_prod());
+						}
+						row.setProducto(edtProd.getInputProdName().getText());
+						row.setEstatus(("ACTIVO".equals(edtProd.getCbxEstatusProd().getValue().toUpperCase())) ? "1" : "0");
+						row.setBarcode(edtProd.getInputBarcode().getText());
+						row.setImg_barcode(GeneralMethods.generateImgBarcode(row.getBarcode())); //Genera IMG para barcode
+						
 						row.setId_prod(lsRow.get(0).getId_prod());
 						// catProdService.updateRow(row);
 
@@ -542,7 +546,7 @@ public class GestProdController {
 		};
 	}
 
-	private void saveOrUpdateTree(TreeItem<String> treeItem,int id_padre_prod,Store_cat_prod rowProd,String costo) {
+	private void saveOrUpdateTree(TreeItem<String> treeItem,int id_padre_prod,ObservableList<CostProductsDTO> rowsProd) {
 		System.out.println("idpadre: "+id_padre_prod);
 		ObservableList<TreeItem<String>> children = treeItem.getChildren();
 		// TreeItem<String> item = null;
@@ -551,15 +555,20 @@ public class GestProdController {
 		String valProd = "";
 		Store_cat_prod objProd = null;
 		int newId = 0;
+		
 		if(children.size()==0) {
-			rowProd.setId_padre_prod(id_padre_prod);
+			Store_cat_prod row =null;
+			for(CostProductsDTO el: rowsProd){
+				row = new Store_cat_prod();
+				row.setProducto(el.getProducto());
+				row.setEstatus(el.getEstatus());
+				row.setBarcode(el.getBar_code());
+				row.setImg_barcode(GeneralMethods.generateImgBarcode(el.getBar_code())); //Genera IMG para barcode
+				row.setId_padre_prod(id_padre_prod);
+				idProd = catProdService.insertRow(row);
+				saveCostosByCliente(idProd,String.valueOf(el.getCosto()));
+			}
 		//	rowProd.setImg_barcode(GeneralMethods.generateImgBarcode(rowProd.getBarcode()));
-			System.out.println("byte[]:");System.out.println(rowProd.getImg_barcode());
-			
-			idProd = catProdService.insertRow(rowProd);
-
-			
-			saveCostosByCliente(idProd,costo);
 			return;
 		}
 		
@@ -595,7 +604,7 @@ public class GestProdController {
 					newId = objProd.getId_prod();
 				}
 				
-				saveOrUpdateTree(el,newId,rowProd,costo);
+				saveOrUpdateTree(el,newId,rowsProd);
 			}catch(Exception e){
 				deleted=false;
 				System.out.println(e.getMessage());

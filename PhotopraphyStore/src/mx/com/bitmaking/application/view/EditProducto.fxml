@@ -39,7 +39,7 @@
             <Label layoutX="14.0" layoutY="6.0" prefHeight="17.0" prefWidth="289.0" styleClass="label-title" text="Agregar Categoria del producto (opcional):" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
          </children>
       </AnchorPane>
-      <JFXButton fx:id="btnAddCat1" layoutX="200.0" layoutY="384.0" onMouseClicked="#selectCategoria" prefHeight="27.0" prefWidth="51.0" style="-fx-background-color: #037AB6; -fx-text-fill: white;" styleClass="btn-gral" text="✚" />
-      <JFXButton fx:id="btnRemoveCat1" layoutX="260.0" layoutY="384.0" onMouseClicked="#removeNodeCat" prefHeight="27.0" prefWidth="51.0" style="-fx-background-color: #A12D04 #A12D04 #A12D04 #A12D04; -fx-text-fill: white;" styleClass="btn-gral" text="▬ " />
+      <JFXButton fx:id="btnAddProd" layoutX="200.0" layoutY="384.0" onMouseClicked="#addRowProd" prefHeight="27.0" prefWidth="51.0" style="-fx-background-color: #037AB6; -fx-text-fill: white;" styleClass="btn-gral" text="✚" />
+      <JFXButton fx:id="btnRemoveProd" layoutX="260.0" layoutY="384.0" onMouseClicked="#removeRowProd" prefHeight="27.0" prefWidth="51.0" style="-fx-background-color: #A12D04 #A12D04 #A12D04 #A12D04; -fx-text-fill: white;" styleClass="btn-gral" text="▬ " />
    </children>
 </AnchorPane>
