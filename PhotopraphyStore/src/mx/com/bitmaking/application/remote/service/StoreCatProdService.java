@@ -3,6 +3,7 @@
  */
 package mx.com.bitmaking.application.remote.service;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -86,7 +87,11 @@ public class StoreCatProdService extends AbstractStoreCatProdService{ //implemen
 	public Store_cat_prod getCatById(int idPadre) {
 		return super.getCatById(idPadre);
 	}
-
+	@Transactional(value="remoteTransactionManager")
+	public boolean createBarcodePDF(FileInputStream fileInputStream, String titulo, String pathReport,String logoPath) {
+		return super.createBarcodePDF(fileInputStream, titulo, pathReport,logoPath);
+	}
+	
 
 	@Override
 	public ICatProdDAO getCatProdDAO() {

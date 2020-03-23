@@ -4,7 +4,7 @@ import java.io.OutputStream;
 
 public class Constantes {
 
-	public static final String PATH_XLS = /*"C://Reportes/";  "/Users/Gar/Documents/"; */"C://Reportes/";
+	public static final String PATH_FILES = /*"C://Reportes/";  "/Users/Gar/Documents/"; */"C://Reportes/";
 	public static final int MAX_INTENTOS=3;
 	public static final int NUMBER_LENGTH = 10;
 	
@@ -15,4 +15,5 @@ public class Constantes {
 	public static final String passwd="";
 	public static final String CLTE_GRAL = "Cliente general";
 	public static final String TXT_NUEVA_CATEGORIA = "Nueva categoría";
+	public static final String COMPANY_NAME = "MACROFOTO DIGITAL S.A DE C.V.";
 }

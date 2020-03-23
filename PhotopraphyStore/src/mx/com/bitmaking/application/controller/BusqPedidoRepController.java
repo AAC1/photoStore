@@ -302,9 +302,9 @@ public class BusqPedidoRepController {
 				GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar plantilla de reporte");
 				return;
 			}
-			String pathReport=Constantes.PATH_XLS+"reporte_"+formatoD.format(new Date())+".xls";
+			String pathReport=Constantes.PATH_FILES+"reporte_"+formatoD.format(new Date())+".xls";
 			String qry = generateQry();
-			String titulo="MACROFOTO S.A de C.V.";
+			String titulo=Constantes.COMPANY_NAME;
 			boolean export = (Flags.remote_valid)?
 					remotePedidoService.generaXLS(fileInputStream,qry,titulo,pathReport,file.getParent()+"/"):
 					pedidoService.generaXLS(fileInputStream,qry,titulo,pathReport,file.getParent()+"/");
@@ -312,7 +312,7 @@ public class BusqPedidoRepController {
 			if(export) {
 				File fataExported = new File(pathReport);
 			//	GeneralMethods.modalMsg("", "Exportación Terminada.", " Vaya a la ruta: "+pathReport);
-				saveFile(stage, fataExported.toPath());
+				GeneralMethods.saveFile(stage, fataExported.toPath(),"XLS files (*.xls)", "*.xls");
 			}else
 				GeneralMethods.modalMsg("ERROR", "", "Ha ocurrido un error al generar reporte");
 		} /*catch(MalformedURLException e){
@@ -335,28 +335,7 @@ public class BusqPedidoRepController {
 
 	}
 	
-	public void saveFile(Stage stage,Path path) {
-		//File file = new File(filename);
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Guarda archivo");
-		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XLS files (*.xls)", "*.xls");
-		fileChooser.getExtensionFilters().add(extFilter);
-		File dest = fileChooser.showSaveDialog(stage);
-		
-		if (dest != null) {
-		    try {
-		        Files.copy(path, dest.toPath());
-		        Files.deleteIfExists(path);
-		        
-		    } catch (IOException ex) {
-		//    	GeneralMethods.modalMsg("", "Error IO: "+ex.getMessage());
-		    }catch (AbortException ex) {
-		    	
-		    }
-		}else {
-			GeneralMethods.modalMsg("", "Archivo guardado en la ruta por default", " Vaya a la ruta: "+Constantes.PATH_XLS);
-		}
-	}
+	
 	
 	public void searchPedido(){
 		tblPedido.getItems().removeAll(tblPedido.getItems());

@@ -3,9 +3,12 @@
  */
 package mx.com.bitmaking.application.abstractservice;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import org.hibernate.Session;
 
 //import javax.transaction.Transactional;
 
@@ -23,6 +26,7 @@ import mx.com.bitmaking.application.idao.IStoreClteProdCostDAO;
 import mx.com.bitmaking.application.idao.IStoreProdPedidoDAO;
 import mx.com.bitmaking.application.iservice.IStoreCatProdService;
 import mx.com.bitmaking.application.util.GeneralMethods;
+import net.sf.jasperreports.engine.JRException;
 
 /**
  * @author albcervantes
@@ -134,5 +138,11 @@ public abstract class AbstractStoreCatProdService implements IStoreCatProdServic
 	public Store_cat_prod getCatById(int idProd) {
 		Store_cat_prod resp = getCatProdDAO().getCatByIdProd(idProd);
 		return resp;
+	}
+	@Override
+	public boolean createBarcodePDF(FileInputStream fileInputStream, String titulo, String pathReport,String logoPath) {
+		boolean export=getCatProdDAO().exportPDF(fileInputStream,titulo,pathReport,logoPath);
+		
+		return export;
 	}
 }

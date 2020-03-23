@@ -1,7 +1,13 @@
 package mx.com.bitmaking.application.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +44,7 @@ import mx.com.bitmaking.application.entity.Store_fotografo;
 import mx.com.bitmaking.application.iservice.IStoreCatProdService;
 import mx.com.bitmaking.application.iservice.IStoreClteProdCostService;
 import mx.com.bitmaking.application.iservice.IStoreFotografoService;
+import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
@@ -73,6 +80,8 @@ public class GestProdController {
 	@FXML
 	private JFXButton btnSalir;
 	@FXML
+	private JFXButton btnDescarga;
+	@FXML
 	private JFXButton btnAcceptModif;
 	@FXML
 	private JFXButton btnCancenModif;
@@ -90,6 +99,7 @@ public class GestProdController {
 	@Autowired
 	private ApplicationContext context ;
 	
+	Stage stage = null;
 	private Stage stageProd = null;
 	LinkedHashMap<Integer, Store_cat_prod> productsMap = null;
 	Store_cat_prod catProdModif = null;
@@ -654,5 +664,68 @@ public class GestProdController {
 			getDetails();
 		}
 	}
-
+	
+	@FXML
+	private void downloadBarCodeProds() {
+		File file=null;
+		FileInputStream fileInputStream = null;
+		ClassLoader classLoader = getClass().getClassLoader();
+		URL loader = BusqPedidoRepController.class.getClassLoader().getResource("TblBarCode.jasper");
+		//classLoader.getResource("reportePedidos.jasper");
+		try {
+			if(loader==null){
+				GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar directorio de la plantilla para el reporte");
+				return;
+			}
+			
+			file = new File(loader.getFile());
+			System.out.println("ABS_PATH: "+file.getAbsolutePath());
+			System.out.println("PARENT: "+file.getParent());
+			System.out.println("JUST_PATH: "+file.getPath());
+			
+			String pathPlantilla = file.getAbsolutePath();
+			
+			File fileToDownload = new File(pathPlantilla);
+			SimpleDateFormat formatoD = new SimpleDateFormat("ddMMyyyy_hhmmss");
+		
+			if (fileToDownload.exists() && fileToDownload.isFile()) {
+				fileInputStream = new FileInputStream(fileToDownload);
+			} else {
+				GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar plantilla de reporte");
+				return;
+			}
+			String pathReport=Constantes.PATH_FILES+"barcode_"+formatoD.format(new Date())+".pdf";
+			String logoPath = "src/mx/com/bitmaking/application/assets/img/macrofoto_logo.jpg";
+			File logoFile = new File("src/mx/com/bitmaking/application/assets/img/macrofoto_logo.jpg");
+			
+			if(logoFile!=null) {
+				logoPath = logoFile.getAbsolutePath();
+			}
+			String titulo=Constantes.COMPANY_NAME;
+			boolean export = (Flags.remote_valid)?
+					remoteCatProdService.createBarcodePDF(fileInputStream,titulo,pathReport,logoPath):
+						catProdService.createBarcodePDF(fileInputStream,titulo,pathReport,logoPath);
+			
+			if(export) {
+				File fataExported = new File(pathReport);
+			//	GeneralMethods.modalMsg("", "Exportación Terminada.", " Vaya a la ruta: "+pathReport);
+				stage = new Stage();
+				GeneralMethods.saveFile(stage, fataExported.toPath(),"PDF files (*.pdf)", "*.pdf");
+			}else
+				GeneralMethods.modalMsg("ERROR", "", "Ha ocurrido un error al generar reporte");
+		}
+		catch (Exception e) {
+			GeneralMethods.modalMsg("ERROR", "", "Ha ocurrido un error al generar reporte");
+			e.printStackTrace();
+		}finally{
+			if(fileInputStream!=null){
+				try {
+					fileInputStream.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }

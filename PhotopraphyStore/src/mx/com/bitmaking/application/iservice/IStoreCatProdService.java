@@ -3,6 +3,7 @@
  */
 package mx.com.bitmaking.application.iservice;
 
+import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -31,5 +32,6 @@ public interface IStoreCatProdService {
 	public LinkedHashMap<Integer, CostProductsDTO> getCostProdByClient(int cliente);
 	public List<Store_cat_prod>  getCatByPadre(int idPadre);
 	public Store_cat_prod getCatById(int idProd);
+	public boolean createBarcodePDF(FileInputStream fileInputStream, String titulo, String pathReport,String logoPath);
 	
 }

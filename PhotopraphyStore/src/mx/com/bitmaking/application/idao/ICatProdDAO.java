@@ -1,5 +1,6 @@
 package mx.com.bitmaking.application.idao;
 
+import java.io.FileInputStream;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -34,5 +35,7 @@ public interface ICatProdDAO {
 	List<Store_cat_prod> getCatByPadre(int idPadre);
 
 	public Store_cat_prod getCatByIdProd(int idProd);
+
+	public boolean exportPDF(FileInputStream fileInputStream, String titulo, String pathReport,String logoPath);
 
 }

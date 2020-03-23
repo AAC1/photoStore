@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -26,6 +27,8 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 import javax.imageio.ImageIO;
 
+import org.aspectj.bridge.AbortException;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
@@ -41,6 +44,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class GeneralMethods {
@@ -366,5 +371,28 @@ public class GeneralMethods {
 			}
 		}*/
 		return resp;
+	}
+
+	public static void saveFile(Stage stage,Path path,String descExtension,String extensions) {
+		//File file = new File(filename);
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Guarda archivo");
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(descExtension,extensions);
+		fileChooser.getExtensionFilters().add(extFilter);
+		File dest = fileChooser.showSaveDialog(stage);
+		
+		if (dest != null) {
+		    try {
+		        Files.copy(path, dest.toPath());
+		        Files.deleteIfExists(path);
+		        
+		    } catch (IOException ex) {
+		//    	GeneralMethods.modalMsg("", "Error IO: "+ex.getMessage());
+		    }catch (AbortException ex) {
+		    	
+		    }
+		}else {
+			GeneralMethods.modalMsg("", "Archivo guardado en la ruta por default", " Vaya a la ruta: "+Constantes.PATH_FILES);
+		}
 	}
 }

@@ -1,7 +1,13 @@
 package mx.com.bitmaking.application.abstractdao;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -22,6 +28,14 @@ import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
 import mx.com.bitmaking.application.idao.ICatProdDAO;
 import mx.com.bitmaking.application.util.GeneralMethods;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 
 public abstract class AbstractCatProdDAO implements ICatProdDAO {
@@ -31,7 +45,7 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 	protected SessionFactory sessionFactory;
 	*/
 	public abstract SessionFactory getSessionFactory();
-	
+	private boolean export=false;
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<CostProductsDTO> getListCostos(int cliente) {
@@ -251,4 +265,47 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 		}
 		return results;
 	}
+	
+	@Override
+	public boolean exportPDF(FileInputStream fileInputStream, String titulo, String pathReport,String logoPath) {
+		Session session = getSessionFactory().getCurrentSession();
+		export=false;
+		session.doWork(connection -> {
+			
+				try {
+					export = generaPDF(connection, fileInputStream, titulo,pathReport,logoPath);
+					
+				} catch (JRException e) {
+					e.printStackTrace();
+				}
+			
+			
+		});
+		return export;
+	}
+	
+
+	private boolean generaPDF(Connection connection, FileInputStream fileInputStream, String titulo, String pathReport,String logoPath) throws JRException {
+		boolean export = false;
+		JasperReport pdfResolucionInforme;
+		try {
+			// Instanciamos el objeto para crear el PDF
+			pdfResolucionInforme = (JasperReport) JRLoader.loadObject(fileInputStream);
+			
+			// Preparamos los valores que se van a escribir en el reporte
+			Map<String, Object> parametrosReporte = new HashMap<>();
+
+			parametrosReporte.put("titulo", titulo);
+			parametrosReporte.put("LOGO_PATH", logoPath);
+			
+			JasperPrint jasperPrint;
+			jasperPrint = JasperFillManager.fillReport(pdfResolucionInforme, parametrosReporte, connection);
+			
+			JasperExportManager.exportReportToPdfFile(jasperPrint, pathReport);
+			export = true;
+		} catch (JRException ex) {
+			throw new JRException(ex.getMessage(),ex);
+		}
+		return export;
+	} 
 }
