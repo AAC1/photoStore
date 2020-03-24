@@ -33,6 +33,7 @@ import mx.com.bitmaking.application.entity.Store_usuario;
 import mx.com.bitmaking.application.iservice.IStorePerfilService;
 import mx.com.bitmaking.application.iservice.IStoreSucursalService;
 import mx.com.bitmaking.application.iservice.IStoreUsuarioService;
+import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
@@ -383,14 +384,16 @@ public class UsuarioController {
 		usuario.setId_sucursal(lstSuc.get(rowSuc).getId_sucursal());
 		usuario.setIntentos(0);
 		usuario.setLogin(inputLogin.getText().trim());
-		usuario.setPasswd(inputPasswd.getText());
+		
 		usuario.setTelefono(inputTelefono.getText());
 		usuario.setNombre(inputUsr.getText());
 		if("M".equals(tipoForm)) {
 			UsuariosDTO objUsr = tblUsr.getSelectionModel().getSelectedItem();
-			
+			usuario.setPasswd(inputPasswd.getText());
 			usuario.setId_usr(objUsr.getId_usr());
 		//	usuario.setPasswd(objUsr.getPasswd());
+		}else {
+			usuario.setPasswd( GeneralMethods.cifraSha256(inputPasswd.getText(), Constantes.SALT));
 		}
 		
 		if(Flags.remote_valid)
