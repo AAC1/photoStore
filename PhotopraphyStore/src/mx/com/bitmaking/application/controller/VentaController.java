@@ -11,6 +11,7 @@ import org.springframework.context.ApplicationContext;
 
 import org.springframework.stereotype.Component;
 
+import com.jfoenix.controls.JFXAutoCompletePopup;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
@@ -129,7 +130,7 @@ public class VentaController  {
 	private CostProductsDTO rowProd = null;
 	private UserSessionDTO instance = null;
 	private SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	
+	private JFXAutoCompletePopup<String> autoCompletePopup =null;
 	
 	/**
 	 * @return the btnSalir
@@ -143,6 +144,7 @@ public class VentaController  {
 		instance = UserSessionDTO.getInstance();
 		
 		responsiveGUI();
+		setFilterPopup();// PopUp para cbxCliente
 		fillCbxClte(); //llena combo de clientes
 		
 		initForm();
@@ -406,7 +408,28 @@ public class VentaController  {
 			setClte();
 		}
 	}*/
-	
+	private void setFilterPopup() {
+		autoCompletePopup = new JFXAutoCompletePopup<>();
+		autoCompletePopup.setSelectionHandler(event -> {
+			cbxCliente.setValue(event.getObject());
+		});
+		
+		TextField editor = cbxCliente.getEditor();
+		editor.textProperty().addListener(observable -> {
+		    //The filter method uses the Predicate to filter the Suggestions defined above
+		    //I choose to use the contains method while ignoring cases
+		    autoCompletePopup.filter(item -> item.toLowerCase().contains(editor.getText().toLowerCase()));
+		    //Hide the autocomplete popup if the filtered suggestions is empty or when the box's original popup is open
+		    if (autoCompletePopup.getFilteredSuggestions().isEmpty() 
+		    	|| editor.getText().trim().length()==0) {
+		        autoCompletePopup.hide();
+		    } 
+		    else {
+		    	System.out.println("show popup");
+		        autoCompletePopup.show(editor);
+		    }
+		});
+	}
 	private void fillCbxClte() {
 		cbxCliente.getItems().removeAll(cbxCliente.getItems());
 		cbxCliente.setEditable(true);
@@ -420,6 +443,11 @@ public class VentaController  {
 		for(Store_fotografo el: lstFoto){
 			arrayClte[idx++] = el.getFotografo().trim();
 		}
+		cbxCliente.setItems(FXCollections.observableArrayList(arrayClte));
+		if(autoCompletePopup.getSuggestions() !=null)
+			autoCompletePopup.getSuggestions().removeAll(autoCompletePopup.getSuggestions());
+		autoCompletePopup.getSuggestions().addAll(cbxCliente.getItems());
+		/*
 		FilteredList<String> filteredItems = new FilteredList<String>(FXCollections.observableArrayList(arrayClte), p -> true);
 	
 		cbxCliente.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
@@ -465,6 +493,8 @@ public class VentaController  {
 		//cbxCliente.getEditor().setText(Constantes.CLTE_GRAL);
 		cbxCliente.setValue(Constantes.CLTE_GRAL);
 		cbxCliente.show();cbxCliente.hide();
+		*/
+		
 	}
 	
 	@FXML
