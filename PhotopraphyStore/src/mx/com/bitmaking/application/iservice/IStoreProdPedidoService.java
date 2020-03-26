@@ -9,4 +9,5 @@ public interface IStoreProdPedidoService {
 	public List<Store_prod_pedido> getListProdPedidos(String pedidos);
 	
 	public boolean guardaProdsByPedido(String folio,Store_prod_pedido producto);
+	public void deleteByIdPedido(int idPedido);
 }

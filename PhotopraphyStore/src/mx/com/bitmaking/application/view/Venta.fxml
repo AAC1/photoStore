@@ -11,7 +11,7 @@
 
 <AnchorPane fx:id="ventaBody" accessibleRole="COMBO_BOX" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="562.0" prefWidth="865.0" style="-fx-background-color: rgba(255,255,255,0.9);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.VentaController">
    <children>
-      <AnchorPane prefHeight="281.0" prefWidth="865.0" AnchorPane.bottomAnchor="281.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane prefHeight="281.0" prefWidth="865.0" style="-fx-background-color: rgba(255,255,255,0.9);" AnchorPane.bottomAnchor="281.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label layoutX="39.0" layoutY="106.0" prefHeight="17.0" prefWidth="81.0" styleClass="label-title" text="Folio" AnchorPane.leftAnchor="39.0" />
             <JFXTextField fx:id="inputFolio" disable="true" layoutX="39.0" layoutY="123.0" prefHeight="26.0" prefWidth="240.0" styleClass="input-gral" AnchorPane.leftAnchor="39.0" />

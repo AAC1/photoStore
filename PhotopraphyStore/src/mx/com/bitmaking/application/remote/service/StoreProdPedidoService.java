@@ -43,6 +43,10 @@ public class StoreProdPedidoService extends AbstractStoreProdPedidoService{//imp
 	public boolean guardaProdsByPedido(String folio, Store_prod_pedido producto) {
 		return super.guardaProdsByPedido(folio, producto);
 	}
+	@Transactional(value="remoteTransactionManager")
+	public void deleteByIdPedido(int idPedido){
+		super.deleteByIdPedido(idPedido);
+	}
 
 	@Override
 	public IStoreProdPedidoDAO getProdPedidoRepo() {

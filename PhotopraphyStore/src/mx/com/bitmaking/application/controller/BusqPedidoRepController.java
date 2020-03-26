@@ -41,6 +41,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.dto.PedidosReporteDTO;
 import mx.com.bitmaking.application.entity.Store_cat_estatus;
+import mx.com.bitmaking.application.entity.Store_pedido;
 import mx.com.bitmaking.application.entity.Store_prod_pedido;
 import mx.com.bitmaking.application.iservice.IStoreCatEstatusService;
 import mx.com.bitmaking.application.iservice.IStorePedidoService;
@@ -260,7 +261,10 @@ public class BusqPedidoRepController {
 							pedidoService.editPedido(objPedido);
 							if(Flags.remote_valid)remotePedidoService.editPedido(objPedido);
 							searchPedido();
+							
 							if(stage!=null) stage.close();
+							
+							openVta(objPedido);
 						} catch (ParseException e) {
 							GeneralMethods.modalMsg("", "", "Ocurrió un error en fechas");
 							e.printStackTrace();
@@ -272,6 +276,54 @@ public class BusqPedidoRepController {
 				
 				
 			}};
+	}
+	
+	private void openVta(PedidosReporteDTO objPedido) {
+		
+				try {
+					
+						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/com/bitmaking/application/view/Venta.fxml"));
+						fxmlLoader.setControllerFactory(context::getBean);
+						
+			        	Parent sceneEdit= fxmlLoader.load();
+			        	
+			        	Scene scene = new Scene(sceneEdit,750,600);
+						scene.getStylesheets().add(getClass().getResource("/mx/com/bitmaking/application/assets/css/application.css").toExternalForm());
+						stage = new Stage();
+						stage.setScene(scene);
+						stage.setTitle("Edición de Pedido ");
+						stage.setMinHeight(600.0);
+						stage.setMinWidth(750);
+						stage.initModality(Modality.APPLICATION_MODAL); 
+						sceneEdit.setStyle("-fx-background-color: rgba(255,255,2550.9); ");
+						
+						VentaController vtaCtrl = fxmlLoader.getController();
+			        	vtaCtrl.setUpdateVta(false);
+			        	vtaCtrl.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED,closeWindow());
+			        	
+			        	Store_pedido pedido = new Store_pedido();
+			        	pedido.setCliente(objPedido.getCliente());
+			        	pedido.setDescripcion(objPedido.getDescripcion());
+			        	pedido.setFec_entregado(objPedido.getFec_entregado());
+			        	pedido.setFec_pedido(objPedido.getFec_pedido());
+			        	pedido.setFolio(objPedido.getFolio());
+			        	pedido.setId_estatus(objPedido.getId_estatus());
+			        	pedido.setId_pedido(objPedido.getId_pedido());
+			        	pedido.setMonto_ant(objPedido.getMonto_ant());
+			        	pedido.setMonto_total(objPedido.getMonto_total());
+			        	pedido.setTelefono(objPedido.getTelefono());
+			        	
+			        	vtaCtrl.setUpdatePedido(pedido);
+			        	vtaCtrl.setUpdateVta(true);
+			        	vtaCtrl.setValuesToUpdate(pedido);
+						
+			        	
+			        	
+						stage.show();
+						
+		        } catch(Exception ex) {
+					ex.printStackTrace();
+				}
 	}
 
 	@FXML
@@ -484,6 +536,7 @@ public class BusqPedidoRepController {
 			@Override
 			public void handle(MouseEvent event) {
 				if(stage!=null) stage.close();
+				searchPedido();
 			}
 		};
 

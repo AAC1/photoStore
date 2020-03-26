@@ -1,5 +1,7 @@
 package mx.com.bitmaking.application.remote.dao;
 
+import java.util.List;
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,7 +23,14 @@ public class StoreProdPedidoDAO extends AbstractStoreProdPedidoDAO{// implements
 	public void save(Store_prod_pedido producto) {
 		super.save(producto);
 	}
-
+	@Transactional("remoteTransactionManager")
+	public List<Store_prod_pedido> getListProdPedidos(String pedidos) {
+		return super.getListProdPedidos(pedidos);
+	}
+	@Transactional("remoteTransactionManager")
+	public void deleteByIdPedido(int idPedido){
+		super.deleteByIdPedido(idPedido);
+	}
 	@Override
 	public SessionFactory getSessionfActory() {
 		return sessionFactory;

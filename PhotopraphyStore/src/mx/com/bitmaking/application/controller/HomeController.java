@@ -267,7 +267,9 @@ public class HomeController {
 				        switch(scene){
 				        case "Venta":
 				        	VentaController vtaCtrl = loader.getController();
+				        	vtaCtrl.setUpdateVta(false);
 				        	vtaCtrl.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED,returnToHome());
+				        	
 				        	break;
 				        
 			        	case "GestionProductos":

@@ -20,12 +20,18 @@ public class StoreProdPedidoDAO extends AbstractStoreProdPedidoDAO{// implements
 	@Qualifier("sessionFactory")
 	protected SessionFactory sessionFactory;
 
-	@Transactional("remoteTransactionManager")
+	@Transactional("transactionManager")
 	public void save(Store_prod_pedido producto) {
 		super.save(producto);
 	}
-
-
+	@Transactional("transactionManager")
+	public List<Store_prod_pedido> getListProdPedidos(String pedidos) {
+		return super.getListProdPedidos(pedidos);
+	}
+	@Transactional("transactionManager")
+	public void deleteByIdPedido(int idPedido){
+		super.deleteByIdPedido(idPedido);
+	}
 	@Override
 	public SessionFactory getSessionfActory() {
 		return sessionFactory;

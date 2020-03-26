@@ -89,7 +89,7 @@ public abstract class AbstractPedidoDAO implements IPedidoDAO{
 
 	@Override
 	public void save(Store_pedido pedido) {
-		getSessionFactory().getCurrentSession().save(pedido);
+		getSessionFactory().getCurrentSession().saveOrUpdate(pedido);
 		
 	}
 

@@ -39,32 +39,10 @@ public abstract class AbstractStoreProdPedidoService implements IStoreProdPedido
 	public abstract IPedidoDAO getPedidoDao();
 	public abstract SessionFactory getSessionFactory();
 	
-	@SuppressWarnings("unchecked")
+
 	@Override
 	public List<Store_prod_pedido> getListProdPedidos(String pedidos) {
-		List<Store_prod_pedido> results =null;
-		StringBuilder qry = new StringBuilder();
-		qry.append(" SELECT p.*");
-		qry.append(" FROM Store_prod_pedido p ");
-		qry.append(" WHERE p.id_pedido in "+pedidos);
-		
-		
-		try{
- 
-			SQLQuery query= getSessionFactory().getCurrentSession().createSQLQuery(qry.toString());
-			
-			query.setResultTransformer(Transformers.aliasToBean(Store_prod_pedido.class));
-			
-			results =query.list();
-		
-		}catch(Exception e) {
-			e.printStackTrace();
-		
-		}
-		if(results==null) {
-			results = new ArrayList<>();
-		}
-		return results;
+		return getProdPedidoRepo().getListProdPedidos(pedidos);
 	}
 
 	@Override
@@ -76,6 +54,10 @@ public abstract class AbstractStoreProdPedidoService implements IStoreProdPedido
 		getProdPedidoRepo().save(producto);
 		
 		return false;
+	}
+	@Override
+	public void deleteByIdPedido(int idPedido){
+		getProdPedidoRepo().deleteByIdPedido(idPedido);
 	}
 
 }

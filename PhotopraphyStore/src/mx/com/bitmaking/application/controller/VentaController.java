@@ -56,6 +56,8 @@ import mx.com.bitmaking.application.util.PrinterService;
 @Component
 //@Scope("prototype")
 public class VentaController  {
+	
+	
 	@FXML private JFXButton btnConsultPedido;
 	@FXML private JFXButton  btnEditarPedido;
 	@FXML private JFXButton  btnSalir;
@@ -81,6 +83,21 @@ public class VentaController  {
 	
 	@FXML private AnchorPane ventaBody;
 	@FXML private TableView<CostProductsDTO> tbProductos;
+	/**
+	 * @return the tbProductos
+	 */
+	public TableView<CostProductsDTO> getTbProductos() {
+		return tbProductos;
+	}
+
+	/**
+	 * @param tbProductos the tbProductos to set
+	 */
+	public void setTbProductos(TableView<CostProductsDTO> tbProductos) {
+		this.tbProductos = tbProductos;
+	}
+
+
 	@FXML private TableColumn<CostProductsDTO,String> tbColProd ;
 	@FXML private TableColumn<CostProductsDTO,String> tbColDesc;
 	@FXML private TableColumn<CostProductsDTO, Integer> tbColCant;
@@ -131,7 +148,38 @@ public class VentaController  {
 	private UserSessionDTO instance = null;
 	private SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private JFXAutoCompletePopup<String> autoCompletePopup =null;
+	private boolean updateVta;
+	private Store_pedido updatePedido;
 	
+	
+	/**
+	 * @return the updatePedido
+	 */
+	public Store_pedido getUpdatePedido() {
+		return updatePedido;
+	}
+
+	/**
+	 * @param updatePedido the updatePedido to set
+	 */
+	public void setUpdatePedido(Store_pedido updatePedido) {
+		this.updatePedido = updatePedido;
+	}
+
+	/**
+	 * @return the updateVta
+	 */
+	public boolean isUpdateVta() {
+		return updateVta;
+	}
+
+	/**
+	 * @param updateVta the updateVta to set
+	 */
+	public void setUpdateVta(boolean updateVta) {
+		this.updateVta = updateVta;
+	}
+
 	/**
 	 * @return the btnSalir
 	 */
@@ -146,7 +194,7 @@ public class VentaController  {
 		responsiveGUI();
 		setFilterPopup();// PopUp para cbxCliente
 		fillCbxClte(); //llena combo de clientes
-		
+		autoCompletePopup.hide();
 		initForm();
 		
 	//	btnEliminaPedido.setVisible(false);
@@ -158,6 +206,9 @@ public class VentaController  {
 		
 		inputMontoAnt.textProperty().addListener(GeneralMethods.formatNumber(inputMontoAnt));
 		inputCostoProd.textProperty().addListener(GeneralMethods.formatNumber(inputCostoProd));
+		
+		
+		
 	}
 	
 	private void generateFolio(){
@@ -171,7 +222,7 @@ public class VentaController  {
 		
 		getLstEstatus();//Llena combo de estatus
 		
-		if(instance !=null ) {
+		if(instance !=null && !updateVta) {
 			generateFolio();//Genera Folio de acuerdo a la sucursal de usr
 		}
 		
@@ -272,9 +323,21 @@ public class VentaController  {
 					pedidoObj.setMonto_ant(new BigDecimal(montoAnt));
 					pedidoObj.setMonto_total(new BigDecimal(montoTot));
 					pedidoObj.setId_estatus(cbxEstatus.getSelectionModel().getSelectedIndex()+1);
+					
 					if(pedidoObj.getId_estatus() ==1) {
 						pedidoObj.setFec_entregado(sdf.parse(sdf.format(new Date())));
 					}
+					if(updateVta){
+						if(updatePedido != null ){
+							//ELIMINA REGISTROS YA EXISTENTES
+							prodPedidoService.deleteByIdPedido(updatePedido.getId_pedido());
+							if(Flags.remote_valid)remoteProdPedidoService.deleteByIdPedido(updatePedido.getId_pedido());
+							
+							pedidoObj.setId_pedido(updatePedido.getId_pedido());
+							
+						}
+					}
+					
 					pedidoService.guardaPedido(pedidoObj);
 					if(Flags.remote_valid)remotePedidoService.guardaPedido(pedidoObj);
 					
@@ -297,12 +360,16 @@ public class VentaController  {
 					String layoutPrinter= PrinterService.ticketLayout(Constantes.MAX_CHARS_TICKET, lstProds, 
 												instance);
 					/* REINICIA FORMULARIO */
-					initForm();
-					cbxCliente.setVisibleRowCount(10);
-					cbxCliente.setMaxHeight(Double.MAX_VALUE);
-					cbxCliente.getEditor().setText("");
-					cbxCliente.setValue(Constantes.CLTE_GRAL);
-					cbxCliente.hide();
+					if(updateVta){
+						//
+					}else{
+						initForm();
+						cbxCliente.setVisibleRowCount(10);
+						cbxCliente.setMaxHeight(Double.MAX_VALUE);
+						cbxCliente.getEditor().setText("");
+						cbxCliente.setValue(Constantes.CLTE_GRAL);
+						cbxCliente.hide();
+					}
 					System.out.println(layoutPrinter);
 					PrinterService.printTicket(Constantes.PRINTER_NAME, layoutPrinter);
 					
@@ -743,6 +810,43 @@ public class VentaController  {
 		tbColCant.prefWidthProperty().bind(tbProductos.widthProperty().multiply(0.2));
 		tbColCosto.prefWidthProperty().bind(tbProductos.widthProperty().multiply(0.2));
 		
+	}
+
+	public void setValuesToUpdate(Store_pedido pedido) {
+		if(updatePedido != null){
+			cbxCliente.setValue(updatePedido.getCliente().replace(Constantes.CLTE_GRAL, "").trim());
+			inputMonto.setText(String.valueOf(updatePedido.getMonto_total()));
+			inputTelefono.setText(updatePedido.getTelefono());
+			inputMontoAnt.setText(String.valueOf(updatePedido.getMonto_ant()));
+			inputDesc.setText(updatePedido.getDescripcion());
+			inputFolio.setText(updatePedido.getFolio());
+			inputCliente.setText(updatePedido.getCliente());
+			
+			cbxEstatus.setValue(lstEstatus.get(updatePedido.getId_estatus()).getEstatus()); 
+			cbxEstatus.setDisable(true);
+			cbxCliente.setDisable(true);
+			inputCliente.setDisable(true);
+			inputDesc.setDisable(true);
+			inputTelefono.setDisable(true);
+			btnCancelar.setVisible(false);
+			
+			List<Store_prod_pedido> rows = prodPedidoService.getListProdPedidos("("+updatePedido.getId_pedido()+")");
+			if(Flags.remote_valid)rows=remoteProdPedidoService.getListProdPedidos("("+updatePedido.getId_pedido()+")");
+			
+			tbProductos.getItems().removeAll(tbProductos.getItems());
+			CostProductsDTO product = null;
+			for(Store_prod_pedido el:rows) {
+				product = new CostProductsDTO();
+				product.setBar_code(el.getBar_code());
+				product.setCantidad(el.getCantidad());
+				product.setCosto(el.getCosto_total());
+				product.setCostoUnitario(el.getCosto_unitario());
+				product.setProducto(el.getDescripcion());
+				
+				tbProductos.getItems().add(product);
+			}
+			
+		}
 	}
 
 
