@@ -49,6 +49,7 @@ import mx.com.bitmaking.application.iservice.IStoreProdPedidoService;
 import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
+import mx.com.bitmaking.application.util.PrinterService;
 
 @Component
 public class BusqPedidoRepController {
@@ -78,6 +79,8 @@ public class BusqPedidoRepController {
 	private JFXButton btnBuscar;
 	@FXML
 	private JFXButton btnModify;
+	@FXML
+	private JFXButton btnImpTicket;
 	
 	@FXML AnchorPane contentProdPed;
 	@FXML AnchorPane contentPedido;
@@ -149,6 +152,23 @@ public class BusqPedidoRepController {
 	PedidosReporteDTO objPedido = null;
 	
 	
+	
+	public TableView<Store_prod_pedido> getTblProducts() {
+		return tblProducts;
+	}
+
+	public void setTblProducts(TableView<Store_prod_pedido> tblProducts) {
+		this.tblProducts = tblProducts;
+	}
+
+	public JFXButton getBtnImpTicket() {
+		return btnImpTicket;
+	}
+
+	public void setBtnImpTicket(JFXButton btnImpTicket) {
+		this.btnImpTicket = btnImpTicket;
+	}
+
 	/**
 	 * @return the ventaBody
 	 */
@@ -312,7 +332,7 @@ public class BusqPedidoRepController {
 			        	pedido.setMonto_ant(objPedido.getMonto_ant());
 			        	pedido.setMonto_total(objPedido.getMonto_total());
 			        	pedido.setTelefono(objPedido.getTelefono());
-			        	
+			        	pedido.setTicket(objPedido.getTicket());
 			        	vtaCtrl.setUpdatePedido(pedido);
 			        	vtaCtrl.setUpdateVta(true);
 			        	vtaCtrl.setValuesToUpdate(pedido);
@@ -396,12 +416,12 @@ public class BusqPedidoRepController {
 		String qry = generateQry();
 		List<PedidosReporteDTO> lstPedidos = (Flags.remote_valid)?remotePedidoService.consultPedido(qry):
 																	pedidoService.consultPedido(qry);
-		List<Store_prod_pedido> lstProductos = null;
 		
 		if (lstPedidos == null || lstPedidos.size() == 0) {
 			GeneralMethods.modalMsg("", "", "No se encontraron pedidos");
 			return;
 		}
+		
 		
 		tblPedido.setItems(FXCollections.observableList(lstPedidos));
 		
@@ -448,7 +468,7 @@ public class BusqPedidoRepController {
 		qry.delete(0, qry.length());
 		qry.append("SELECT p.id_pedido, p.folio, p.cliente, p.telefono, p.descripcion, p.fec_pedido,");
 		qry.append(" p.fec_entregado, p.monto_ant, p.monto_total, (IFNULL(p.monto_total,0) - IFNULL(p.monto_ant,0) ) monto_pendiente, ");
-		qry.append(" (select s.estatus from Store_cat_estatus s where s.id_estatus=p.id_estatus) as estatus");
+		qry.append(" (select s.estatus from Store_cat_estatus s where s.id_estatus=p.id_estatus) as estatus, p.ticket ");
 		qry.append(" FROM Store_pedido p ");
 
 		//qry.append("WHERE p.folio like'%" + lblPrefixFolio.getText());
@@ -575,5 +595,31 @@ public class BusqPedidoRepController {
 		if("DOWN".equals(e.getCode().toString()) || "UP".equals(e.getCode().toString())){
 			getProdByPedido();
 		}
+	}
+	
+	@FXML
+	private void printTicket() {
+		PedidosReporteDTO obj = tblPedido.getSelectionModel().getSelectedItem();
+		if(obj==null){
+			GeneralMethods.modalMsg("", "", "Debes seleccionar un pedido");
+			return;
+		}
+		byte[] byteTicket = obj.getTicket();
+		if(byteTicket ==null) {
+			GeneralMethods.modalMsg("", "", "No hay ticket guardado");
+			return;
+		}
+		String ticket =  new String(byteTicket);
+		System.out.println("ticket:");
+		System.out.println(ticket);
+		
+		try {
+			PrinterService.printTicket(Constantes.PRINTER_NAME,ticket);
+		} catch (Exception e) {
+			GeneralMethods.modalMsg("ERROR", "", "Ocurrio un error: "+e.getMessage());
+			e.printStackTrace();
+		}
+		
+		
 	}
 }

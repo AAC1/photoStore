@@ -265,3 +265,5 @@ insert into store_menu_perfil(id_perfil,id_menu)
 VALUES(2,6),(2,7);
 
 alter table store_usuario modify telefono VARCHAR(10);
+
+ALTER TABLE `macrofoto`.`store_pedido`  ADD COLUMN `ticket` LONGBLOB NULL AFTER `id_estatus`;

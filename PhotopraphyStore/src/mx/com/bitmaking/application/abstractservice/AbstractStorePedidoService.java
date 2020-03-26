@@ -73,9 +73,11 @@ public abstract class AbstractStorePedidoService implements IStorePedidoService 
 	
 	@Override
 	public List<PedidosReporteDTO> consultPedido(String qry) {
+		
 		List<PedidosReporteDTO> resp = new ArrayList<>();
 		try {
 			resp = getClteProdCostoDao().consultaPedido(qry);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

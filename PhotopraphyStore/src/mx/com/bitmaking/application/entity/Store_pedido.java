@@ -31,8 +31,17 @@ public class Store_pedido {
 	private BigDecimal monto_total;
 	@Column
 	private int id_estatus;
+	@Column
+	private byte[] ticket;
 	
 	
+	
+	public byte[] getTicket() {
+		return ticket;
+	}
+	public void setTicket(byte[] ticket) {
+		this.ticket = ticket;
+	}
 	public int getId_pedido() {
 		return id_pedido;
 	}

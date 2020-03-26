@@ -31,7 +31,8 @@
                     </columns>
                   </TableView>
                   <Label layoutX="14.0" layoutY="45.0" prefHeight="25.0" prefWidth="286.0" styleClass="lbl-title" text="PEDIDOS" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="45.0" />
-                  <JFXButton fx:id="btnModify" layoutX="14.0" layoutY="14.0" prefHeight="32.0" prefWidth="139.0" style="-fx-background-color: #C37B00 #C37B00;" styleClass="btn-gral" text="✎ Modificar" textFill="WHITE" visible="false" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+                  <JFXButton fx:id="btnModify" layoutX="14.0" layoutY="14.0" prefHeight="32.0" prefWidth="139.0" style="-fx-background-color: #C37B00 #C37B00;" styleClass="btn-gral" text="✎ Modificar" textFill="WHITE" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+                  <JFXButton fx:id="btnImpTicket" layoutX="157.0" layoutY="14.0" onMouseClicked="#printTicket" prefHeight="32.0" prefWidth="139.0" style="-fx-background-color: #037AB6 #037AB6;" styleClass="btn-gral" text="🖶 Imprimir ticket" textFill="WHITE" AnchorPane.leftAnchor="157.0" AnchorPane.topAnchor="14.0" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="contentProdPed" layoutY="242.0" prefHeight="244.0" prefWidth="497.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">

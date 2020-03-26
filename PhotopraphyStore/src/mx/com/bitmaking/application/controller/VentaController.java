@@ -337,11 +337,16 @@ public class VentaController  {
 							
 						}
 					}
+					ObservableList<CostProductsDTO> lstProds = tbProductos.getItems();
+					/* IMPRIME TICKET */
+					String layoutPrinter= PrinterService.ticketLayout(Constantes.MAX_CHARS_TICKET, lstProds, 
+												instance);
+					pedidoObj.setTicket(layoutPrinter.getBytes());
 					
 					pedidoService.guardaPedido(pedidoObj);
 					if(Flags.remote_valid)remotePedidoService.guardaPedido(pedidoObj);
 					
-					ObservableList<CostProductsDTO> lstProds = tbProductos.getItems();
+					
 					Store_prod_pedido product = null;
 					for(CostProductsDTO el:lstProds) {
 						product = new Store_prod_pedido();
@@ -356,9 +361,7 @@ public class VentaController  {
 						if(Flags.remote_valid)remoteProdPedidoService.guardaProdsByPedido(pedidoObj.getFolio(), product);
 					}
 					if(stageBusqProd!=null) stageBusqProd.close();
-					/* IMPRIME TICKET */
-					String layoutPrinter= PrinterService.ticketLayout(Constantes.MAX_CHARS_TICKET, lstProds, 
-												instance);
+					
 					/* REINICIA FORMULARIO */
 					if(updateVta){
 						//
@@ -755,12 +758,12 @@ public class VentaController  {
 						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/com/bitmaking/application/view/BusqPedidoReporte.fxml"));
 						fxmlLoader.setControllerFactory(context::getBean);
 						Parent sceneEdit= fxmlLoader.load();
-						Scene scene = new Scene(sceneEdit,3013,165);
+						Scene scene = new Scene(sceneEdit,850,570);
 						scene.getStylesheets().add(getClass().getResource("/mx/com/bitmaking/application/assets/css/BusqPedidoReporte.css").toExternalForm());
 						stageBusqProd = new Stage();
 						stageBusqProd.setScene(scene);
 						stageBusqProd.setTitle("Busqueda de Pedido ");
-						stageBusqProd.setMinHeight(470.0);
+						stageBusqProd.setMinHeight(570.0);
 						stageBusqProd.setMinWidth(850.0);
 						stageBusqProd.setWidth(850.0);
 					//	stageBusqProd.setMaxHeight(470.0);
@@ -771,10 +774,12 @@ public class VentaController  {
 
 						ctrller.getBtnExportXls().setVisible(false);
 						ctrller.getBtnModify().setVisible(true);
-						ctrller.getContentProdPed().setVisible(false);
-//						Node child = ctrller.getVentaBody();
-						AnchorPane.setBottomAnchor(ctrller.getContentPedido(),0.0);
-						//ctrller.getContentPedido().setBottomAnchor(child , new Double(30));
+						//ctrller.getContentProdPed().setVisible(false);
+						ctrller.getTblProducts().setEditable(false);
+						ctrller.getBtnImpTicket().setVisible(true);
+
+						//AnchorPane.setBottomAnchor(ctrller.getContentPedido(),0.0);
+						
 						stageBusqProd.show();
 		        } catch(Exception ex) {
 					ex.printStackTrace();
@@ -814,15 +819,15 @@ public class VentaController  {
 
 	public void setValuesToUpdate(Store_pedido pedido) {
 		if(updatePedido != null){
-			cbxCliente.setValue(updatePedido.getCliente().replace(Constantes.CLTE_GRAL, "").trim());
+			cbxCliente.setValue(updatePedido.getCliente().contains(Constantes.CLTE_GRAL)?Constantes.CLTE_GRAL:"");
 			inputMonto.setText(String.valueOf(updatePedido.getMonto_total()));
 			inputTelefono.setText(updatePedido.getTelefono());
 			inputMontoAnt.setText(String.valueOf(updatePedido.getMonto_ant()));
 			inputDesc.setText(updatePedido.getDescripcion());
 			inputFolio.setText(updatePedido.getFolio());
-			inputCliente.setText(updatePedido.getCliente());
+			inputCliente.setText(updatePedido.getCliente().replace(Constantes.CLTE_GRAL, "").trim());
 			
-			cbxEstatus.setValue(lstEstatus.get(updatePedido.getId_estatus()).getEstatus()); 
+			cbxEstatus.setValue(lstEstatus.get(updatePedido.getId_estatus()-1).getEstatus()); 
 			cbxEstatus.setDisable(true);
 			cbxCliente.setDisable(true);
 			inputCliente.setDisable(true);
