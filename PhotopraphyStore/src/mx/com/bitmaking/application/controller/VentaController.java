@@ -83,20 +83,7 @@ public class VentaController  {
 	
 	@FXML private AnchorPane ventaBody;
 	@FXML private TableView<CostProductsDTO> tbProductos;
-	/**
-	 * @return the tbProductos
-	 */
-	public TableView<CostProductsDTO> getTbProductos() {
-		return tbProductos;
-	}
-
-	/**
-	 * @param tbProductos the tbProductos to set
-	 */
-	public void setTbProductos(TableView<CostProductsDTO> tbProductos) {
-		this.tbProductos = tbProductos;
-	}
-
+	
 
 	@FXML private TableColumn<CostProductsDTO,String> tbColProd ;
 	@FXML private TableColumn<CostProductsDTO,String> tbColDesc;
@@ -151,6 +138,20 @@ public class VentaController  {
 	private boolean updateVta;
 	private Store_pedido updatePedido;
 	
+	/**
+	 * @return the tbProductos
+	 */
+	public TableView<CostProductsDTO> getTbProductos() {
+		return tbProductos;
+	}
+
+	/**
+	 * @param tbProductos the tbProductos to set
+	 */
+	public void setTbProductos(TableView<CostProductsDTO> tbProductos) {
+		this.tbProductos = tbProductos;
+	}
+
 	
 	/**
 	 * @return the updatePedido
@@ -834,6 +835,7 @@ public class VentaController  {
 			inputDesc.setDisable(true);
 			inputTelefono.setDisable(true);
 			btnCancelar.setVisible(false);
+			autoCompletePopup.hide();
 			
 			List<Store_prod_pedido> rows = prodPedidoService.getListProdPedidos("("+updatePedido.getId_pedido()+")");
 			if(Flags.remote_valid)rows=remoteProdPedidoService.getListProdPedidos("("+updatePedido.getId_pedido()+")");
