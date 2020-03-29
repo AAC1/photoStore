@@ -267,3 +267,5 @@ VALUES(2,6),(2,7);
 alter table store_usuario modify telefono VARCHAR(10);
 
 ALTER TABLE `macrofoto`.`store_pedido`  ADD COLUMN `ticket` LONGBLOB NULL AFTER `id_estatus`;
+
+insert into store_cat_estatus (estatus )values ('DEVOLUCION');
