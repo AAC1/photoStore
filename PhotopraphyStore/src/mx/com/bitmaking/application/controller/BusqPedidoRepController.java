@@ -273,6 +273,7 @@ public class BusqPedidoRepController {
 							return;
 						}
 						try {
+							System.out.println("Idx Estatus:"+ctrller.getCbxEstatus().getSelectionModel().getSelectedIndex());
 							objPedido.setId_estatus(ctrller.getCbxEstatus().getSelectionModel().getSelectedIndex()+1);
 							if(objPedido.getId_estatus()==1){
 								objPedido.setFec_entregado(sdf.parse(sdf.format(new Date())));
@@ -284,7 +285,10 @@ public class BusqPedidoRepController {
 							
 							if(stage!=null) stage.close();
 							
-							openVta(objPedido);
+							if("DEVOLUCION".equals(ctrller.getCbxEstatus().getSelectionModel().getSelectedItem().toUpperCase())){
+								openVta(objPedido);
+							}
+							
 						} catch (ParseException e) {
 							GeneralMethods.modalMsg("", "", "Ocurrió un error en fechas");
 							e.printStackTrace();
