@@ -515,6 +515,7 @@ public class VentaController  {
 			arrayClte[idx++] = el.getFotografo().trim();
 		}
 		cbxCliente.setItems(FXCollections.observableArrayList(arrayClte));
+		cbxCliente.setValue(Constantes.CLTE_GRAL);
 		if(autoCompletePopup.getSuggestions() !=null)
 			autoCompletePopup.getSuggestions().removeAll(autoCompletePopup.getSuggestions());
 		autoCompletePopup.getSuggestions().addAll(cbxCliente.getItems());
