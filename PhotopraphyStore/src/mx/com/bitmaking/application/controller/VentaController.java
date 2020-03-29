@@ -821,7 +821,7 @@ public class VentaController  {
 
 	public void setValuesToUpdate(Store_pedido pedido) {
 		if(updatePedido != null){
-			cbxCliente.setValue(updatePedido.getCliente().contains(Constantes.CLTE_GRAL)?Constantes.CLTE_GRAL:"");
+			cbxCliente.setValue(updatePedido.getCliente().contains(Constantes.CLTE_GRAL)?Constantes.CLTE_GRAL:updatePedido.getCliente());
 			inputMonto.setText(String.valueOf(updatePedido.getMonto_total()));
 			inputTelefono.setText(updatePedido.getTelefono());
 			inputMontoAnt.setText(String.valueOf(updatePedido.getMonto_ant()));
