@@ -779,7 +779,7 @@ public class VentaController  {
 						//ctrller.getContentProdPed().setVisible(false);
 						ctrller.getTblProducts().setEditable(false);
 						ctrller.getBtnImpTicket().setVisible(true);
-
+						ctrller.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED, closeWindow());
 						//AnchorPane.setBottomAnchor(ctrller.getContentPedido(),0.0);
 						
 						stageBusqProd.show();
