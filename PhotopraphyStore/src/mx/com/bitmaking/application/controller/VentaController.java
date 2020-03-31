@@ -314,7 +314,7 @@ public class VentaController  {
 					
 					pedidoObj.setFolio(inputFolio.getText());
 					if((Constantes.CLTE_GRAL).equals(cbxCliente.getEditor().getText())) {
-						pedidoObj.setCliente(Constantes.CLTE_GRAL+" "+inputTelefono.getText());
+						pedidoObj.setCliente(Constantes.CLTE_GRAL+" "+inputCliente.getText());
 						
 					}else
 						pedidoObj.setCliente(inputCliente.getText());
@@ -685,7 +685,7 @@ public class VentaController  {
 		System.out.println("Costo Unitario:"+auxObj.getCostoUnitario());
 		tbProductos.getItems().add(auxObj);
 		rowProd=null;
-		inputCantProd.setText("");
+		inputCantProd.setText("1");
 		inputCostoProd.setText("");
 		inputProd.setText("");
 		inputCostoProd.setText("");
