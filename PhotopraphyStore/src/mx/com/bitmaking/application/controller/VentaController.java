@@ -137,7 +137,7 @@ public class VentaController  {
 	private JFXAutoCompletePopup<String> autoCompletePopup =null;
 	private boolean updateVta;
 	private Store_pedido updatePedido;
-	
+	private Stage stageUpdate=null;
 	/**
 	 * @return the tbProductos
 	 */
@@ -195,9 +195,9 @@ public class VentaController  {
 		responsiveGUI();
 		setFilterPopup();// PopUp para cbxCliente
 		fillCbxClte(); //llena combo de clientes
-		autoCompletePopup.hide();
-		initForm();
 		
+		initForm();
+		autoCompletePopup.hide();
 	//	btnEliminaPedido.setVisible(false);
 		//btnSalir.addEventHandler(MouseEvent.MOUSE_CLICKED,modalBusqByFolio());
 		btnEditarPedido.addEventHandler(MouseEvent.MOUSE_CLICKED,modalEditPedido());
@@ -280,8 +280,8 @@ public class VentaController  {
 		}
 		String montoAnt=inputMontoAnt.getText().replace(",", "");
 		String monto=inputMonto.getText().replace(",", "");
-		if(inputMontoAnt.getText() ==null || inputMontoAnt.getText().length()==0 || Double.parseDouble(montoAnt) > Double.parseDouble(monto) || Double.parseDouble(montoAnt) <=0) {
-			GeneralMethods.modalMsg("ERROR", "", "Valide que el monto anticipo no sea cero, vacío o sea mayor al importe total");
+		if(inputMontoAnt.getText() !=null && inputMontoAnt.getText().length()>0 && Double.parseDouble(montoAnt) > Double.parseDouble(monto) ) {
+			GeneralMethods.modalMsg("ERROR", "", "Valide que el monto anticipo no sea mayor al importe total");
 			return;
 		}
 		
@@ -366,6 +366,7 @@ public class VentaController  {
 					/* REINICIA FORMULARIO */
 					if(updateVta){
 						//
+						if(stageUpdate !=null)stageUpdate.close();
 					}else{
 						initForm();
 						cbxCliente.setVisibleRowCount(10);
@@ -373,6 +374,7 @@ public class VentaController  {
 						cbxCliente.getEditor().setText("");
 						cbxCliente.setValue(Constantes.CLTE_GRAL);
 						cbxCliente.hide();
+						autoCompletePopup.hide();
 					}
 					System.out.println(layoutPrinter);
 					PrinterService.printTicket(Constantes.PRINTER_NAME, layoutPrinter);
@@ -819,8 +821,9 @@ public class VentaController  {
 		
 	}
 
-	public void setValuesToUpdate(Store_pedido pedido) {
+	public void setValuesToUpdate(Store_pedido pedido,Stage stage) {
 		if(updatePedido != null){
+			stageUpdate= stage;
 			cbxCliente.setValue(updatePedido.getCliente().contains(Constantes.CLTE_GRAL)?Constantes.CLTE_GRAL:updatePedido.getCliente());
 			inputMonto.setText(String.valueOf(updatePedido.getMonto_total()));
 			inputTelefono.setText(updatePedido.getTelefono());
@@ -835,7 +838,7 @@ public class VentaController  {
 			inputCliente.setDisable(true);
 			inputDesc.setDisable(true);
 			inputTelefono.setDisable(true);
-			btnCancelar.setVisible(false);
+			btnCancelar.setDisable(true);
 			autoCompletePopup.hide();
 			
 			List<Store_prod_pedido> rows = prodPedidoService.getListProdPedidos("("+updatePedido.getId_pedido()+")");

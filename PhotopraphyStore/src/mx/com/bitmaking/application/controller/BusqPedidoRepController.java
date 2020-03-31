@@ -339,7 +339,7 @@ public class BusqPedidoRepController {
 			        	pedido.setTicket(objPedido.getTicket());
 			        	vtaCtrl.setUpdatePedido(pedido);
 			        	vtaCtrl.setUpdateVta(true);
-			        	vtaCtrl.setValuesToUpdate(pedido);
+			        	vtaCtrl.setValuesToUpdate(pedido,stage);
 						
 			        	
 			        	
