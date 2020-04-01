@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TblBarCode" columnCount="2" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="247" leftMargin="50" rightMargin="50" topMargin="20" bottomMargin="20" uuid="4d94178a-295f-4acf-bdec-c5ca845d375c">
 	<property name="ireport.zoom" value="2.5937424601000028"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="247"/>
+	<property name="ireport.y" value="5"/>
 	<parameter name="LOGO_PATH" class="java.lang.String"/>
 	<parameter name="titulo" class="java.lang.String"/>
 	<queryString>
@@ -121,12 +121,12 @@ WHERE (SELECT count(*) from store_cat_prod where id_padre_prod=scp.id_prod)=0]]>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch"/>
+		<band height="16" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band height="13" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch"/>
+		<band height="10" splitType="Stretch"/>
 	</summary>
 </jasperReport>
