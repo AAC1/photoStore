@@ -239,7 +239,7 @@ public class BusqPedidoRepController {
 						
 						EditPedidoController ctrller = fxmlLoader.getController(); //Obtiene controller de la nueva ventana
 						
-						ctrller.getBtnCancel().addEventHandler(MouseEvent.MOUSE_CLICKED, closeWindow());
+						ctrller.getBtnCancel().addEventHandler(MouseEvent.MOUSE_CLICKED, closeWindow(stage));
 						ctrller.getBtnAccept().addEventHandler(MouseEvent.MOUSE_CLICKED, acceptEditPedido(ctrller));
 						PedidosReporteDTO obj = tblPedido.getSelectionModel().getSelectedItem();
 						if(obj==null){
@@ -279,6 +279,7 @@ public class BusqPedidoRepController {
 								objPedido.setFec_entregado(sdf.parse(sdf.format(new Date())));
 							}
 							objPedido.setDescripcion(ctrller.getInputDesc().getText());
+							System.out.println("ticket: "+objPedido.getTicket());
 							pedidoService.editPedido(objPedido);
 							if(Flags.remote_valid)remotePedidoService.editPedido(objPedido);
 							searchPedido();
@@ -323,7 +324,7 @@ public class BusqPedidoRepController {
 						
 						VentaController vtaCtrl = fxmlLoader.getController();
 			        	vtaCtrl.setUpdateVta(false);
-			        	vtaCtrl.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED,closeWindow());
+			        	vtaCtrl.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED,closeWindow(stage));
 			        	
 			        	Store_pedido pedido = new Store_pedido();
 			        	pedido.setCliente(objPedido.getCliente());
@@ -555,7 +556,7 @@ public class BusqPedidoRepController {
 		
 		
 	}
-	private EventHandler<MouseEvent> closeWindow() {
+	private EventHandler<MouseEvent> closeWindow(Stage stage) {
 		return new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {

@@ -212,6 +212,7 @@ public abstract class AbstractStorePedidoService implements IStorePedidoService 
 		pedidoEntity.setMonto_ant(in.getMonto_ant());
 		pedidoEntity.setMonto_total(in.getMonto_total());
 		pedidoEntity.setId_estatus(in.getId_estatus());
+		pedidoEntity.setTicket(in.getTicket());
 		
 		getPedidoDao().update(pedidoEntity);
 	}

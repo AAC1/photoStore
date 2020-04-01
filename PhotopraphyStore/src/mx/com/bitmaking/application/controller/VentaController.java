@@ -449,6 +449,7 @@ public class VentaController  {
 			inputCliente.setDisable(false);
 			cbxCliente.setValue(Constantes.CLTE_GRAL);
 			cbxCliente.hide();
+			autoCompletePopup.hide();
 		}else {
 			String item = "";
 			for (Store_fotografo el : lstFoto) {
@@ -463,6 +464,7 @@ public class VentaController  {
 				inputCliente.setText(item);//(lstFoto.get((idxClte)).getFotografo());
 				cbxCliente.setValue(item);
 				cbxCliente.hide();
+				autoCompletePopup.hide();
 			}
 			
 		}
@@ -518,9 +520,11 @@ public class VentaController  {
 		}
 		cbxCliente.setItems(FXCollections.observableArrayList(arrayClte));
 		cbxCliente.setValue(Constantes.CLTE_GRAL);
+		
 		if(autoCompletePopup.getSuggestions() !=null)
 			autoCompletePopup.getSuggestions().removeAll(autoCompletePopup.getSuggestions());
 		autoCompletePopup.getSuggestions().addAll(cbxCliente.getItems());
+		autoCompletePopup.hide();
 		/*
 		FilteredList<String> filteredItems = new FilteredList<String>(FXCollections.observableArrayList(arrayClte), p -> true);
 	
@@ -685,13 +689,17 @@ public class VentaController  {
 		auxObj.setCostoUnitario(new BigDecimal(inputCostoProd.getText()));
 		auxObj.setBar_code(inputBarcode.getText());
 		System.out.println("Costo Unitario:"+auxObj.getCostoUnitario());
-		tbProductos.getItems().add(auxObj);
+		if(!hasProduct(auxObj)){
+			tbProductos.getItems().add(auxObj);
+		}
+		updateCostoTotal();
+		//
 		rowProd=null;
 		inputCantProd.setText("1");
 		inputCostoProd.setText("");
 		inputProd.setText("");
 		inputCostoProd.setText("");
-		updateCostoTotal();
+		
 	}
 	
 	@FXML private void quitProdToTable() {
@@ -744,7 +752,9 @@ public class VentaController  {
 		return new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				if(stageBusqProd!=null) stageBusqProd.close();
+				System.out.println("Entra closeWindows");
+				if(stageBusqProd!=null) 
+					stageBusqProd.close();
 			}
 		};
 
@@ -858,7 +868,30 @@ public class VentaController  {
 			}
 			
 		}
+		
 	}
 
+	private boolean hasProduct(CostProductsDTO product) {
+		ObservableList<CostProductsDTO> items = tbProductos.getItems();
+		int cantidad=0;
+		
+		for(int i=0; i<tbProductos.getItems().size(); i++){
+			if(tbProductos.getItems().get(i).getId_prod() ==product.getId_prod()){
+				cantidad = tbProductos.getItems().get(i).getCantidad()+product.getCantidad();
+				
+				tbProductos.getItems().get(i).setCantidad(cantidad);
+				
+				tbProductos.getItems().get(i).setCosto(product.getCostoUnitario().
+														multiply(new BigDecimal(cantidad)) );
+				tbProductos.getColumns().get(0).setVisible(false);
+				tbProductos.getColumns().get(0).setVisible(true);
+			//	String costTot = inputMonto.getText().replaceAll("[\\,]", "");
+			//	double costTotal = Double.parseDouble(costTot);
+			//	inputMonto.setText(String.valueOf(product.getCostoUnitario().add(new BigDecimal(costTotal))));
+				return true;
+			}
+		}
+		return false;
+	}
 
 }
