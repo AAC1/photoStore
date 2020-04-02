@@ -140,6 +140,11 @@ public abstract class AbstractStoreCatProdService implements IStoreCatProdServic
 		return resp;
 	}
 	@Override
+	public CostProductsDTO getCatByClteAndBarcode(int cliente,String barcode){
+		return getCatProdDAO().getCatByClteAndBarcode( cliente, barcode);
+	}
+	
+	@Override
 	public boolean createBarcodePDF(FileInputStream fileInputStream, String titulo, String pathReport,String logoPath) {
 		boolean export=getCatProdDAO().exportPDF(fileInputStream,titulo,pathReport,logoPath);
 		

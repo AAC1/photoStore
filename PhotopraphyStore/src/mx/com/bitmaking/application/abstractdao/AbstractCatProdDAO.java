@@ -1,40 +1,31 @@
 package mx.com.bitmaking.application.abstractdao;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
+import org.hibernate.type.BigDecimalType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Repository;
 
 import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
 import mx.com.bitmaking.application.idao.ICatProdDAO;
-import mx.com.bitmaking.application.util.GeneralMethods;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -236,7 +227,8 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 		}
 		return results;
 	}
-	
+
+	@Override
 	public Store_cat_prod getCatByIdProd(int idProd){
 		Store_cat_prod results = null;
 		StringBuilder qry = new StringBuilder();
@@ -258,6 +250,41 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 			query.addScalar("barcode", new StringType());
 			
 			results =(Store_cat_prod) query.setMaxResults(1).uniqueResult();
+		
+		}catch(Exception e) {
+			e.printStackTrace();
+		
+		}
+		return results;
+	}
+
+	@Override
+	public CostProductsDTO getCatByClteAndBarcode(int cliente,String barcode){
+		CostProductsDTO results = null;
+		StringBuilder qry = new StringBuilder();
+		qry.append(" SELECT p.id_prod ,p.id_padre_prod ,");
+		qry.append("p.producto as producto,(case when p.estatus > 0 then 'Activo' else 'Inactivo' end) as estatus, ");
+		qry.append("a.costo as costo,p.barcode as bar_code ");
+		qry.append(" FROM Store_cat_prod p ");
+		qry.append(" LEFT OUTER JOIN  Store_cliente_prod_cost a on p.id_prod =a.id_prod AND a.id_cliente = :cliente");
+		qry.append(" WHERE p.barcode = :barcode ");
+		
+		
+		try{
+ 
+			SQLQuery query= getSessionFactory().getCurrentSession().createSQLQuery(qry.toString());
+
+			query.setInteger("cliente", cliente);
+			query.setString("barcode", barcode);
+			query.setResultTransformer(Transformers.aliasToBean(CostProductsDTO.class));
+			query.addScalar("id_prod", new IntegerType());
+			query.addScalar("id_padre_prod", new IntegerType());
+			query.addScalar("producto", new StringType());
+			query.addScalar("estatus", new StringType());
+			query.addScalar("bar_code", new StringType());
+			query.addScalar("costo", new BigDecimalType());
+			
+			results =(CostProductsDTO) query.setMaxResults(1).uniqueResult();
 		
 		}catch(Exception e) {
 			e.printStackTrace();

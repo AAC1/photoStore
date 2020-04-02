@@ -31,7 +31,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -40,6 +41,7 @@ import javafx.stage.Stage;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.dto.UserSessionDTO;
 import mx.com.bitmaking.application.entity.Store_cat_estatus;
+import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.entity.Store_fotografo;
 import mx.com.bitmaking.application.entity.Store_pedido;
 import mx.com.bitmaking.application.entity.Store_prod_pedido;
@@ -655,7 +657,57 @@ public class VentaController  {
 				}
 			}};
 	}
+	
+	@FXML private void addProdByBarcodeOnEnter(KeyEvent keyEvent) {
+		
+		if(keyEvent.getCode() == KeyCode.ENTER){
+			if(inputBarcode.getText()==null || "".equals(inputBarcode.getText())){
+				return;
+			}
+			int idxClte = cbxCliente.getSelectionModel().getSelectedIndex();
+			if(idxClte <0) {
+				GeneralMethods.modalMsg("", "", "Debes seleccionar un cliente");
+				return;
+			}
+			
+			CostProductsDTO obj = null;
+			int idClte = 0;
+			if(idxClte >0) {
+				idClte=lstFoto.get((idxClte)).getId_fotografo();
+			}
+			
+			if(!Flags.remote_valid)
+				obj  =catProdService.getCatByClteAndBarcode(idClte,inputBarcode.getText());
+			else 
+				obj=remoteCatProdService.getCatByClteAndBarcode(idClte,inputBarcode.getText());
+			
+			if(obj != null){
+				CostProductsDTO auxObj = new CostProductsDTO();
+				auxObj.setCantidad(1);
+				auxObj.setCosto(obj.getCosto());
+				auxObj.setProducto(obj.getProducto());
+				auxObj.setCostoUnitario(obj.getCosto());
+				auxObj.setBar_code(obj.getBar_code());
+				auxObj.setId_prod(obj.getId_prod());
+				auxObj.setId_padre_prod(obj.getId_padre_prod());
+				auxObj.setId_padre_prod(obj.getId_padre_prod());
 
+				if(!hasProduct(auxObj)){
+					tbProductos.getItems().add(auxObj);
+				}
+				updateCostoTotal();
+			}
+			else{
+				GeneralMethods.modalMsg("", "", "No se encontr\u00F3 producto relacionado con el c\u00F3digo de barras");
+			}
+			inputBarcode.setText("");
+		}
+	}
+	@FXML private void addProdToTableOnEnter(KeyEvent keyEvent) {
+		if(keyEvent.getCode() == KeyCode.ENTER){
+			addProdToTable();
+		}
+	}
 	@FXML private void addProdToTable() {
 		String cant =inputCantProd.getText();
 		cant = cant.replaceAll("[^0-9]", ""); 

@@ -33,5 +33,5 @@ public interface IStoreCatProdService {
 	public List<Store_cat_prod>  getCatByPadre(int idPadre);
 	public Store_cat_prod getCatById(int idProd);
 	public boolean createBarcodePDF(FileInputStream fileInputStream, String titulo, String pathReport,String logoPath);
-	
+	public CostProductsDTO getCatByClteAndBarcode(int cliente,String barcode);
 }

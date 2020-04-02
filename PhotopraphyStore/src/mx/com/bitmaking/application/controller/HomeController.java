@@ -280,6 +280,10 @@ public class HomeController {
 			        		BusqPedidoRepController repCtrl  = loader.getController();
 			        		repCtrl.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED,returnToHome());
 			        		break;
+			        	case "CostProdByClient":
+			        		CostProdByClteController ctrl = loader.getController();
+			        		ctrl.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED,returnToHome());
+			        		break;
 			        	case "GestionUsuarios":
 			        		UsuarioController usrCtrl = loader.getController();
 			        		usrCtrl.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED,returnToHome());
@@ -288,7 +292,6 @@ public class HomeController {
 			        		SucursalController sucCtrl = loader.getController();
 			        		sucCtrl.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED,returnToHome());
 				        	break;
-				        
 				        }
 				        
 			        }

@@ -4,7 +4,7 @@ import java.io.OutputStream;
 
 public class Constantes {
 
-	public static final String PATH_FILES = /*"C://Reportes/"; "C://Reportes/"; */"/Users/Gar/Documents/"; 
+	public static final String PATH_FILES = /*"C://Reportes/"; "C://Reportes/"; */"/Users/Albcervantes/Documents/"; 
 	public static final int MAX_INTENTOS=3;
 	public static final int NUMBER_LENGTH = 10;
 	

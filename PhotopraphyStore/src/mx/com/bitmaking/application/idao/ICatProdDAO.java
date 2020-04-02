@@ -37,5 +37,6 @@ public interface ICatProdDAO {
 	public Store_cat_prod getCatByIdProd(int idProd);
 
 	public boolean exportPDF(FileInputStream fileInputStream, String titulo, String pathReport,String logoPath);
-
+	
+	public CostProductsDTO getCatByClteAndBarcode(int cliente,String barcode);
 }

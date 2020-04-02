@@ -16,6 +16,7 @@ import java.util.List;
 import org.aspectj.bridge.AbortException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -146,6 +147,8 @@ public class BusqPedidoRepController {
 
 	@Autowired
 	private ApplicationContext context ;
+	@Value("${exportFile.path}")
+	private String pathFiles;
 	
 	Stage stage = null;
 	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -379,7 +382,7 @@ public class BusqPedidoRepController {
 				GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar plantilla de reporte");
 				return;
 			}
-			String pathReport=Constantes.PATH_FILES+"reporte_"+formatoD.format(new Date())+".xls";
+			String pathReport=pathFiles+"/reporte_"+formatoD.format(new Date())+".xls";
 			String qry = generateQry();
 			String titulo=Constantes.COMPANY_NAME;
 			boolean export = (Flags.remote_valid)?
