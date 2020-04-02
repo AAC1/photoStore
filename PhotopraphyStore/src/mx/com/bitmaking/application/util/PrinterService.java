@@ -133,7 +133,7 @@ public class PrinterService implements Printable{
 		StringBuilder layout = new StringBuilder();
 		layout.append(nCharacter(nCharacters, "MACROFOTO DIGITAL S.A. DE C.V.", true, false));
 		layout.append(nCharacter(nCharacters, instance.getDirSucursal(), true, false));
-		layout.append(nCharacter(nCharacters, "Razón Social:"+instance.getRazon_social(), true, false));
+		layout.append(nCharacter(nCharacters, "Raz\u00F3n Social:"+instance.getRazon_social(), true, false));
 		layout.append(nCharacter(nCharacters, "Sucursal: "+instance.getPrefijo() +" "+instance.getSucursal(), false, false));
 		layout.append(nCharacter(nCharacters, "", false, false));
 		layout.append(nCharacter(nCharacters, "Productos:", false, false));
@@ -176,8 +176,11 @@ public class PrinterService implements Printable{
 		aux = nCharacters - ("Total:".length() + formTotal.length());
 		layout.append("Total:").append(GeneralMethods.nSpace(aux)).append(formTotal);
 		layout.append(nCharacter(nCharacters, "", false, false));
-		layout.append(nCharacter(nCharacters, "¡GRACIAS POR SU PREFENCIA!", true, false));
+		layout.append(nCharacter(nCharacters, "Te atendi\u00F3: "+instance.getInstance().getNombre(), false, true));
+		layout.append(nCharacter(nCharacters, "", false, false));
+		layout.append(nCharacter(nCharacters, "¡GRACIAS POR SU PREFERENCIA!", true, false));
 		layout.append(nCharacter(nCharacters, "TELEFONO:"+instance.getTelSucursal(), true, false));
+		layout.append("\n\n\n\n\n\n\n\n\n\n");
 		return layout.toString();
 	}
 
