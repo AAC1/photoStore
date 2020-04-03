@@ -22,10 +22,24 @@ public class Store_prod_pedido {
 	@Column
 	private BigDecimal costo_total;
 	@Column
+	private String estatus;
+	@Column
 	private int id_pedido;
 	
 	
 	
+	/**
+	 * @return the estatus
+	 */
+	public String getEstatus() {
+		return estatus;
+	}
+	/**
+	 * @param estatus the estatus to set
+	 */
+	public void setEstatus(String estatus) {
+		this.estatus = estatus;
+	}
 	public String getBar_code() {
 		return bar_code;
 	}

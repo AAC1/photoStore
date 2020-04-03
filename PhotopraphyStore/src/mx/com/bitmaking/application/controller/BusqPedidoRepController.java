@@ -345,8 +345,6 @@ public class BusqPedidoRepController {
 			        	vtaCtrl.setUpdateVta(true);
 			        	vtaCtrl.setValuesToUpdate(pedido,stage);
 						
-			        	
-			        	
 						stage.show();
 						
 		        } catch(Exception ex) {
