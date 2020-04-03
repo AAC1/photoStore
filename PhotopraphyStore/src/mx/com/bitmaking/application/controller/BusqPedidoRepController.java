@@ -249,8 +249,8 @@ public class BusqPedidoRepController {
 							GeneralMethods.modalMsg("", "", "Debes seleccionar un pedido");
 							return;
 						}
-						if("TERMINADO".equals(obj.getEstatus().toUpperCase())){
-							GeneralMethods.modalMsg("", "", "Pedido terminado, solo puedes modificar pedidos pendientes o cancelados");
+						if("ENTREGADO".equals(obj.getEstatus().toUpperCase())){
+							GeneralMethods.modalMsg("", "", "Pedido entregado, solo puedes modificar pedidos pendientes, cancelados o con devoluci\u00F3n");
 							return;
 						}
 						ctrller.getInputClte().setText(obj.getCliente());
