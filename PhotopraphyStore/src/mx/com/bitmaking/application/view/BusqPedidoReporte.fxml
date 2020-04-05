@@ -35,8 +35,9 @@
                   <JFXButton fx:id="btnImpTicket" layoutX="157.0" layoutY="14.0" onMouseClicked="#printTicket" prefHeight="32.0" prefWidth="139.0" style="-fx-background-color: #037AB6 #037AB6;" styleClass="btn-gral" text="🖶 Imprimir ticket" textFill="WHITE" visible="false" AnchorPane.leftAnchor="157.0" AnchorPane.topAnchor="14.0" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="contentProdPed" layoutY="242.0" prefHeight="244.0" prefWidth="497.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <AnchorPane fx:id="contentProdPed" layoutY="219.0" prefHeight="244.0" prefWidth="497.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
+                  <JFXButton fx:id="btnModifProd" layoutX="310.0" layoutY="5.0" prefHeight="32.0" prefWidth="176.0" style="-fx-background-color: #C37B00 #C37B00;" styleClass="btn-gral" text="✎ Modificar estatus" textFill="WHITE" AnchorPane.rightAnchor="14.0" />
                   <TableView fx:id="tblProducts" layoutX="12.0" layoutY="39.0" prefHeight="121.0" prefWidth="473.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="39.0">
                      <columns>
                         <TableColumn fx:id="colBarcodeProd" prefWidth="75.0" text="Código de Barras" />
@@ -44,6 +45,8 @@
                         <TableColumn fx:id="colCantidadProd" prefWidth="75.0" text="Cantidad" />
                         <TableColumn fx:id="colCostUniProd" prefWidth="75.0" text="Precio Unitario" />
                         <TableColumn fx:id="colCostTotalProd" prefWidth="75.0" text="Precio Total" />
+                        <TableColumn fx:id="colSttsProd" prefWidth="75.0" text="Estatus" />
+                        <TableColumn fx:id="colSttsProd1" prefWidth="75.0" text="Estatus" />
                      </columns>
                   </TableView>
                   <JFXButton fx:id="btnSalir" layoutX="350.0" layoutY="196.0" prefHeight="32.0" prefWidth="133.0" style="-fx-background-color: #505050;" styleClass="btn-gral" text=" ◄ Salir" textFill="WHITE" AnchorPane.bottomAnchor="17.0" AnchorPane.rightAnchor="14.0" />
