@@ -59,5 +59,10 @@ public abstract class AbstractStoreProdPedidoService implements IStoreProdPedido
 	public void deleteByIdPedido(int idPedido){
 		getProdPedidoRepo().deleteByIdPedido(idPedido);
 	}
+	
+	@Override
+	public void editProd(Store_prod_pedido obj){
+		getProdPedidoRepo().editProd(obj);
+	}
 
 }

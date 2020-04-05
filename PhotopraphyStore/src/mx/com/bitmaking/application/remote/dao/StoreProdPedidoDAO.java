@@ -31,6 +31,11 @@ public class StoreProdPedidoDAO extends AbstractStoreProdPedidoDAO{// implements
 	public void deleteByIdPedido(int idPedido){
 		super.deleteByIdPedido(idPedido);
 	}
+	
+	@Transactional("remoteTransactionManager")
+	public void editProd(Store_prod_pedido obj){
+		super.editProd(obj);
+	}
 	@Override
 	public SessionFactory getSessionfActory() {
 		return sessionFactory;

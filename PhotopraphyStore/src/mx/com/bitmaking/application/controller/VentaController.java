@@ -875,7 +875,7 @@ public class VentaController  {
 					//	stageBusqProd.setMaxHeight(470.0);
 					//	stageBusqProd.setMaxWidth(770.0);
 						stageBusqProd.initModality(Modality.APPLICATION_MODAL); 
-						
+
 						BusqPedidoRepController ctrller = fxmlLoader.getController(); //Obtiene controller de la nueva ventana
 
 						ctrller.getBtnExportXls().setVisible(false);

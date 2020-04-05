@@ -103,7 +103,7 @@ public class HomeController {
 		itemVenta.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("Venta",true,false));
 		
 		lblGestionCat.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("GestionProductos",true,false));
-		lblReportes.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("BusqPedidoReporte",false,false));
+		lblReportes.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("BusqPedidoReporte",true,false));
 		lblGestCostProd.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("CostProdByClient",false,false));
 		lblUsr.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("GestionUsuarios",false,false));
 		lblSucursales.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("GestionSucursales",false,false));
