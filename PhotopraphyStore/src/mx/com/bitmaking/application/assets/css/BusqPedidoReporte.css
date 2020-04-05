@@ -18,3 +18,32 @@
 	-fx-font-family: 'Montserrat Light';
 	-fx-text-fill: white;
 }
+
+
+.table-row-cell:red-text .text{
+	-fx-fill: #A80404;   
+}
+.table-row-cell:green-text .text{
+	-fx-fill: #1D9100;   
+}
+.table-row-cell:black-text .text{
+	-fx-fill: black;   
+}
+
+.table-row-cell:selected .text{
+	-fx-fill: white; 
+}
+/* 
+.table-row-cell:red-text{
+	-fx-background-color: #A80404;
+}  
+.table-row-cell:green-text  {
+ 	-fx-background-color: #2AA804;
+} 
+.table-row-cell:black-text {
+	-fx-background-color: transparent ;
+} 
+.table-row-cell:blue-text  {
+	-fx-background-color: #0467A9 ;  
+} 
+*/

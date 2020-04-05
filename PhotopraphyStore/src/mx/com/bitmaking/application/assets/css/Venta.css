@@ -36,3 +36,17 @@
 	-fx-text-fill: white;
 }
 */
+
+.red-text{
+	-fx-background-color: #5F686C;
+	-fx-text-fill: white;
+}
+.green-text{
+	-fx-background-color: #5F686C;
+	-fx-text-fill: white;
+}
+.blue-text{
+	-fx-background-color: #5F686C;
+	-fx-text-fill: white;
+}
+

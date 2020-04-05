@@ -84,6 +84,8 @@ public class BusqPedidoRepController {
 	@FXML
 	private JFXButton btnModify;
 	@FXML
+	private JFXButton btnModifProd;
+	@FXML
 	private JFXButton btnImpTicket;
 	
 	@FXML AnchorPane contentProdPed;
@@ -214,6 +216,20 @@ public class BusqPedidoRepController {
 	 */
 	public AnchorPane getContentProdPed() {
 		return contentProdPed;
+	}
+
+	/**
+	 * @return the btnModifProd
+	 */
+	public JFXButton getBtnModifProd() {
+		return btnModifProd;
+	}
+
+	/**
+	 * @param btnModifProd the btnModifProd to set
+	 */
+	public void setBtnModifProd(JFXButton btnModifProd) {
+		this.btnModifProd = btnModifProd;
 	}
 
 	public void initialize() {
