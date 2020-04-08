@@ -52,7 +52,7 @@ public abstract class AbstractStoreProdPedidoDAO implements IStoreProdPedidoDAO{
 		}
 		return results;
 	}
-	
+	@Override
 	public void deleteByIdPedido(int idPedido){
 		int results =0;
 		StringBuilder qry = new StringBuilder();
@@ -75,5 +75,9 @@ public abstract class AbstractStoreProdPedidoDAO implements IStoreProdPedidoDAO{
 		}
 		System.out.println("Se eliminan "+results +" productos de pedido:"+idPedido);
 	}
-
+	
+	@Override
+	public void editProd(Store_prod_pedido obj){
+		getSessionfActory().getCurrentSession().update(obj);
+	}
 }

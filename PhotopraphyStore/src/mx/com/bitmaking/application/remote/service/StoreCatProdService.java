@@ -91,7 +91,10 @@ public class StoreCatProdService extends AbstractStoreCatProdService{ //implemen
 	public boolean createBarcodePDF(FileInputStream fileInputStream, String titulo, String pathReport,String logoPath) {
 		return super.createBarcodePDF(fileInputStream, titulo, pathReport,logoPath);
 	}
-	
+	@Transactional(value="remoteTransactionManager")
+	public CostProductsDTO getCatByClteAndBarcode(int cliente,String barcode){
+		return super.getCatByClteAndBarcode( cliente, barcode);
+	}
 
 	@Override
 	public ICatProdDAO getCatProdDAO() {

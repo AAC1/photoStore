@@ -2,6 +2,7 @@ package mx.com.bitmaking.application.controller;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,12 +27,13 @@ import javafx.fxml.FXMLLoader;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -40,6 +42,7 @@ import javafx.stage.Stage;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.dto.UserSessionDTO;
 import mx.com.bitmaking.application.entity.Store_cat_estatus;
+import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.entity.Store_fotografo;
 import mx.com.bitmaking.application.entity.Store_pedido;
 import mx.com.bitmaking.application.entity.Store_prod_pedido;
@@ -67,6 +70,7 @@ public class VentaController  {
 	
 	@FXML private JFXComboBox<String>  cbxEstatus;
 	@FXML private JFXComboBox<String> cbxCliente;
+	@FXML private JFXComboBox<String>cbxEstatusProd;
 	
 	@FXML private JFXTextField inputFolio;
 	@FXML private JFXTextField inputCliente;
@@ -89,6 +93,8 @@ public class VentaController  {
 	@FXML private TableColumn<CostProductsDTO,String> tbColDesc;
 	@FXML private TableColumn<CostProductsDTO, Integer> tbColCant;
 	@FXML private TableColumn<CostProductsDTO,BigDecimal> tbColCosto;
+	@FXML private TableColumn<CostProductsDTO,String>tbColEstatus;
+	@FXML private Label lblTelefono;
 	
 	@Autowired
 	@Qualifier("StoreCatProdService")
@@ -127,8 +133,9 @@ public class VentaController  {
 	
 	@Autowired
 	private ApplicationContext context ;
-	
+
 	private Stage stageBusqProd = null;
+	private Stage stageBusqConfirm = null;
 	private List<Store_fotografo> lstFoto = null;
 	private List<Store_cat_estatus> lstEstatus = null;
 	private CostProductsDTO rowProd = null;
@@ -195,7 +202,7 @@ public class VentaController  {
 		responsiveGUI();
 		setFilterPopup();// PopUp para cbxCliente
 		fillCbxClte(); //llena combo de clientes
-		
+		fillCbxSttsProd();
 		initForm();
 		autoCompletePopup.hide();
 	//	btnEliminaPedido.setVisible(false);
@@ -211,7 +218,14 @@ public class VentaController  {
 		
 		
 	}
-	
+	private void fillCbxSttsProd(){
+		
+		List<String> lstStts = new ArrayList<>();
+		lstStts.add("PENDIENTE");
+		lstStts.add("TERMINADO");
+		cbxEstatusProd.setItems(FXCollections.observableArrayList(lstStts));
+		cbxEstatusProd.setValue("PENDIENTE");
+	}
 	private void generateFolio(){
 		String prefijo =// Flags.remote_valid?
 					//remotePedidoService.getCurrentNumberFolio(instance.getPrefijo()):
@@ -246,15 +260,16 @@ public class VentaController  {
 		tbColDesc.setCellValueFactory(new PropertyValueFactory<CostProductsDTO, String>("producto"));
 		tbColCant.setCellValueFactory(new PropertyValueFactory<CostProductsDTO, Integer>("cantidad"));
 		tbColCosto.setCellValueFactory(new PropertyValueFactory<CostProductsDTO, BigDecimal>("costo"));
+		tbColEstatus.setCellValueFactory(new PropertyValueFactory<CostProductsDTO, String>("estatus"));
 	}
 	
 	@FXML private void cancelPedido(){
 		ModalConfirmController ctrl = openModalConfirm();
 		if(ctrl==null)return;
 		
-		ctrl.getBtnCancelar().addEventHandler(MouseEvent.MOUSE_CLICKED, closeWindow());
+		ctrl.getBtnCancelar().addEventHandler(MouseEvent.MOUSE_CLICKED, closeWindow(stageBusqConfirm));
 		ctrl.getLblMsg().setText("¿Seguro que desea cancelar pedido?");
-		ctrl.getBtnConfirm().addEventHandler(MouseEvent.MOUSE_CLICKED,acceptCancelPedido());
+		ctrl.getBtnConfirm().addEventHandler(MouseEvent.MOUSE_CLICKED,acceptCancelPedido(stageBusqConfirm));
 	}
 
 	@FXML private void confirmPedido(){
@@ -288,12 +303,12 @@ public class VentaController  {
 		ModalConfirmController ctrl = openModalConfirm();
 		if(ctrl==null)return;
 		
-		ctrl.getBtnCancelar().addEventHandler(MouseEvent.MOUSE_CLICKED, closeWindow());
+		ctrl.getBtnCancelar().addEventHandler(MouseEvent.MOUSE_CLICKED, closeWindow(stageBusqConfirm));
 		ctrl.getLblMsg().setText("¿Confirmar Pedido?");
-		ctrl.getBtnConfirm().addEventHandler(MouseEvent.MOUSE_CLICKED,acceptPedido());
+		ctrl.getBtnConfirm().addEventHandler(MouseEvent.MOUSE_CLICKED,acceptPedido(stageBusqConfirm));
 	}
 	
-	private EventHandler<MouseEvent> acceptPedido() {
+	private EventHandler<MouseEvent> acceptPedido(Stage stageBusqProd) {
 		return new EventHandler<MouseEvent>() {
 
 			@Override
@@ -354,7 +369,8 @@ public class VentaController  {
 						product.setBar_code(el.getBar_code());
 						product.setCantidad(el.getCantidad());
 						product.setCosto_total(el.getCosto());
-						System.out.println("cost_uni_adding:"+el.getCostoUnitario());
+						product.setEstatus(el.getEstatus());
+						//System.out.println("cost_uni_adding:"+el.getCostoUnitario());
 						product.setCosto_unitario(el.getCostoUnitario());
 						product.setDescripcion(el.getProducto());
 						
@@ -398,15 +414,15 @@ public class VentaController  {
 			Parent sceneEdit= fxmlLoader.load();
 			Scene scene = new Scene(sceneEdit,3013,165);
 			scene.getStylesheets().add(getClass().getResource("/mx/com/bitmaking/application/assets/css/GestionProductos.css").toExternalForm());
-			stageBusqProd = new Stage();
-			stageBusqProd.setScene(scene);
-			stageBusqProd.setTitle("Confirmación");
-			stageBusqProd.setMinHeight(200.0);
-			stageBusqProd.setMinWidth(350.0);
-			stageBusqProd.setMaxHeight(350.0);
-			stageBusqProd.setMaxWidth(200.0);
-			stageBusqProd.initModality(Modality.APPLICATION_MODAL); 
-			stageBusqProd.show();
+			stageBusqConfirm = new Stage();
+			stageBusqConfirm.setScene(scene);
+			stageBusqConfirm.setTitle("Confirmación");
+			stageBusqConfirm.setMinHeight(200.0);
+			stageBusqConfirm.setMinWidth(350.0);
+			stageBusqConfirm.setMaxHeight(350.0);
+			stageBusqConfirm.setMaxWidth(200.0);
+			stageBusqConfirm.initModality(Modality.APPLICATION_MODAL); 
+			stageBusqConfirm.show();
 			ctrl = fxmlLoader.getController(); //Obtiene controller de la nueva ventana
 			
 	    } catch(Exception ex) {
@@ -426,7 +442,15 @@ public class VentaController  {
 	}
 	@FXML 
 	private void selectCte() {
-		
+		int idxClte = cbxCliente.getSelectionModel().getSelectedIndex() ;
+		inputTelefono.setText("");
+		if(idxClte ==0){
+			inputTelefono.setVisible(true);
+			lblTelefono.setVisible(true);
+		}else{
+			inputTelefono.setVisible(false);
+			lblTelefono.setVisible(false);
+		}
 		setClte();
 	}
 	
@@ -590,22 +614,22 @@ public class VentaController  {
 			Parent sceneEdit= fxmlLoader.load();
 			Scene scene = new Scene(sceneEdit,3013,165);
 			scene.getStylesheets().add(getClass().getResource("/mx/com/bitmaking/application/assets/css/GestionProductos.css").toExternalForm());
-			stageBusqProd = new Stage();
-			stageBusqProd.setScene(scene);
-			stageBusqProd.setTitle("Selecciona Producto ");
-			stageBusqProd.setMinHeight(636.0);
-			stageBusqProd.setMinWidth(565.0);
-			stageBusqProd.setMaxHeight(536.0);
-			stageBusqProd.setMaxWidth(765.0);
+			stageBusqConfirm = new Stage();
+			stageBusqConfirm.setScene(scene);
+			stageBusqConfirm.setTitle("Selecciona Producto ");
+			stageBusqConfirm.setMinHeight(636.0);
+			stageBusqConfirm.setMinWidth(565.0);
+			stageBusqConfirm.setMaxHeight(536.0);
+			stageBusqConfirm.setMaxWidth(765.0);
 			//stageBusqProd.setMaxHeight(200.0);
 		//	stageBusqProd.setMaxWidth(300.0);
-			stageBusqProd.initModality(Modality.APPLICATION_MODAL); 
-			stageBusqProd.show();
+			stageBusqConfirm.initModality(Modality.APPLICATION_MODAL); 
+			stageBusqConfirm.show();
 			SelectProductoVtaController busqProd = fxmlLoader.getController(); //Obtiene controller de la nueva ventana
 			
-			busqProd.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED, closeSelectProd(busqProd));
+			busqProd.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED, closeSelectProd(busqProd,stageBusqConfirm));
 			
-			busqProd.getBtnAcceptModif().addEventHandler(MouseEvent.MOUSE_CLICKED,getProductoSelected(busqProd));
+			busqProd.getBtnAcceptModif().addEventHandler(MouseEvent.MOUSE_CLICKED,getProductoSelected(busqProd,stageBusqConfirm));
 
 			
 			int idClte = 0;
@@ -621,7 +645,7 @@ public class VentaController  {
 		}
 	}
 	
-	private EventHandler<MouseEvent> closeSelectProd(SelectProductoVtaController busqProd) {
+	private EventHandler<MouseEvent> closeSelectProd(SelectProductoVtaController busqProd,Stage stageBusqProd) {
 		
 		return new EventHandler<MouseEvent>() {
 
@@ -638,7 +662,7 @@ public class VentaController  {
 			}};
 	}
 
-	private EventHandler<MouseEvent> acceptCancelPedido() {
+	private EventHandler<MouseEvent> acceptCancelPedido(Stage stageBusqConfirm) {
 		
 		return new EventHandler<MouseEvent>() {
 
@@ -649,13 +673,78 @@ public class VentaController  {
 					initForm();
 					//cbxCliente.getEditor().setText(Constantes.CLTE_GRAL);
 					cbxCliente.setValue(Constantes.CLTE_GRAL);
-					if(stageBusqProd!=null) stageBusqProd.close();
+					if(stageBusqConfirm!=null) stageBusqConfirm.close();
 		        } catch(Exception ex) {
 					ex.printStackTrace();
 				}
 			}};
 	}
-
+	
+	@FXML private void addProdByBarcodeOnEnter(KeyEvent keyEvent) {
+		
+		if(keyEvent.getCode() == KeyCode.ENTER){
+			if(inputBarcode.getText()==null || "".equals(inputBarcode.getText())){
+				return;
+			}
+			int idxClte = cbxCliente.getSelectionModel().getSelectedIndex();
+			if(idxClte <0) {
+				GeneralMethods.modalMsg("", "", "Debes seleccionar un cliente");
+				return;
+			}
+			
+			CostProductsDTO obj = null;
+			int idClte = 0;
+			if(idxClte >0) {
+				idClte=lstFoto.get((idxClte)).getId_fotografo();
+			}
+			
+			if(!Flags.remote_valid)
+				obj  =catProdService.getCatByClteAndBarcode(idClte,inputBarcode.getText());
+			else 
+				obj=remoteCatProdService.getCatByClteAndBarcode(idClte,inputBarcode.getText());
+			
+			if(obj != null){
+				String costo = "0";
+			
+				if(obj.getCosto() ==null ||	obj.getCosto().equals(new BigDecimal(0)) ){
+					costo =inputCantProd.getText().replaceAll("[^0-9\\.]", "");
+					if("".equals(costo) ||
+							Double.parseDouble(costo)<=0){
+						GeneralMethods.modalMsg("", "", "No se ha agregado un costo al producto, ingrese el costo del producto mayor a cero.");
+						return;
+					}
+				}else{
+					costo = String.valueOf(obj.getCosto());
+				}
+				
+				CostProductsDTO auxObj = new CostProductsDTO();
+				auxObj.setCantidad(inputCantProd.getText()==null || "".equals(inputCantProd.getText().trim())?
+										1:Integer.parseInt(inputCantProd.getText().trim()));
+				auxObj.setCosto(new BigDecimal(Double.parseDouble(costo)*auxObj.getCantidad()));
+				auxObj.setProducto(obj.getProducto());
+				auxObj.setCostoUnitario(obj.getCosto());
+				auxObj.setBar_code(obj.getBar_code());
+				auxObj.setId_prod(obj.getId_prod());
+				auxObj.setId_padre_prod(obj.getId_padre_prod());
+				auxObj.setId_padre_prod(obj.getId_padre_prod());
+				auxObj.setEstatus(cbxEstatusProd.getValue());
+				
+				if(!hasProduct(auxObj)){
+					tbProductos.getItems().add(auxObj);
+				}
+				updateCostoTotal();
+			}
+			else{
+				GeneralMethods.modalMsg("", "", "No se encontr\u00F3 producto relacionado con el c\u00F3digo de barras");
+			}
+			inputBarcode.setText("");
+		}
+	}
+	@FXML private void addProdToTableOnEnter(KeyEvent keyEvent) {
+		if(keyEvent.getCode() == KeyCode.ENTER){
+			addProdToTable();
+		}
+	}
 	@FXML private void addProdToTable() {
 		String cant =inputCantProd.getText();
 		cant = cant.replaceAll("[^0-9]", ""); 
@@ -688,7 +777,8 @@ public class VentaController  {
 		auxObj.setProducto(inputProd.getText());
 		auxObj.setCostoUnitario(new BigDecimal(inputCostoProd.getText()));
 		auxObj.setBar_code(inputBarcode.getText());
-		System.out.println("Costo Unitario:"+auxObj.getCostoUnitario());
+		auxObj.setEstatus(cbxEstatusProd.getValue());
+		//System.out.println("Costo Unitario:"+auxObj.getCostoUnitario());
 		if(!hasProduct(auxObj)){
 			tbProductos.getItems().add(auxObj);
 		}
@@ -715,7 +805,7 @@ public class VentaController  {
 		ObservableList<CostProductsDTO> rowsProd = tbProductos.getItems();
 		BigDecimal costTotal = new BigDecimal(0.0);
 		for(CostProductsDTO el:rowsProd) {
-			System.out.println(el.getCosto());
+			//System.out.println(el.getCosto());
 			costTotal = costTotal.add(el.getCosto());
 		}
 		System.out.println(costTotal);
@@ -727,12 +817,14 @@ public class VentaController  {
 	 * @param busqProd
 	 * @return
 	 */
-	private EventHandler<MouseEvent> getProductoSelected(SelectProductoVtaController busqProd) {
+	private EventHandler<MouseEvent> getProductoSelected(SelectProductoVtaController busqProd,Stage stageBusqProd) {
 		return new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				
 				int rowSelected = busqProd.getTblProducto().getSelectionModel().getSelectedIndex();
+				if(rowSelected<0)return;
+				
 				rowProd= busqProd.getLstProd().get(rowSelected);
 			//	String cost = String.valueOf(rowProd.getCosto());
 				
@@ -748,7 +840,7 @@ public class VentaController  {
 		};
 	}
 
-	private EventHandler<MouseEvent> closeWindow() {
+	private EventHandler<MouseEvent> closeWindow(Stage stageBusqProd) {
 		return new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -783,15 +875,16 @@ public class VentaController  {
 					//	stageBusqProd.setMaxHeight(470.0);
 					//	stageBusqProd.setMaxWidth(770.0);
 						stageBusqProd.initModality(Modality.APPLICATION_MODAL); 
-						
+
 						BusqPedidoRepController ctrller = fxmlLoader.getController(); //Obtiene controller de la nueva ventana
 
 						ctrller.getBtnExportXls().setVisible(false);
 						ctrller.getBtnModify().setVisible(true);
+						ctrller.getBtnModifProd().setVisible(true);
 						//ctrller.getContentProdPed().setVisible(false);
 						ctrller.getTblProducts().setEditable(false);
 						ctrller.getBtnImpTicket().setVisible(true);
-						ctrller.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED, closeWindow());
+						ctrller.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED, closeWindow(stageBusqProd));
 						//AnchorPane.setBottomAnchor(ctrller.getContentPedido(),0.0);
 						
 						stageBusqProd.show();
@@ -824,10 +917,11 @@ public class VentaController  {
 	
 	private void responsiveGUI() {
 		/* Panel de Home resize de acuerdo al tama�o del Pane padre*/
-		tbColProd.prefWidthProperty().bind(tbProductos.widthProperty().multiply(0.0));//0.2 --Para ocultar se pone en ceros
-		tbColDesc.prefWidthProperty().bind(tbProductos.widthProperty().multiply(0.6)); //0.4 antes de ocultar barcode
-		tbColCant.prefWidthProperty().bind(tbProductos.widthProperty().multiply(0.2));
+		tbColProd.prefWidthProperty().bind(tbProductos.widthProperty().multiply(0.2));//0.2 --Para ocultar se pone en ceros
+		tbColDesc.prefWidthProperty().bind(tbProductos.widthProperty().multiply(0.3)); //0.4 antes de ocultar barcode
+		tbColCant.prefWidthProperty().bind(tbProductos.widthProperty().multiply(0.1));
 		tbColCosto.prefWidthProperty().bind(tbProductos.widthProperty().multiply(0.2));
+		tbColEstatus.prefWidthProperty().bind(tbProductos.widthProperty().multiply(0.2));
 		
 	}
 
@@ -863,6 +957,7 @@ public class VentaController  {
 				product.setCosto(el.getCosto_total());
 				product.setCostoUnitario(el.getCosto_unitario());
 				product.setProducto(el.getDescripcion());
+				product.setEstatus(el.getEstatus());
 				
 				tbProductos.getItems().add(product);
 			}
@@ -876,13 +971,15 @@ public class VentaController  {
 		int cantidad=0;
 		
 		for(int i=0; i<tbProductos.getItems().size(); i++){
-			if(tbProductos.getItems().get(i).getId_prod() ==product.getId_prod()){
+			if(tbProductos.getItems().get(i).getId_prod() ==product.getId_prod() ||
+					tbProductos.getItems().get(i).getBar_code().equals(product.getBar_code())){
 				cantidad = tbProductos.getItems().get(i).getCantidad()+product.getCantidad();
 				
 				tbProductos.getItems().get(i).setCantidad(cantidad);
 				
 				tbProductos.getItems().get(i).setCosto(product.getCostoUnitario().
 														multiply(new BigDecimal(cantidad)) );
+				tbProductos.getItems().get(i).setEstatus(cbxEstatusProd.getValue());
 				tbProductos.getColumns().get(0).setVisible(false);
 				tbProductos.getColumns().get(0).setVisible(true);
 			//	String costTot = inputMonto.getText().replaceAll("[\\,]", "");

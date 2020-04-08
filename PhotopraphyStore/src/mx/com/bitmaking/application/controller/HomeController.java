@@ -103,7 +103,7 @@ public class HomeController {
 		itemVenta.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("Venta",true,false));
 		
 		lblGestionCat.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("GestionProductos",true,false));
-		lblReportes.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("BusqPedidoReporte",false,false));
+		lblReportes.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("BusqPedidoReporte",true,false));
 		lblGestCostProd.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("CostProdByClient",false,false));
 		lblUsr.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("GestionUsuarios",false,false));
 		lblSucursales.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("GestionSucursales",false,false));
@@ -280,6 +280,10 @@ public class HomeController {
 			        		BusqPedidoRepController repCtrl  = loader.getController();
 			        		repCtrl.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED,returnToHome());
 			        		break;
+			        	case "CostProdByClient":
+			        		CostProdByClteController ctrl = loader.getController();
+			        		ctrl.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED,returnToHome());
+			        		break;
 			        	case "GestionUsuarios":
 			        		UsuarioController usrCtrl = loader.getController();
 			        		usrCtrl.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED,returnToHome());
@@ -288,7 +292,6 @@ public class HomeController {
 			        		SucursalController sucCtrl = loader.getController();
 			        		sucCtrl.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED,returnToHome());
 				        	break;
-				        
 				        }
 				        
 			        }

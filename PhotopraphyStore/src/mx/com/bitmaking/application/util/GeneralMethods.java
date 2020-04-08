@@ -28,6 +28,7 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.imageio.ImageIO;
 
 import org.aspectj.bridge.AbortException;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
@@ -49,7 +50,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class GeneralMethods {
-
+	@Value("${exportFile.path}")
+	private static String pathFiles;
+	
 	public static void modalMsg(String title,String msgTitle, String msgContent) {
 		
 		Alert alert;
@@ -392,7 +395,7 @@ public class GeneralMethods {
 		    	
 		    }
 		}else {
-			GeneralMethods.modalMsg("", "Archivo guardado en la ruta por default", " Vaya a la ruta: "+Constantes.PATH_FILES);
+			GeneralMethods.modalMsg("", "Archivo guardado en la ruta por default", " Vaya a la ruta: "+pathFiles);
 		}
 	}
 }

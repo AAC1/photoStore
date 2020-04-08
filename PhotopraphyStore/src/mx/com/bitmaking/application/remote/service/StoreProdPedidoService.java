@@ -47,7 +47,11 @@ public class StoreProdPedidoService extends AbstractStoreProdPedidoService{//imp
 	public void deleteByIdPedido(int idPedido){
 		super.deleteByIdPedido(idPedido);
 	}
-
+	@Transactional(value="remoteTransactionManager")
+	public void editProd(Store_prod_pedido obj){
+		super.editProd(obj);
+	}
+	
 	@Override
 	public IStoreProdPedidoDAO getProdPedidoRepo() {
 		return prodPedidoRepo;

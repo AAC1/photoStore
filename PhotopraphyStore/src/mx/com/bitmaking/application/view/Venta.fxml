@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="ventaBody" accessibleRole="COMBO_BOX" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="562.0" prefWidth="865.0" style="-fx-background-color: rgba(255,255,255,0.9);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.VentaController">
+<AnchorPane fx:id="ventaBody" accessibleRole="COMBO_BOX" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="616.0" prefWidth="865.0" style="-fx-background-color: rgba(255,255,255,0.9);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.VentaController">
    <children>
       <AnchorPane prefHeight="281.0" prefWidth="865.0" style="-fx-background-color: rgba(255,255,255,0.9);" AnchorPane.bottomAnchor="281.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -21,7 +21,7 @@
             <JFXTextField fx:id="inputFolio" disable="true" layoutX="39.0" layoutY="123.0" prefHeight="26.0" prefWidth="240.0" styleClass="input-gral" AnchorPane.leftAnchor="39.0" />
             <Label layoutX="39.0" layoutY="165.0" prefHeight="17.0" prefWidth="205.0" styleClass="label-title" text="Estatus del pedido" AnchorPane.leftAnchor="39.0" />
             <JFXComboBox fx:id="cbxEstatus" layoutX="39.0" layoutY="184.0" prefHeight="28.0" prefWidth="240.0" AnchorPane.leftAnchor="39.0" />
-            <Label layoutX="39.0" layoutY="223.0" prefHeight="17.0" prefWidth="205.0" styleClass="label-title" text="Telefono" AnchorPane.leftAnchor="39.0" />
+            <Label fx:id="lblTelefono" layoutX="39.0" layoutY="223.0" prefHeight="17.0" prefWidth="205.0" styleClass="label-title" text="Telefono" AnchorPane.leftAnchor="39.0" />
             <JFXTextField fx:id="inputTelefono" layoutX="39.0" layoutY="244.0" prefHeight="26.0" prefWidth="240.0" styleClass="input-gral" AnchorPane.leftAnchor="39.0" />
             <Label layoutX="308.0" layoutY="106.0" prefHeight="17.0" prefWidth="81.0" styleClass="label-title" text="Cliente" AnchorPane.leftAnchor="308.0" />
             <JFXTextField fx:id="inputCliente" disable="true" layoutX="308.0" layoutY="123.0" prefHeight="26.0" prefWidth="542.0" styleClass="input-gral" AnchorPane.leftAnchor="308.0" AnchorPane.rightAnchor="15.0" />
@@ -36,31 +36,34 @@
                </font></JFXTextField>
          </children>
       </AnchorPane>
-      <AnchorPane layoutY="281.0" prefHeight="289.0" prefWidth="865.0" style="-fx-background-color: rgb(183,183,183);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="281.0">
+      <AnchorPane layoutY="281.0" prefHeight="333.0" prefWidth="865.0" style="-fx-background-color: rgb(183,183,183);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="281.0">
          <children>
             <JFXButton fx:id="btnSelectProd" layoutX="44.0" layoutY="18.0" onMouseClicked="#openTreProd" prefHeight="32.0" prefWidth="212.0" style="-fx-background-color: #037AB6;" styleClass="btn-gral" text="⚙ Seleccionar producto" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
             <Label layoutX="38.0" layoutY="57.0" prefHeight="18.0" prefWidth="185.0" styleClass="label-title" text="Producto" AnchorPane.leftAnchor="38.0" />
             <JFXTextField fx:id="inputProd" disable="true" layoutX="39.0" layoutY="75.0" prefHeight="25.0" prefWidth="240.0" AnchorPane.leftAnchor="38.0" />
             <Label layoutX="38.0" layoutY="116.0" prefHeight="18.0" prefWidth="110.0" styleClass="label-title" text="Cantidad" AnchorPane.leftAnchor="38.0" />
-            <JFXTextField fx:id="inputCantProd" layoutX="38.0" layoutY="134.0" prefHeight="26.0" prefWidth="104.0" styleClass="input-gral" AnchorPane.leftAnchor="38.0" />
+            <JFXTextField fx:id="inputCantProd" layoutX="38.0" layoutY="134.0" onKeyReleased="#addProdToTableOnEnter" prefHeight="26.0" prefWidth="104.0" styleClass="input-gral" AnchorPane.leftAnchor="38.0" />
             <Label layoutX="157.0" layoutY="116.0" prefHeight="18.0" prefWidth="110.0" styleClass="label-title" text="Precio / unidad" />
             <JFXTextField fx:id="inputCostoProd" layoutX="157.0" layoutY="134.0" prefHeight="26.0" prefWidth="98.0" styleClass="input-gral" AnchorPane.leftAnchor="157.0" />
-            <Label layoutX="39.0" layoutY="170.0" prefHeight="18.0" prefWidth="151.0" styleClass="label-title" text="Código de Barras" />
-            <JFXTextField fx:id="inputBarcode" layoutX="39.0" layoutY="188.0" prefHeight="26.0" prefWidth="240.0" styleClass="input-gral" AnchorPane.leftAnchor="38.0" />
-            <JFXButton fx:id="btnAddProd" alignment="CENTER" contentDisplay="CENTER" layoutX="41.0" layoutY="239.0" onMouseClicked="#addProdToTable" prefHeight="30.0" prefWidth="98.0" style="-fx-background-color: #037AB6;" styleClass="btn-gral" text="✚ Agregar" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
-            <JFXButton fx:id="btnQuitarProd" alignment="CENTER" contentDisplay="CENTER" layoutX="163.0" layoutY="239.0" onMouseClicked="#quitProdToTable" prefHeight="30.0" prefWidth="98.0" style="-fx-background-color: #037AB6;" styleClass="btn-gral" text="▬ Quitar" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
+            <Label layoutX="38.0" layoutY="229.0" prefHeight="18.0" prefWidth="151.0" styleClass="label-title" text="Código de Barras" />
+            <JFXTextField fx:id="inputBarcode" layoutX="37.0" layoutY="247.0" onKeyReleased="#addProdByBarcodeOnEnter" prefHeight="26.0" prefWidth="240.0" styleClass="input-gral" AnchorPane.leftAnchor="38.0" />
+            <JFXButton fx:id="btnAddProd" alignment="CENTER" contentDisplay="CENTER" layoutX="40.0" layoutY="295.0" onMouseClicked="#addProdToTable" prefHeight="30.0" prefWidth="98.0" style="-fx-background-color: #037AB6;" styleClass="btn-gral" text="✚ Agregar" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
+            <JFXButton fx:id="btnQuitarProd" alignment="CENTER" contentDisplay="CENTER" layoutX="162.0" layoutY="295.0" onMouseClicked="#quitProdToTable" prefHeight="30.0" prefWidth="98.0" style="-fx-background-color: #037AB6;" styleClass="btn-gral" text="▬ Quitar" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
             <JFXTextField fx:id="inputPrecioUni" disable="true" layoutX="267.0" layoutY="134.0" prefHeight="26.0" prefWidth="39.0" styleClass="input-gral" visible="false" />
-            <TableView fx:id="tbProductos" layoutX="309.0" layoutY="18.0" prefHeight="235.0" prefWidth="542.0" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="309.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="18.0">
+            <TableView fx:id="tbProductos" layoutX="308.0" layoutY="18.0" prefHeight="250.0" prefWidth="542.0" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="308.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="18.0">
               <columns>
                 <TableColumn fx:id="tbColProd" maxWidth="1.7976931348623157E308" prefWidth="118.0" style="-fx-text-fill: white;" styleClass="table-column" text="Código de Barras" />
                 <TableColumn fx:id="tbColDesc" maxWidth="1.7976931348623157E308" prefWidth="166.0" styleClass="table-column" text="Descripción" />
                   <TableColumn fx:id="tbColCant" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="63.0" styleClass="table-column" text="Cantidad" />
                   <TableColumn fx:id="tbColCosto" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="59.0" styleClass="table-column" text="Costo" />
+                  <TableColumn fx:id="tbColEstatus" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="59.0" styleClass="table-column" text="Estatus" />
               </columns>
             </TableView>
             <JFXButton fx:id="btnGuardar" layoutX="443.0" layoutY="278.0" onMouseClicked="#confirmPedido" prefHeight="32.0" prefWidth="179.0" style="-fx-background-color: #04A138;" styleClass="btn-gral" text="✔ Confirmar Venta" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="289.0" />
             <JFXButton fx:id="btnCancelar" layoutX="580.0" layoutY="266.0" onMouseClicked="#cancelPedido" prefHeight="32.0" prefWidth="133.0" style="-fx-background-color: #A12D04;" styleClass="btn-gral" text="✘ Cancelar" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="152.0" />
             <JFXButton fx:id="btnSalir" layoutX="719.0" layoutY="266.0" prefHeight="32.0" prefWidth="133.0" style="-fx-background-color: #505050;" styleClass="btn-gral" text=" ◄ Salir" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="15.0" />
+            <Label layoutX="38.0" layoutY="178.0" prefHeight="17.0" prefWidth="240.0" styleClass="label-title" text="Estatus del producto" AnchorPane.leftAnchor="38.0" />
+            <JFXComboBox fx:id="cbxEstatusProd" layoutX="38.0" layoutY="195.0" prefHeight="28.0" prefWidth="240.0" AnchorPane.leftAnchor="38.0" />
          </children>
       </AnchorPane>
    </children>

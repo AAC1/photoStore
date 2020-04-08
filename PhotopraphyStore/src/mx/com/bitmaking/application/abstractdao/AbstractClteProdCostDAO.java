@@ -20,6 +20,7 @@ import org.springframework.stereotype.Repository;
 
 import com.itextpdf.text.pdf.qrcode.ByteArray;
 
+import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.dto.PedidosReporteDTO;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.entity.Store_pedido;
@@ -65,6 +66,17 @@ public abstract class AbstractClteProdCostDAO implements IClteProdCostDAO{
 		
 		}
 		return results;
+	}
+	@Override
+	public CostProductsDTO getCostByClteAndBarcode(int id_clte, String barcode){
+		StringBuilder sQry= new StringBuilder();
+		sQry.append("");
+		sQry.append("");
+		sQry.append("");
+		sQry.append("");
+		
+		SQLQuery qry= getSessionFactory().getCurrentSession().createSQLQuery(sQry.toString());
+		return null;
 	}
 
 }
