@@ -54,6 +54,7 @@ import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
 import mx.com.bitmaking.application.util.PrinterService;
+import mx.com.bitmaking.application.util.SMS;
 
 @Component
 public class BusqPedidoRepController {
@@ -77,6 +78,9 @@ public class BusqPedidoRepController {
 	private JFXButton btnExportXls;
 	@FXML
 	private JFXButton btnSalir;
+	@FXML
+	private JFXButton btnSendSMS;
+	
 	@FXML
 	private JFXButton btnClean;
 	@FXML
@@ -163,6 +167,20 @@ public class BusqPedidoRepController {
 	
 	
 	
+	/**
+	 * @return the btnSendSMS
+	 */
+	public JFXButton getBtnSendSMS() {
+		return btnSendSMS;
+	}
+
+	/**
+	 * @param btnSendSMS the btnSendSMS to set
+	 */
+	public void setBtnSendSMS(JFXButton btnSendSMS) {
+		this.btnSendSMS = btnSendSMS;
+	}
+
 	public TableView<Store_prod_pedido> getTblProducts() {
 		return tblProducts;
 	}
@@ -802,5 +820,16 @@ public class BusqPedidoRepController {
 		}
 		
 		
+	}
+	
+	@FXML
+	private void sendMessage(){
+		try{
+			SMS.sendMessage("4427376162", "4427376162", "Pruena SMS");
+	
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 }

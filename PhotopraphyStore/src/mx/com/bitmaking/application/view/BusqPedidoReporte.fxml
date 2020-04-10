@@ -9,7 +9,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="ventaBody" accessibleRole="COMBO_BOX" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="462.0" prefWidth="765.0" style="-fx-background-color: rgba(255,255,255,0.9);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.BusqPedidoRepController">
+<AnchorPane fx:id="ventaBody" accessibleRole="COMBO_BOX" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="462.0" prefWidth="980.0" style="-fx-background-color: rgba(255,255,255,0.9);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.BusqPedidoRepController">
    <children>
       <AnchorPane fx:id="containerFilters" layoutX="268.0" layoutY="160.0" prefHeight="462.0" prefWidth="497.0" style="-fx-background-color: rgb(0,0,0,0.2);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="268.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -33,6 +33,7 @@
                   <Label layoutX="14.0" layoutY="45.0" prefHeight="25.0" prefWidth="286.0" styleClass="lbl-title" text="PEDIDOS" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="45.0" />
                   <JFXButton fx:id="btnModify" layoutX="14.0" layoutY="14.0" prefHeight="32.0" prefWidth="139.0" style="-fx-background-color: #C37B00 #C37B00;" styleClass="btn-gral" text="✎ Modificar" textFill="WHITE" visible="false" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
                   <JFXButton fx:id="btnImpTicket" layoutX="157.0" layoutY="14.0" onMouseClicked="#printTicket" prefHeight="32.0" prefWidth="139.0" style="-fx-background-color: #037AB6 #037AB6;" styleClass="btn-gral" text="🖶 Imprimir ticket" textFill="WHITE" visible="false" AnchorPane.leftAnchor="157.0" AnchorPane.topAnchor="14.0" />
+                  <JFXButton fx:id="btnSendSMS" layoutX="300.0" layoutY="14.0" onMouseClicked="#sendMessage" prefHeight="32.0" prefWidth="176.0" style="-fx-background-color: #505050;" styleClass="btn-gral" text="Enviar SMS a cliente" textFill="WHITE" visible="false" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="contentProdPed" layoutY="219.0" prefHeight="244.0" prefWidth="497.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">

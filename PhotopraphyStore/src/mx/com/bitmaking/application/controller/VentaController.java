@@ -881,6 +881,7 @@ public class VentaController  {
 						ctrller.getBtnExportXls().setVisible(false);
 						ctrller.getBtnModify().setVisible(true);
 						ctrller.getBtnModifProd().setVisible(true);
+						ctrller.getBtnSendSMS().setVisible(true);
 						//ctrller.getContentProdPed().setVisible(false);
 						ctrller.getTblProducts().setEditable(false);
 						ctrller.getBtnImpTicket().setVisible(true);

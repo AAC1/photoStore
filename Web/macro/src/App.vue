@@ -1,18 +1,17 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/img/logo.png">
-    <!--<HelloWorld msg="Welcome to Your Vue.js App"/>-->
-    <Home />
+    
+    <Menu />
   </div>
 </template>
 
 <script>
-import Home from './components/Home.vue'
- 
+import Menu from './components/Menu.vue'
+
 export default {
   name: 'App',
   components: {
-    Home
+    Menu
   }
 }
 </script>
@@ -26,7 +25,7 @@ export default {
     <script src="./assets/js/angular-touch.min.js"></script>
     <script src="./assets/js/angular-material.min.js"></script>
     -->
-    
+
 <style>
 @import './assets/css/bootstrap.min.css';
 @import './assets/css/style.css';
