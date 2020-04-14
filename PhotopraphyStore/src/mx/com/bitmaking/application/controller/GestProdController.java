@@ -3,6 +3,7 @@ package mx.com.bitmaking.application.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import com.jfoenix.controls.JFXButton;
@@ -72,6 +74,8 @@ public class GestProdController {
 	@Qualifier("remoteStoreClteProdCostService")
 	IStoreClteProdCostService remoteClteProdCostService;
 	
+	
+	
 	@FXML
 	private JFXButton btnAddProd;
 	@FXML
@@ -99,8 +103,9 @@ public class GestProdController {
 	
 	@Autowired
 	private ApplicationContext context ;
-	@Value("${exportFile.path}")
-	private String pathFiles;
+	@Autowired
+	private Environment env;
+	
 	
 	Stage stage = null;
 	private Stage stageProd = null;
@@ -673,33 +678,32 @@ public class GestProdController {
 		File file=null;
 		FileInputStream fileInputStream = null;
 		ClassLoader classLoader = GestProdController.class.getClassLoader();
-		URL loader = GestProdController.class.getClassLoader().getResource("TblBarCode.jasper");
-				//BusqPedidoRepController.class.getClassLoader().getResource("TblBarCode.jasper");
-		//classLoader.getResource("reportePedidos.jasper");
-		System.out.println("pathFiles:"+pathFiles);
+	//	URL loader = GestProdController.class.getClassLoader().getSystemResource("TblBarCode.jasper");
+	
 		try {
-			if(loader==null){
-				GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar directorio de la plantilla para el reporte");
-				return;
-			}
 			
-			file = new File(loader.getFile());
+			//if(loader==null){
+		//		GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar directorio de la plantilla para el reporte");
+		//		return;
+		//	}
+
+			file = new File(env.getProperty("exportFile.pathBarCodeJasper"));//loader.getFile());
 			System.out.println("ABS_PATH: "+file.getAbsolutePath());
 			System.out.println("PARENT: "+file.getParent());
 			System.out.println("JUST_PATH: "+file.getPath());
 			
-			String pathPlantilla = file.getAbsolutePath();
+		//	String pathPlantilla = file.getAbsolutePath();
 			
-			File fileToDownload = new File(pathPlantilla);
+			//File fileToDownload = new File(pathPlantilla);
 			SimpleDateFormat formatoD = new SimpleDateFormat("ddMMyyyy_hhmmss");
 		
-			if (fileToDownload.exists() && fileToDownload.isFile()) {
-				fileInputStream = new FileInputStream(fileToDownload);
+			if (file.exists() && file.isFile()) {
+				fileInputStream = new FileInputStream(file);
 			} else {
-				GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar plantilla de reporte");
+				GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar plantilla de reporte-> "+file.getAbsolutePath());
 				return;
 			}
-			String pathReport=pathFiles+"/barcode_"+formatoD.format(new Date())+".pdf";
+			String pathReport=env.getProperty("exportFile.path")+"/barcode_"+formatoD.format(new Date())+".pdf";
 			String logoPath = "src/mx/com/bitmaking/application/assets/img/macrofoto_logo.jpg";
 			File logoFile = new File("src/mx/com/bitmaking/application/assets/img/macrofoto_logo.jpg");
 			

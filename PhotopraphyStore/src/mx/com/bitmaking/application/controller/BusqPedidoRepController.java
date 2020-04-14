@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import com.jfoenix.controls.JFXButton;
@@ -158,8 +159,8 @@ public class BusqPedidoRepController {
 
 	@Autowired
 	private ApplicationContext context ;
-	@Value("${exportFile.path}")
-	private String pathFiles;
+	@Autowired
+	private Environment env;
 	
 	Stage stage = null;
 	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -522,31 +523,31 @@ public class BusqPedidoRepController {
 	private void exportXLS()  {
 		File file=null;
 		FileInputStream fileInputStream = null;
-		ClassLoader classLoader = getClass().getClassLoader();
-		URL loader = BusqPedidoRepController.class.getClassLoader().getResource("reportePedidos.jasper");
-		//classLoader.getResource("reportePedidos.jasper");
+		//ClassLoader classLoader = getClass().getClassLoader();
+		//URL loader = BusqPedidoRepController.class.getClassLoader().getResource("reportePedidos.jasper");
+		
 		try {
-			if(loader==null){
-				GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar directorio de la plantilla para el reporte");
-				return;
-			}
+		//	if(loader==null){
+		//		GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar directorio de la plantilla para el reporte");
+		//		return;
+		//	}
 			
-			file = new File(loader.getFile());
+			file = new File(env.getProperty("exportFile.pathPedidoRepJasper"));//loader.getFile());
 			System.out.println("ABS_PATH: "+file.getAbsolutePath());
 			System.out.println("PARENT: "+file.getParent());
 			System.out.println("JUST_PATH: "+file.getPath());
-			String pathPlantilla = file.getAbsolutePath();
+			//String pathPlantilla = file.getAbsolutePath();
 			
-			File fileToDownload = new File(pathPlantilla);
+			//File fileToDownload = new File(pathPlantilla);
 			SimpleDateFormat formatoD = new SimpleDateFormat("ddMMyyyy_hhmmss");
 		
-			if (fileToDownload.exists() && fileToDownload.isFile()) {
-				fileInputStream = new FileInputStream(fileToDownload);
+			if (file.exists() && file.isFile()) {
+				fileInputStream = new FileInputStream(file);
 			} else {
 				GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar plantilla de reporte");
 				return;
 			}
-			String pathReport=pathFiles+"/reporte_"+formatoD.format(new Date())+".xls";
+			String pathReport=env.getProperty("exportFile.path")+"/reporte_"+formatoD.format(new Date())+".xls";
 			String qry = generateQry();
 			String titulo=Constantes.COMPANY_NAME;
 			boolean export = (Flags.remote_valid)?

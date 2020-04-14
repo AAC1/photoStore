@@ -50,8 +50,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class GeneralMethods {
-	@Value("${exportFile.path}")
-	private static String pathFiles;
+
 	
 	public static void modalMsg(String title,String msgTitle, String msgContent) {
 		
@@ -395,7 +394,7 @@ public class GeneralMethods {
 		    	
 		    }
 		}else {
-			GeneralMethods.modalMsg("", "Archivo guardado en la ruta por default", " Vaya a la ruta: "+pathFiles);
+			GeneralMethods.modalMsg("", "Archivo guardado en la ruta por default", " Vaya a la ruta: "+path);
 		}
 	}
 }

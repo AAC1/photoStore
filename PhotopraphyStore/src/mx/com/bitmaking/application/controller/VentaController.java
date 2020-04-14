@@ -789,7 +789,7 @@ public class VentaController  {
 		inputCostoProd.setText("");
 		inputProd.setText("");
 		inputCostoProd.setText("");
-		
+		inputBarcode.setText("");
 	}
 	
 	@FXML private void quitProdToTable() {
