@@ -275,3 +275,7 @@ update store_cat_estatus set estatus='ENTREGADO' WHERE estatus ='TERMINADO';
 ALTER TABLE `macrofoto`.`store_prod_pedido` 
 ADD COLUMN `estatus` VARCHAR(10) default 'PENDIENTE' AFTER `costo_total`;
 
+update store_menu set estatus=0 where id_menu = 7;
+
+
+
