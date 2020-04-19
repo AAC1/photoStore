@@ -29,7 +29,7 @@
                   <TableColumn fx:id="colEstatus" prefWidth="75.0" text="Estatus" />
               </columns>
             </TableView>
-            <JFXButton fx:id="btnOpenBusq" layoutX="21.0" layoutY="15.0" onMouseClicked="#openSearch" prefHeight="35.0" prefWidth="35.0" style="-fx-background-color: #ffffff; -fx-text-fill: #005490; -fx-border-color: #005490; -fx-border-radius: 9px;" styleClass="btn-gral" text="🔍" textFill="#005490" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="15.0" />
+            <JFXButton fx:id="btnOpenBusq" layoutX="21.0" layoutY="18.0" onMouseClicked="#openSearch" prefHeight="32.0" prefWidth="101.0" style="-fx-background-color: #ffffff; -fx-text-fill: #005490; -fx-border-color: #005490; -fx-border-radius: 9px;" styleClass="btn-gral" text="Buscar" textFill="#005490" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="18.0" />
          </children>
       </AnchorPane>
       <AnchorPane layoutY="242.0" prefHeight="291.0" prefWidth="692.0" style="-fx-background-color: rgba(255,255,255,0.8);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="242.0">
