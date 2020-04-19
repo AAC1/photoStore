@@ -33,7 +33,8 @@ public abstract class AbstractMenuPerfilDAO implements IMenuPerfilDAO{
 		List<Store_menu> resp = new ArrayList<>();
 		StringBuilder qry = new StringBuilder();
 		qry.append(" select m.* from store_menu m ");
-		qry.append(" INNER JOIN store_menu_perfil mp ON mp.id_menu=m.id_menu AND mp.id_perfil=:idPerfil");
+		qry.append(" INNER JOIN store_menu_perfil mp ON mp.id_menu=m.id_menu ");
+		qry.append(" AND mp.id_perfil=:idPerfil AND m.estatus=1 ");
 		
 		
 		try{
