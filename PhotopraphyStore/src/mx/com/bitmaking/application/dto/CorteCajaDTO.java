@@ -8,6 +8,13 @@ public class CorteCajaDTO {
 	private double importe;
 	private JFXTextField cantidad;
 	
+	public CorteCajaDTO(String tipo,String denominacion, double importe, JFXTextField cantidad){
+		this.tipo = tipo;
+		this.denominacion = denominacion;
+		this.importe = importe;
+		this.cantidad = cantidad;
+	}
+	
 	/**
 	 * @return the tipo
 	 */

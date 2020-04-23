@@ -50,6 +50,7 @@ public class HomeController {
 	@FXML private Label lblUsrSession;
 	@FXML private Label lblUsr;
 	@FXML private Label lblSucursales;
+	@FXML private Label lblCorteCaja;
 	@FXML private JFXHamburger menuHamburger;
 	@FXML private AnchorPane menuContainer;
 	@FXML private AnchorPane bodyContainer;
@@ -107,7 +108,7 @@ public class HomeController {
 		lblGestCostProd.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("CostProdByClient",false,false));
 		lblUsr.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("GestionUsuarios",false,false));
 		lblSucursales.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("GestionSucursales",false,false));
-		lblSucursales.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("CorteCaja",false,false));
+		lblCorteCaja.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("CorteCaja",false,false));
 	//	menuHamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, showMenuContainer());
 		
 	}

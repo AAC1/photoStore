@@ -278,4 +278,14 @@ ADD COLUMN `estatus` VARCHAR(10) default 'PENDIENTE' AFTER `costo_total`;
 update store_menu set estatus=0 where id_menu = 7;
 
 
+select * from store_menu;
+
+INSERT INTO `macrofoto`.`store_menu` (`id_padre`, `menu_desc`, `uri`, `fx_id`, `estatus`) VALUES ('2', 'Corte de caja', 'corte-caja', 'lblCorteCaja', '1');
+
+insert into store_menu_perfil(id_perfil,id_menu)
+VALUES(1,8),(2,8);
+
+
+
+
 

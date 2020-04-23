@@ -12,29 +12,30 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.HomeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.HomeController">
    <children>
-      <AnchorPane fx:id="bodyContainer" layoutY="41.0" prefHeight="430.0" prefWidth="620.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
+      <AnchorPane fx:id="bodyContainer" layoutY="41.0" prefHeight="530.0" prefWidth="620.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
          <children>
-            <Label layoutX="413.0" layoutY="345.0" style="-fx-text-fill: #778287;" text="Photo by alexander-wang on Unsplash" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="6.0">
+            <Label layoutX="431.0" layoutY="487.0" style="-fx-text-fill: #778287;" text="Photo by alexander-wang on Unsplash" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="6.0">
                <font>
                   <Font size="10.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="backgroundOnMenu" prefHeight="422.0" prefWidth="620.0" style="-fx-background-color: rgba(0,0,0,0.7);" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-1.0" />
+      <AnchorPane fx:id="backgroundOnMenu" prefHeight="577.0" prefWidth="620.0" style="-fx-background-color: rgba(0,0,0,0.7);" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <AnchorPane fx:id="menuContainer" layoutY="41.0" maxWidth="290.0" prefHeight="430.0" prefWidth="157.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="41.0">
          <children>
             <Separator layoutX="-6.0" layoutY="174.0" prefHeight="6.0" prefWidth="247.0" AnchorPane.topAnchor="174.0" />
             <Label fx:id="itemVenta" layoutY="179.0" prefHeight="38.0" style="-fx-padding: 10;" styleClass="item-menu" text="Ventas" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="179.0" />
             <Separator layoutY="218.0" prefHeight="6.0" prefWidth="247.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
             <Label fx:id="itemAdmin" layoutY="221.0" prefHeight="38.0" prefWidth="221.0" style="-fx-padding: 10;" styleClass="item-menu" text="Administración " visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="221.0" />
-            <Label fx:id="lblReportes" layoutX="20.0" layoutY="259.0" prefHeight="38.0" style="-fx-padding:10;" styleClass="subitem-menu" text="Consulta Reportes" visible="false" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="259.0" />
-            <Label fx:id="lblGestionCat" layoutX="20.0" layoutY="296.0" prefHeight="38.0" style="-fx-padding: 10;" styleClass="subitem-menu" text="Gestión de Productos" visible="false" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="296.0" />
-            <Label fx:id="lblGestCostProd" layoutX="20.0" layoutY="334.0" prefHeight="38.0" prefWidth="220.0" style="-fx-padding: 10;" styleClass="subitem-menu" text="Gestión Costo Productos" visible="false" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="334.0" />
-            <Label fx:id="lblUsr" layoutX="20.0" layoutY="374.0" prefHeight="38.0" prefWidth="221.0" style="-fx-padding:10;" styleClass="subitem-menu" text="Usuarios" visible="false" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="372.0" />
-            <Label fx:id="lblSucursales" layoutX="10.0" layoutY="410.0" prefHeight="38.0" prefWidth="221.0" style="-fx-padding:10;" styleClass="subitem-menu" text="Sucursales" visible="false" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="410.0" />
+            <Label fx:id="lblCorteCaja" layoutX="20.0" layoutY="259.0" prefHeight="38.0" style="-fx-padding:10;" styleClass="subitem-menu" text="Corte de Caja" visible="false" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0" />
+            <Label fx:id="lblReportes" layoutX="20.0" layoutY="294.0" prefHeight="38.0" style="-fx-padding:10;" styleClass="subitem-menu" text="Consulta Reportes" visible="false" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="294.0" />
+            <Label fx:id="lblGestionCat" layoutX="20.0" layoutY="331.0" prefHeight="38.0" style="-fx-padding: 10;" styleClass="subitem-menu" text="Gestión de Productos" visible="false" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="331.0" />
+            <Label fx:id="lblGestCostProd" layoutX="20.0" layoutY="369.0" prefHeight="38.0" prefWidth="220.0" style="-fx-padding: 10;" styleClass="subitem-menu" text="Gestión Costo Productos" visible="false" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="369.0" />
+            <Label fx:id="lblUsr" layoutX="20.0" layoutY="407.0" prefHeight="38.0" prefWidth="221.0" style="-fx-padding:10;" styleClass="subitem-menu" text="Usuarios" visible="false" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="407.0" />
+            <Label fx:id="lblSucursales" layoutX="20.0" layoutY="445.0" prefHeight="38.0" prefWidth="221.0" style="-fx-padding:10;" styleClass="subitem-menu" text="Sucursales" visible="false" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="445.0" />
             <Label fx:id="closeSession" layoutY="369.0" prefHeight="38.0" prefWidth="235.0" style="-fx-padding: 10;" styleClass="item-menu" text="↶ Cerrar Sesión" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
             <Label alignment="CENTER" layoutY="122.0" prefHeight="18.0" text="Bienvenido" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="122.0" />
             <Label fx:id="lblUsrSession" alignment="CENTER" layoutX="-6.0" layoutY="140.0" prefHeight="38.0" prefWidth="247.0" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="140.0" />
