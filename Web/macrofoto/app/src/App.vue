@@ -9,22 +9,13 @@
 import Menu from './components/Menu.vue'
 
 export default {
-  name: 'App',
+  name: 'MainApp',
   components: {
     Menu
   }
 }
 </script>
 
-<!--
-    <script src="./assets/js/angular.min.js"></script>
-    <script src="./assets/js/angular-route.min.js"></script>
-    <script src="./assets/js/angular-animate.min.js"></script>
-    <script src="./assets/js/angular-messages.min.js"></script>
-    <script src="./assets/js/angular-aria.min.js"></script>
-    <script src="./assets/js/angular-touch.min.js"></script>
-    <script src="./assets/js/angular-material.min.js"></script>
-    -->
 
 <style>
 @import './assets/css/bootstrap.min.css';

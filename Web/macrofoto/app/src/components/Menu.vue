@@ -1,7 +1,7 @@
 
 <template>
 
-<div id="app-menu" >
+<div id="menu" >
 
     <div>
 
