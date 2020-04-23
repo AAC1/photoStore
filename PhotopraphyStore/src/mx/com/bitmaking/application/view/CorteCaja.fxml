@@ -9,17 +9,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="648.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.CorteCajaController">
    <children>
-  <AnchorPane layoutX="-18.0" minHeight="0.0" minWidth="0.0" prefHeight="167.0" prefWidth="597.0">
+  <AnchorPane layoutX="-18.0" minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="648.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <TableView layoutX="52.0" layoutY="84.0" prefHeight="228.0" prefWidth="545.0">
+            <TableView fx:id="tblCorteCaja" layoutX="52.0" layoutY="84.0" prefHeight="228.0" prefWidth="545.0" AnchorPane.bottomAnchor="88.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="84.0">
               <columns>
-                <TableColumn editable="false" prefWidth="96.0" text="Tipo" />
-                <TableColumn editable="false" prefWidth="134.0" text="Denominación" />
-                  <TableColumn prefWidth="122.0" sortable="false" text="Cantidad" />
-                  <TableColumn editable="false" prefWidth="158.0" text="Importe" />
+                <TableColumn fx:id="colTipo" editable="false" prefWidth="96.0" text="Tipo" />
+                <TableColumn fx:id="colDenominacion" editable="false" prefWidth="134.0" text="Denominación" />
+                  <TableColumn fx:id="colCantidad" prefWidth="122.0" sortable="false" text="Cantidad" />
+                  <TableColumn fx:id="colImporte" editable="false" prefWidth="158.0" text="Importe" />
               </columns>
             </TableView>
             <Label layoutX="44.0" layoutY="40.0" prefHeight="17.0" prefWidth="120.0" text="Usuario: Amairani">
@@ -37,12 +36,13 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <JFXButton fx:id="btnClean" layoutX="511.0" layoutY="41.0" onMouseClicked="#cleanBusqform" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #037AB6 #037AB6;" styleClass="btn-gral" text="✉ Enviar" textFill="WHITE" />
+            <JFXButton fx:id="btnSendMail" layoutX="512.0" layoutY="24.0" onMouseClicked="#cleanBusqform" prefHeight="32.0" prefWidth="103.0" style="-fx-background-color: #037AB6 #037AB6;" styleClass="btn-gral" text="✉ Enviar" textFill="WHITE" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="24.0" />
+            <Button fx:id="btnCerrarCaja" layoutX="372.0" layoutY="354.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="110.0" style="-fx-background-color: #04A138 #04A138;" styleClass="btn-gral" text="Cerrar caja" textFill="WHITE" AnchorPane.rightAnchor="166.0" />
+            <Label layoutX="356.0" layoutY="330.0" prefHeight="17.0" prefWidth="57.0" text="Total:" AnchorPane.bottomAnchor="53.0" AnchorPane.rightAnchor="235.0" />
+            <JFXButton fx:id="btnCargoAbono" layoutX="341.0" layoutY="24.0" onMouseClicked="#cleanBusqform" prefHeight="32.0" prefWidth="141.0" style="-fx-background-color: #505050 #505050 #505050 #505050;" styleClass="btn-gral" text="Cargos / Abonos" textFill="WHITE" AnchorPane.rightAnchor="166.0" AnchorPane.topAnchor="24.0" />
          </children>
       </AnchorPane>
-      <Button layoutX="387.0" layoutY="359.0" mnemonicParsing="false" style="-fx-background-color: #04A138 #04A138;" styleClass="btn-gral" text="Cerrar caja" textFill="WHITE" />
-      <Button layoutX="496.0" layoutY="359.0" mnemonicParsing="false" style="-fx-background-color: #505050 #505050;" styleClass="btn-gral" text="Cancelar" textFill="WHITE" />
-      <JFXTextField fx:id="inputBusqFolio" editable="false" layoutX="414.0" layoutY="314.0" prefHeight="27.0" prefWidth="158.0" styleClass="input-gral" />
-      <Label layoutX="373.0" layoutY="333.0" prefHeight="17.0" prefWidth="49.0" text="Total:" />
+      <Button fx:id="btnCancelar" layoutX="496.0" layoutY="354.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="103.0" style="-fx-background-color: #505050 #505050;" styleClass="btn-gral" text="Cancelar" textFill="WHITE" AnchorPane.rightAnchor="50.0" />
+      <JFXTextField fx:id="inputBusqFolio" editable="false" layoutX="414.0" layoutY="314.0" prefHeight="27.0" prefWidth="187.0" styleClass="input-gral" AnchorPane.bottomAnchor="59.0" AnchorPane.rightAnchor="50.0" />
    </children>
 </AnchorPane>

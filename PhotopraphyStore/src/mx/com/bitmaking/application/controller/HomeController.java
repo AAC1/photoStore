@@ -107,6 +107,7 @@ public class HomeController {
 		lblGestCostProd.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("CostProdByClient",false,false));
 		lblUsr.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("GestionUsuarios",false,false));
 		lblSucursales.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("GestionSucursales",false,false));
+		lblSucursales.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("CorteCaja",false,false));
 	//	menuHamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, showMenuContainer());
 		
 	}
@@ -292,7 +293,11 @@ public class HomeController {
 			        		SucursalController sucCtrl = loader.getController();
 			        		sucCtrl.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED,returnToHome());
 				        	break;
-				        }
+			        	case "CorteCaja":
+			        		CorteCajaController cajaCtrl = loader.getController();
+			        		cajaCtrl.getBtnCancelar().addEventHandler(MouseEvent.MOUSE_CLICKED,returnToHome());
+				        	break;
+			        }
 				        
 			        }
 			        else{
