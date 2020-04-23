@@ -8,16 +8,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="648.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.CorteCajaController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="593.0" prefWidth="648.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.CorteCajaController">
    <children>
   <AnchorPane layoutX="-18.0" minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="648.0" style="-fx-background-color: rgba(255,255,255,0.8);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <TableView fx:id="tblCorteCaja" layoutX="52.0" layoutY="84.0" prefWidth="548.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="84.0">
+            <TableView fx:id="tblCorteCaja" layoutX="50.0" layoutY="72.0" prefHeight="429.0" prefWidth="548.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="72.0">
               <columns>
-                <TableColumn fx:id="colTipo" editable="false" prefWidth="96.0" text="Tipo" />
-                <TableColumn fx:id="colDenominacion" editable="false" prefWidth="134.0" text="Denominación" />
+                <TableColumn fx:id="colTipo" editable="false" prefWidth="96.0" sortable="false" text="Tipo" />
+                <TableColumn fx:id="colDenominacion" editable="false" prefWidth="134.0" sortable="false" text="Denominación" />
                   <TableColumn fx:id="colCantidad" prefWidth="122.0" sortable="false" text="Cantidad" />
-                  <TableColumn fx:id="colImporte" editable="false" prefWidth="158.0" text="Importe" />
+                  <TableColumn fx:id="colImporte" editable="false" prefWidth="158.0" sortable="false" text="Importe" />
               </columns>
             </TableView>
             <Label layoutX="34.0" layoutY="4.0" text="Corte de Caja">

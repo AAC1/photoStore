@@ -286,6 +286,30 @@ insert into store_menu_perfil(id_perfil,id_menu)
 VALUES(1,8),(2,8);
 
 
+create table corte_caja (
+ id_corte_caja int primary key auto_increment ,
+ deno1000 double ,
+ deno500 double,
+ deno200 double,
+ deno100 double,
+ deno50 double,
+ deno20 double,
+ deno10 double,
+ deno5 double,
+ deno2 double,
+ deno1 double,
+ deno050 double,
+ importe double,
+ fecha datetime
+);
+
+create table cargo_abono (
+ id_cargo_abono int primary key auto_increment,
+ tipo VARCHAR(1),
+ monto double,
+ motivo varchar(250),
+ fecha date
+);
 
 
 
