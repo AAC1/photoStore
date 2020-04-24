@@ -1,5 +1,6 @@
 package mx.com.bitmaking.application.controller;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -146,8 +147,6 @@ public class CorteCajaController {
 				CorteCajaDTO objRow = tblCorteCaja.getItems().get(idx);
 				if(!newValue.equals("")) {
 				
-					
-					
 					newValue = newValue.replaceAll("[^0-9]", "");
 					if(!newValue.equals("") ) {
 						decimalForm = String.format("%,d",Integer.parseInt(newValue));
@@ -158,11 +157,11 @@ public class CorteCajaController {
 						field.setText(oldValue);
 					}else {
 						if(!newValue.equals("")) {
-							double importe= Double.parseDouble(newValue.trim().replace(",","")) * 
-											Double.parseDouble(objRow.getDenominacion().trim().replace(",","")); 
+							BigDecimal importe= new BigDecimal(newValue.trim().replace(",",""));
+							importe = importe.multiply(new BigDecimal(objRow.getDenominacion().trim().replace(",","")));
 							
 							objRow.setImporte(GeneralMethods.formatCurrentNumber(String.valueOf(importe)));
-							System.out.println("importe:"+importe);	
+						//	System.out.println("importe:"+importe);	
 						}else{
 							objRow.setImporte("0.0");
 						}
@@ -248,8 +247,8 @@ public class CorteCajaController {
 		/* Panel de Home resize de acuerdo al tama�o del Pane padre*/
 		colTipo.prefWidthProperty().bind(tblCorteCaja.widthProperty().multiply(0.2));
 		colDenominacion.prefWidthProperty().bind(tblCorteCaja.widthProperty().multiply(0.3));
-		colCantidad.prefWidthProperty().bind(tblCorteCaja.widthProperty().multiply(0.3));
-		colImporte.prefWidthProperty().bind(tblCorteCaja.widthProperty().multiply(0.2));
+		colCantidad.prefWidthProperty().bind(tblCorteCaja.widthProperty().multiply(0.2));
+		colImporte.prefWidthProperty().bind(tblCorteCaja.widthProperty().multiply(0.3));
 		
 		colTipo.setCellValueFactory(new PropertyValueFactory<CorteCajaDTO, String>("tipo"));
 		colDenominacion.setCellValueFactory(new PropertyValueFactory<CorteCajaDTO, String>("denominacion"));

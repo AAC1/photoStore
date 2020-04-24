@@ -14,14 +14,14 @@
             <JFXButton fx:id="btnSendMail" layoutX="524.0" layoutY="14.0" prefHeight="32.0" prefWidth="103.0" style="-fx-background-color: #037AB6 #037AB6;" styleClass="btn-gral" text="✉ Enviar" textFill="WHITE" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="14.0" />
             <JFXButton fx:id="btnCargoAbono" layoutX="367.0" layoutY="14.0" prefHeight="32.0" prefWidth="141.0" style="-fx-background-color: #505050 #505050 #505050 #505050;" styleClass="btn-gral" text="Cargos / Abonos" textFill="WHITE" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="14.0" />
             <JFXButton fx:id="btnCancelar" layoutX="608.0" layoutY="547.0" prefHeight="32.0" prefWidth="103.0" style="-fx-background-color: #505050 #505050 #505050 #505050;" styleClass="btn-gral" text=" ◄ Salir" textFill="WHITE" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="21.0" />
-            <AnchorPane fx:id="containerBusqResp" layoutX="3.0" prefHeight="593.0" prefWidth="405.0" style="-fx-background-color: rgba(255,255,255,0.9);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="containerBusqResp" layoutX="3.0" prefHeight="593.0" prefWidth="438.0" style="-fx-background-color: rgba(255,255,255,0.9);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <TableView fx:id="tblCorteCaja" layoutX="1.0" layoutY="88.0" prefHeight="437.0" prefWidth="367.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="68.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="88.0">
                     <columns>
                       <TableColumn fx:id="colTipo" editable="false" prefWidth="60.0" sortable="false" text="Tipo" />
-                      <TableColumn fx:id="colDenominacion" editable="false" prefWidth="117.0" sortable="false" text="Denominación" />
+                      <TableColumn fx:id="colDenominacion" editable="false" prefWidth="117.0" sortable="false" style="-fx-alignment: CENTER-RIGHT;" text="Denominación" />
                         <TableColumn fx:id="colCantidad" prefWidth="82.0" sortable="false" text="Cantidad" />
-                        <TableColumn fx:id="colImporte" editable="false" prefWidth="100.0" sortable="false" text="Importe" />
+                        <TableColumn fx:id="colImporte" editable="false" prefWidth="100.0" sortable="false" style="-fx-alignment: CENTER-RIGHT;" text="Importe" />
                     </columns>
                   </TableView>
                   <Label alignment="CENTER" layoutX="15.0" layoutY="6.0" prefHeight="37.0" prefWidth="255.0" styleClass="lbl-title" text="CORTE DE CAJA" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="6.0" />
@@ -49,11 +49,11 @@
                   </Label>
                </children>
             </AnchorPane>
-            <TableView fx:id="tblResume" layoutX="414.0" layoutY="86.0" prefHeight="437.0" prefWidth="297.0" AnchorPane.bottomAnchor="68.0" AnchorPane.leftAnchor="414.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="88.0">
+            <TableView fx:id="tblResume" layoutX="450.0" layoutY="86.0" prefHeight="437.0" prefWidth="261.0" AnchorPane.bottomAnchor="68.0" AnchorPane.leftAnchor="450.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="88.0">
               <columns>
-                <TableColumn fx:id="colResumeDesc" prefWidth="165.0" text="Descripción" />
-                <TableColumn fx:id="colResumeImporte" prefWidth="91.0" text="Importe" />
-                  <TableColumn fx:id="colResumeTotal" prefWidth="78.0" text="Total" />
+                <TableColumn fx:id="colResumeDesc" prefWidth="104.0" text="Descripción" />
+                <TableColumn fx:id="colResumeImporte" minWidth="0.0" prefWidth="60.0" text="Importe" />
+                  <TableColumn fx:id="colResumeTotal" prefWidth="170.0" text="Total" />
               </columns>
             </TableView>
          </children>

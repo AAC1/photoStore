@@ -7,12 +7,19 @@
 
 <script>
 import Menu from './components/Menu.vue'
-
-export default {
-  name: 'MainApp',
+import { Component, Vue } from 'vue-property-decorator'
+@Component({
   components: {
     Menu
   }
+})
+export default class MainApp extends Vue {
+
+  /*name: 'MainApp',
+  components: {
+    Menu
+  }
+  */
 }
 </script>
 
