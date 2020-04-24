@@ -96,7 +96,7 @@ public class LoginController {
 		try {
 		ResponseDTO resp = null;
 		String passwd = GeneralMethods.cifraSha256(inputPasswd.getText(), Constantes.SALT);
-		System.out.println("passwd:"+passwd);
+		//System.out.println("passwd:"+passwd);
 		//	try {
 				resp = loginService.validUsr(inputUsr.getText(), passwd);
 						// remoteLoginService.validUsr(inputUsr.getText(), inputPasswd.getText());
@@ -122,6 +122,7 @@ public class LoginController {
 				if(mainStage!=null)mainStage.close();
 				inputPasswd.setText("");
 				openModal("Home",true);
+				
 			}
 		}catch(Exception e) {
 			GeneralMethods.modalMsg("ERROR", "", e.getMessage());
