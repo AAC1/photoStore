@@ -5,10 +5,10 @@ import com.jfoenix.controls.JFXTextField;
 public class CorteCajaDTO {
 	private String tipo;
 	private String denominacion;
-	private double importe;
+	private String importe;
 	private JFXTextField cantidad;
 	
-	public CorteCajaDTO(String tipo,String denominacion, double importe, JFXTextField cantidad){
+	public CorteCajaDTO(String tipo,String denominacion, String importe, JFXTextField cantidad){
 		this.tipo = tipo;
 		this.denominacion = denominacion;
 		this.importe = importe;
@@ -42,13 +42,13 @@ public class CorteCajaDTO {
 	/**
 	 * @return the importe
 	 */
-	public double getImporte() {
+	public String getImporte() {
 		return importe;
 	}
 	/**
 	 * @param importe the importe to set
 	 */
-	public void setImporte(double importe) {
+	public void setImporte(String importe) {
 		this.importe = importe;
 	}
 	/**

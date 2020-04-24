@@ -285,7 +285,7 @@ INSERT INTO `macrofoto`.`store_menu` (`id_padre`, `menu_desc`, `uri`, `fx_id`, `
 insert into store_menu_perfil(id_perfil,id_menu)
 VALUES(1,8),(2,8);
 
-
+drop table if exists corte_caja;
 create table corte_caja (
  id_corte_caja int primary key auto_increment ,
  deno1000 double ,
@@ -300,6 +300,7 @@ create table corte_caja (
  deno1 double,
  deno050 double,
  importe double,
+ importe_ini double,
  fecha datetime
 );
 
