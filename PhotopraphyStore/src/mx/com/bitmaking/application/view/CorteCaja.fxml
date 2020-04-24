@@ -26,7 +26,7 @@
                   </TableView>
                   <Label alignment="CENTER" layoutX="15.0" layoutY="6.0" prefHeight="37.0" prefWidth="255.0" styleClass="lbl-title" text="CORTE DE CAJA" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="6.0" />
                   <JFXButton fx:id="btnClean" layoutX="139.0" layoutY="413.0" onMouseClicked="#cleanCorteCaja" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: #037AB6 #037AB6;" styleClass="btn-gral" text="⚙ Limpiar " textFill="WHITE" AnchorPane.bottomAnchor="17.0" AnchorPane.rightAnchor="15.0" />
-                  <JFXButton fx:id="btnSave" layoutX="100.0" layoutY="544.0" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: #04A138;" styleClass="btn-gral" text="✔ Guardar" textFill="WHITE" AnchorPane.bottomAnchor="17.0" AnchorPane.rightAnchor="148.0" />
+                  <JFXButton fx:id="btnSave" layoutX="100.0" layoutY="544.0" onMouseClicked="#guardaCorteCaja" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: #04A138;" styleClass="btn-gral" text="✔ Guardar" textFill="WHITE" AnchorPane.bottomAnchor="17.0" AnchorPane.rightAnchor="148.0" />
                   <Label layoutX="15.0" layoutY="60.0" prefHeight="17.0" prefWidth="57.0" text="Usuario:" AnchorPane.topAnchor="60.0">
                      <font>
                         <Font size="10.0" />

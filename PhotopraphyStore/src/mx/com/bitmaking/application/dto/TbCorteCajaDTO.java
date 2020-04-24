@@ -2,13 +2,13 @@ package mx.com.bitmaking.application.dto;
 
 import com.jfoenix.controls.JFXTextField;
 
-public class CorteCajaDTO {
+public class TbCorteCajaDTO {
 	private String tipo;
 	private String denominacion;
 	private String importe;
 	private JFXTextField cantidad;
 	
-	public CorteCajaDTO(String tipo,String denominacion, String importe, JFXTextField cantidad){
+	public TbCorteCajaDTO(String tipo,String denominacion, String importe, JFXTextField cantidad){
 		this.tipo = tipo;
 		this.denominacion = denominacion;
 		this.importe = importe;

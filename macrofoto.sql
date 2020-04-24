@@ -285,29 +285,31 @@ INSERT INTO `macrofoto`.`store_menu` (`id_padre`, `menu_desc`, `uri`, `fx_id`, `
 insert into store_menu_perfil(id_perfil,id_menu)
 VALUES(1,8),(2,8);
 
-drop table if exists corte_caja;
-create table corte_caja (
+drop table if exists store_corte_caja;
+create table store_corte_
+caja (
  id_corte_caja int primary key auto_increment ,
- deno1000 double ,
- deno500 double,
- deno200 double,
- deno100 double,
- deno50 double,
- deno20 double,
- deno10 double,
- deno5 double,
- deno2 double,
- deno1 double,
- deno050 double,
- importe double,
- importe_ini double,
+ deno1000 int ,
+ deno500 int,
+ deno200 int,
+ deno100 int,
+ deno50 int,
+ deno20 int,
+ deno10 int,
+ deno5 int,
+ deno2 int,
+ deno1 int,
+ deno050 int,
+ importe decimal(10,2),
+ importe_ini decimal(10,2),
  fecha datetime
 );
 
-create table cargo_abono (
+drop table if exists store_cargo_abono;
+create table store_cargo_abono (
  id_cargo_abono int primary key auto_increment,
  tipo VARCHAR(1),
- monto double,
+ monto decimal(10,2),
  motivo varchar(250),
  fecha date
 );

@@ -25,7 +25,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import mx.com.bitmaking.application.dto.CorteCajaDTO;
+import mx.com.bitmaking.application.dto.TbCorteCajaDTO;
 import mx.com.bitmaking.application.dto.CorteCajaResumeDTO;
 import mx.com.bitmaking.application.dto.UserSessionDTO;
 import mx.com.bitmaking.application.util.Constantes;
@@ -34,11 +34,11 @@ import mx.com.bitmaking.application.util.GeneralMethods;
 @Controller
 public class CorteCajaController {
 	
-	@FXML private TableView<CorteCajaDTO> tblCorteCaja;
-	@FXML private TableColumn<CorteCajaDTO,String> colTipo;
-	@FXML private TableColumn<CorteCajaDTO,String> colDenominacion;
-	@FXML private TableColumn<CorteCajaDTO,JFXTextField> colCantidad;
-	@FXML private TableColumn<CorteCajaDTO,Double> colImporte;
+	@FXML private TableView<TbCorteCajaDTO> tblCorteCaja;
+	@FXML private TableColumn<TbCorteCajaDTO,String> colTipo;
+	@FXML private TableColumn<TbCorteCajaDTO,String> colDenominacion;
+	@FXML private TableColumn<TbCorteCajaDTO,JFXTextField> colCantidad;
+	@FXML private TableColumn<TbCorteCajaDTO,Double> colImporte;
 	
 	@FXML private JFXButton btnCargoAbono;
 	@FXML private JFXButton btnSendMail;
@@ -88,6 +88,11 @@ public class CorteCajaController {
 		}
 		
 		
+		
+	}
+	
+	@FXML
+	private void guardaCorteCaja(){
 		
 	}
 	
@@ -144,7 +149,7 @@ public class CorteCajaController {
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 			//	System.out.println(newValue);
 				String decimalForm ="";
-				CorteCajaDTO objRow = tblCorteCaja.getItems().get(idx);
+				TbCorteCajaDTO objRow = tblCorteCaja.getItems().get(idx);
 				if(!newValue.equals("")) {
 				
 					newValue = newValue.replaceAll("[^0-9]", "");
@@ -181,63 +186,63 @@ public class CorteCajaController {
 		
 	}
 	private void fillTableDenominacion(){
-		List<CorteCajaDTO> listDeno = new ArrayList<>();
+		List<TbCorteCajaDTO> listDeno = new ArrayList<>();
 		JFXTextField input = new JFXTextField();
 		input.setId("input1000");
 		//input.textProperty().addListener(GeneralMethods.formatInteger(input));
 		//CorteCajaDTO obj1000 =new CorteCajaDTO("Billete","1,000.00","0.0",input);
 		input.textProperty().addListener(calculateImport(input,0));
-		listDeno.add(new CorteCajaDTO("Billete","1,000.00","0.0",input));
+		listDeno.add(new TbCorteCajaDTO("Billete","1,000.00","0.0",input));
 		
 		input = new JFXTextField();
 		input.setId("input500");
 		input.textProperty().addListener(calculateImport(input,1));
-		listDeno.add(new CorteCajaDTO("Billete","500.00","0.0",input));
+		listDeno.add(new TbCorteCajaDTO("Billete","500.00","0.0",input));
 		
 		input = new JFXTextField();
 		input.setId("input200");
 		input.textProperty().addListener(calculateImport(input,2));
-		listDeno.add(new CorteCajaDTO("Billete","200.00","0.0",input));
+		listDeno.add(new TbCorteCajaDTO("Billete","200.00","0.0",input));
 		
 		input = new JFXTextField();
 		input.setId("input100");
 		input.textProperty().addListener(calculateImport(input,3));
-		listDeno.add(new CorteCajaDTO("Billete","100.00","0.0",input));
+		listDeno.add(new TbCorteCajaDTO("Billete","100.00","0.0",input));
 		
 		input = new JFXTextField();
 		input.setId("input50");
 		input.textProperty().addListener(calculateImport(input,4));
-		listDeno.add(new CorteCajaDTO("Billete","50.00","0.0",input));
+		listDeno.add(new TbCorteCajaDTO("Billete","50.00","0.0",input));
 		
 		input = new JFXTextField();
 		input.setId("input20");
 		input.textProperty().addListener(calculateImport(input,5));
-		listDeno.add(new CorteCajaDTO("Billete","20.00","0.0",input));
+		listDeno.add(new TbCorteCajaDTO("Billete","20.00","0.0",input));
 		
 		input = new JFXTextField();
 		input.setId("input10");
 		input.textProperty().addListener(calculateImport(input,6));
-		listDeno.add(new CorteCajaDTO("Moneda","10.00","0.0",input));
+		listDeno.add(new TbCorteCajaDTO("Moneda","10.00","0.0",input));
 		
 		input = new JFXTextField();
 		input.setId("input5");
 		input.textProperty().addListener(calculateImport(input,7));
-		listDeno.add(new CorteCajaDTO("Moneda","5.00","0.0",input));
+		listDeno.add(new TbCorteCajaDTO("Moneda","5.00","0.0",input));
 		
 		input = new JFXTextField();
 		input.setId("input2");
 		input.textProperty().addListener(calculateImport(input,8));
-		listDeno.add(new CorteCajaDTO("Moneda","2.00","0.0",input));
+		listDeno.add(new TbCorteCajaDTO("Moneda","2.00","0.0",input));
 		
 		input = new JFXTextField();
 		input.setId("input1");
 		input.textProperty().addListener(calculateImport(input,9));
-		listDeno.add(new CorteCajaDTO("Moneda","1.00","0.0",input));
+		listDeno.add(new TbCorteCajaDTO("Moneda","1.00","0.0",input));
 		
 		input = new JFXTextField();
 		input.setId("input050");
 		input.textProperty().addListener(calculateImport(input,10));
-		listDeno.add(new CorteCajaDTO("Moneda","0.50","0.0",input));
+		listDeno.add(new TbCorteCajaDTO("Moneda","0.50","0.0",input));
 
 		tblCorteCaja.getItems().removeAll(tblCorteCaja.getItems());
 		tblCorteCaja.getItems().addAll(listDeno);
@@ -250,10 +255,10 @@ public class CorteCajaController {
 		colCantidad.prefWidthProperty().bind(tblCorteCaja.widthProperty().multiply(0.2));
 		colImporte.prefWidthProperty().bind(tblCorteCaja.widthProperty().multiply(0.3));
 		
-		colTipo.setCellValueFactory(new PropertyValueFactory<CorteCajaDTO, String>("tipo"));
-		colDenominacion.setCellValueFactory(new PropertyValueFactory<CorteCajaDTO, String>("denominacion"));
-		colCantidad.setCellValueFactory(new PropertyValueFactory<CorteCajaDTO, JFXTextField>("cantidad"));
-		colImporte.setCellValueFactory(new PropertyValueFactory<CorteCajaDTO, Double>("importe"));
+		colTipo.setCellValueFactory(new PropertyValueFactory<TbCorteCajaDTO, String>("tipo"));
+		colDenominacion.setCellValueFactory(new PropertyValueFactory<TbCorteCajaDTO, String>("denominacion"));
+		colCantidad.setCellValueFactory(new PropertyValueFactory<TbCorteCajaDTO, JFXTextField>("cantidad"));
+		colImporte.setCellValueFactory(new PropertyValueFactory<TbCorteCajaDTO, Double>("importe"));
 		
 		
 		colResumeDesc.prefWidthProperty().bind(tblResume.widthProperty().multiply(0.6));
