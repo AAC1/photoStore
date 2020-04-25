@@ -52,8 +52,8 @@
             <TableView fx:id="tblResume" layoutX="450.0" layoutY="86.0" prefHeight="437.0" prefWidth="261.0" AnchorPane.bottomAnchor="68.0" AnchorPane.leftAnchor="450.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="88.0">
               <columns>
                 <TableColumn fx:id="colResumeDesc" prefWidth="104.0" text="Descripción" />
-                <TableColumn fx:id="colResumeImporte" minWidth="0.0" prefWidth="60.0" text="Importe" />
-                  <TableColumn fx:id="colResumeTotal" prefWidth="170.0" text="Total" />
+                <TableColumn fx:id="colResumeImporte" minWidth="0.0" prefWidth="60.0" style="-fx-alignment: CENTER-RIGHT;" text="Importe" />
+                  <TableColumn fx:id="colResumeTotal" prefWidth="170.0" style="-fx-alignment: CENTER-RIGHT;" text="Total" />
               </columns>
             </TableView>
          </children>

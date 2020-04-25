@@ -16,8 +16,8 @@ public class StoreCorteCajaService extends AbstractStoreCorteCajaService{
 	@Qualifier("StoreCorteCajaDAO") 
 	private IStoreCorteCajaDAO storeCorteCajaDAO;
 	
-	public Store_corte_caja getCorteCajaByDate(String date){
-		return super.getCorteCajaByDate(date);
+	public Store_corte_caja getCorteCajaByDate(String date,int id_sucursal){
+		return super.getCorteCajaByDate(date,id_sucursal);
 	}
 	
 	public void saveCorteCaja(Store_corte_caja row){

@@ -96,7 +96,7 @@ public abstract class AbstractLoginDAO implements ILoginDAO{
 		StringBuilder qry = new StringBuilder();
 		qry.append(" select u.id_usr,u.login,u.nombre,u.correo,u.telefono,u.intentos,u.bloqueado,");
 		qry.append(" u.activo,u.id_perfil,");
-		qry.append(" s.sucursal,s.prefijo ,s.direccion as dirSucursal, s.razon_social,s.telefono as telSucursal");
+		qry.append(" s.id_sucursal, s.sucursal,s.prefijo ,s.direccion as dirSucursal, s.razon_social,s.telefono as telSucursal");
 		qry.append(" from store_usuario u");
 		qry.append(" JOIN store_sucursal s ON s.id_sucursal = u.id_sucursal");
 		qry.append(" WHERE u.login=:usr AND u.passwd=:passwd");
@@ -119,6 +119,7 @@ public abstract class AbstractLoginDAO implements ILoginDAO{
 			query.addScalar("bloqueado",new IntegerType());
 			query.addScalar("activo",new IntegerType());
 			query.addScalar("id_perfil",new IntegerType());
+			query.addScalar("id_sucursal",new IntegerType());
 			query.addScalar("sucursal",new StringType());
 			query.addScalar("prefijo",new StringType());
 			query.addScalar("dirSucursal",new StringType());

@@ -18,8 +18,8 @@ public class StoreCorteCajaDAO extends AbstractStoreCorteCajaDAO{
 	
 	
 	@Transactional(value="transactionManager")
-	public Store_corte_caja getCorteCajaByDate(String date){
-		return super.getCorteCajaByDate(date);
+	public Store_corte_caja getCorteCajaByDate(String date,int id_sucursal){
+		return super.getCorteCajaByDate(date,id_sucursal);
 	}
 	
 	@Transactional(value="transactionManager")

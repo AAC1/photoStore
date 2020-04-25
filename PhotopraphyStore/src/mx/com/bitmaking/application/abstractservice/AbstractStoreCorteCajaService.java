@@ -8,9 +8,9 @@ public abstract class AbstractStoreCorteCajaService implements IStoreCorteCajaSe
 	
 	public abstract IStoreCorteCajaDAO storeCorteCajaDAO() ;
 	@Override
-	public Store_corte_caja getCorteCajaByDate(String date) {
+	public Store_corte_caja getCorteCajaByDate(String date,int id_sucursal) {
 		
-		return storeCorteCajaDAO().getCorteCajaByDate(date);
+		return storeCorteCajaDAO().getCorteCajaByDate(date, id_sucursal);
 	}
 
 	@Override

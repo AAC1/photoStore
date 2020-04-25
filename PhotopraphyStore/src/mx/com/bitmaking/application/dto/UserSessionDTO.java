@@ -20,6 +20,7 @@ public final class UserSessionDTO {
 	private String sucursal;
 	private String prefijo;
 	private int id_perfil;
+	private int id_sucursal;
 	private String dirSucursal;
 	private String razon_social;
 	private String telSucursal;
@@ -27,6 +28,22 @@ public final class UserSessionDTO {
 	
 	
 	
+	/**
+	 * @return the id_sucursal
+	 */
+	public int getId_sucursal() {
+		return id_sucursal;
+	}
+
+
+	/**
+	 * @param id_sucursal the id_sucursal to set
+	 */
+	public void setId_sucursal(int id_sucursal) {
+		this.id_sucursal = id_sucursal;
+	}
+
+
 	/**
 	 * @return the razon_social
 	 */
@@ -136,7 +153,7 @@ public final class UserSessionDTO {
 	 * @param instance the instance to set
 	 */
 	public static void setInstance(String login, String nombre, String correo, String telefono, String direccion, int bloqueado,
-		int activo, String sucursal, String prefijo, int id_perfil, List<Store_menu> menuAccess,
+		int activo, String sucursal, String prefijo, int id_perfil, int id_sucursal, List<Store_menu> menuAccess,
 		String dirSucursal,String telSucursal, String razon_social) {
 		if(instance == null) {
 	        instance = new UserSessionDTO();
@@ -151,6 +168,7 @@ public final class UserSessionDTO {
 		instance.setSucursal (sucursal);
 		instance.setPrefijo(prefijo);
 		instance.setId_perfil(id_perfil);
+		instance.setId_sucursal(id_sucursal);
 		instance.setMenuAccess(menuAccess);
 		instance.setDirSucursal(dirSucursal);
 		instance.setTelSucursal(telefono);

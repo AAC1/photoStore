@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import mx.com.bitmaking.application.abstractdao.AbstractStoreCorteCajaDAO;
 import mx.com.bitmaking.application.entity.Store_corte_caja;
 
-@Repository("remoteStoreClteProdCostDAO")
+@Repository("remoteStoreCorteCajaDAO")
 public class StoreCorteCajaDAO extends AbstractStoreCorteCajaDAO{
 	@Autowired
 	@Qualifier("sessionFactory")
@@ -17,8 +17,8 @@ public class StoreCorteCajaDAO extends AbstractStoreCorteCajaDAO{
 	
 	
 	@Transactional(value="remoteTransactionManager")
-	public Store_corte_caja getCorteCajaByDate(String date){
-		return super.getCorteCajaByDate(date);
+	public Store_corte_caja getCorteCajaByDate(String date,int id_sucursal){
+		return super.getCorteCajaByDate(date,id_sucursal);
 	}
 	
 	@Transactional(value="remoteTransactionManager")

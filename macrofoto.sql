@@ -286,9 +286,8 @@ insert into store_menu_perfil(id_perfil,id_menu)
 VALUES(1,8),(2,8);
 
 drop table if exists store_corte_caja;
-create table store_corte_
-caja (
- id_corte_caja int primary key auto_increment ,
+create table store_corte_caja (
+ id_corte_caja VARCHAR(15) primary key auto_increment ,
  deno1000 int ,
  deno500 int,
  deno200 int,
@@ -302,7 +301,7 @@ caja (
  deno050 int,
  importe decimal(10,2),
  importe_ini decimal(10,2),
- fecha datetime
+ fecha date
 );
 
 drop table if exists store_cargo_abono;

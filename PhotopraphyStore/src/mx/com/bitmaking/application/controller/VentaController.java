@@ -48,6 +48,7 @@ import mx.com.bitmaking.application.entity.Store_pedido;
 import mx.com.bitmaking.application.entity.Store_prod_pedido;
 import mx.com.bitmaking.application.iservice.IStoreCatEstatusService;
 import mx.com.bitmaking.application.iservice.IStoreCatProdService;
+import mx.com.bitmaking.application.iservice.IStoreCorteCajaService;
 import mx.com.bitmaking.application.iservice.IStoreFotografoService;
 import mx.com.bitmaking.application.iservice.IStorePedidoService;
 import mx.com.bitmaking.application.iservice.IStoreProdPedidoService;
@@ -112,11 +113,14 @@ public class VentaController  {
 	@Autowired
 	@Qualifier("StoreProdPedidoService")
 	IStoreProdPedidoService prodPedidoService;
+	@Autowired
+	@Qualifier("StoreCorteCajaService")
+	IStoreCorteCajaService corteCajaService;
+	
 	
 	@Autowired
 	@Qualifier("remoteStoreCatProdService")
 	IStoreCatProdService remoteCatProdService;
-	
 	@Autowired
 	@Qualifier("remoteStoreFotografoService")
 	IStoreFotografoService remoteFotografoService;
@@ -129,7 +133,10 @@ public class VentaController  {
 	@Autowired
 	@Qualifier("remoteStoreProdPedidoService")
 	IStoreProdPedidoService remoteProdPedidoService;
-	
+
+	@Autowired
+	@Qualifier("remoteStoreCorteCajaService")
+	IStoreCorteCajaService remoteCorteCajaService;
 	
 	@Autowired
 	private ApplicationContext context ;

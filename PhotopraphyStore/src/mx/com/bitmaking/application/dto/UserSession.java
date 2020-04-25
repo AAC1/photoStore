@@ -18,15 +18,25 @@ public class UserSession {
 	private String sucursal;
 	private String prefijo;
 	private int id_perfil;
+	private int id_sucursal;
 	private String dirSucursal;
 	private String razon_social;
 	private String telSucursal;
 	private List<Store_menu> menuAccess ;
 	
 	
-	
-	
-	
+	/**
+	 * @return the id_sucursal
+	 */
+	public int getId_sucursal() {
+		return id_sucursal;
+	}
+	/**
+	 * @param id_sucursal the id_sucursal to set
+	 */
+	public void setId_sucursal(int id_sucursal) {
+		this.id_sucursal = id_sucursal;
+	}
 	/**
 	 * @return the razon_social
 	 */

@@ -4,11 +4,9 @@ import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.BigDecimalType;
-import org.hibernate.type.ByteType;
 import org.hibernate.type.IntegerType;
 
 import mx.com.bitmaking.application.entity.Store_corte_caja;
-import mx.com.bitmaking.application.entity.Store_fotografo;
 import mx.com.bitmaking.application.idao.IStoreCorteCajaDAO;
 
 public abstract class AbstractStoreCorteCajaDAO implements IStoreCorteCajaDAO {
@@ -16,11 +14,11 @@ public abstract class AbstractStoreCorteCajaDAO implements IStoreCorteCajaDAO {
 	public abstract SessionFactory getSessionFactory();
 	
 	@Override
-	public Store_corte_caja getCorteCajaByDate(String date) {
-		Store_corte_caja resp = new Store_corte_caja();
+	public Store_corte_caja getCorteCajaByDate(String date,int id_sucursal) {
+		Store_corte_caja resp = null;
 		StringBuilder qry = new StringBuilder();
 		qry.append(" SELECT s.* ");
-		qry.append(" FROM Store_corte_caja s WHERE fecha=:date ");
+		qry.append(" FROM Store_corte_caja s WHERE fecha=:date AND id_sucursal=:id_sucursal ");
 		
 		try{
  
@@ -41,6 +39,7 @@ public abstract class AbstractStoreCorteCajaDAO implements IStoreCorteCajaDAO {
 			query.addScalar("deno050", new IntegerType());
 			query.addScalar("importe", new BigDecimalType());
 			query.addScalar("importe_ini", new BigDecimalType());
+			query.addScalar("id_sucursal", new IntegerType());
 			
 			resp =(Store_corte_caja) query.setMaxResults(1).uniqueResult();
 		

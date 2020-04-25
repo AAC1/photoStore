@@ -13,20 +13,24 @@ import com.jfoenix.controls.JFXTextField;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import mx.com.bitmaking.application.dto.TbCorteCajaDTO;
 import mx.com.bitmaking.application.dto.CorteCajaResumeDTO;
+import mx.com.bitmaking.application.dto.PedidosReporteDTO;
 import mx.com.bitmaking.application.dto.UserSessionDTO;
 import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.GeneralMethods;
@@ -83,6 +87,50 @@ public class CorteCajaController {
 			responsiveGUI();
 			fillTableDenominacion();
 			fillTableResume();
+			
+			
+			PseudoClass redColor = PseudoClass.getPseudoClass("red-text");
+	   		PseudoClass greenColor = PseudoClass.getPseudoClass("green-text");
+	   		PseudoClass blackColor = PseudoClass.getPseudoClass("black-text");
+	   		PseudoClass blueColor = PseudoClass.getPseudoClass("blue-text");
+			tblResume.setRowFactory(new Callback<TableView<CorteCajaResumeDTO>, TableRow<CorteCajaResumeDTO>>() {
+		        @Override
+		        public TableRow<CorteCajaResumeDTO> call(TableView<CorteCajaResumeDTO> tableView) {
+		        	
+		            final TableRow<CorteCajaResumeDTO> rowTbl = new TableRow<CorteCajaResumeDTO>() {
+		                @Override
+		                protected void updateItem(CorteCajaResumeDTO row, boolean empty) {
+		                    super.updateItem(row, empty);
+		                    if (!empty){
+		                    	/*if(isSelected()){
+		                    		pseudoClassStateChanged(blueColor,true);
+		                    	//	setStyle("-fx-background-color:#0467A9; ");
+		                    	//	setTextFill(Color.WHITE);
+		                    	
+		                    	}*/
+		                    	if(row.getDescripcion().contains("(-)")){
+			                    	
+			        					pseudoClassStateChanged(greenColor,false);
+			        					pseudoClassStateChanged(redColor,true);
+			        					pseudoClassStateChanged(blackColor,false);
+			        				
+		                    	}else if(row.getDescripcion().contains("(+)")){
+		                    	
+		                    		pseudoClassStateChanged(blackColor,false);
+		                    		pseudoClassStateChanged(redColor,false);
+		                    		pseudoClassStateChanged(greenColor,true);
+		                    	}else{
+		                    		pseudoClassStateChanged(blackColor,true);
+		                    		pseudoClassStateChanged(redColor,false);
+		                    		pseudoClassStateChanged(greenColor,false);
+		                    	}
+		                    }
+		                    	
+		                }
+		            };
+		            return rowTbl;
+		        }
+		    });
 		}else{
 			GeneralMethods.modalMsg("", "", "No fue posible obtener el usuario. Inicie sesi\u00F3n e intentelo de nuevo");
 		}
@@ -105,12 +153,30 @@ public class CorteCajaController {
 	private void fillTableResume(){
 		List<CorteCajaResumeDTO> listResume = new ArrayList<>();
 
-		listResume.add(new CorteCajaResumeDTO("Monto inicial","500.00",""));
+		listResume.add(new CorteCajaResumeDTO("(-) Monto inicial","500.00",""));
 		listResume.add(new CorteCajaResumeDTO("","",""));
-		listResume.add(new CorteCajaResumeDTO("","","500.00"));
+		listResume.add(new CorteCajaResumeDTO("(-) CARGO","500.00",""));
+		listResume.add(new CorteCajaResumeDTO("(+) Abono","500.00",""));
+		
+		listResume.add(new CorteCajaResumeDTO("DENOMINACI\u00D3N","",""));
+		listResume.add(new CorteCajaResumeDTO("(+) Billetes de 1000","0.00",""));
+		listResume.add(new CorteCajaResumeDTO("(+) Billetes de 500","2,500.00",""));
+		listResume.add(new CorteCajaResumeDTO("(+) Billetes de 200","4,500.00",""));
+		listResume.add(new CorteCajaResumeDTO("(+) Billetes de 100","500.00",""));
+		listResume.add(new CorteCajaResumeDTO("(+) Billetes de 50","1,000.00",""));
+		listResume.add(new CorteCajaResumeDTO("(+) Billetes de 20","500.00",""));
+		listResume.add(new CorteCajaResumeDTO("(+) Monedas de 10","50.00",""));
+		listResume.add(new CorteCajaResumeDTO("(+) Monedas de 5","40.00",""));
+		listResume.add(new CorteCajaResumeDTO("(+) Monedas de 2","18.00",""));
+		listResume.add(new CorteCajaResumeDTO("(+) Monedas de 1","67.00",""));
+		listResume.add(new CorteCajaResumeDTO("(+) Monedas de 0.50","25.50",""));
+
+		listResume.add(new CorteCajaResumeDTO("","","15,500.50"));
+		
 		
 		tblResume.getItems().removeAll(tblResume.getItems());
 		tblResume.getItems().addAll(listResume);
+		
 	}
 	/*
 	private EventHandler<KeyEvent> calculateImport(CorteCajaDTO objRow) {
