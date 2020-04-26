@@ -240,6 +240,23 @@ public class GeneralMethods {
 		}
 		return decimalForm;
 	}
+	public static String formatCurrentInteger(String val) {
+		String newValue = val;
+		// System.out.println(newValue);
+		String decimalForm = "";
+		if (!newValue.equals("")) {
+
+			if (newValue.contains(".")) {
+				String number = newValue.substring(0, newValue.lastIndexOf("."));
+
+				newValue = number.replaceAll("[^0-9]", "");
+
+			}
+			decimalForm = String.format("%,d", Integer.parseInt(newValue));
+
+		}
+		return decimalForm;
+	}
 	public static String cifraSha256(String text,String salt) {
 		String resp="";
 		try{

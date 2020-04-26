@@ -107,8 +107,9 @@ public class CorteCajaController {
 			lblFecha.setText(dt.format(new Date()));
 			
 			responsiveGUI();
-			fillTableDenominacion();
 			fillTableResume();
+			fillTableDenominacion();
+			
 			
 			
 			PseudoClass redColor = PseudoClass.getPseudoClass("red-text");
@@ -423,6 +424,9 @@ public class CorteCajaController {
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 			//	System.out.println(newValue);
 				String decimalForm ="";
+				if(tblCorteCaja.getItems().size() < idx || tblCorteCaja.getItems().size() <=0){
+					return;
+				}
 				TbCorteCajaDTO objRow = tblCorteCaja.getItems().get(idx);
 				if(!newValue.equals("")) {
 				
@@ -466,58 +470,111 @@ public class CorteCajaController {
 		//input.textProperty().addListener(GeneralMethods.formatInteger(input));
 		//CorteCajaDTO obj1000 =new CorteCajaDTO("Billete","1,000.00","0.0",input);
 		input.textProperty().addListener(calculateImport(input,0));
-		listDeno.add(new TbCorteCajaDTO("Billete","1,000.00","0.0",input));
+		if(corteCaja!=null){
+			input.setText(GeneralMethods.formatCurrentInteger(String.valueOf(corteCaja.getDeno1000().divide(new BigDecimal(1000)))));
+			listDeno.add(new TbCorteCajaDTO("Billete","1,000.00",GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno1000())),input));
+		}else{
+			listDeno.add(new TbCorteCajaDTO("Billete","1,000.00","0.0",input));
+		}
 		
 		input = new JFXTextField();
 		input.setId("input500");
 		input.textProperty().addListener(calculateImport(input,1));
-		listDeno.add(new TbCorteCajaDTO("Billete","500.00","0.0",input));
+		if(corteCaja!=null){
+			input.setText(GeneralMethods.formatCurrentInteger(String.valueOf(corteCaja.getDeno500().divide(new BigDecimal(500)))));
+			listDeno.add(new TbCorteCajaDTO("Billete","500.00",GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno500())),input));
+		}else{
+			listDeno.add(new TbCorteCajaDTO("Billete","500.00","0.0",input));
+		}
+		
 		
 		input = new JFXTextField();
 		input.setId("input200");
 		input.textProperty().addListener(calculateImport(input,2));
-		listDeno.add(new TbCorteCajaDTO("Billete","200.00","0.0",input));
+		if(corteCaja!=null){
+			input.setText(GeneralMethods.formatCurrentInteger(String.valueOf(corteCaja.getDeno200().divide(new BigDecimal(200)))));
+			listDeno.add(new TbCorteCajaDTO("Billete","200.00",GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno200())),input));
+		}else{
+			listDeno.add(new TbCorteCajaDTO("Billete","200.00","0.0",input));
+		}
+		
 		
 		input = new JFXTextField();
 		input.setId("input100");
 		input.textProperty().addListener(calculateImport(input,3));
-		listDeno.add(new TbCorteCajaDTO("Billete","100.00","0.0",input));
-		
+		if(corteCaja!=null){
+			input.setText(GeneralMethods.formatCurrentInteger(String.valueOf(corteCaja.getDeno100().divide(new BigDecimal(100)))));
+			listDeno.add(new TbCorteCajaDTO("Billete","100.00",GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno100())),input));
+		}else{
+			listDeno.add(new TbCorteCajaDTO("Billete","100.00","0.0",input));
+		}
 		input = new JFXTextField();
 		input.setId("input50");
 		input.textProperty().addListener(calculateImport(input,4));
-		listDeno.add(new TbCorteCajaDTO("Billete","50.00","0.0",input));
-		
+		if(corteCaja!=null){
+			input.setText(GeneralMethods.formatCurrentInteger(String.valueOf(corteCaja.getDeno50().divide(new BigDecimal(50)))));
+			listDeno.add(new TbCorteCajaDTO("Billete","50.00",GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno50())),input));
+		}else{
+			listDeno.add(new TbCorteCajaDTO("Billete","50.00","0.0",input));
+		}
 		input = new JFXTextField();
 		input.setId("input20");
 		input.textProperty().addListener(calculateImport(input,5));
-		listDeno.add(new TbCorteCajaDTO("Billete","20.00","0.0",input));
-		
+		if(corteCaja!=null){
+			input.setText(GeneralMethods.formatCurrentInteger(String.valueOf(corteCaja.getDeno20().divide(new BigDecimal(20)))));
+			listDeno.add(new TbCorteCajaDTO("Billete","20.00",GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno20())),input));
+		}else{
+			listDeno.add(new TbCorteCajaDTO("Billete","20.00","0.0",input));
+		}
 		input = new JFXTextField();
 		input.setId("input10");
 		input.textProperty().addListener(calculateImport(input,6));
-		listDeno.add(new TbCorteCajaDTO("Moneda","10.00","0.0",input));
-		
+		if(corteCaja!=null){
+			input.setText(GeneralMethods.formatCurrentInteger(String.valueOf(corteCaja.getDeno10().divide(new BigDecimal(10)))));
+			listDeno.add(new TbCorteCajaDTO("Moneda","10.00",GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno10())),input));
+		}else{
+			listDeno.add(new TbCorteCajaDTO("Moneda","10.00","0.0",input));
+		}
 		input = new JFXTextField();
 		input.setId("input5");
 		input.textProperty().addListener(calculateImport(input,7));
-		listDeno.add(new TbCorteCajaDTO("Moneda","5.00","0.0",input));
+		if(corteCaja!=null){
+			input.setText(GeneralMethods.formatCurrentInteger(String.valueOf(corteCaja.getDeno5().divide(new BigDecimal(5)))));
+			listDeno.add(new TbCorteCajaDTO("Moneda","5.00",GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno5())),input));
+		}else{
+			listDeno.add(new TbCorteCajaDTO("Moneda","5.00","0.0",input));
+		}
 		
 		input = new JFXTextField();
 		input.setId("input2");
 		input.textProperty().addListener(calculateImport(input,8));
-		listDeno.add(new TbCorteCajaDTO("Moneda","2.00","0.0",input));
+		if(corteCaja!=null){
+			input.setText(GeneralMethods.formatCurrentInteger(String.valueOf(corteCaja.getDeno2().divide(new BigDecimal(2)))));
+			listDeno.add(new TbCorteCajaDTO("Moneda","2.00",GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno2())),input));
+		}else{
+			listDeno.add(new TbCorteCajaDTO("Moneda","2.00","0.0",input));
+		}
 		
 		input = new JFXTextField();
 		input.setId("input1");
 		input.textProperty().addListener(calculateImport(input,9));
-		listDeno.add(new TbCorteCajaDTO("Moneda","1.00","0.0",input));
+		if(corteCaja!=null){
+			input.setText(GeneralMethods.formatCurrentInteger(String.valueOf(corteCaja.getDeno1().divide(new BigDecimal(1)))));
+			listDeno.add(new TbCorteCajaDTO("Moneda","1.00",GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno1())),input));
+		}else{
+			listDeno.add(new TbCorteCajaDTO("Moneda","1.00","0.0",input));
+		}
 		
 		input = new JFXTextField();
 		input.setId("input050");
 		input.textProperty().addListener(calculateImport(input,10));
-		listDeno.add(new TbCorteCajaDTO("Moneda","0.50","0.0",input));
-
+		if(corteCaja!=null){
+			input.setText(GeneralMethods.formatCurrentInteger(String.valueOf(corteCaja.getDeno050().divide(new BigDecimal(0.5)))));
+			listDeno.add(new TbCorteCajaDTO("Moneda","0.50",GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno050())),input));
+		}else{
+			listDeno.add(new TbCorteCajaDTO("Moneda","0.50","0.0",input));
+		}
+		
 		tblCorteCaja.getItems().removeAll(tblCorteCaja.getItems());
 		tblCorteCaja.getItems().addAll(listDeno);
 	}
