@@ -108,7 +108,7 @@ public class CorteCajaController {
 			
 			responsiveGUI();
 			fillTableResume();
-			fillTableDenominacion();
+			fillTableDenominacion(corteCaja);
 			
 			
 			
@@ -201,7 +201,7 @@ public class CorteCajaController {
 	
 	@FXML
 	private void cleanCorteCaja(){
-		fillTableDenominacion();
+		fillTableDenominacion(null);
 		fillTableResume();
 	}
 	
@@ -463,7 +463,7 @@ public class CorteCajaController {
 		};
 		
 	}
-	private void fillTableDenominacion(){
+	private void fillTableDenominacion(Store_corte_caja corteCaja){
 		List<TbCorteCajaDTO> listDeno = new ArrayList<>();
 		JFXTextField input = new JFXTextField();
 		input.setId("input1000");
