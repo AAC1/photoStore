@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 
 import com.jfoenix.controls.JFXButton;
@@ -13,11 +16,15 @@ import com.jfoenix.controls.JFXTextField;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -26,13 +33,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import mx.com.bitmaking.application.dto.TbCorteCajaDTO;
 import mx.com.bitmaking.application.dto.CorteCajaResumeDTO;
 import mx.com.bitmaking.application.dto.PedidosReporteDTO;
 import mx.com.bitmaking.application.dto.UserSessionDTO;
+import mx.com.bitmaking.application.entity.Store_corte_caja;
+import mx.com.bitmaking.application.iservice.IStoreCorteCajaService;
 import mx.com.bitmaking.application.util.Constantes;
+import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
 @Controller
@@ -60,8 +71,19 @@ public class CorteCajaController {
 	@FXML private TableColumn<CorteCajaResumeDTO,String> colResumeImporte;
 	@FXML private TableColumn<CorteCajaResumeDTO,String> colResumeTotal;
 	
-	private UserSessionDTO instance = null;
+	@Autowired
+	private ApplicationContext context ;
 	
+	@Autowired
+	@Qualifier("StoreCorteCajaService")
+	IStoreCorteCajaService corteCajaService;
+	@Autowired
+	@Qualifier("remoteStoreCorteCajaService")
+	IStoreCorteCajaService remoteCorteCajaService;
+	
+	private UserSessionDTO instance = null;
+	private Stage stageModalMontoIni = null;
+	private Store_corte_caja corteCaja = null;
 	/**
 	 * @return the btnCancelar
 	 */
@@ -141,7 +163,39 @@ public class CorteCajaController {
 	
 	@FXML
 	private void guardaCorteCaja(){
-		
+			if(corteCaja == null){
+				corteCaja = new Store_corte_caja();
+				corteCaja.setImporte_ini(new BigDecimal(0));
+				corteCaja.setFecha(new Date());
+				corteCaja.setId_sucursal(instance.getId_sucursal());
+			}
+			ObservableList<TbCorteCajaDTO> listCCaja = tblCorteCaja.getItems();
+			
+			corteCaja.setDeno050(new BigDecimal(listCCaja.get(10).getImporte().replace(",", "")));
+			corteCaja.setDeno1(new BigDecimal(listCCaja.get(9).getImporte().replace(",", "")));
+			corteCaja.setDeno2(new BigDecimal(listCCaja.get(8).getImporte().replace(",", "")));
+			corteCaja.setDeno5(new BigDecimal(listCCaja.get(7).getImporte().replace(",", "")));
+			corteCaja.setDeno10(new BigDecimal(listCCaja.get(6).getImporte().replace(",", "")));
+			corteCaja.setDeno20(new BigDecimal(listCCaja.get(5).getImporte().replace(",", "")));
+			corteCaja.setDeno50(new BigDecimal(listCCaja.get(4).getImporte().replace(",", "")));
+			corteCaja.setDeno100(new BigDecimal(listCCaja.get(3).getImporte().replace(",", "")));
+			corteCaja.setDeno200(new BigDecimal(listCCaja.get(2).getImporte().replace(",", "")));
+			corteCaja.setDeno500(new BigDecimal(listCCaja.get(1).getImporte().replace(",", "")));
+			corteCaja.setDeno1000(new BigDecimal(listCCaja.get(0).getImporte().replace(",", "")));
+			BigDecimal importe = new BigDecimal(0);
+			importe = importe.add(corteCaja.getDeno050()).add(corteCaja.getDeno1())
+					.add(corteCaja.getDeno2()).add(corteCaja.getDeno5()).add(corteCaja.getDeno10())
+					.add(corteCaja.getDeno20()).add(corteCaja.getDeno100()).add(corteCaja.getDeno200())
+					.add(corteCaja.getDeno500().add(corteCaja.getDeno1000()));
+			corteCaja.setImporte(importe);
+			
+			
+			if(!Flags.remote_valid){
+				corteCajaService.saveCorteCaja(corteCaja);
+			}else{
+				remoteCorteCajaService.saveCorteCaja(corteCaja);
+			}
+			fillTableResume();
 	}
 	
 	@FXML
@@ -152,61 +206,215 @@ public class CorteCajaController {
 	
 	private void fillTableResume(){
 		List<CorteCajaResumeDTO> listResume = new ArrayList<>();
+		
+		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+		//VALIDA SI ES REMOTO O LOCAL
+		if(!Flags.remote_valid){
+			corteCaja = corteCajaService.getCorteCajaByDate(dt.format(new Date()), instance.getId_sucursal());
+		}else{
+			corteCaja = remoteCorteCajaService.getCorteCajaByDate(dt.format(new Date()), instance.getId_sucursal());
+		}
+		//Obtener CARGOS / ABONOS
+		
+		
+		//En caso de que no se tenga registro en BD
+		if(corteCaja !=null){
+			
+			listResume.add(new CorteCajaResumeDTO("(-) Monto inicial",GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getImporte_ini())),
+					GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getImporte_ini()))));
+			
+			
+			listResume.add(new CorteCajaResumeDTO("GASTOS","",""));
+			listResume.add(new CorteCajaResumeDTO("(-) CARGO","500.00","500.00"));
 
-		listResume.add(new CorteCajaResumeDTO("(-) Monto inicial","500.00",""));
-		listResume.add(new CorteCajaResumeDTO("","",""));
-		listResume.add(new CorteCajaResumeDTO("(-) CARGO","500.00",""));
-		listResume.add(new CorteCajaResumeDTO("(+) Abono","500.00",""));
-		
-		listResume.add(new CorteCajaResumeDTO("DENOMINACI\u00D3N","",""));
-		listResume.add(new CorteCajaResumeDTO("(+) Billetes de 1000","0.00",""));
-		listResume.add(new CorteCajaResumeDTO("(+) Billetes de 500","2,500.00",""));
-		listResume.add(new CorteCajaResumeDTO("(+) Billetes de 200","4,500.00",""));
-		listResume.add(new CorteCajaResumeDTO("(+) Billetes de 100","500.00",""));
-		listResume.add(new CorteCajaResumeDTO("(+) Billetes de 50","1,000.00",""));
-		listResume.add(new CorteCajaResumeDTO("(+) Billetes de 20","500.00",""));
-		listResume.add(new CorteCajaResumeDTO("(+) Monedas de 10","50.00",""));
-		listResume.add(new CorteCajaResumeDTO("(+) Monedas de 5","40.00",""));
-		listResume.add(new CorteCajaResumeDTO("(+) Monedas de 2","18.00",""));
-		listResume.add(new CorteCajaResumeDTO("(+) Monedas de 1","67.00",""));
-		listResume.add(new CorteCajaResumeDTO("(+) Monedas de 0.50","25.50",""));
+			listResume.add(new CorteCajaResumeDTO("DEVOLUCIONES","",""));
+			listResume.add(new CorteCajaResumeDTO("(+) Abono","500.00","500.00"));
 
-		listResume.add(new CorteCajaResumeDTO("","","15,500.50"));
+			listResume.add(new CorteCajaResumeDTO("DENOMINACIONES","",""));//\u00D3
+			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 1000",
+						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno1000())),""));
+			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 500",
+						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno500())),""));
+			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 200",
+						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno200())),""));
+			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 100",
+						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno100())),""));
+			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 50",
+						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno50())),""));
+			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 20",
+						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno20())),""));
+			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 10",
+						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno10())),""));
+			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 5",
+						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno5())),""));
+			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 2",
+						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno2())),""));
+			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 1",
+						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno1())),""));
+			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 0.50",
+					GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno050())),
+					GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getImporte()))));
+			
+			BigDecimal total = new BigDecimal(0);
+			BigDecimal sum = new BigDecimal(0);
+			BigDecimal rest = new BigDecimal(0);
+			
+			//Suma todos los ingresos
+			sum = sum.add(corteCaja.getImporte()); 
+			
+			//Suma todo lo que no sea ingreso del dia
+			rest = rest.add(corteCaja.getImporte_ini()); 
+			total = sum.subtract(rest);
+			if(sum.compareTo(rest) <0){  //SUM es menor a REST
+				listResume.add(new CorteCajaResumeDTO("","","-"+GeneralMethods.formatCurrentNumber(String.valueOf(total))));
+			}else{
+				listResume.add(new CorteCajaResumeDTO("","",GeneralMethods.formatCurrentNumber(String.valueOf(total))));
+			}
+			
+			tblResume.getItems().removeAll(tblResume.getItems());
+			tblResume.getItems().addAll(listResume);
+		}else{
+			
+			
+			listResume.add(new CorteCajaResumeDTO("(-) Monto inicial","0.00","0.00"));
+			listResume.add(new CorteCajaResumeDTO("GASTOS","",""));
+			listResume.add(new CorteCajaResumeDTO("(-) CARGO","0.00","0.00"));
+
+			listResume.add(new CorteCajaResumeDTO("DEVOLUCIONES","",""));
+			listResume.add(new CorteCajaResumeDTO("(+) Abono","0.00","0.00"));
+			
+			listResume.add(new CorteCajaResumeDTO("DENOMINACIONES","",""));
+			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 1000","0.00",""));
+			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 500","0.00",""));
+			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 200","0.00",""));
+			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 100","0.00",""));
+			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 50","0.00",""));
+			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 20","0.00",""));
+			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 10","0.00",""));
+			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 5","0.00",""));
+			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 2","0.00",""));
+			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 1","0.00",""));
+			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 0.50","0.00","0.0"));
+	
+			listResume.add(new CorteCajaResumeDTO("","","0.0"));
+			tblResume.getItems().removeAll(tblResume.getItems());
+			tblResume.getItems().addAll(listResume);
+			
+			ModalConfirmController ctrl = openModalConfirm();
+			if(ctrl==null)return;
+			
+			ctrl.getBtnCancelar().addEventHandler(MouseEvent.MOUSE_CLICKED, cancelMontoIni(stageModalMontoIni));
+			ctrl.getLblMsg().setText("No se tiene registrado el monto inicial de la caja. Favor de ingresarla");
+			ctrl.getLblInput().setText("Monto inicial: ");
+			ctrl.getFormInput().setVisible(true);
+			ctrl.getBtnConfirm().addEventHandler(MouseEvent.MOUSE_CLICKED,acceptMontoIni(stageModalMontoIni,ctrl));
+		}
 		
 		
-		tblResume.getItems().removeAll(tblResume.getItems());
-		tblResume.getItems().addAll(listResume);
 		
 	}
-	/*
-	private EventHandler<KeyEvent> calculateImport(CorteCajaDTO objRow) {
-			return new EventHandler<KeyEvent>(){
+	private EventHandler<MouseEvent> acceptMontoIni(Stage stage,ModalConfirmController ctrl){
+		
+		return new EventHandler<MouseEvent>() {
 
-				@Override
-				public void handle(KeyEvent event) {
-					System.out.println(event.getCode());
-					//GeneralMethods.formatInteger(objRow.getCantidad());
-					String val = objRow.getCantidad().getText().trim().replaceAll("[^0-9]", "");
-					System.out.println("val:"+val);
+			@Override
+			public void handle(MouseEvent event) {
+				try {
 					
-					//Valida que tenga valor
-					if(val!=null && !"".equals(val) ){
+					
+					Store_corte_caja objEntity = new Store_corte_caja();
+					String value = ctrl.getInputValue().getText();
+					
+					if(value!=null && !"".equals(value.trim())){
+						if(stage!=null) 
+							stage.close();
 						
-						double importe= Double.parseDouble(val) * 
-									Double.parseDouble(objRow.getDenominacion().trim().replace(",","")); 
-						System.out.println("importe:"+importe);
-						objRow.setImporte(GeneralMethods.formatCurrentNumber(String.valueOf(importe)));
 						
+
+						objEntity.setImporte_ini(new BigDecimal(value));
+						if(corteCaja == null){
+							objEntity.setFecha(new Date());
+							objEntity.setId_sucursal(instance.getId_sucursal());
+							
+							objEntity.setImporte(new BigDecimal(0));
+							objEntity.setDeno050(new BigDecimal(0));
+							objEntity.setDeno1(new BigDecimal(0));
+							objEntity.setDeno2(new BigDecimal(0));
+							objEntity.setDeno5(new BigDecimal(0));
+							objEntity.setDeno10(new BigDecimal(0));
+							objEntity.setDeno20(new BigDecimal(0));
+							objEntity.setDeno50(new BigDecimal(0));
+							objEntity.setDeno100(new BigDecimal(0));
+							objEntity.setDeno200(new BigDecimal(0));
+							objEntity.setDeno500(new BigDecimal(0));
+							objEntity.setDeno1000(new BigDecimal(0));
+						}else{
+							objEntity.setId_corte_caja(corteCaja.getId_corte_caja());
+							objEntity.setFecha(corteCaja.getFecha());
+							objEntity.setId_sucursal(corteCaja.getId_sucursal());
+							
+						}
+						
+						if(!Flags.remote_valid){
+							corteCajaService.saveCorteCaja(objEntity);
+						}else{
+							remoteCorteCajaService.saveCorteCaja(objEntity);
+						}
+						fillTableResume();
 					}else{
-						objRow.setImporte("0.0");
+						GeneralMethods.modalMsg("", "", "Debes ingresar cantidad para el monto inicial");
+						
 					}
-					//formatea numero ##,###
-					objRow.getCantidad().setText(String.format("%,d", Integer.parseInt(val)));
+					
+					
+		        } catch(Exception ex) {
+					ex.printStackTrace();
 				}
-				
-			};
+			}};
+		
+		
 	}
-	*/
+	private EventHandler<MouseEvent>cancelMontoIni(Stage stage){
+		return new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				//System.out.println(event.getSource());
+				try {
+					if(stage!=null) 
+						stage.close();
+		        } catch(Exception ex) {
+					ex.printStackTrace();
+				}
+			}};
+	}
+	private ModalConfirmController openModalConfirm(){
+		ModalConfirmController ctrl = null;
+		try {
+			
+			//FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/com/bitmaking/application/view/TreeProduct.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/com/bitmaking/application/view/ModalConfirm.fxml"));
+			fxmlLoader.setControllerFactory(context::getBean);
+			Parent sceneEdit= fxmlLoader.load();
+			Scene scene = new Scene(sceneEdit,3013,165);
+			scene.getStylesheets().add(getClass().getResource("/mx/com/bitmaking/application/assets/css/GestionProductos.css").toExternalForm());
+			stageModalMontoIni = new Stage();
+			stageModalMontoIni.setScene(scene);
+			stageModalMontoIni.setTitle("Abre Caja");
+			stageModalMontoIni.setMinHeight(200.0);
+			stageModalMontoIni.setMinWidth(350.0);
+			stageModalMontoIni.setMaxHeight(350.0);
+			stageModalMontoIni.setMaxWidth(200.0);
+			stageModalMontoIni.initModality(Modality.APPLICATION_MODAL); 
+			stageModalMontoIni.show();
+			ctrl = fxmlLoader.getController(); //Obtiene controller de la nueva ventana
+			
+	    } catch(Exception ex) {
+			ex.printStackTrace();
+			GeneralMethods.modalMsg("ERROR", "", ex.getMessage());
+		}
+		return ctrl;
+	}
 	public  ChangeListener<String> calculateImport(JFXTextField field,int idx){
 		
 		return new ChangeListener<String>() {
@@ -335,5 +543,16 @@ public class CorteCajaController {
 		colResumeImporte.setCellValueFactory(new PropertyValueFactory<CorteCajaResumeDTO, String>("importe"));
 		colResumeTotal.setCellValueFactory(new PropertyValueFactory<CorteCajaResumeDTO, String>("total"));
 		
+	}
+	private EventHandler<MouseEvent> closeWindow(Stage stage) {
+		return new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				if(stage!=null) 
+					stage.close();
+			}
+		};
+
+
 	}
 }

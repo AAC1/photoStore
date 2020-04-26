@@ -1,22 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="172.0" prefWidth="415.0" style="-fx-background-color: rgb(255,255,255);" styleClass="label-title" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.ModalConfirmController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="215.0" prefWidth="415.0" style="-fx-background-color: rgb(255,255,255);" styleClass="label-title" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.ModalConfirmController">
    <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="172.0" prefWidth="415.0" style="-fx-background-color: rgb(255,255,255);" styleClass="label-title" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <JFXButton fx:id="btnConfirm" layoutX="115.0" layoutY="126.0" prefHeight="32.0" prefWidth="133.0" style="-fx-background-color: #04A138;" styleClass="btn-gral" text="✔ Aceptar" textFill="WHITE" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="167.0" />
             <JFXButton fx:id="btnCancelar" layoutX="261.0" layoutY="126.0" prefHeight="32.0" prefWidth="133.0" style="-fx-background-color: #A12D04;" styleClass="btn-gral" text="✘ Cancelar" textFill="WHITE" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="21.0" />
-            <Label fx:id="lblMsg" alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="14.0" prefHeight="76.0" prefWidth="385.0" styleClass="label-title" text="Label" AnchorPane.bottomAnchor="82.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+            <Label fx:id="lblMsg" alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="14.0" prefHeight="92.0" prefWidth="385.0" styleClass="label-title" text="Label" AnchorPane.bottomAnchor="108.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
+            <AnchorPane fx:id="formInput" layoutY="109.0" prefHeight="61.0" prefWidth="415.0" visible="false" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <JFXTextField fx:id="inputValue" layoutX="169.0" layoutY="23.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="169.0" AnchorPane.rightAnchor="25.0" />
+                  <Label fx:id="lblInput" alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutY="17.0" prefHeight="39.0" prefWidth="163.0" styleClass="label-title" text="lblInput" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="252.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>

@@ -4,6 +4,7 @@ import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.BigDecimalType;
+import org.hibernate.type.DateType;
 import org.hibernate.type.IntegerType;
 
 import mx.com.bitmaking.application.entity.Store_corte_caja;
@@ -26,20 +27,24 @@ public abstract class AbstractStoreCorteCajaDAO implements IStoreCorteCajaDAO {
 			
 			query.setResultTransformer(Transformers.aliasToBean(Store_corte_caja.class));
 			query.addScalar("id_corte_caja", new IntegerType());
-			query.addScalar("deno1000", new IntegerType());
-			query.addScalar("deno500", new IntegerType());
-			query.addScalar("deno200", new IntegerType());
-			query.addScalar("deno100", new IntegerType());
-			query.addScalar("deno50", new IntegerType());
-			query.addScalar("deno20", new IntegerType());
-			query.addScalar("deno10", new IntegerType());
-			query.addScalar("deno5", new IntegerType());
-			query.addScalar("deno2", new IntegerType());
-			query.addScalar("deno1", new IntegerType());
-			query.addScalar("deno050", new IntegerType());
+			query.addScalar("deno1000", new BigDecimalType());
+			query.addScalar("deno500", new BigDecimalType());
+			query.addScalar("deno200", new BigDecimalType());
+			query.addScalar("deno100", new BigDecimalType());
+			query.addScalar("deno50", new BigDecimalType());
+			query.addScalar("deno20", new BigDecimalType());
+			query.addScalar("deno10", new BigDecimalType());
+			query.addScalar("deno5", new BigDecimalType());
+			query.addScalar("deno2", new BigDecimalType());
+			query.addScalar("deno1", new BigDecimalType());
+			query.addScalar("deno050", new BigDecimalType());
 			query.addScalar("importe", new BigDecimalType());
 			query.addScalar("importe_ini", new BigDecimalType());
+			query.addScalar("fecha", new DateType());
 			query.addScalar("id_sucursal", new IntegerType());
+			
+			query.setParameter("date", date);
+			query.setParameter("id_sucursal", id_sucursal);
 			
 			resp =(Store_corte_caja) query.setMaxResults(1).uniqueResult();
 		

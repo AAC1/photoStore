@@ -287,23 +287,28 @@ VALUES(1,8),(2,8);
 
 drop table if exists store_corte_caja;
 create table store_corte_caja (
- id_corte_caja VARCHAR(15) primary key auto_increment ,
- deno1000 int ,
- deno500 int,
- deno200 int,
- deno100 int,
- deno50 int,
- deno20 int,
- deno10 int,
- deno5 int,
- deno2 int,
- deno1 int,
- deno050 int,
- importe decimal(10,2),
- importe_ini decimal(10,2),
- fecha date
+ id_corte_caja int primary key auto_increment ,
+ deno1000 decimal(20,2) default 0.0,
+ deno500 decimal(20,2) default 0.0,
+ deno200 decimal(20,2) default 0.0,
+ deno100 decimal(20,2) default 0.0,
+ deno50 decimal(20,2) default 0.0,
+ deno20 decimal(20,2) default 0.0,
+ deno10 decimal(20,2) default 0.0,
+ deno5 decimal(20,2) default 0.0,
+ deno2 decimal(20,2) default 0.0,
+ deno1 decimal(20,2) default 0.0,
+ deno050 decimal(20,2) default 0.0,
+ importe decimal(20,2) default 0.0,
+ importe_ini decimal(20,2) default 0.0,
+ fecha date ,
+ id_sucursal int ,
+CONSTRAINT `FK_corte_caja_sucursal`
+    FOREIGN KEY (`id_sucursal`)
+    REFERENCES store_sucursal (`id_sucursal`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
 );
-
 drop table if exists store_cargo_abono;
 create table store_cargo_abono (
  id_cargo_abono int primary key auto_increment,
@@ -313,5 +318,5 @@ create table store_cargo_abono (
  fecha date
 );
 
-
+SELECT * FROM store_corte_caja;
 
