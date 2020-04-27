@@ -40,7 +40,9 @@ import mx.com.bitmaking.application.dto.TbCorteCajaDTO;
 import mx.com.bitmaking.application.dto.CorteCajaResumeDTO;
 import mx.com.bitmaking.application.dto.PedidosReporteDTO;
 import mx.com.bitmaking.application.dto.UserSessionDTO;
+import mx.com.bitmaking.application.entity.Store_cargo_abono;
 import mx.com.bitmaking.application.entity.Store_corte_caja;
+import mx.com.bitmaking.application.iservice.IStoreCargoAbonoService;
 import mx.com.bitmaking.application.iservice.IStoreCorteCajaService;
 import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.Flags;
@@ -80,6 +82,14 @@ public class CorteCajaController {
 	@Autowired
 	@Qualifier("remoteStoreCorteCajaService")
 	IStoreCorteCajaService remoteCorteCajaService;
+	
+	@Autowired
+	@Qualifier("StoreCargoAbonoService")
+	IStoreCargoAbonoService storeCargoAbonoService;
+	
+	@Autowired
+	@Qualifier("remoteStoreCargoAbonoService")
+	IStoreCargoAbonoService remoteStoreCargoAbonoService;
 	
 	private UserSessionDTO instance = null;
 	private Stage stageModalMontoIni = null;
@@ -207,12 +217,14 @@ public class CorteCajaController {
 	
 	private void fillTableResume(){
 		List<CorteCajaResumeDTO> listResume = new ArrayList<>();
-		
+		List<Store_cargo_abono> listCargoAbono = null;
 		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
 		//VALIDA SI ES REMOTO O LOCAL
 		if(!Flags.remote_valid){
+			listCargoAbono = storeCargoAbonoService.getCargoAbonoByDateSuc(dt.format(new Date()), instance.getId_sucursal());
 			corteCaja = corteCajaService.getCorteCajaByDate(dt.format(new Date()), instance.getId_sucursal());
 		}else{
+			listCargoAbono = remoteStoreCargoAbonoService.getCargoAbonoByDateSuc(dt.format(new Date()), instance.getId_sucursal());
 			corteCaja = remoteCorteCajaService.getCorteCajaByDate(dt.format(new Date()), instance.getId_sucursal());
 		}
 		//Obtener CARGOS / ABONOS
@@ -224,10 +236,49 @@ public class CorteCajaController {
 			listResume.add(new CorteCajaResumeDTO("(-) Monto inicial",GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getImporte_ini())),
 					GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getImporte_ini()))));
 			
-			
 			listResume.add(new CorteCajaResumeDTO("GASTOS","",""));
-			listResume.add(new CorteCajaResumeDTO("(-) CARGO","500.00","500.00"));
-
+			BigDecimal cargo = new BigDecimal(0);
+			BigDecimal abono = new BigDecimal(0);
+			if(listCargoAbono != null && listCargoAbono.size()>0){
+				
+				for(int i =0; i<listCargoAbono.size(); i++){
+					if("C".equals(listCargoAbono.get(i).getTipo())){//Valida que sea cargo
+						cargo = cargo.add(listCargoAbono.get(i).getMonto());
+						if((i+1) == listCargoAbono.size())
+							listResume.add(new CorteCajaResumeDTO("(-) "+listCargoAbono.get(i).getMotivo(),
+										GeneralMethods.formatCurrentNumber(String.valueOf(listCargoAbono.get(i).getMonto())),
+										GeneralMethods.formatCurrentNumber(String.valueOf(cargo))));
+						else
+							listResume.add(new CorteCajaResumeDTO("(-) "+listCargoAbono.get(i).getMotivo(),
+									GeneralMethods.formatCurrentNumber(String.valueOf(listCargoAbono.get(i).getMonto())),""));
+					}
+					
+				}
+				
+				
+			}else{
+				listResume.add(new CorteCajaResumeDTO("--","0.00","0.00"));
+			}
+			listResume.add(new CorteCajaResumeDTO("DEVOLUCIONES","",""));
+			if(listCargoAbono != null && listCargoAbono.size()>0){
+				for(int i =0; i<listCargoAbono.size(); i++){
+					if("A".equals(listCargoAbono.get(i).getTipo())){//Valida que sea abono
+						abono = abono.add(listCargoAbono.get(i).getMonto());
+						if((i+1) == listCargoAbono.size())
+							listResume.add(new CorteCajaResumeDTO("(+) "+listCargoAbono.get(i).getMotivo(),
+										GeneralMethods.formatCurrentNumber(String.valueOf(listCargoAbono.get(i).getMonto())),
+										GeneralMethods.formatCurrentNumber(String.valueOf(abono))));
+						else
+							listResume.add(new CorteCajaResumeDTO("(+) "+listCargoAbono.get(i).getMotivo(),
+									GeneralMethods.formatCurrentNumber(String.valueOf(listCargoAbono.get(i).getMonto())),""));
+					}
+					
+				}
+			}else{
+				
+				listResume.add(new CorteCajaResumeDTO("--","0.00","0.00"));
+			}
+			
 			listResume.add(new CorteCajaResumeDTO("DEVOLUCIONES","",""));
 			listResume.add(new CorteCajaResumeDTO("(+) Abono","500.00","500.00"));
 
@@ -262,9 +313,12 @@ public class CorteCajaController {
 			
 			//Suma todos los ingresos
 			sum = sum.add(corteCaja.getImporte()); 
+			sum = sum.add(abono); 
 			
 			//Suma todo lo que no sea ingreso del dia
 			rest = rest.add(corteCaja.getImporte_ini()); 
+			rest = rest.add(cargo); 
+			
 			total = sum.subtract(rest);
 			if(sum.compareTo(rest) <0){  //SUM es menor a REST
 				listResume.add(new CorteCajaResumeDTO("","","-"+GeneralMethods.formatCurrentNumber(String.valueOf(total))));
@@ -611,5 +665,65 @@ public class CorteCajaController {
 		};
 
 
+	}
+	
+	@FXML
+	private void openGasto(){
+		
+		try {
+			
+			//FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/com/bitmaking/application/view/TreeProduct.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/com/bitmaking/application/view/FormGasto.fxml"));
+			fxmlLoader.setControllerFactory(context::getBean);
+			Parent sceneEdit= fxmlLoader.load();
+			Scene scene = new Scene(sceneEdit,3013,165);
+			scene.getStylesheets().add(getClass().getResource("/mx/com/bitmaking/application/assets/css/application.css").toExternalForm());
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.setTitle("Confirmación");
+			stage.setMinHeight(500.0);
+			stage.setMinWidth(350.0);
+			stage.setMaxHeight(500.0);
+			stage.setMaxWidth(200.0);
+			stage.initModality(Modality.APPLICATION_MODAL); 
+			stage.show();
+			GastoController ctrl = fxmlLoader.getController(); //Obtiene controller de la nueva ventana
+			ctrl.getBtnCancel().addEventHandler(MouseEvent.MOUSE_CLICKED, closeWindow(stage));
+			ctrl.getBtnAccept().addEventHandler(MouseEvent.MOUSE_CLICKED, saveGasto(stage,ctrl));
+			
+			
+	    } catch(Exception ex) {
+			ex.printStackTrace();
+			GeneralMethods.modalMsg("ERROR", "", ex.getMessage());
+		}
+	}
+	
+	private EventHandler<MouseEvent> saveGasto(Stage stage,GastoController ctrl){
+		return new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				if(stage!=null) 
+					stage.close();
+				Store_cargo_abono cargoObj = new Store_cargo_abono();
+				cargoObj.setFecha(new Date());
+				cargoObj.setMonto(new BigDecimal(ctrl.getInputMonto().getText()));
+				cargoObj.setMotivo(ctrl.getInputConcepto().getText());
+				cargoObj.setId_sucursal(instance.getId_sucursal());
+				if("Cargo".equals(ctrl.getCbxTipoGasto().getValue())){
+					cargoObj.setTipo("C");
+				}
+				else if("Abono".equals(ctrl.getCbxTipoGasto().getValue())){
+					cargoObj.setTipo("A");
+				}
+				
+				if(!Flags.remote_valid){
+					storeCargoAbonoService.saveCargoAbono(cargoObj);
+				}else{
+					remoteStoreCargoAbonoService.saveCargoAbono(cargoObj);
+				}
+				fillTableResume();
+			}
+		};
+		
 	}
 }

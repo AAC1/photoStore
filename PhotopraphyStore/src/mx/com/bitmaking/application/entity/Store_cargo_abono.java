@@ -21,6 +21,23 @@ public class Store_cargo_abono {
 	private String motivo;
 	@Column
 	private Date fecha;
+	@Column
+	private int id_sucursal;
+	
+	
+	
+	/**
+	 * @return the id_sucursal
+	 */
+	public int getId_sucursal() {
+		return id_sucursal;
+	}
+	/**
+	 * @param id_sucursal the id_sucursal to set
+	 */
+	public void setId_sucursal(int id_sucursal) {
+		this.id_sucursal = id_sucursal;
+	}
 	/**
 	 * @return the id_cargo_abono
 	 */

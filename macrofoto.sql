@@ -315,8 +315,15 @@ create table store_cargo_abono (
  tipo VARCHAR(1),
  monto decimal(10,2),
  motivo varchar(250),
- fecha date
+ fecha date,
+ id_sucursal int ,
+CONSTRAINT `FK_cargo_abono_sucursal`
+    FOREIGN KEY (`id_sucursal`)
+    REFERENCES store_sucursal (`id_sucursal`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
 );
 
 SELECT * FROM store_corte_caja;
 
+select * from store_cargo_abono;

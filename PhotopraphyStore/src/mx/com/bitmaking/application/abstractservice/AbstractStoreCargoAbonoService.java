@@ -1,24 +1,25 @@
 package mx.com.bitmaking.application.abstractservice;
 
-import org.hibernate.SessionFactory;
+
+
+import java.util.List;
 
 import mx.com.bitmaking.application.entity.Store_cargo_abono;
+import mx.com.bitmaking.application.idao.IStoreCargoAbonoDAO;
 import mx.com.bitmaking.application.iservice.IStoreCargoAbonoService;
 
 public abstract class AbstractStoreCargoAbonoService implements IStoreCargoAbonoService {
 	
-	public abstract SessionFactory getSessionFactory();
+	public abstract IStoreCargoAbonoDAO getStoreCargoAbonoDAO();
 	
 	@Override
 	public void saveCargoAbono(Store_cargo_abono row) {
-		// TODO Auto-generated method stub
-
+		getStoreCargoAbonoDAO().saveCargoAbono(row);
 	}
 
 	@Override
-	public Store_cargo_abono getCargoAbonoByDateSuc() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Store_cargo_abono> getCargoAbonoByDateSuc(String date,int id_sucursal) {
+		return getStoreCargoAbonoDAO().getCargoAbonoByDateSuc(date, id_sucursal);
 	}
 
 }

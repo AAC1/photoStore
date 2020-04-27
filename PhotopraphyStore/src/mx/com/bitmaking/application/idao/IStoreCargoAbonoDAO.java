@@ -1,11 +1,13 @@
 package mx.com.bitmaking.application.idao;
 
+import java.util.List;
+
 import mx.com.bitmaking.application.entity.Store_cargo_abono;
 
 public interface IStoreCargoAbonoDAO {
 	
 	public void saveCargoAbono(Store_cargo_abono row );
-	public Store_cargo_abono getCargoAbonoByDateSuc();
+	public List<Store_cargo_abono> getCargoAbonoByDateSuc(String date, int id_sucursal);
 	
 	
 }

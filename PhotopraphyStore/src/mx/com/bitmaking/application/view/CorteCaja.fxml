@@ -12,7 +12,7 @@
   <AnchorPane layoutX="-18.0" minHeight="0.0" minWidth="0.0" prefHeight="593.0" prefWidth="733.0" style="-fx-background-color: rgba(0,0,0,0.3);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <JFXButton fx:id="btnSendMail" layoutX="524.0" layoutY="14.0" prefHeight="32.0" prefWidth="103.0" style="-fx-background-color: #037AB6 #037AB6;" styleClass="btn-gral" text="✉ Enviar" textFill="WHITE" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="14.0" />
-            <JFXButton fx:id="btnCargoAbono" layoutX="367.0" layoutY="14.0" prefHeight="32.0" prefWidth="141.0" style="-fx-background-color: #505050 #505050 #505050 #505050;" styleClass="btn-gral" text="Cargos / Abonos" textFill="WHITE" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="14.0" />
+            <JFXButton fx:id="btnCargoAbono" layoutX="367.0" layoutY="14.0" onMouseClicked="#openGasto" prefHeight="32.0" prefWidth="141.0" style="-fx-background-color: #505050 #505050 #505050 #505050;" styleClass="btn-gral" text="Cargos / Abonos" textFill="WHITE" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="14.0" />
             <JFXButton fx:id="btnCancelar" layoutX="608.0" layoutY="547.0" prefHeight="32.0" prefWidth="103.0" style="-fx-background-color: #505050 #505050 #505050 #505050;" styleClass="btn-gral" text=" ◄ Salir" textFill="WHITE" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="21.0" />
             <AnchorPane fx:id="containerBusqResp" layoutX="3.0" prefHeight="593.0" prefWidth="438.0" style="-fx-background-color: rgba(255,255,255,0.9);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
