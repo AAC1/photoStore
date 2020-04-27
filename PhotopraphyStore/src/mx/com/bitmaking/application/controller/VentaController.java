@@ -41,11 +41,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.dto.UserSessionDTO;
+import mx.com.bitmaking.application.entity.Store_cargo_abono;
 import mx.com.bitmaking.application.entity.Store_cat_estatus;
 import mx.com.bitmaking.application.entity.Store_cat_prod;
 import mx.com.bitmaking.application.entity.Store_fotografo;
 import mx.com.bitmaking.application.entity.Store_pedido;
 import mx.com.bitmaking.application.entity.Store_prod_pedido;
+import mx.com.bitmaking.application.iservice.IStoreCargoAbonoService;
 import mx.com.bitmaking.application.iservice.IStoreCatEstatusService;
 import mx.com.bitmaking.application.iservice.IStoreCatProdService;
 import mx.com.bitmaking.application.iservice.IStoreCorteCajaService;
@@ -138,6 +140,15 @@ public class VentaController  {
 	@Qualifier("remoteStoreCorteCajaService")
 	IStoreCorteCajaService remoteCorteCajaService;
 	
+
+	@Autowired
+	@Qualifier("StoreCargoAbonoService")
+	IStoreCargoAbonoService storeCargoAbonoService;
+	
+	@Autowired
+	@Qualifier("remoteStoreCargoAbonoService")
+	IStoreCargoAbonoService remoteStoreCargoAbonoService;
+	
 	@Autowired
 	private ApplicationContext context ;
 
@@ -225,6 +236,68 @@ public class VentaController  {
 		
 		
 	}
+	
+	@FXML
+	private void openGasto(){
+		
+		try {
+			
+			//FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/com/bitmaking/application/view/TreeProduct.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mx/com/bitmaking/application/view/FormGasto.fxml"));
+			fxmlLoader.setControllerFactory(context::getBean);
+			Parent sceneEdit= fxmlLoader.load();
+			Scene scene = new Scene(sceneEdit,3013,165);
+			scene.getStylesheets().add(getClass().getResource("/mx/com/bitmaking/application/assets/css/application.css").toExternalForm());
+		
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.setTitle("Abono / Cargo");
+			stage.setMinHeight(500.0);
+			stage.setMinWidth(350.0);
+			stage.setMaxHeight(500.0);
+			stage.setMaxWidth(200.0);
+			stage.initModality(Modality.APPLICATION_MODAL);
+		
+			stage.show();
+			GastoController ctrl = fxmlLoader.getController(); //Obtiene controller de la nueva ventana
+			ctrl.getBtnCancel().addEventHandler(MouseEvent.MOUSE_CLICKED, closeWindow(stage));
+			ctrl.getBtnAccept().addEventHandler(MouseEvent.MOUSE_CLICKED, saveGasto(stage,ctrl));
+			
+			
+	    } catch(Exception ex) {
+			ex.printStackTrace();
+			GeneralMethods.modalMsg("ERROR", "", ex.getMessage());
+		}
+	}
+	
+	private EventHandler<MouseEvent> saveGasto(Stage stage,GastoController ctrl){
+		return new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				if(stage!=null) 
+					stage.close();
+				Store_cargo_abono cargoObj = new Store_cargo_abono();
+				cargoObj.setFecha(new Date());
+				cargoObj.setMonto(new BigDecimal(ctrl.getInputMonto().getText()));
+				cargoObj.setMotivo(ctrl.getInputConcepto().getText());
+				cargoObj.setId_sucursal(instance.getId_sucursal());
+				if("Cargo".equals(ctrl.getCbxTipoGasto().getValue())){
+					cargoObj.setTipo("C");
+				}
+				else if("Abono".equals(ctrl.getCbxTipoGasto().getValue())){
+					cargoObj.setTipo("A");
+				}
+				
+				if(!Flags.remote_valid){
+					storeCargoAbonoService.saveCargoAbono(cargoObj);
+				}else{
+					remoteStoreCargoAbonoService.saveCargoAbono(cargoObj);
+				}
+			}
+		};
+		
+	}
+	
 	private void fillCbxSttsProd(){
 		
 		List<String> lstStts = new ArrayList<>();

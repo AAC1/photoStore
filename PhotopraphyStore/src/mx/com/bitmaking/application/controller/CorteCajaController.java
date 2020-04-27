@@ -679,13 +679,15 @@ public class CorteCajaController {
 			Parent sceneEdit= fxmlLoader.load();
 			Scene scene = new Scene(sceneEdit,3013,165);
 			scene.getStylesheets().add(getClass().getResource("/mx/com/bitmaking/application/assets/css/application.css").toExternalForm());
+			
 			Stage stage = new Stage();
 			stage.setScene(scene);
-			stage.setTitle("Confirmación");
+			stage.setTitle("Abono / Cargo");
 			stage.setMinHeight(500.0);
 			stage.setMinWidth(350.0);
 			stage.setMaxHeight(500.0);
 			stage.setMaxWidth(200.0);
+			
 			stage.initModality(Modality.APPLICATION_MODAL); 
 			stage.show();
 			GastoController ctrl = fxmlLoader.getController(); //Obtiene controller de la nueva ventana

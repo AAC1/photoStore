@@ -14,7 +14,7 @@
       <AnchorPane prefHeight="281.0" prefWidth="865.0" style="-fx-background-color: rgba(255,255,255,0.9);" AnchorPane.bottomAnchor="281.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <JFXButton fx:id="btnConsultPedido" layoutX="521.0" layoutY="27.0" prefHeight="32.0" prefWidth="172.0" style="-fx-background-color: #037AB6;" styleClass="btn-gral" text="⚙ Consultar pedido" textFill="WHITE" visible="false" AnchorPane.rightAnchor="172.0" />
-            <JFXButton fx:id="btnEditarPedido" layoutX="253.0" layoutY="27.0" prefHeight="32.0" prefWidth="151.0" style="-fx-background-color: #C37B00;" styleClass="btn-gral" text="▬ Editar pedido" textFill="WHITE" AnchorPane.rightAnchor="15.0" />
+            <JFXButton fx:id="btnEditarPedido" layoutX="253.0" layoutY="27.0" prefHeight="32.0" prefWidth="151.0" style="-fx-background-color: #C37B00;" styleClass="btn-gral" text="▬ Editar pedido" textFill="WHITE" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="27.0" />
             <Label layoutX="33.0" layoutY="51.0" prefHeight="17.0" prefWidth="81.0" styleClass="label-title" text="Cliente" AnchorPane.leftAnchor="39.0" />
             <JFXComboBox fx:id="cbxCliente" layoutX="39.0" layoutY="68.0" onAction="#selectCte" prefHeight="28.0" prefWidth="240.0" AnchorPane.leftAnchor="39.0" />
             <Label layoutX="39.0" layoutY="106.0" prefHeight="17.0" prefWidth="81.0" styleClass="label-title" text="Folio" AnchorPane.leftAnchor="39.0" />
@@ -34,6 +34,7 @@
                <font>
                   <Font name="System Bold" size="14.0" />
                </font></JFXTextField>
+            <JFXButton fx:id="btnSelectProd1" layoutX="535.0" layoutY="27.0" onMouseClicked="#openGasto" prefHeight="32.0" prefWidth="151.0" style="-fx-background-color: #037AB6;" styleClass="btn-gral" text="⚙ Cargo / Abono" textAlignment="CENTER" textFill="WHITE" wrapText="true" AnchorPane.rightAnchor="179.0" AnchorPane.topAnchor="27.0" />
          </children>
       </AnchorPane>
       <AnchorPane layoutY="281.0" prefHeight="333.0" prefWidth="865.0" style="-fx-background-color: rgb(183,183,183);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="281.0">
@@ -52,7 +53,7 @@
             <JFXTextField fx:id="inputPrecioUni" disable="true" layoutX="267.0" layoutY="134.0" prefHeight="26.0" prefWidth="39.0" styleClass="input-gral" visible="false" />
             <TableView fx:id="tbProductos" layoutX="308.0" layoutY="18.0" prefHeight="250.0" prefWidth="542.0" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="308.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="18.0">
               <columns>
-                <TableColumn fx:id="tbColProd" maxWidth="1.7976931348623157E308" prefWidth="118.0"  styleClass="table-column" text="Código de Barras" />
+                <TableColumn fx:id="tbColProd" maxWidth="1.7976931348623157E308" prefWidth="118.0" styleClass="table-column" text="Código de Barras" />
                 <TableColumn fx:id="tbColDesc" maxWidth="1.7976931348623157E308" prefWidth="166.0" styleClass="table-column" text="Descripción" />
                   <TableColumn fx:id="tbColCant" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="63.0" styleClass="table-column" text="Cantidad" />
                   <TableColumn fx:id="tbColCosto" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="59.0" styleClass="table-column" text="Costo" />
