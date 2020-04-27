@@ -259,10 +259,13 @@ public class CorteCajaController {
 			}else{
 				listResume.add(new CorteCajaResumeDTO("--","0.00","0.00"));
 			}
+			boolean hasAbono = false;
 			listResume.add(new CorteCajaResumeDTO("DEVOLUCIONES","",""));
 			if(listCargoAbono != null && listCargoAbono.size()>0){
+				
 				for(int i =0; i<listCargoAbono.size(); i++){
 					if("A".equals(listCargoAbono.get(i).getTipo())){//Valida que sea abono
+						hasAbono=true;
 						abono = abono.add(listCargoAbono.get(i).getMonto());
 						if((i+1) == listCargoAbono.size())
 							listResume.add(new CorteCajaResumeDTO("(+) "+listCargoAbono.get(i).getMotivo(),
@@ -274,14 +277,12 @@ public class CorteCajaController {
 					}
 					
 				}
-			}else{
+			}
+			if(!hasAbono){
 				
 				listResume.add(new CorteCajaResumeDTO("--","0.00","0.00"));
 			}
 			
-			listResume.add(new CorteCajaResumeDTO("DEVOLUCIONES","",""));
-			listResume.add(new CorteCajaResumeDTO("(+) Abono","500.00","500.00"));
-
 			listResume.add(new CorteCajaResumeDTO("DENOMINACIONES","",""));//\u00D3
 			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 1000",
 						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno1000())),""));
