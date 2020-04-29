@@ -324,6 +324,9 @@ CONSTRAINT `FK_cargo_abono_sucursal`
     ON UPDATE NO ACTION
 );
 
+
 SELECT * FROM store_corte_caja;
 
 select * from store_cargo_abono;
+
+
