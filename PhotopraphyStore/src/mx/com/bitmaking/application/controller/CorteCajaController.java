@@ -247,8 +247,12 @@ public class CorteCajaController {
 
 		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
 		
+		String passwd = GeneralMethods.desencriptar(env.getProperty("mail.password"), Constantes.SALT);
+		String emailUser = GeneralMethods.desencriptar(env.getProperty("mail.user"), Constantes.SALT);
+		
 		EmailSender mailObj = new EmailSender(env.getProperty("mail.host"),env.getProperty("mail.port"),
-								env.getProperty("mail.user"),env.getProperty("mail.password"));
+				emailUser,passwd);
+		
 		StringBuilder msgHtml = new StringBuilder();
 		BigDecimal total = new BigDecimal(0);
 		BigDecimal sum = new BigDecimal(0);
