@@ -1,6 +1,5 @@
 package mx.com.bitmaking.application.util;
 
-import java.io.IOException;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -23,24 +22,34 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-@Component
+
 public class EmailSender {
 
-    @Autowired
-	private Environment env;
+	private String mailHost;
+	
+	private String mailPort;
+	
+	private String mailUser;
+	
+	private String mailPasswd;
+    
+    //@Autowired
+	//private Environment env;
     
     Properties properties = null;  
-    Properties props = null;
+    
     Session session = null;
-    public EmailSender(){
-    	
+    public EmailSender(String mailHost,String mailPort,String mailUser,String mailPasswd){
+    	this.mailHost = mailHost;
+    	this.mailPort = mailPort;
+    	this.mailUser = mailUser;
+    	this.mailPasswd = mailPasswd;
     }
     
     
     public void sendMessageHTML(String to,String msgHtml,String subject, String filename) throws AddressException, MessagingException{
     	properties = System.getProperties();
-    	System.out.println("mailHost:"+env.getProperty("mail.host"));
-    	
+    	/*
     	properties.setProperty("mail.smtp.host", env.getProperty("mail.host"));  
     	properties.put("mail.smtp.port", env.getProperty("mail.port"));
         properties.put("mail.smtp.ssl.enable", "true");
@@ -51,22 +60,19 @@ public class EmailSender {
     						env.getProperty("mail.password"));
             }
         });  
-    	/*
-    	System.out.println("mailHost:"+env.getProperty("mail.host"));
-    	System.out.println("mailHost2:"+props.getProperty("mail.host"));
-    	properties.setProperty("mail.smtp.host", props.getProperty("mail.host"));  
-    	properties.put("mail.smtp.port", props.getProperty("mail.port"));
+    	*/
+    	properties.setProperty("mail.smtp.host", mailHost);  
+    	properties.put("mail.smtp.port", mailPort);
         properties.put("mail.smtp.ssl.enable", "true");
         properties.put("mail.smtp.auth", "true");
     	session = Session.getDefaultInstance(properties,new javax.mail.Authenticator() {
     		protected PasswordAuthentication getPasswordAuthentication() {
-    			return new PasswordAuthentication(props.getProperty("mail.user"), 
-    					props.getProperty("mail.password"));
+    			return new PasswordAuthentication(mailUser, 
+    						mailPasswd);
             }
         }); 
-        */
     	MimeMessage message = new MimeMessage(session);  
-        message.setFrom(new InternetAddress(env.getProperty("mail.user")));  
+        message.setFrom(new InternetAddress(mailUser));  
         message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));  
         message.setSubject(subject);  
         message.setContent(msgHtml, "text/html");  

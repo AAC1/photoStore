@@ -247,7 +247,8 @@ public class CorteCajaController {
 
 		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
 		
-		EmailSender mailObj = new EmailSender();
+		EmailSender mailObj = new EmailSender(env.getProperty("mail.host"),env.getProperty("mail.port"),
+								env.getProperty("mail.user"),env.getProperty("mail.password"));
 		StringBuilder msgHtml = new StringBuilder();
 		BigDecimal total = new BigDecimal(0);
 		BigDecimal sum = new BigDecimal(0);
@@ -281,7 +282,7 @@ public class CorteCajaController {
 		msgHtml.append(corteCaja.getImporte());
 		msgHtml.append("</td></tr>");
 		msgHtml.append("<tr><td style='width:40%;text-align:right;height:30px'><strong>Ganancia:</strong></td>");
-		msgHtml.append("<td style='min-width:40px;text-align:right'>0");
+		msgHtml.append("<td style='min-width:40px;text-align:right'>");
 		if(sum.compareTo(rest) <0){  //SUM es menor a REST
 			msgHtml.append("-"+GeneralMethods.formatCurrentNumber(String.valueOf(total)));
 		}else{
