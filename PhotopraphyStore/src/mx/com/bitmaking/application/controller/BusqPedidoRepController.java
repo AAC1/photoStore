@@ -11,7 +11,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.aspectj.bridge.AbortException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -550,9 +552,16 @@ public class BusqPedidoRepController {
 			String pathReport=env.getProperty("exportFile.path")+"/reporte_"+formatoD.format(new Date())+".xls";
 			String qry = generateQry();
 			String titulo=Constantes.COMPANY_NAME;
+			// Preparamos los valores que se van a escribir en el reporte
+			Map<String, Object> parametrosReporte = new HashMap<>();
+			parametrosReporte.put("qry", qry);
+			parametrosReporte.put("titulo", titulo);
+			parametrosReporte.put("SUBREPORT_DIR", file.getParent()+"/");
+			
+			
 			boolean export = (Flags.remote_valid)?
-					remotePedidoService.generaXLS(fileInputStream,qry,titulo,pathReport,file.getParent()+"/"):
-					pedidoService.generaXLS(fileInputStream,qry,titulo,pathReport,file.getParent()+"/");
+					remotePedidoService.generaXLS(fileInputStream,parametrosReporte,pathReport,file.getParent()+"/"):
+					pedidoService.generaXLS(fileInputStream,parametrosReporte,pathReport,file.getParent()+"/");
 			
 			if(export) {
 				File fataExported = new File(pathReport);

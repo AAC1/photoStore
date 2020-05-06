@@ -85,14 +85,15 @@ public abstract class AbstractStorePedidoService implements IStorePedidoService 
 	}
 	
 	@Override
-	public boolean generaXLS(FileInputStream fileInputStream, String qry, String titulo,
+	public boolean generaXLS(FileInputStream fileInputStream, Map<String, Object> parametrosReporte,
 				String pathReport,String pathParent) throws JRException{
 		export=false;
 		Session session = getSessionFactory().getCurrentSession();
 		session.doWork(connection -> {
 			
 				try {
-					exportXLS(connection, fileInputStream, qry, titulo,pathReport,pathParent);
+					
+					exportXLS(connection, fileInputStream, parametrosReporte,pathReport,pathParent);
 					export=true;
 				} catch (JRException e) {
 					e.printStackTrace();
@@ -105,18 +106,12 @@ public abstract class AbstractStorePedidoService implements IStorePedidoService 
 	}
 
 	private boolean exportXLS(Connection connection, FileInputStream fileInputStream, 
-								String qry, String titulo,String pathReport,String pathParent) throws JRException {
+			Map<String, Object> parametrosReporte,String pathReport,String pathParent) throws JRException {
 		boolean export = false;
 		JasperReport pdfResolucionInforme;
 		try {
 			// Instanciamos el objeto para crear el PDF
 			pdfResolucionInforme = (JasperReport) JRLoader.loadObject(fileInputStream);
-			
-			// Preparamos los valores que se van a escribir en el reporte
-			Map<String, Object> parametrosReporte = new HashMap<>();
-			parametrosReporte.put("qry", qry);
-			parametrosReporte.put("titulo", titulo);
-			parametrosReporte.put("SUBREPORT_DIR", pathParent);
 			
 			JasperPrint jasperPrint;
 			jasperPrint = JasperFillManager.fillReport(pdfResolucionInforme, parametrosReporte, connection);

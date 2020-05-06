@@ -2,6 +2,7 @@ package mx.com.bitmaking.application.iservice;
 
 import java.io.FileInputStream;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -22,7 +23,7 @@ public interface IStorePedidoService  {
 	 * @return
 	 * @throws JRException
 	 */
-	public boolean generaXLS(FileInputStream fileInputStream, String qry, String titulo,
+	public boolean generaXLS(FileInputStream fileInputStream, Map<String, Object> parametrosReporte,
 				String pathReport,String pathParent)throws JRException;
 	
 	public String getCurrentNumberFolio(String prefijo);

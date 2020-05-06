@@ -14,7 +14,7 @@ import javafx.scene.Scene;
 
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan
+@ComponentScan ("mx.com.bitmaking.application")
 public class Main extends MystoreApplication {
     
 	@Override

@@ -56,9 +56,9 @@ public class StorePedidoService extends AbstractStorePedidoService{//implements 
 	}
 	
 	@Transactional(value = "remoteTransactionManager")
-	public boolean generaXLS(FileInputStream fileInputStream, String qry, String titulo,
+	public boolean generaXLS(FileInputStream fileInputStream,  Map<String, Object> parametrosReporte,
 				String pathReport,String pathParent) throws JRException{
-		return super.generaXLS(fileInputStream, qry, titulo, pathReport, pathParent);
+		return super.generaXLS(fileInputStream, parametrosReporte, pathReport, pathParent);
 	}
 
 	@Transactional(value = "remoteTransactionManager")

@@ -1,14 +1,23 @@
 package mx.com.bitmaking.application.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 
 import com.jfoenix.controls.JFXButton;
@@ -44,7 +53,9 @@ import mx.com.bitmaking.application.entity.Store_cargo_abono;
 import mx.com.bitmaking.application.entity.Store_corte_caja;
 import mx.com.bitmaking.application.iservice.IStoreCargoAbonoService;
 import mx.com.bitmaking.application.iservice.IStoreCorteCajaService;
+import mx.com.bitmaking.application.iservice.IStorePedidoService;
 import mx.com.bitmaking.application.util.Constantes;
+import mx.com.bitmaking.application.util.EmailSender;
 import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
@@ -91,9 +102,22 @@ public class CorteCajaController {
 	@Qualifier("remoteStoreCargoAbonoService")
 	IStoreCargoAbonoService remoteStoreCargoAbonoService;
 	
+	@Autowired
+	@Qualifier("StorePedidoService")
+	private IStorePedidoService pedidoService;
+	@Autowired
+	@Qualifier("remoteStorePedidoService")
+	private IStorePedidoService remotePedidoService;
+	
+	@Autowired
+	private Environment env;
+	
 	private UserSessionDTO instance = null;
 	private Stage stageModalMontoIni = null;
 	private Store_corte_caja corteCaja = null;
+	BigDecimal cargo = new BigDecimal(0);
+	BigDecimal abono = new BigDecimal(0);
+	
 	/**
 	 * @return the btnCancelar
 	 */
@@ -168,8 +192,6 @@ public class CorteCajaController {
 			GeneralMethods.modalMsg("", "", "No fue posible obtener el usuario. Inicie sesi\u00F3n e intentelo de nuevo");
 		}
 		
-		
-		
 	}
 	
 	@FXML
@@ -215,10 +237,144 @@ public class CorteCajaController {
 		fillTableResume();
 	}
 	
+	@FXML 
+	private void sendMail(){
+		fillTableResume();
+		if(corteCaja ==null){
+			GeneralMethods.modalMsg("", "", "No se ha encontrado registro del día de hoy");
+			return;
+		}
+
+		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+		
+		EmailSender mailObj = new EmailSender();
+		StringBuilder msgHtml = new StringBuilder();
+		BigDecimal total = new BigDecimal(0);
+		BigDecimal sum = new BigDecimal(0);
+		BigDecimal rest = new BigDecimal(0);
+		sum = sum.add(corteCaja.getImporte());
+		sum = sum.add(abono);
+		
+		
+		//Suma todo lo que no sea gasto en el dia
+		rest = rest.add(corteCaja.getImporte_ini()); 
+		rest = rest.add(cargo); 
+		total = sum.subtract(rest);
+		
+		msgHtml.append("<table><thead><tr><td colspan=2 style='text-align:center;background-color:#505050;color:white;'>");
+		msgHtml.append("<h3 syle='text-align:center;padding:0;margin:0'>Corte de Caja "+dt.format(new Date()));
+		msgHtml.append("</h3></td></tr></thead><tbody >");
+		msgHtml.append("<tr><td style='width:40%;text-align:right;height:30px'><strong>Caja Inicial:</strong></td>");
+		msgHtml.append("<td style='min-width:40px;text-align:right'>");
+		msgHtml.append(corteCaja.getImporte_ini());
+		msgHtml.append("</td></tr>");
+		msgHtml.append("<tr><td style='width:40%;text-align:right;height:30px'><strong>Cargos:</strong></td>");
+		msgHtml.append("<td style='min-width:40px;text-align:right'>");
+		msgHtml.append(cargo);
+		msgHtml.append("</td></tr>");
+		msgHtml.append("<tr><td style='width:40%;text-align:right;height:30px'><strong>Abonos:</strong></td>");
+		msgHtml.append("<td style='min-width:40px;text-align:right'>");
+		msgHtml.append(abono);
+		msgHtml.append("</td></tr>");
+		msgHtml.append("<tr><td style='width:40%;text-align:right;height:30px'><strong>Denominaciones:</strong></td>");
+		msgHtml.append("<td style='min-width:50px;text-align:right'>");
+		msgHtml.append(corteCaja.getImporte());
+		msgHtml.append("</td></tr>");
+		msgHtml.append("<tr><td style='width:40%;text-align:right;height:30px'><strong>Ganancia:</strong></td>");
+		msgHtml.append("<td style='min-width:40px;text-align:right'>0");
+		if(sum.compareTo(rest) <0){  //SUM es menor a REST
+			msgHtml.append("-"+GeneralMethods.formatCurrentNumber(String.valueOf(total)));
+		}else{
+			msgHtml.append(GeneralMethods.formatCurrentNumber(String.valueOf(total)));
+		}
+		msgHtml.append("</td></tr>");
+		msgHtml.append("</tbody></table>");
+		
+		String filename = "";
+		SimpleDateFormat formatoD = new SimpleDateFormat("ddMMyyyy_hhmmss");
+		String pathReport=env.getProperty("exportFile.path")+"/corteCaja_"+formatoD.format(new Date())+".xls";
+		System.out.println(msgHtml);
+		try {
+			if(!exportXLS(pathReport)){
+				filename = pathReport;
+			}
+			mailObj.sendMessageHTML(env.getProperty("mail.userTo"), msgHtml.toString(), 
+					"Corte de Caja",filename);
+		} catch (AddressException e) {
+			GeneralMethods.modalMsg("", "", e.getMessage());
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			GeneralMethods.modalMsg("", "", e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	private boolean exportXLS(String pathReport)  {
+		boolean export = false;
+		File file=null;
+		FileInputStream fileInputStream = null;
+		
+		try {
+			file = new File(env.getProperty("exportFile.pathCorteCajaRepJasper"));//loader.getFile());
+			System.out.println("ABS_PATH: "+file.getAbsolutePath());
+			System.out.println("PARENT: "+file.getParent());
+			System.out.println("JUST_PATH: "+file.getPath());
+			//String pathPlantilla = file.getAbsolutePath();
+			
+			//File fileToDownload = new File(pathPlantilla);
+			
+			SimpleDateFormat formatoSQL = new SimpleDateFormat("yyyy-MM-dd");
+		
+			if (file.exists() && file.isFile()) {
+				fileInputStream = new FileInputStream(file);
+			} else {
+				GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar plantilla de reporte. se enviara sin archivo");
+				return false;
+			}
+			
+			Map<String, Object> parametrosReporte = new HashMap<>();
+			parametrosReporte.put("idSucursal", String.valueOf(instance.getId_sucursal()));
+			parametrosReporte.put("titulo", Constantes.COMPANY_NAME);
+			parametrosReporte.put("fecha", formatoSQL.format(new Date()));
+			//parametrosReporte.put("SUBREPORT_DIR", file.getParent()+"/");
+			
+			
+			export = (Flags.remote_valid)?
+					remotePedidoService.generaXLS(fileInputStream,parametrosReporte,pathReport,file.getParent()+"/"):
+					pedidoService.generaXLS(fileInputStream,parametrosReporte,pathReport,file.getParent()+"/");
+			
+			if(!export) {
+				GeneralMethods.modalMsg("ERROR", "", "Ha ocurrido un error al generar reporte");
+			}
+		} /*catch(MalformedURLException e){
+			GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar la plantilla del reporte");
+			e.printStackTrace();
+		}*/
+		catch (Exception e) {
+			GeneralMethods.modalMsg("ERROR", "", "Ha ocurrido un error al generar reporte");
+			e.printStackTrace();
+		}finally{
+			if(fileInputStream!=null){
+				try {
+					fileInputStream.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return export;
+	}
+	
 	private void fillTableResume(){
+		
 		List<CorteCajaResumeDTO> listResume = new ArrayList<>();
 		List<Store_cargo_abono> listCargoAbono = null;
 		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+		
+		cargo = new BigDecimal(0);
+		abono = new BigDecimal(0);
+		
 		//VALIDA SI ES REMOTO O LOCAL
 		if(!Flags.remote_valid){
 			listCargoAbono = storeCargoAbonoService.getCargoAbonoByDateSuc(dt.format(new Date()), instance.getId_sucursal());
@@ -236,9 +392,8 @@ public class CorteCajaController {
 			listResume.add(new CorteCajaResumeDTO("(-) Monto inicial",GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getImporte_ini())),
 					GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getImporte_ini()))));
 			
-			listResume.add(new CorteCajaResumeDTO("GASTOS","",""));
-			BigDecimal cargo = new BigDecimal(0);
-			BigDecimal abono = new BigDecimal(0);
+			listResume.add(new CorteCajaResumeDTO("CARGOS","",""));
+			
 			if(listCargoAbono != null && listCargoAbono.size()>0){
 				
 				for(int i =0; i<listCargoAbono.size(); i++){
@@ -260,7 +415,7 @@ public class CorteCajaController {
 				listResume.add(new CorteCajaResumeDTO("--","0.00","0.00"));
 			}
 			boolean hasAbono = false;
-			listResume.add(new CorteCajaResumeDTO("DEVOLUCIONES","",""));
+			listResume.add(new CorteCajaResumeDTO("ABONOS","",""));
 			if(listCargoAbono != null && listCargoAbono.size()>0){
 				
 				for(int i =0; i<listCargoAbono.size(); i++){
@@ -376,17 +531,13 @@ public class CorteCajaController {
 			@Override
 			public void handle(MouseEvent event) {
 				try {
-					
-					
 					Store_corte_caja objEntity = new Store_corte_caja();
 					String value = ctrl.getInputValue().getText();
 					
 					if(value!=null && !"".equals(value.trim())){
 						if(stage!=null) 
 							stage.close();
-						
-						
-
+						System.out.println(value);
 						objEntity.setImporte_ini(new BigDecimal(value));
 						if(corteCaja == null){
 							objEntity.setFecha(new Date());
@@ -422,12 +573,10 @@ public class CorteCajaController {
 						
 					}
 					
-					
 		        } catch(Exception ex) {
 					ex.printStackTrace();
 				}
 			}};
-		
 		
 	}
 	private EventHandler<MouseEvent>cancelMontoIni(Stage stage){
