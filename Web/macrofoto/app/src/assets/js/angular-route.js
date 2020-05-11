@@ -16,13 +16,13 @@ function shallowCopy(src, dst) {
   if (isArray(src)) {
     dst = dst || [];
 
-    for (var i = 0, ii = src.length; i < ii; i++) {
+    for (let i = 0, ii = src.length; i < ii; i++) {
       dst[i] = src[i];
     }
   } else if (isObject(src)) {
     dst = dst || {};
 
-    for (var key in src) {
+    for (const key in src) {
       if (!(key.charAt(0) === '$' && key.charAt(1) === '$')) {
         dst[key] = src[key];
       }
@@ -47,13 +47,13 @@ function shallowCopy(src, dst) {
  * Originally inspired by `pathRexp` in `visionmedia/express/lib/utils.js`.
  */
 function routeToRegExp(path, opts) {
-  var keys = [];
+  const keys = [];
 
-  var pattern = path
+  let pattern = path
     .replace(/([().])/g, '\\$1')
     .replace(/(\/)?:(\w+)(\*\?|[?*])?/g, function(_, slash, key, option) {
-      var optional = option === '?' || option === '*?';
-      var star = option === '*' || option === '*?';
+      const optional = option === '?' || option === '*?';
+      const star = option === '*' || option === '*?';
       keys.push({name: key, optional: optional});
       slash = slash || '';
       return (
@@ -82,10 +82,10 @@ function routeToRegExp(path, opts) {
 
 // `isArray` and `isObject` are necessary for `shallowCopy()` (included via `src/shallowCopy.js`).
 // They are initialized inside the `$RouteProvider`, to ensure `window.angular` is available.
-var isArray;
-var isObject;
-var isDefined;
-var noop;
+let isArray;
+let isObject;
+let isDefined;
+let noop;
 
 /**
  * @ngdoc module
@@ -99,7 +99,7 @@ var noop;
  *
  */
 /* global -ngRouteModule */
-var ngRouteModule = angular.
+const ngRouteModule = angular.
   module('ngRoute', []).
   info({ angularVersion: '1.7.9' }).
   provider('$route', $RouteProvider).
@@ -107,8 +107,8 @@ var ngRouteModule = angular.
   // event (unless explicitly disabled). This is necessary in case `ngView` is included in an
   // asynchronously loaded template.
   run(instantiateRoute);
-var $routeMinErr = angular.$$minErr('ngRoute');
-var isEagerInstantiationEnabled;
+const $routeMinErr = angular.$$minErr('ngRoute');
+let isEagerInstantiationEnabled;
 
 
 /**
@@ -136,7 +136,7 @@ function $RouteProvider() {
     return angular.extend(Object.create(parent), extra);
   }
 
-  var routes = {};
+  const routes = {};
 
   /**
    * @ngdoc method
@@ -290,7 +290,7 @@ function $RouteProvider() {
    */
   this.when = function(path, route) {
     //copy original route object to preserve params inherited from proto chain
-    var routeCopy = shallowCopy(route);
+    const routeCopy = shallowCopy(route);
     if (angular.isUndefined(routeCopy.reloadOnUrl)) {
       routeCopy.reloadOnUrl = true;
     }
@@ -308,7 +308,7 @@ function $RouteProvider() {
 
     // create redirection for trailing slashes
     if (path) {
-      var redirectPath = (path[path.length - 1] === '/')
+      const redirectPath = (path[path.length - 1] === '/')
             ? path.substr(0, path.length - 1)
             : path + '/';
 
@@ -604,7 +604,7 @@ function $RouteProvider() {
      * @param {Route} current Current/previous route information.
      */
 
-    var forceReload = false,
+    let forceReload = false,
         preparedRoute,
         preparedRouteIsUpdateOnly,
         $route = {
@@ -624,7 +624,7 @@ function $RouteProvider() {
           reload: function() {
             forceReload = true;
 
-            var fakeLocationEvent = {
+            const fakeLocationEvent = {
               defaultPrevented: false,
               preventDefault: function fakePreventDefault() {
                 this.defaultPrevented = true;
@@ -682,18 +682,18 @@ function $RouteProvider() {
      * visionmedia/express/lib/router/router.js.
      */
     function switchRouteMatcher(on, route) {
-      var keys = route.keys,
+      const keys = route.keys,
           params = {};
 
       if (!route.regexp) return null;
 
-      var m = route.regexp.exec(on);
+      const m = route.regexp.exec(on);
       if (!m) return null;
 
-      for (var i = 1, len = m.length; i < len; ++i) {
-        var key = keys[i - 1];
+      for (let i = 1, len = m.length; i < len; ++i) {
+        const key = keys[i - 1];
 
-        var val = m[i];
+        const val = m[i];
 
         if (key && val) {
           params[key.name] = val;
@@ -703,7 +703,7 @@ function $RouteProvider() {
     }
 
     function prepareRoute($locationEvent) {
-      var lastRoute = $route.current;
+      const lastRoute = $route.current;
 
       preparedRoute = parseRoute();
       preparedRouteIsUpdateOnly = isNavigationUpdateOnly(preparedRoute, lastRoute);
@@ -718,8 +718,8 @@ function $RouteProvider() {
     }
 
     function commitRoute() {
-      var lastRoute = $route.current;
-      var nextRoute = preparedRoute;
+      const lastRoute = $route.current;
+      const nextRoute = preparedRoute;
 
       if (preparedRouteIsUpdateOnly) {
         lastRoute.params = nextRoute.params;
@@ -729,7 +729,7 @@ function $RouteProvider() {
         forceReload = false;
         $route.current = nextRoute;
 
-        var nextRoutePromise = $q.resolve(nextRoute);
+        const nextRoutePromise = $q.resolve(nextRoute);
 
         $browser.$$incOutstandingRequestCount('$route');
 
@@ -765,7 +765,7 @@ function $RouteProvider() {
     }
 
     function getRedirectionData(route) {
-      var data = {
+      const data = {
         route: route,
         hasRedirection: false
       };
@@ -777,9 +777,9 @@ function $RouteProvider() {
             data.search = route.params;
             data.hasRedirection = true;
           } else {
-            var oldPath = $location.path();
-            var oldSearch = $location.search();
-            var newUrl = route.redirectTo(route.pathParams, oldPath, oldSearch);
+            const oldPath = $location.path();
+            const oldSearch = $location.search();
+            const newUrl = route.redirectTo(route.pathParams, oldPath, oldSearch);
 
             if (angular.isDefined(newUrl)) {
               data.url = newUrl;
@@ -804,13 +804,13 @@ function $RouteProvider() {
     }
 
     function handlePossibleRedirection(data) {
-      var keepProcessingRoute = true;
+      let keepProcessingRoute = true;
 
       if (data.route !== $route.current) {
         keepProcessingRoute = false;
       } else if (data.hasRedirection) {
-        var oldUrl = $location.url();
-        var newUrl = data.url;
+        const oldUrl = $location.url();
+        let newUrl = data.url;
 
         if (newUrl) {
           $location.
@@ -836,13 +836,13 @@ function $RouteProvider() {
 
     function resolveLocals(route) {
       if (route) {
-        var locals = angular.extend({}, route.resolve);
+        const locals = angular.extend({}, route.resolve);
         angular.forEach(locals, function(value, key) {
           locals[key] = angular.isString(value) ?
               $injector.get(value) :
               $injector.invoke(value, null, null, key);
         });
-        var template = getTemplateFor(route);
+        const template = getTemplateFor(route);
         if (angular.isDefined(template)) {
           locals['$template'] = template;
         }
@@ -851,7 +851,7 @@ function $RouteProvider() {
     }
 
     function getTemplateFor(route) {
-      var template, templateUrl;
+      let template, templateUrl;
       if (angular.isDefined(template = route.template)) {
         if (angular.isFunction(template)) {
           template = template(route.params);
@@ -873,7 +873,7 @@ function $RouteProvider() {
      */
     function parseRoute() {
       // Match a route
-      var params, match;
+      let params, match;
       angular.forEach(routes, function(route, path) {
         if (!match && (params = switchRouteMatcher($location.path(), route))) {
           match = inherit(route, {
@@ -913,13 +913,13 @@ function $RouteProvider() {
      * @returns {string} interpolation of the redirect path with the parameters
      */
     function interpolate(string, params) {
-      var result = [];
+      const result = [];
       angular.forEach((string || '').split(':'), function(segment, i) {
         if (i === 0) {
           result.push(segment);
         } else {
-          var segmentMatch = segment.match(/(\w+)(?:[?*])?(.*)/);
-          var key = segmentMatch[1];
+          const segmentMatch = segment.match(/(\w+)(?:[?*])?(.*)/);
+          const key = segmentMatch[1];
           result.push(params[key]);
           result.push(segmentMatch[2] || '');
           delete params[key];
@@ -1164,7 +1164,7 @@ function ngViewFactory($route, $anchorScroll, $animate) {
     priority: 400,
     transclude: 'element',
     link: function(scope, $element, attr, ctrl, $transclude) {
-        var currentScope,
+        let currentScope,
             currentElement,
             previousLeaveAnimation,
             autoScrollExp = attr.autoscroll,
@@ -1193,12 +1193,12 @@ function ngViewFactory($route, $anchorScroll, $animate) {
         }
 
         function update() {
-          var locals = $route.current && $route.current.locals,
+          const locals = $route.current && $route.current.locals,
               template = locals && locals.$template;
 
           if (angular.isDefined(template)) {
-            var newScope = scope.$new();
-            var current = $route.current;
+            const newScope = scope.$new();
+            const current = $route.current;
 
             // Note: This will also link all children of ng-view that were contained in the original
             // html. If that content contains controllers, ... they could pollute/change the scope.
@@ -1206,7 +1206,7 @@ function ngViewFactory($route, $anchorScroll, $animate) {
             // Note: We can't remove them in the cloneAttchFn of $transclude as that
             // function is called before linking the content, which would apply child
             // directives to non existing elements.
-            var clone = $transclude(newScope, function(clone) {
+            const clone = $transclude(newScope, function(clone) {
               $animate.enter(clone, null, currentElement || $element).done(function onNgViewEnter(response) {
                 if (response !== false && angular.isDefined(autoScrollExp)
                   && (!autoScrollExp || scope.$eval(autoScrollExp))) {
@@ -1239,16 +1239,16 @@ function ngViewFillContentFactory($compile, $controller, $route) {
     restrict: 'ECA',
     priority: -400,
     link: function(scope, $element) {
-      var current = $route.current,
+      const current = $route.current,
           locals = current.locals;
 
       $element.html(locals.$template);
 
-      var link = $compile($element.contents());
+      const link = $compile($element.contents());
 
       if (current.controller) {
         locals.$scope = scope;
-        var controller = $controller(current.controller, locals);
+        const controller = $controller(current.controller, locals);
         if (current.controllerAs) {
           scope[current.controllerAs] = controller;
         }

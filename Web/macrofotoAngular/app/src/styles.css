@@ -1,0 +1,52 @@
+/* You can add global styles to this file, and also import other style files */
+
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+html, body { height: 100%; }
+body { 
+    margin: 0; 
+}
+
+mat-sidenav-container{
+    height: calc(100vh - 15vh);
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s;
+}
+
+.mat-icon-button{
+    z-index: 999 !important;
+}
+.separator {
+    margin: 3rem 0;
+    border-bottom: 1px dashed #fff;
+}
+
+.text-uppercase {
+    letter-spacing: 0.1em;
+}
+
+.text-gray {
+    color: #aaa;
+}
+.nav-item a {
+    text-decoration: none;
+    color: black;
+}
+
+.nav-item a:hover {
+    background-color: #5F686C;
+    color: white;
+}
+footer {
+    background-color: #282829 !important;
+    color: white;
+    height: 15vh;
+}
+
+mat-sidenav{
+    overflow: auto;
+}

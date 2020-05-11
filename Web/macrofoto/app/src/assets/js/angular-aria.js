@@ -60,18 +60,18 @@
  * It is possible to make `ngAria` ignore a specific element, by adding the `ng-aria-disable`
  * attribute on it. Note that only the element itself (and not its child elements) will be ignored.
  */
-var ARIA_DISABLE_ATTR = 'ngAriaDisable';
+const ARIA_DISABLE_ATTR = 'ngAriaDisable';
 
-var ngAriaModule = angular.module('ngAria', ['ng']).
+const ngAriaModule = angular.module('ngAria', ['ng']).
                         info({ angularVersion: '1.7.9' }).
                         provider('$aria', $AriaProvider);
 
 /**
 * Internal Utilities
 */
-var nodeBlackList = ['BUTTON', 'A', 'INPUT', 'TEXTAREA', 'SELECT', 'DETAILS', 'SUMMARY'];
+const nodeBlackList = ['BUTTON', 'A', 'INPUT', 'TEXTAREA', 'SELECT', 'DETAILS', 'SUMMARY'];
 
-var isNodeOneOf = function(elem, nodeTypeArray) {
+const isNodeOneOf = function(elem, nodeTypeArray) {
   if (nodeTypeArray.indexOf(elem[0].nodeName) !== -1) {
     return true;
   }
@@ -99,7 +99,7 @@ var isNodeOneOf = function(elem, nodeTypeArray) {
  *
  */
 function $AriaProvider() {
-  var config = {
+  let config = {
     ariaHidden: true,
     ariaChecked: true,
     ariaReadonly: true,
@@ -145,7 +145,7 @@ function $AriaProvider() {
     return function(scope, elem, attr) {
       if (attr.hasOwnProperty(ARIA_DISABLE_ATTR)) return;
 
-      var ariaCamelName = attr.$normalize(ariaAttr);
+      const ariaCamelName = attr.$normalize(ariaAttr);
       if (config[ariaCamelName] && !isNodeOneOf(elem, nodeBlackList) && !attr[ariaCamelName]) {
         scope.$watch(attr[attrName], function(boolVal) {
           // ensure boolean value
@@ -251,7 +251,7 @@ ngAriaModule.directive('ngShow', ['$aria', function($aria) {
   }
 
   function getShape(attr, elem) {
-    var type = attr.type,
+    const type = attr.type,
         role = attr.role;
 
     return ((type || role) === 'checkbox' || role === 'menuitemcheckbox') ? 'checkbox' :
@@ -266,11 +266,11 @@ ngAriaModule.directive('ngShow', ['$aria', function($aria) {
     compile: function(elem, attr) {
       if (attr.hasOwnProperty(ARIA_DISABLE_ATTR)) return;
 
-      var shape = getShape(attr, elem);
+      const shape = getShape(attr, elem);
 
       return {
         post: function(scope, elem, attr, ngModel) {
-          var needsTabIndex = shouldAttachAttr('tabindex', 'tabindex', elem, false);
+          const needsTabIndex = shouldAttachAttr('tabindex', 'tabindex', elem, false);
 
           function ngAriaWatchModelValue() {
             return ngModel.$modelValue;
@@ -279,7 +279,7 @@ ngAriaModule.directive('ngShow', ['$aria', function($aria) {
           function getRadioReaction(newVal) {
             // Strict comparison would cause a BC
             // eslint-disable-next-line eqeqeq
-            var boolVal = (attr.value == ngModel.$viewValue);
+            const boolVal = (attr.value == ngModel.$viewValue);
             elem.attr('aria-checked', boolVal);
           }
 
@@ -306,11 +306,11 @@ ngAriaModule.directive('ngShow', ['$aria', function($aria) {
                 elem.attr('role', 'slider');
               }
               if ($aria.config('ariaValue')) {
-                var needsAriaValuemin = !elem.attr('aria-valuemin') &&
+                const needsAriaValuemin = !elem.attr('aria-valuemin') &&
                     (attr.hasOwnProperty('min') || attr.hasOwnProperty('ngMin'));
-                var needsAriaValuemax = !elem.attr('aria-valuemax') &&
+                const needsAriaValuemax = !elem.attr('aria-valuemax') &&
                     (attr.hasOwnProperty('max') || attr.hasOwnProperty('ngMax'));
-                var needsAriaValuenow = !elem.attr('aria-valuenow');
+                const needsAriaValuenow = !elem.attr('aria-valuenow');
 
                 if (needsAriaValuemin) {
                   attr.$observe('min', function ngAriaValueMinReaction(newVal) {
@@ -376,7 +376,7 @@ ngAriaModule.directive('ngShow', ['$aria', function($aria) {
     compile: function(elem, attr) {
       if (attr.hasOwnProperty(ARIA_DISABLE_ATTR)) return;
 
-      var fn = $parse(attr.ngClick);
+      const fn = $parse(attr.ngClick);
       return function(scope, elem, attr) {
 
         if (!isNodeOneOf(elem, nodeBlackList)) {
@@ -391,7 +391,7 @@ ngAriaModule.directive('ngShow', ['$aria', function($aria) {
 
           if ($aria.config('bindKeydown') && !attr.ngKeydown && !attr.ngKeypress && !attr.ngKeyup) {
             elem.on('keydown', function(event) {
-              var keyCode = event.which || event.keyCode;
+              const keyCode = event.which || event.keyCode;
 
               if (keyCode === 13 || keyCode === 32) {
                 // If the event is triggered on a non-interactive element ...

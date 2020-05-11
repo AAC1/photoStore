@@ -27,7 +27,7 @@
 
 // define ngTouch module
 /* global ngTouch */
-var ngTouch = angular.module('ngTouch', []);
+const ngTouch = angular.module('ngTouch', []);
 
 ngTouch.info({ angularVersion: '1.7.9' });
 
@@ -62,9 +62,9 @@ function nodeName_(element) {
 
 ngTouch.factory('$swipe', [function() {
   // The total distance in any direction before we make the call on swipe vs. scroll.
-  var MOVE_BUFFER_RADIUS = 10;
+  const MOVE_BUFFER_RADIUS = 10;
 
-  var POINTER_EVENTS = {
+  const POINTER_EVENTS = {
     'mouse': {
       start: 'mousedown',
       move: 'mousemove',
@@ -85,9 +85,9 @@ ngTouch.factory('$swipe', [function() {
   };
 
   function getCoordinates(event) {
-    var originalEvent = event.originalEvent || event;
-    var touches = originalEvent.touches && originalEvent.touches.length ? originalEvent.touches : [originalEvent];
-    var e = (originalEvent.changedTouches && originalEvent.changedTouches[0]) || touches[0];
+    const originalEvent = event.originalEvent || event;
+    const touches = originalEvent.touches && originalEvent.touches.length ? originalEvent.touches : [originalEvent];
+    const e = (originalEvent.changedTouches && originalEvent.changedTouches[0]) || touches[0];
 
     return {
       x: e.clientX,
@@ -96,9 +96,9 @@ ngTouch.factory('$swipe', [function() {
   }
 
   function getEvents(pointerTypes, eventType) {
-    var res = [];
+    const res = [];
     angular.forEach(pointerTypes, function(pointerType) {
-      var eventName = POINTER_EVENTS[pointerType][eventType];
+      const eventName = POINTER_EVENTS[pointerType][eventType];
       if (eventName) {
         res.push(eventName);
       }
@@ -142,13 +142,13 @@ ngTouch.factory('$swipe', [function() {
      */
     bind: function(element, eventHandlers, pointerTypes) {
       // Absolute total movement, used to control swipe vs. scroll.
-      var totalX, totalY;
+      let totalX, totalY;
       // Coordinates of the start position.
-      var startCoords;
+      let startCoords;
       // Last event's position.
-      var lastPos;
+      let lastPos;
       // Whether a swipe is active.
-      var active = false;
+      let active = false;
 
       pointerTypes = pointerTypes || ['mouse', 'touch', 'pointer'];
       element.on(getEvents(pointerTypes, 'start'), function(event) {
@@ -161,7 +161,7 @@ ngTouch.factory('$swipe', [function() {
           eventHandlers['start'](startCoords, event);
         }
       });
-      var events = getEvents(pointerTypes, 'cancel');
+      const events = getEvents(pointerTypes, 'cancel');
       if (events) {
         element.on(events, function(event) {
           active = false;
@@ -181,7 +181,7 @@ ngTouch.factory('$swipe', [function() {
         // - On totalY > totalX, we let the browser handle it as a scroll.
 
         if (!startCoords) return;
-        var coords = getCoordinates(event);
+        const coords = getCoordinates(event);
 
         totalX += Math.abs(coords.x - lastPos.x);
         totalY += Math.abs(coords.y - lastPos.y);
@@ -304,16 +304,16 @@ ngTouch.factory('$swipe', [function() {
 function makeSwipeDirective(directiveName, direction, eventName) {
   ngTouch.directive(directiveName, ['$parse', '$swipe', function($parse, $swipe) {
     // The maximum vertical delta for a swipe should be less than 75px.
-    var MAX_VERTICAL_DISTANCE = 75;
+    const MAX_VERTICAL_DISTANCE = 75;
     // Vertical distance should not be more than a fraction of the horizontal distance.
-    var MAX_VERTICAL_RATIO = 0.3;
+    const MAX_VERTICAL_RATIO = 0.3;
     // At least a 30px lateral motion is necessary for a swipe.
-    var MIN_HORIZONTAL_DISTANCE = 30;
+    const MIN_HORIZONTAL_DISTANCE = 30;
 
     return function(scope, element, attr) {
-      var swipeHandler = $parse(attr[directiveName]);
+      const swipeHandler = $parse(attr[directiveName]);
 
-      var startCoords, valid;
+      let startCoords, valid;
 
       function validSwipe(coords) {
         // Check that it's within the coordinates.
@@ -325,8 +325,8 @@ function makeSwipeDirective(directiveName, direction, eventName) {
         // illegal ones a negative delta.
         // Therefore this delta must be positive, and larger than the minimum.
         if (!startCoords) return false;
-        var deltaY = Math.abs(coords.y - startCoords.y);
-        var deltaX = (coords.x - startCoords.x) * direction;
+        const deltaY = Math.abs(coords.y - startCoords.y);
+        const deltaX = (coords.x - startCoords.x) * direction;
         return valid && // Short circuit for already-invalidated swipes.
             deltaY < MAX_VERTICAL_DISTANCE &&
             deltaX > 0 &&
@@ -334,7 +334,7 @@ function makeSwipeDirective(directiveName, direction, eventName) {
             deltaY / deltaX < MAX_VERTICAL_RATIO;
       }
 
-      var pointerTypes = ['touch'];
+      const pointerTypes = ['touch'];
       if (!angular.isDefined(attr['ngSwipeDisableMouse'])) {
         pointerTypes.push('mouse');
       }

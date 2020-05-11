@@ -9,7 +9,7 @@ document.addEventListener('mousemove', function(event) {
     //  header.style.backgroundPosition = mousex/3 + 'px 0';
 }, false);
 
-var lFollowX = 0,
+let lFollowX = 0,
     lFollowY = 0,
     x = 0,
     y = 0,
@@ -19,7 +19,7 @@ function moveBackground() {
     x += (lFollowX - x) * friction;
     y += (lFollowY - y) * friction;
 
-    var translate = 'translate(' + x + 'px, ' + y + 'px) scale(1.1)';
+    const translate = 'translate(' + x + 'px, ' + y + 'px) scale(1.1)';
 
     $('.header').css({
         '-webit-transform': translate,
@@ -32,8 +32,8 @@ function moveBackground() {
 
 $(window).on('mousemove click', function(e) {
 
-    var lMouseX = Math.max(-100, Math.min(100, $(window).width() / 2 - e.clientX));
-    var lMouseY = Math.max(-100, Math.min(100, $(window).height() / 2 - e.clientY));
+    const lMouseX = Math.max(-100, Math.min(100, $(window).width() / 2 - e.clientX));
+    const lMouseY = Math.max(-100, Math.min(100, $(window).height() / 2 - e.clientY));
     lFollowX = (20 * lMouseX) / 100; // 100 : 12 = lMouxeX : lFollow
     lFollowY = (10 * lMouseY) / 100;
 

@@ -62,7 +62,7 @@ angular.module('ngCookies', ['ng']).
      *   }]);
      * ```
      **/
-    var defaults = this.defaults = {};
+    const defaults = this.defaults = {};
 
     function calcOptions(options) {
       return options ? angular.extend({}, defaults, options) : defaults;
@@ -122,7 +122,7 @@ angular.module('ngCookies', ['ng']).
          * @returns {Object} Deserialized cookie value.
          */
         getObject: function(key) {
-          var value = this.get(key);
+          const value = this.get(key);
           return value ? angular.fromJson(value) : value;
         },
 
@@ -201,11 +201,11 @@ angular.module('ngCookies', ['ng']).
  * @param {Object=} options Object with options that need to be stored for the cookie.
  */
 function $$CookieWriter($document, $log, $browser) {
-  var cookiePath = $browser.baseHref();
-  var rawDocument = $document[0];
+  const cookiePath = $browser.baseHref();
+  const rawDocument = $document[0];
 
   function buildCookieString(name, value, options) {
-    var path, expires;
+    let path, expires;
     options = options || {};
     expires = options.expires;
     path = angular.isDefined(options.path) ? options.path : cookiePath;
@@ -217,7 +217,7 @@ function $$CookieWriter($document, $log, $browser) {
       expires = new Date(expires);
     }
 
-    var str = encodeURIComponent(name) + '=' + encodeURIComponent(value);
+    let str = encodeURIComponent(name) + '=' + encodeURIComponent(value);
     str += path ? ';path=' + path : '';
     str += options.domain ? ';domain=' + options.domain : '';
     str += expires ? ';expires=' + expires.toUTCString() : '';
@@ -228,7 +228,7 @@ function $$CookieWriter($document, $log, $browser) {
     // - 300 cookies
     // - 20 cookies per unique domain
     // - 4096 bytes per cookie
-    var cookieLength = str.length + 1;
+    const cookieLength = str.length + 1;
     if (cookieLength > 4096) {
       $log.warn('Cookie \'' + name +
         '\' possibly not set or overflowed because it was too large (' +

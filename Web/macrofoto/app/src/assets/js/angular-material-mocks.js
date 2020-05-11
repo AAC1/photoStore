@@ -81,10 +81,10 @@ angular.module('ngMaterial-mock', [
         };
       };
 
-      var ngFlush = $delegate.flush;
+      const ngFlush = $delegate.flush;
       $delegate.flush = function() {
         try      { ngFlush();  }
-        catch(e) { ;           }
+        catch(e) {            }
       };
 
       return $delegate;
@@ -96,9 +96,9 @@ angular.module('ngMaterial-mock', [
      */
     $provide.decorator('$timeout', function throttleInjector($delegate){
 
-      var ngFlush = $delegate.flush;
+      const ngFlush = $delegate.flush;
       $delegate.flush = function() {
-          var args = Array.prototype.slice.call(arguments);
+          const args = Array.prototype.slice.call(arguments);
           try      { ngFlush.apply($delegate, args);  }
           catch(e) { }
       };
@@ -115,11 +115,11 @@ angular.module('ngMaterial-mock', [
     doc = doc ? doc[0] : window.document;
     wind = wind || window;
 
-    var node = doc.createElement('style');
-    var head = doc.getElementsByTagName('head')[0];
+    const node = doc.createElement('style');
+    const head = doc.getElementsByTagName('head')[0];
     head.appendChild(node);
 
-    var ss = doc.styleSheets[doc.styleSheets.length - 1];
+    const ss = doc.styleSheets[doc.styleSheets.length - 1];
 
     return {
       addRule: function(selector, styles) {
@@ -150,14 +150,14 @@ angular.module('ngMaterial-mock', [
      *    '-webkit-transition:0.5s linear all; transition:0.5s linear all; font-size:100px;'
      */
     function addVendorPrefix(styles) {
-      var cache = { };
+      const cache = { };
 
       // Decompose into cache registry
       styles
         .match(/([\-A-Za-z]*)\w\:\w*([A-Za-z0-9\.\-\s]*)/gi)
         .forEach(function(style){
-          var pair = style.split(":");
-          var key = pair[0];
+          const pair = style.split(":");
+          const key = pair[0];
 
           switch(key) {
             case 'transition':
