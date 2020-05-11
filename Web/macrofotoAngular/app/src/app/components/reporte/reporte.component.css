@@ -1,0 +1,17 @@
+.overflowDiv {
+    overflow-x: auto;
+}
+
+table td,
+table th {
+    min-width: auto;
+    font-size: 11pt;
+    padding: 5px;
+}
+
+table thead th {
+    vertical-align: middle;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    text-align: center;
+}

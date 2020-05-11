@@ -50,3 +50,9 @@ footer {
 mat-sidenav{
     overflow: auto;
 }
+button{
+    outline: none !important;
+}
+.btnExport{
+    background-color: #33803c !important;
+}

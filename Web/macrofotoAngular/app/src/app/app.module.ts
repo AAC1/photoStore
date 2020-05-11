@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {NgxPaginationModule} from 'ngx-pagination';
+import { HttpClientModule} from "@angular/common/http";
 
 import {MatCheckboxModule} from '@angular/material';
 import {MatButtonModule} from '@angular/material';
@@ -52,7 +54,9 @@ import { APP_ROUTING } from './app-routing.module';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     APP_ROUTING,
+    NgxPaginationModule,
     MatCheckboxModule,
     MatCheckboxModule,
     MatButtonModule,
