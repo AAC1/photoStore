@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 * {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat', sans-serif !important;
 }
 html, body { height: 100%; }
 body { 
@@ -9,7 +9,7 @@ body {
 }
 
 mat-sidenav-container{
-    height: calc(100vh - 15vh);
+    height: calc(100vh - 50px);
     position: fixed;
     top: 0;
     left: 0;
@@ -44,7 +44,7 @@ mat-sidenav-container{
 footer {
     background-color: #282829 !important;
     color: white;
-    height: 15vh;
+    height: 50px;
 }
 
 mat-sidenav{
@@ -55,4 +55,11 @@ button{
 }
 .btnExport{
     background-color: #33803c !important;
+}
+
+table{
+    width: 100%;
+}
+.title{
+    padding: 20px;
 }

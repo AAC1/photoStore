@@ -16,20 +16,47 @@ export class ReporteComponent implements OnInit {
   ngOnInit() {
     this.getPedido();
   }
-  
+  pedidoColumns = ["folio","cliente","contacto","descripcion","estatus","fec_pedido",
+                  "fec_entregado","monto_ant","monto_total","monto_pendiente"]
   pedido: Pedido;
   listPedidos: Pedido[];
   error = '';
-  objPagination: any = {};
+  jsonPaginationPedido: any = {
+    pageSize: 5,
+    currentPage: 1,
+    totalItems: 0,
+    pageSizeOptions : []
+  };
+  jsonPaginationProd: any = {
+    pageSize: 5,
+    currentPage: 1,
+    totalItems: 0,
+    pageSizeOptions : []
+  };
   
   getPedido(): void {
     this.pedidosService.getPedido(this.pedido).subscribe(
       (res: Pedido[]) => {
         this.listPedidos = res;
-        this.objPagination={
-          itemsPerPage: 5,
+        this.jsonPaginationPedido={
+          pageSize: 5,
           currentPage: 1,
-          totalItems: this.listPedidos.length
+          totalItems: this.listPedidos.length,
+          pageSizeOptions : []
+        }
+        //Genera array de paginas de acuerdo al tama;o del arreglo
+        var cont =this.jsonPaginationPedido.pageSize;
+        while(cont <=this.jsonPaginationPedido.totalItems){
+          
+          if((cont +this.jsonPaginationPedido.pageSize)>this.jsonPaginationPedido.totalItems){
+            var rest = this.jsonPaginationPedido.totalItems - cont;
+            
+            if(rest>0) this.jsonPaginationPedido.pageSizeOptions.push(rest);
+            
+            break;
+          }
+          this.jsonPaginationPedido.pageSizeOptions.push(cont);
+          cont += this.jsonPaginationPedido.pageSize;
         }
       },
       (err) => {
@@ -39,6 +66,6 @@ export class ReporteComponent implements OnInit {
   }
 
   pageChange(event){
-    this.objPagination.currentPage = event;
+    this.jsonPaginationPedido.currentPage = event;
   }
 }

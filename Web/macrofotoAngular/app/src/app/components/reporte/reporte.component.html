@@ -1,39 +1,136 @@
 <article class="fluid-container ">
-<div class="row col-md-12">
-    <div class=" col-md-6">
-        <h1>Consulta Pedido</h1>
+    <div class="row col-md-12 title">
+        <div class=" col-md-6">
+            <h2>Consulta Pedido</h2>
+        </div>
+        <div class=" col-md-6" style="text-align: right;">
+            <button mat-icon-button aria-label="Export XLS" class="" color="basic">
+                <mat-icon>insert_drive_file</mat-icon>
+            </button>
+        </div>
     </div>
-    <div class=" col-md-6" style="text-align: right;">
-        <button mat-fab aria-label="Export XLS" class="btnExport">
-            <mat-icon>insert_drive_file</mat-icon> 
-          </button>
-    </div>
-</div>
 
 
     <div class="row col-md-12">
         <div class=" col-md-12">
-            <h4>B&uacute;squeda</h4>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <p>B&uacute;squeda</p>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Filtro para b&uacute;squeda de pedidos
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
 
+                <div class="row col-md-12">
+                    <div class=" col-md-4">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Folio</mat-label>
+                            <textarea matInput placeholder="Introduce folio"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div class=" col-md-4">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Cliente</mat-label>
+                            <textarea matInput placeholder="Nombre del Cliente"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div class=" col-md-4">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Estatus</mat-label>
+                            <textarea matInput placeholder="Estatus del pedido"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+
+                    <div class=" col-md-4">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Folio</mat-label>
+                            <textarea matInput placeholder="Introduce folio"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div class=" col-md-4">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Cliente</mat-label>
+                            <textarea matInput placeholder="Nombre del Cliente"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div class=" col-md-4">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Estatus</mat-label>
+                            <textarea matInput placeholder="Estatus del pedido"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class=" col-md-12">
+
+                </div>
+            </mat-expansion-panel>
         </div>
         <div class=" col-md-12">
-            <div class="row col-md-12">
-                <h4>Pedidos</h4>
-                <div class=" col-md-12 overflowDiv">
+            <mat-card>
+                <div class="row col-md-12">
+                    <p>Pedidos</p>
+                    <div class=" col-md-12 overflowDiv">
 
-                    <table class="table ">
+                        <table mat-table class=" " [dataSource]="listPedidos">
+                            <ng-container matColumnDef="folio">
+                                <th mat-header-cell *matHeaderCellDef> Folio </th>
+                                <td mat-cell *matCellDef="let element"> {{element.folio}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="cliente">
+                                <th mat-header-cell *matHeaderCellDef> Cliente </th>
+                                <td mat-cell *matCellDef="let element"> {{element.cliente}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="contacto">
+                                <th mat-header-cell *matHeaderCellDef> Contacto </th>
+                                <td mat-cell *matCellDef="let element"> {{element.telefono}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="descripcion">
+                                <th mat-header-cell *matHeaderCellDef> Descripci&oacute;n </th>
+                                <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="estatus">
+                                <th mat-header-cell *matHeaderCellDef> Estatus </th>
+                                <td mat-cell *matCellDef="let element"> {{element.id_estatus}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="fec_pedido">
+                                <th mat-header-cell *matHeaderCellDef> Fec. del pedido </th>
+                                <td mat-cell *matCellDef="let element"> {{element.fec_pedido}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="fec_entregado">
+                                <th mat-header-cell *matHeaderCellDef> Fec. entregado </th>
+                                <td mat-cell *matCellDef="let element"> {{element.fec_entregado}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="monto_ant">
+                                <th mat-header-cell *matHeaderCellDef> Monto de anticipo </th>
+                                <td mat-cell *matCellDef="let element"> {{element.monto_ant}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="monto_total">
+                                <th mat-header-cell *matHeaderCellDef> Costo total </th>
+                                <td mat-cell *matCellDef="let element"> {{element.monto_total}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="monto_pendiente">
+                                <th mat-header-cell *matHeaderCellDef> Monto pendiente </th>
+                                <td mat-cell *matCellDef="let element"> {{element.monto_pendiente}} </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="pedidoColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: pedidoColumns;"></tr>
+                            <!--
                         <thead class="thead-dark">
                             <tr>
-                                <th>Folio</th>
-                                <th>Cliente</th>
-                                <th>Contacto </th>
-                                <th>Descripci&oacute;n</th>
-                                <th>Estatus</th>
-                                <th>Fec. del pedido</th>
-                                <th>Fec. entregado</th>
-                                <th>Monto de anticipo</th>
-                                <th>Costo total</th>
-                                <th>Monto pendiente</th>
+                                <th></th>
+                                <th></th>
+                                <th> </th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,47 +148,108 @@
 
                             </tr>
                         </tbody>
-                    </table>
-                    <pagination-controls (pageChange)="pageChange($event)"></pagination-controls>
+                        -->
+                        </table>
+                        <mat-paginator [length]="jsonPaginationPedido.totalItems" 
+                            [pageSize]="jsonPaginationPedido.pageSize"
+                            [pageSizeOptions]="jsonPaginationPedido.pageSizeOptions">
+                        </mat-paginator>
+                        <!--<pagination-controls (pageChange)="pageChange($event)"></pagination-controls>-->
+                    </div>
                 </div>
-            </div>
-            <div class="row col-md-12">
-                <h4>Productos</h4>
-                <div class=" col-md-12 overflowDiv">
+            </mat-card>
+        </div>
+        <div class=" col-md-12">
+            <mat-card>
+                <div class="row col-md-12">
+                    <p>Productos</p>
+                    <div class=" col-md-12 overflowDiv">
+                        <table mat-table class=" " [dataSource]="listPedidos">
+                            <ng-container matColumnDef="folio">
+                                <th mat-header-cell *matHeaderCellDef> Folio </th>
+                                <td mat-cell *matCellDef="let element"> {{element.folio}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="cliente">
+                                <th mat-header-cell *matHeaderCellDef> Cliente </th>
+                                <td mat-cell *matCellDef="let element"> {{element.cliente}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="contacto">
+                                <th mat-header-cell *matHeaderCellDef> Contacto </th>
+                                <td mat-cell *matCellDef="let element"> {{element.telefono}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="descripcion">
+                                <th mat-header-cell *matHeaderCellDef> Descripci&oacute;n </th>
+                                <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="estatus">
+                                <th mat-header-cell *matHeaderCellDef> Estatus </th>
+                                <td mat-cell *matCellDef="let element"> {{element.id_estatus}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="fec_pedido">
+                                <th mat-header-cell *matHeaderCellDef> Fec. del pedido </th>
+                                <td mat-cell *matCellDef="let element"> {{element.fec_pedido}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="fec_entregado">
+                                <th mat-header-cell *matHeaderCellDef> Fec. entregado </th>
+                                <td mat-cell *matCellDef="let element"> {{element.fec_entregado}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="monto_ant">
+                                <th mat-header-cell *matHeaderCellDef> Monto de anticipo </th>
+                                <td mat-cell *matCellDef="let element"> {{element.monto_ant}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="monto_total">
+                                <th mat-header-cell *matHeaderCellDef> Costo total </th>
+                                <td mat-cell *matCellDef="let element"> {{element.monto_total}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="monto_pendiente">
+                                <th mat-header-cell *matHeaderCellDef> Monto pendiente </th>
+                                <td mat-cell *matCellDef="let element"> {{element.monto_pendiente}} </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="pedidoColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: pedidoColumns;"></tr>
+                           
+                        </table>
+                        <mat-paginator [length]="jsonPaginationProd.totalItems" 
+                            [pageSize]="jsonPaginationProd.pageSize"
+                            [pageSizeOptions]="jsonPaginationProd.pageSizeOptions">
+                        </mat-paginator>
+                        <!-- 
+                        <table class="table ">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Folio</th>
+                                    <th>Cliente</th>
+                                    <th>Contacto </th>
+                                    <th>Descripci&oacute;n</th>
+                                    <th>Estatus</th>
+                                    <th>Fec. del pedido</th>
+                                    <th>Fec. entregado</th>
+                                    <th>Monto de anticipo</th>
+                                    <th>Costo total</th>
+                                </tr>
+                            </thead>
+                           <tbody>
+                                <tr *ngFor="let item of listPedidos | paginate: jsonPagination ">
+                                    <td>{{item.folio}}</td>
+                                    <td>{{item.cliente}}</td>
+                                    <td>{{item.telefono}}</td>
+                                    <td>{{item.descripcion}}</td>
+                                    <td>{{item.id_estatus}}</td>
+                                    <td>{{item.fec_pedido}}</td>
+                                    <td>{{item.fec_entregado}}</td>
+                                    <td>{{item.monto_ant}}</td>
+                                    <td>{{item.monto_total}}</td>
 
-                    <table class="table ">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>Folio</th>
-                                <th>Cliente</th>
-                                <th>Contacto </th>
-                                <th>Descripci&oacute;n</th>
-                                <th>Estatus</th>
-                                <th>Fec. del pedido</th>
-                                <th>Fec. entregado</th>
-                                <th>Monto de anticipo</th>
-                                <th>Costo total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of listPedidos | paginate: objPagination ">
-                                <td>{{item.folio}}</td>
-                                <td>{{item.cliente}}</td>
-                                <td>{{item.telefono}}</td>
-                                <td>{{item.descripcion}}</td>
-                                <td>{{item.id_estatus}}</td>
-                                <td>{{item.fec_pedido}}</td>
-                                <td>{{item.fec_entregado}}</td>
-                                <td>{{item.monto_ant}}</td>
-                                <td>{{item.monto_total}}</td>
-
-                            </tr>
-                        </tbody>
-                    </table>
-                    <pagination-controls (pageChange)="pageChange($event)"></pagination-controls>
+                                </tr>
+                            </tbody>
+                           
+                        </table> -->
+                        <!--<pagination-controls (pageChange)="pageChange($event)"></pagination-controls>-->
+                    </div>
                 </div>
-            </div>
+            </mat-card>
         </div>
     </div>
-    <pre>listPedidos={{listPedidos}}</pre>
+    <pre>listPedidos={{pedido}}</pre>
+    <pre>jsonPagination = {{jsonPaginationPedido}}</pre>
 </article>

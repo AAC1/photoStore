@@ -42,8 +42,8 @@
 }
 
 .nav-item :hover {
-    background-color: #5F686C !important;
-    color: white !important;
+    background-color: #5F686C;
+    color: white;
 }
 
 
@@ -166,3 +166,6 @@ footer {
    
 }
 
+mat-sidenav{
+    overflow: auto;
+}

@@ -15,3 +15,12 @@ table thead th {
     padding-top: 5px;
     text-align: center;
 }
+
+mat-card, mat-expansion-panel{
+    margin: 20px;
+}
+
+.thead-dark{
+ background-color: #282829;
+ color: white;
+}

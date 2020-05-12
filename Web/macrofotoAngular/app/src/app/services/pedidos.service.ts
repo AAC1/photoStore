@@ -12,9 +12,9 @@ export class PedidosService{
     baseUrl = 'http://localhost:3000/';
     pedido: Pedido[];
     constructor(private http: HttpClient) { }
-    
+
     getPedido(jsonIn: Pedido): Observable<Pedido[]> {
-        return this.http.post(`${this.baseUrl}/ConsultaPedidos`, { data: jsonIn })
+        return this.http.post(`${this.baseUrl}/getPedidos`, { data: jsonIn })
           .pipe(map((res) => {
             this.pedido = res['data'];
             return this.pedido;
