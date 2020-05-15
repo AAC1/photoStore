@@ -25,47 +25,54 @@
 
                 <div class="row col-md-12">
                     <div class=" col-md-4">
-                        <mat-form-field class="example-full-width">
+                        <mat-form-field class="full-width">
                             <mat-label>Folio</mat-label>
-                            <textarea matInput placeholder="Introduce folio"></textarea>
+                            <input matInput placeholder="Introduce folio"/>
                         </mat-form-field>
                     </div>
                     <div class=" col-md-4">
-                        <mat-form-field class="example-full-width">
+                        <mat-form-field class="full-width">
                             <mat-label>Cliente</mat-label>
-                            <textarea matInput placeholder="Nombre del Cliente"></textarea>
+                            <input matInput placeholder="Nombre del Cliente">
                         </mat-form-field>
                     </div>
                     <div class=" col-md-4">
-                        <mat-form-field class="example-full-width">
+                        <mat-form-field class="full-width">
                             <mat-label>Estatus</mat-label>
-                            <textarea matInput placeholder="Estatus del pedido"></textarea>
+                            <input matInput placeholder="Estatus del pedido">
                         </mat-form-field>
                     </div>
                 </div>
                 <div class="row col-md-12">
 
-                    <div class=" col-md-4">
-                        <mat-form-field class="example-full-width">
-                            <mat-label>Folio</mat-label>
-                            <textarea matInput placeholder="Introduce folio"></textarea>
+                    <div class=" col-md-4 col-xs-6">
+                        <mat-form-field class="full-width">
+                            
+                            <mat-label>Fecha Pedido Inicial</mat-label>
+                            <input matInput [matDatepicker]="dateIni" />
+                            <mat-datepicker-toggle matSuffix [for]="dateIni"></mat-datepicker-toggle>
+                            <mat-datepicker #dateIni></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class=" col-md-4 col-xs-6">
+                        <mat-form-field class="full-width"> 
+                            <mat-label>Fecha Pedido Final</mat-label>
+                            <input matInput [matDatepicker]="dateFin" />
+                            <mat-datepicker-toggle matSuffix [for]="dateFin"></mat-datepicker-toggle>
+                            <mat-datepicker #dateFin></mat-datepicker>
                         </mat-form-field>
                     </div>
                     <div class=" col-md-4">
-                        <mat-form-field class="example-full-width">
-                            <mat-label>Cliente</mat-label>
-                            <textarea matInput placeholder="Nombre del Cliente"></textarea>
-                        </mat-form-field>
-                    </div>
-                    <div class=" col-md-4">
-                        <mat-form-field class="example-full-width">
-                            <mat-label>Estatus</mat-label>
-                            <textarea matInput placeholder="Estatus del pedido"></textarea>
-                        </mat-form-field>
+                        
                     </div>
                 </div>
-                <div class=" col-md-12">
-
+                <div class=" col-md-12" style="text-align:center">
+                    <!--Botones de limpiar y buscar-->
+                    <button mat-raised-button color="primary">
+                        Buscar</button>
+                    &nbsp;
+                    <button mat-raised-button>
+                        Limpiar</button>
                 </div>
             </mat-expansion-panel>
         </div>
@@ -251,5 +258,5 @@
         </div>
     </div>
     <pre>listPedidos={{pedido}}</pre>
-    <pre>jsonPagination = {{jsonPaginationPedido}}</pre>
+    <pre>jsonPagination = {{jsonPaginationPedido | json}}</pre>
 </article>

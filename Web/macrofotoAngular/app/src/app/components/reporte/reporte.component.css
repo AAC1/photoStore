@@ -19,7 +19,9 @@ table thead th {
 mat-card, mat-expansion-panel{
     margin: 20px;
 }
-
+mat-expansion-panel{
+    text-align: center;
+}
 .thead-dark{
  background-color: #282829;
  color: white;

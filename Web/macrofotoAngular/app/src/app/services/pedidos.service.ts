@@ -9,7 +9,7 @@ import { Pedido } from 'src/app/objects/pedidos';
     providedIn: 'root'
 })
 export class PedidosService{
-    baseUrl = 'http://localhost:3000/';
+    baseUrl = 'http://localhost:3000';
     pedido: Pedido[];
     constructor(private http: HttpClient) { }
 

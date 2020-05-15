@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {NgxPaginationModule} from 'ngx-pagination';
+//import {NgxPaginationModule} from 'ngx-pagination';
 import { HttpClientModule} from "@angular/common/http";
 
 import {MatCheckboxModule} from '@angular/material';
@@ -24,7 +24,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatChipsModule} from '@angular/material/chips';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -33,6 +33,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { FormsModule } from '@angular/forms';
+import {MatNativeDateModule} from '@angular/material/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -42,13 +44,15 @@ import { HomeComponent } from './components/home/home.component';
 
 /* RUTAS */
 import { APP_ROUTING } from './app-routing.module';
+import { LoginComponent } from './components/login/login.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ReporteComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -56,27 +60,31 @@ import { APP_ROUTING } from './app-routing.module';
     BrowserAnimationsModule,
     HttpClientModule,
     APP_ROUTING,
-    NgxPaginationModule,
-    MatCheckboxModule,
-    MatCheckboxModule,
+    MatPaginatorModule,
+    MatIconModule,
+    MatSidenavModule,
+    FormsModule,
     MatButtonModule,
     MatInputModule,
     MatAutocompleteModule,
-    MatDatepickerModule,
     MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSortModule,
+    MatCardModule,
+    MatTableModule,
+    MatExpansionModule,
+    MatCheckboxModule,
     MatRadioModule,
     MatSelectModule,
     MatSliderModule,
     MatSlideToggleModule,
     MatMenuModule,
-    MatSidenavModule,
     MatToolbarModule,
     MatListModule,
     MatGridListModule,
-    MatCardModule,
     MatStepperModule,
     MatTabsModule,
-    MatExpansionModule,
     MatButtonToggleModule,
     MatChipsModule,
     MatProgressSpinnerModule,
@@ -84,43 +92,51 @@ import { APP_ROUTING } from './app-routing.module';
     MatDialogModule,
     MatTooltipModule,
     MatSnackBarModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatIconModule
+
   ],
-  providers: [],
+  providers: [
+    ],
   bootstrap: [AppComponent],
   exports: [
-    MatAutocompleteModule,
-    MatButtonModule,
-    MatButtonToggleModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatChipsModule,
-    MatStepperModule,
-    MatDatepickerModule,
-    MatDialogModule,
-    MatExpansionModule,
-    MatGridListModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatMenuModule,
     MatPaginatorModule,
-    MatProgressBarModule,
-    MatProgressSpinnerModule,
+    MatIconModule,
+    MatSidenavModule,
+    FormsModule,
+    MatButtonModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSortModule,
+    MatCardModule,
+    MatTableModule,
+    MatExpansionModule,
+    MatCheckboxModule,
     MatRadioModule,
     MatSelectModule,
-    MatSidenavModule,
     MatSliderModule,
     MatSlideToggleModule,
-    MatSnackBarModule,
-    MatSortModule,
-    MatTableModule,
-    MatTabsModule,
+    MatMenuModule,
     MatToolbarModule,
+    MatListModule,
+    MatGridListModule,
+    MatStepperModule,
+    MatTabsModule,
+    MatButtonToggleModule,
+    MatChipsModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
+    MatDialogModule,
     MatTooltipModule,
+    MatSnackBarModule,
   ]
 })
 export class AppModule { }
+
+
+/*
+    M
+    ,
+    */
+   
