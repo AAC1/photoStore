@@ -10,8 +10,8 @@ const routes: Routes = [];
 const APP_ROUTES: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'reporte-pedidos', component: ReporteComponent },
-  { path: 'login', pathMatch:'full', component: LoginComponent },
-  { path: '**', pathMatch:'full', redirectTo: 'home' },
+//  { path: '', pathMatch:'full', component: LoginComponent },
+  { path: '**', pathMatch:'full', redirectTo: '' },
 ];
 
 export const APP_ROUTING = RouterModule.forRoot(

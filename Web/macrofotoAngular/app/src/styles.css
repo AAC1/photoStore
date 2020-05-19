@@ -20,9 +20,19 @@ mat-sidenav-container{
 mat-expansion-panel, mat-card{
     background-color: #887b7b14 !important;
 }
-.mat-raised-button.mat-primary {
-    background-color: #008dad;
+.mat-raised-button.mat-primary, 
+.mat-focused .mat-form-field-wrapper .mat-form-field-underline span{
+    background-color: #034165 !important;
 }
+
+.mat-focused label {
+    color: #034165 !important;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-infix {
+    padding: .4375em 0 0 0;
+}
+
 .mat-button.mat-accent, .mat-icon-button.mat-accent, .mat-stroked-button.mat-accent {
     color: #3d3d3d;
 }

@@ -13,9 +13,16 @@ declare global {
 })
 export class AppComponent {
   title = 'Macrofoto Digital S.A de C.V';
-  
+  isLogged:boolean = false;
   @ViewChild('sidebar',{static: false}) sidebar;
   @ViewChild('content',{static: false}) divContent;
+
+  constructor() { }
+
+  ngOnInit() {
+    let usrLooged = localStorage.getItem('usrLogged');
+    this.isLogged =  usrLooged ==null || typeof usrLooged == 'undefined' || usrLooged == ""? false:true;
+  }
 
   toggleBar(): void{
     console.log(this.sidebar);
