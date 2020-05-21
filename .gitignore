@@ -9,3 +9,9 @@ PhotopraphyStore/target/
 .classpath
 PhotopraphyStore/.settings/
 target
+**/node_modules/
+package-lock.json
+Web/macrofotoAngular/server/package-lock.json
+Web/macrofotoAngular/app/package-lock.json
+Web/macrofotoAngular/server/node_modules
+Web/macrofotoAngular/app/node_modules
