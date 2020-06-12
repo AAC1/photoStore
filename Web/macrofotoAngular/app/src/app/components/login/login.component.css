@@ -22,11 +22,11 @@ mat-sidenav-container{
 .divCard2{
     text-align: center;
     margin-top: 12%;
-    padding-top: 12%;
+    padding-top: 20px;
     min-height: 400px;
     margin-right: 10% !important;
     margin-left: 10% !important;
-    width: 60%;
+    width: 45%;
     min-width:250px;
     margin: 0 auto;
     display: inline-block;

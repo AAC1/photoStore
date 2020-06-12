@@ -1,0 +1,13 @@
+{
+    "type": "mysql",
+    "host": "localhost",
+    "port": "3306",
+    "username": "macrofotoUsr",
+    "password": "M4cr0f0t01",
+    "database": "macrofoto",
+    "syncronize": true,
+    "logging": true,
+    "logger": "file",
+    "entities": ["./src/entity/**/*.ts"],
+    "migrations": ["./src/migrations/**/*.ts"]
+}

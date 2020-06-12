@@ -10,6 +10,8 @@
     "emitDecoratorMetadata": true,
     "moduleResolution": "node",
     "importHelpers": true,
+    "strictPropertyInitialization": false,
+    "skipLibCheck": true,
     "lib": ["dom", "es2018"],
     "types": [
       "node"
@@ -19,11 +21,12 @@
     ]
   },
   "include": [
-    "./src/**/*.ts"
+    "src/**/*.ts"
   ],
   "exclude": [
     "node_modules",
-    "./src/public/"
+    "src/public/"
   ],
   "compileOnSave": false
+  
 }
