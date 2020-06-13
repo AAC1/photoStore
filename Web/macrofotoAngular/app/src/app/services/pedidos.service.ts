@@ -4,12 +4,14 @@ import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 import { Pedido } from 'src/app/objects/Pedidos';
-import * as config from 'config'
+import config from 'src/app/config/global.json';
+
 @Injectable({
     providedIn: 'root'
 })
 export class PedidosService{
-    baseURL = config.get('service.baseURL')+":"+config.get('service.port');
+    baseURL = config.service.baseURL+":"+config.service.port;//config.get('service.baseURL')+":"+config.get('service.port');
+    
     pedido: Pedido[];
     constructor(private http: HttpClient) { }
 

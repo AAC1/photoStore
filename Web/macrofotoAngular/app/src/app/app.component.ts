@@ -14,8 +14,8 @@ declare global {
 export class AppComponent {
   title = 'Macrofoto Digital S.A de C.V';
   isLogged:boolean = false;
-  @ViewChild('sidebar',{static: false}) sidebar;
-  @ViewChild('content',{static: false}) divContent;
+  @ViewChild('sidebar') sidebar;
+  @ViewChild('content') divContent;
 
   constructor() { }
 

@@ -2,16 +2,19 @@ import * as express from "express";
 import {PedidosServer} from "./Controller/pedidos.server";
 import { createConnection, Connection } from 'typeorm';
 import { UsuarioServer } from './Controller/usuario.server';
-
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
 
 export class Start{
 
     public app = express();
+    
     public port = 3000;
     public connection!: Connection; 
-    
+    public urlOrigin:string ;
+
     constructor( port: number) {
+        this.urlOrigin = "http://localhost:4200";
         this.app = express();
         this.port = port;
         this.initializeModels();
@@ -40,7 +43,21 @@ export class Start{
   //      controllers.forEach((controller) => {
    //         this.app.use('/', controller.router);
   //      });
-
+      //  const wsProxy = createProxyMiddleware({ target: this.urlOrigin, changeOrigin: true })
+        //this.app.use('/api',wsProxy);
+        this.app.use(function(req, res, next) {
+            res.header("Access-Control-Allow-Origin", "*");// Request methods you wish to allow
+            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+        
+            // Request headers you wish to allow
+            res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+        
+            // Set to true if you need the website to include cookies in the requests sent
+            // to the API (e.g. in case you use sessions)
+            res.setHeader('Access-Control-Allow-Credentials', "true");
+            next();
+            });
+        
         this.app.get("/", (req: any, res: any) => {
             res.send("Hello world!");
         });
@@ -50,7 +67,8 @@ export class Start{
         
         let usuario= new UsuarioServer();
         usuario.resourcesUsuario(this.app,this.connection);
-
+        
+        
         this.listen();
     }
 

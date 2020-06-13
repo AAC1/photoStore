@@ -1,9 +1,0 @@
-{
-    "service":{
-        "port": 3000,
-        "baseURL": "http://localhost"
-    },
-    "session":{
-        "timeout": 10000
-    }
-}

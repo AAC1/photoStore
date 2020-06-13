@@ -14,8 +14,8 @@ export class UsuarioServer{
         
         
         app.post('/login',async (req:any, res:any)=> {
-            
-            res.send(await this.getUserSession(req.query, SALT));
+            console.log(req)
+            res.send(await this.getUserSession(req.body, SALT));
         });
         
     }
@@ -24,7 +24,7 @@ export class UsuarioServer{
         const usuarioDAO = new StoreUsuarioDAO();
         const sucursalDAO = new StoreSucursalDAO();
         var usrSessionObj:UserSessionDTO = new UserSessionDTO();
-
+        
         if(params && typeof params.passwd !== 'undefined'){
             var passwd = params.passwd+SALT;
             
@@ -40,12 +40,14 @@ export class UsuarioServer{
             if(usrObj.bloqueado ==1){
                 usrSessionObj.response.message = "Usuario bloqueado. Contacte al administrador";
                 usrSessionObj.response.status = "ERROR";
+                usrSessionObj.response.code=-1;
                 return usrSessionObj;
             }
 
             if(usrObj.activo == 0){
                 usrSessionObj.response.message = "Usuario dado de baja. Contacte al administrador";
                 usrSessionObj.response.status = "ERROR";
+                usrSessionObj.response.code=-1;
                 return usrSessionObj;
             }
 
@@ -59,10 +61,11 @@ export class UsuarioServer{
             usrSessionObj.id_sucursal = usrObj.id_sucursal;
 
             usrSessionObj.sucursalUsr = await sucursalDAO.getSucById(usrObj.id_sucursal);
-
+            usrSessionObj.response.status = "OK";
         }else{
             usrSessionObj.response.message = "Usuario no encontrado, valide la contrase\u00F1a y el usuario";
             usrSessionObj.response.status = "ERROR";
+            usrSessionObj.response.code=-1;
         }
 
         return usrSessionObj;

@@ -7,9 +7,12 @@ class UsuarioServer {
         this.resourcesUsuario = (app, conn) => {
             const usuarioDAO = new StoreUsuarioDAO_1.StoreUsuarioDAO();
             var listPedido = [];
-            app.get('/login', (req, res) => {
+            app.post('/login', (req, res) => {
+
+                console.log("request:");
                 console.log(req);
-                listPedido = usuarioDAO.getUsrByFilter(req);
+
+                listPedido = usuarioDAO.getUsrByFilter(req.data);
                 res.send(listPedido);
             });
         };

@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 import { UserSession } from 'src/app/objects/UserSession';
+
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -11,21 +14,28 @@ export class LoginComponent implements OnInit {
   constructor(private usuarioService: UsuarioService) { }
   ngOnInit() {
   }
+  @ViewChild('alertLogin') alertLogin;
 
   json = { login:'',passwd:'' }
-  
-  
+  jsonAlerts ={ message:'', typeMessage:'',showMessage:false}
   loginService = async()=>{
-
+    this.jsonAlerts.showMessage = false;
     console.log("request:");
     console.log(this.json);
     return (await this.usuarioService.login(this.json)).subscribe(
       (res:UserSession) => {
-
+        
         console.log("res:");
         console.log(res);
-        //if(res && res.response){
-        //}
+        if(res !==undefined && res.response !== undefined){
+          if(res.response.message.length>0){
+            this.jsonAlerts.message=res.response.message;
+            this.jsonAlerts.showMessage = true;
+          }
+          this.jsonAlerts.typeMessage=res.response.status;
+
+          
+        }
       },
       (err) => {
         console.log(err)
@@ -34,5 +44,9 @@ export class LoginComponent implements OnInit {
     );
   }
 
+dismissAlert = ()=>{
+  this.jsonAlerts.showMessage=false
+}
+  
 
 }

@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import * as config from 'config'
-
+import config from 'src/app/config/global.json';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UsuarioService{
-    baseUrl = config.get('service.baseURL')+":"+config.get('service.port');
+    baseUrl = config.service.baseURL+":"+config.service.port;
     usrSession: any;
     constructor(private http: HttpClient) { }
 

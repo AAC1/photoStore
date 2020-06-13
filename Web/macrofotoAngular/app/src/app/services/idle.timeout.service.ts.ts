@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, Subscription, BehaviorSubject} from 'rxjs';
+import { timer } from 'rxjs/observable/timer';
+import config from 'src/app/config/global.json';
 
-import * as config from 'config'
 @Injectable()
 export class IdleTimeoutService{
     private _count: number = 0;
-    private _serviceId: string = 'idleTimeoutSvc-' + Math.floor(Math.random() * parseInt(config.get('service.baseURL')));
+    private _serviceId: string = 'idleTimeoutSvc-' + Math.floor(Math.random() * parseInt(config.session.timeout));// 
     private _timeoutSeconds: number = 5;
     private timerSubscription: Subscription;
     private timer: Observable<number>;
@@ -27,7 +28,7 @@ export class IdleTimeoutService{
             this.timerSubscription.unsubscribe();
         }
       
-      //  this.timer = Observable.timer(this._timeoutSeconds * 1000);
+        this.timer = timer(this._timeoutSeconds * 1000);
         this.timerSubscription = this.timer.subscribe(n => {
             this.timerComplete(n);
         });
@@ -42,10 +43,10 @@ export class IdleTimeoutService{
             this.timerSubscription.unsubscribe();
         }
       
-   //     this.timer = Observable.timer(this._timeoutSeconds * 1000);
-   //     this.timerSubscription = this._timer.subscribe(n => {
-    //        this.timerComplete(n);
-    //    });
+        this.timer = timer(this._timeoutSeconds * 1000);
+        this.timerSubscription = this._timer.subscribe(n => {
+            this.timerComplete(n);
+        });
     }
 
     private timerComplete(n: number) {
