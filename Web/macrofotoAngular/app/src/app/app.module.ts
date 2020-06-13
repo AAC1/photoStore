@@ -46,8 +46,23 @@ import { MenuComponent } from './components/menu/menu.component';
 /* RUTAS */
 import { APP_ROUTING } from './app-routing.module';
 import { LoginComponent } from './components/login/login.component';
+/*
 
+declare var global: any;
 
+declare global {
+  namespace NodeJS {
+    export interface Global {
+      _TIMEOUT_:number; 
+      _BASE_URL_:string;
+    }
+  }
+}
+
+global._TIMEOUT_ = 30000;
+global._BASE_URL_ = "http://localhosts:3000";
+
+*/
 @NgModule({
   declarations: [
     AppComponent,

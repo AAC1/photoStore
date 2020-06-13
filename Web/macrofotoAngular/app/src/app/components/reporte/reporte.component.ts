@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Pedido } from 'src/app/objects/pedidos';
+import { Pedido } from 'src/app/objects/Pedidos';
 import { PedidosService } from 'src/app/services/pedidos.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';

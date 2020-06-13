@@ -2,22 +2,22 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-
-import { Pedido } from 'src/app/objects/Pedidos';
 import * as config from 'config'
+
+
 @Injectable({
     providedIn: 'root'
 })
-export class PedidosService{
-    baseURL = config.get('service.baseURL')+":"+config.get('service.port');
-    pedido: Pedido[];
+export class UsuarioService{
+    baseUrl = config.get('service.baseURL')+":"+config.get('service.port');
+    usrSession: any;
     constructor(private http: HttpClient) { }
 
-    getPedido(jsonIn: Pedido): Observable<Pedido[]> {
-        return this.http.post(`${this.baseURL}/getPedidos`, jsonIn )
-          .pipe(map((res:Pedido[]) => {
-            this.pedido = res;
-            return this.pedido;
+    login = async (jsonIn: any) => {
+        return await this.http.post(`${this.baseUrl}/login`,  jsonIn )
+          .pipe(map((res) => {
+            this.usrSession = res;
+            return this.usrSession;
           }),
           catchError(this.handleError));
     
