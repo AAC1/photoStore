@@ -1,4 +1,5 @@
-import {Entity,Column, PrimaryGeneratedColumn,BaseEntity, PrimaryColumn} from "typeorm"
+import {Entity,Column, PrimaryGeneratedColumn,BaseEntity, PrimaryColumn, OneToMany, JoinColumn} from "typeorm"
+import { Store_cat_estatus } from './Store_cat_estatus';
 
 @Entity()
 export class Store_pedido extends BaseEntity {
@@ -49,19 +50,18 @@ export class Store_pedido extends BaseEntity {
         type:'decimal',
         nullable:true
     })
-    monto_ant:number | null;
+    monto_ant:number ;
 
     @Column({
         type:'varchar',
         nullable:true
     })
-    monto_total:number | null;
+    monto_total:number ;
 
-    @Column({
-        type:'int',
-        nullable:true
-    })
-    id_estatus:number | null;
+ //   @OneToMany (type => Store_cat_estatus, cat => cat.id_estatus)
+ //   @JoinColumn()
+    @Column({type:'int'})
+    id_estatus:number ;
 
     @Column({
         type:'longblob',
@@ -69,5 +69,7 @@ export class Store_pedido extends BaseEntity {
     })
     ticket:BinaryType | null;
 
-    
+   // @Column()
+   catEstatus:Store_cat_estatus;
+
 }

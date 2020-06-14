@@ -2,6 +2,7 @@ import { Component, OnInit,ViewChild } from '@angular/core';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 import { UserSession } from 'src/app/objects/UserSession';
+import { Router } from '@angular/router';
 
 
 
@@ -11,7 +12,7 @@ import { UserSession } from 'src/app/objects/UserSession';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  constructor(private usuarioService: UsuarioService) { }
+  constructor(private usuarioService: UsuarioService,private router: Router) { }
   ngOnInit() {
   }
   @ViewChild('alertLogin') alertLogin;
@@ -34,7 +35,11 @@ export class LoginComponent implements OnInit {
           }
           this.jsonAlerts.typeMessage=res.response.status;
 
-          
+          if(res.response.status=="OK"){
+            sessionStorage.setItem('usrLogged',res.nombre);
+            this.router.navigate(['/home']);
+            window.location.reload();
+          }
         }
       },
       (err) => {

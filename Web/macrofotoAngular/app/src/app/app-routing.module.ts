@@ -10,7 +10,7 @@ const routes: Routes = [];
 const APP_ROUTES: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'reporte-pedidos', component: ReporteComponent },
-//  { path: '', pathMatch:'full', component: LoginComponent },
+  { path: '', pathMatch:'full', component: HomeComponent },
   { path: '**', pathMatch:'full', redirectTo: '' },
 ];
 

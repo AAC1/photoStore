@@ -20,8 +20,12 @@ export class AppComponent {
   constructor() { }
 
   ngOnInit() {
-    let usrLooged = localStorage.getItem('usrLogged');
+    let usrLooged = sessionStorage.getItem('usrLogged');
     this.isLogged =  usrLooged ==null || typeof usrLooged == 'undefined' || usrLooged == ""? false:true;
+    console.log(this.isLogged)
+    if(this.isLogged){
+      //aqui debe ir el idle
+    }
   }
 
   toggleBar(): void{

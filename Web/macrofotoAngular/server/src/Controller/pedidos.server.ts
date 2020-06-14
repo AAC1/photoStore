@@ -6,10 +6,16 @@ export class PedidosServer{
     resourcesPedidos = (app:any,conn:Connection):void=>{
         let pedidoDAO = new StorePedidoDAO();
 
-        app.get('/getPedidos',(req:any, res:any)=> {
+         app.post('/getPedidos',async(req:any, res:any)=> {
             
-            var listPedido =pedidoDAO.getPedido(req.query);
-            res.send(listPedido);
+            var listPedido =await pedidoDAO.getPedido(req.body).catch(function(error) {
+                console.log('Caught!', error);
+            });
+            console.log(listPedido)
+            if(!listPedido)
+                res.send([]);
+            else
+                res.send(listPedido);
         });
     
     }

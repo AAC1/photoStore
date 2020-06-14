@@ -6,8 +6,8 @@ import config from 'src/app/config/global.json';
 @Injectable()
 export class IdleTimeoutService{
     private _count: number = 0;
-    private _serviceId: string = 'idleTimeoutSvc-' + Math.floor(Math.random() * parseInt(config.session.timeout));// 
-    private _timeoutSeconds: number = 5;
+    private _serviceId: string = 'idleTimeoutSvc-' + Math.floor(Math.random() * 1000);// 
+    private _timeoutSeconds: number = parseInt(config.session.timeout);
     private timerSubscription: Subscription;
     private _timer: Observable<number>;
     private resetOnTrigger: boolean = false;
