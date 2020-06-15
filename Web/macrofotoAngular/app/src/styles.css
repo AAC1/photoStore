@@ -144,3 +144,6 @@ button.mat-raised-button.mat-button-base{
     color: #ffffff;
     /*border: 1px solid white; */
 }
+
+
+button.color_green { color: rgb(4, 167, 40); }
