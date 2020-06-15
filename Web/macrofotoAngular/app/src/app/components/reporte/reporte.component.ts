@@ -14,11 +14,10 @@ export class ReporteComponent implements OnInit {
 
   constructor(private pedidosService: PedidosService) { }
   ngOnInit() {
-    this.getPedido();
+    this.filterOrder();
   }
   pedidoColumns = ["folio","cliente","contacto","descripcion","estatus","fec_pedido",
                   "fec_entregado","monto_ant","monto_total","monto_pendiente"]
-  pedido: Pedido;
   listPedidos: Pedido[];
   error = '';
   jsonPaginationPedido: any = {
@@ -33,9 +32,10 @@ export class ReporteComponent implements OnInit {
     totalItems: 0,
     pageSizeOptions : []
   };
-  
-  getPedido(): void {
-    this.pedidosService.getPedido(this.pedido).subscribe(
+  filter = {folio:'',cliente:'',estatus:'',fecIni:'',fecFin:''}
+
+  filterOrder(): void {
+    this.pedidosService.getPedido(this.filter).subscribe(
       (res: Pedido[]) => {
         this.listPedidos = res;
         this.jsonPaginationPedido={
@@ -68,4 +68,6 @@ export class ReporteComponent implements OnInit {
   pageChange(event){
     this.jsonPaginationPedido.currentPage = event;
   }
+
+   
 }

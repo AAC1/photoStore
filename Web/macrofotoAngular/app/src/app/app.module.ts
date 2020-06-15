@@ -34,7 +34,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
-import {MatNativeDateModule} from '@angular/material/core';
+import {MatNativeDateModule, MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -42,6 +42,7 @@ import { ReporteComponent } from './components/reporte/reporte.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './components/home/home.component';
 import { MenuComponent } from './components/menu/menu.component';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 /* RUTAS */
 import { APP_ROUTING } from './app-routing.module';
@@ -108,11 +109,26 @@ global._BASE_URL_ = "http://localhosts:3000";
     MatProgressBarModule,
     MatDialogModule,
     MatTooltipModule,
-    MatSnackBarModule,
+    MatSnackBarModule
 
   ],
   providers: [
-    ],
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: {
+        parse: {
+          dateInput: 'LL',
+        },
+        display: {
+          dateInput: 'DD/MM/YYYY',
+          monthYearLabel: 'YYYY',
+          dateA11yLabel: 'LL',
+          monthYearA11yLabel: 'YYYY',
+        },
+      },
+    },
+  ],
   bootstrap: [AppComponent],
   exports: [
     MatPaginatorModule,

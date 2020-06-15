@@ -27,19 +27,21 @@
                     <div class=" col-md-4">
                         <mat-form-field class="full-width">
                             <mat-label>Folio</mat-label>
-                            <input matInput placeholder="Introduce folio"/>
+                            <input matInput placeholder="Introduce folio"  name="folio" [(ngModel)]="filter.folio"/>
                         </mat-form-field>
                     </div>
                     <div class=" col-md-4">
                         <mat-form-field class="full-width">
                             <mat-label>Cliente</mat-label>
-                            <input matInput placeholder="Nombre del Cliente">
+                            <input matInput placeholder="Nombre del Cliente" name="cliente" [(ngModel)]="filter.cliente" />
                         </mat-form-field>
                     </div>
                     <div class=" col-md-4">
                         <mat-form-field class="full-width">
                             <mat-label>Estatus</mat-label>
-                            <input matInput placeholder="Estatus del pedido">
+                            <mat-select  placeholder="Estatus del pedido" name="estatus" [(ngModel)]="filter.estatus">
+                                <mat-option ></mat-option>
+                            </mat-select>
                         </mat-form-field>
                     </div>
                 </div>
@@ -49,17 +51,19 @@
                         <mat-form-field class="full-width">
                             
                             <mat-label>Fecha Pedido Inicial</mat-label>
-                            <input matInput [matDatepicker]="dateIni" />
-                            <mat-datepicker-toggle matSuffix [for]="dateIni"></mat-datepicker-toggle>
-                            <mat-datepicker #dateIni></mat-datepicker>
+                            <input matInput [matDatepicker]="dateIni" 
+                                name="fecIni" [(ngModel)]="filter.fecIni" disabled />
+                            <mat-datepicker-toggle matSuffix [for]="dateIni" ></mat-datepicker-toggle>
+                            <mat-datepicker #dateIni disabled="false"></mat-datepicker>
                         </mat-form-field>
                     </div>
                     <div class=" col-md-4 col-xs-6">
                         <mat-form-field class="full-width"> 
                             <mat-label>Fecha Pedido Final</mat-label>
-                            <input matInput [matDatepicker]="dateFin" />
-                            <mat-datepicker-toggle matSuffix [for]="dateFin"></mat-datepicker-toggle>
-                            <mat-datepicker #dateFin></mat-datepicker>
+                            <input matInput [matDatepicker]="dateFin" 
+                                name="fecFin" [(ngModel)]="filter.fecFin" disabled/>
+                            <mat-datepicker-toggle matSuffix [for]="dateFin" ></mat-datepicker-toggle>
+                            <mat-datepicker #dateFin disabled="false"></mat-datepicker>
                         </mat-form-field>
                     </div>
                     <div class=" col-md-4">
@@ -68,7 +72,7 @@
                 </div>
                 <div class=" col-md-12" style="text-align:center">
                     <!--Botones de limpiar y buscar-->
-                    <button mat-raised-button color="primary">
+                    <button mat-raised-button color="primary" (click)="filterOrder()">
                         Buscar</button>
                     &nbsp;
                     <button mat-raised-button>
@@ -257,6 +261,5 @@
             </mat-card>
         </div>
     </div>
-    <pre>listPedidos={{pedido}}</pre>
     <pre>jsonPagination = {{jsonPaginationPedido | json}}</pre>
 </article>

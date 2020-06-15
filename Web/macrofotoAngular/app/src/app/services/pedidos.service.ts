@@ -15,7 +15,7 @@ export class PedidosService{
     pedido: Pedido[];
     constructor(private http: HttpClient) { }
 
-    getPedido(jsonIn: Pedido): Observable<Pedido[]> {
+    getPedido(jsonIn: any): Observable<Pedido[]> {
         return this.http.post(`${this.baseURL}/getPedidos`, jsonIn )
           .pipe(map((res:Pedido[]) => {
             this.pedido = res;
