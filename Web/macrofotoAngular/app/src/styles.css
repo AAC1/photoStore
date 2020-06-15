@@ -100,3 +100,11 @@ button.mat-raised-button.mat-button-base{
     margin-left: 15px;
     margin-right: 15px;
 }
+
+.mat-paginator{
+    background-color: transparent !important;
+  
+}
+.mat-paginator-container{
+    justify-content: left !important;
+}
