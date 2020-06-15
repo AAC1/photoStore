@@ -3,6 +3,7 @@ import {PedidosServer} from "./Controller/pedidos.server";
 import { createConnection, Connection } from 'typeorm';
 import { UsuarioServer } from './Controller/usuario.server';
 import { createProxyMiddleware } from 'http-proxy-middleware';
+import { CatStatusServer } from './Controller/catStatus.server';
 
 
 export class Start{
@@ -64,10 +65,10 @@ export class Start{
         
         let pedidos = new PedidosServer();
         pedidos.resourcesPedidos(this.app,this.connection);
-        
         let usuario= new UsuarioServer();
         usuario.resourcesUsuario(this.app,this.connection);
-        
+        let catStatus = new CatStatusServer();
+        catStatus.resourcesCatStatus(this.app,this.connection);
         
         this.listen();
     }

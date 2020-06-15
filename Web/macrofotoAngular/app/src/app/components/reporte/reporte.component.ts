@@ -3,6 +3,8 @@ import { Pedido } from 'src/app/objects/Pedidos';
 import { PedidosService } from 'src/app/services/pedidos.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CatStatusService } from 'src/app/services/catStatus.service';
+import { StoreCatStatus } from 'src/app/objects/StoreCatStatus';
 
 @Component({
   selector: 'app-reporte',
@@ -12,13 +14,16 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class ReporteComponent implements OnInit {
 
-  constructor(private pedidosService: PedidosService) { }
+  constructor(private pedidosService: PedidosService,private catStatusService:CatStatusService) { }
   ngOnInit() {
+
     this.filterOrder();
+    this.getCatStatus();
   }
   pedidoColumns = ["folio","cliente","contacto","descripcion","estatus","fec_pedido",
                   "fec_entregado","monto_ant","monto_total","monto_pendiente"]
   listPedidos: Pedido[];
+  listCatStatus:StoreCatStatus[];
   error = '';
   jsonPaginationPedido: any = {
     pageSize: 5,
@@ -65,6 +70,17 @@ export class ReporteComponent implements OnInit {
     );
   }
 
+  getCatStatus= ()=>{
+    this.catStatusService.getCatStatus().subscribe(
+      (res:StoreCatStatus[])=>{
+        this.listCatStatus = res;
+        
+      },
+      (err)=>{
+        console.log(err)
+      }
+    );
+  }
   pageChange(event){
     this.jsonPaginationPedido.currentPage = event;
   }

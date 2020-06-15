@@ -40,7 +40,8 @@
                         <mat-form-field class="full-width">
                             <mat-label>Estatus</mat-label>
                             <mat-select  placeholder="Estatus del pedido" name="estatus" [(ngModel)]="filter.estatus">
-                                <mat-option ></mat-option>
+                                <mat-option *ngFor="let item of listCatStatus" 
+                                value="{{item.id_estatus}}">{{item.estatus}}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -125,41 +126,10 @@
                             </ng-container>
                             <ng-container matColumnDef="monto_pendiente">
                                 <th mat-header-cell *matHeaderCellDef> Monto pendiente </th>
-                                <td mat-cell *matCellDef="let element"> {{element.monto_pendiente}} </td>
+                                <td mat-cell *matCellDef="let element"> {{element.monto_total - element.monto_ant}} </td>
                             </ng-container>
                             <tr mat-header-row *matHeaderRowDef="pedidoColumns"></tr>
                             <tr mat-row *matRowDef="let row; columns: pedidoColumns;"></tr>
-                            <!--
-                        <thead class="thead-dark">
-                            <tr>
-                                <th></th>
-                                <th></th>
-                                <th> </th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of listPedidos | paginate: objPagination ">
-                                <td>{{item.folio}}</td>
-                                <td>{{item.cliente}}</td>
-                                <td>{{item.telefono}}</td>
-                                <td>{{item.descripcion}}</td>
-                                <td>{{item.id_estatus}}</td>
-                                <td>{{item.fec_pedido}}</td>
-                                <td>{{item.fec_entregado}}</td>
-                                <td>{{item.monto_ant}}</td>
-                                <td>{{item.monto_total}}</td>
-                                <td>{{item.monto_pendiente}</td>
-
-                            </tr>
-                        </tbody>
-                        -->
                         </table>
                         <mat-paginator [length]="jsonPaginationPedido.totalItems" 
                             [pageSize]="jsonPaginationPedido.pageSize"
