@@ -108,3 +108,38 @@ button.mat-raised-button.mat-button-base{
 .mat-paginator-container{
     justify-content: left !important;
 }
+
+.rowSelected {
+    background-color: #034165 !important;
+    color:white ;
+}
+.rowSelected td{
+    color:white !important;
+}
+.redColor {
+    background-color: white ;
+    color: tomato ;
+}
+.redColor td{
+    color: tomato ;
+}
+.greenColor{
+    background-color: white ;
+    color: #93CA24 ;  
+}
+.greenColor td{
+    color: #93CA24 ;  
+}
+.blackColor{
+    background-color: white ;
+    color: black ;
+}
+.blackColor td{
+    color: black ;
+}
+.mat-header-row{
+    background-color: #282829;
+}
+.mat-header-row th{
+    color: #ffffff;
+}

@@ -38,7 +38,7 @@ export class ReporteComponent implements OnInit {
     pageSizeOptions : []
   };
   filter = {folio:'',cliente:'',estatus:'',fecIni:'',fecFin:''}
-
+  rowsSelected = {idxOrder:0}
   filterOrder(): void {
     this.pedidosService.getPedido(this.filter).subscribe(
       (res: Pedido[]) => {
@@ -74,16 +74,24 @@ export class ReporteComponent implements OnInit {
     this.catStatusService.getCatStatus().subscribe(
       (res:StoreCatStatus[])=>{
         this.listCatStatus = res;
-        
+
       },
       (err)=>{
         console.log(err)
       }
     );
   }
+
+  cleanFilter = ()=>{
+    this.filter = {folio:'',cliente:'',estatus:'',fecIni:'',fecFin:''}
+  }
   pageChange(event){
     this.jsonPaginationPedido.currentPage = event;
   }
 
-   
+selectRow = (row:any, idx:number) =>{
+  console.log(row)
+  console.log(idx)
+  this.rowsSelected.idxOrder = idx
+}
 }

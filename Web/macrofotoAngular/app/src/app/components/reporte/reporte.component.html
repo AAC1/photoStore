@@ -76,7 +76,7 @@
                     <button mat-raised-button color="primary" (click)="filterOrder()">
                         Buscar</button>
                     &nbsp;
-                    <button mat-raised-button>
+                    <button mat-raised-button (click)="cleanFilter()">
                         Limpiar</button>
                 </div>
             </mat-expansion-panel>
@@ -87,7 +87,7 @@
                     <p>Pedidos</p>
                     <div class=" col-md-12 overflowDiv">
 
-                        <table mat-table class=" " [dataSource]="listPedidos">
+                        <table mat-table class=" " [dataSource]="listPedidos" >
                             <ng-container matColumnDef="folio">
                                 <th mat-header-cell *matHeaderCellDef> Folio </th>
                                 <td mat-cell *matCellDef="let element"> {{element.folio}} </td>
@@ -129,7 +129,11 @@
                                 <td mat-cell *matCellDef="let element"> {{element.monto_total - element.monto_ant}} </td>
                             </ng-container>
                             <tr mat-header-row *matHeaderRowDef="pedidoColumns"></tr>
-                            <tr mat-row *matRowDef="let row; columns: pedidoColumns;"></tr>
+                            <tr mat-row *matRowDef="let row; columns: pedidoColumns;let i = index" 
+                            [ngClass]="{'greenColor':row.catEstatus.estatus =='ENTREGADO',
+                                'redColor':row.catEstatus.estatus =='PENDIENTE',
+                                'rowSelected' : rowsSelected.idxOrder== (i+1)}"
+                            (click)="selectRow(row, (i+1))"></tr>
                         </table>
                         <mat-paginator [length]="jsonPaginationPedido.totalItems" 
                             [pageSize]="jsonPaginationPedido.pageSize"

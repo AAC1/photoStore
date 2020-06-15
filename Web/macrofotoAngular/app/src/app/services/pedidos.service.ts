@@ -11,7 +11,6 @@ import config from 'src/app/config/global.json';
 })
 export class PedidosService{
     baseURL = config.service.baseURL+":"+config.service.port;//config.get('service.baseURL')+":"+config.get('service.port');
-    
     pedido: Pedido[];
     constructor(private http: HttpClient) { }
 
