@@ -1,29 +1,27 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { ProdPedidos } from '../objects/ProdPedidos';
 
-import { Pedido } from 'src/app/objects/Pedidos';
 import config from 'src/app/config/global.json';
-import { StoreCatStatus } from '../objects/StoreCatStatus';
-
 @Injectable({
     providedIn: 'root'
 })
-export class CatStatusService{
+export class ProductsPedidoService{
     baseURL = config.service.baseURL+":"+config.service.port;
     
     constructor(private http: HttpClient) { }
 
-    getCatStatus(): Observable<StoreCatStatus[]> {
-        return this.http.get(`${this.baseURL}/getCatStatus` )
+    getProductsByPedido = (idPedido:number) => {
+        return this.http.post(`${this.baseURL}/getProductsByPedido`,{'id_pedido':idPedido})
             .pipe(
                 map(
-                    (res:StoreCatStatus[]) => res
+                    (res:ProdPedidos[]) => res
                 ),
                 catchError(this.handleError)
             );
-    
       }
       private handleError(error: HttpErrorResponse) {
         console.log(error)

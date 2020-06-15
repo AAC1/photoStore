@@ -27,3 +27,6 @@ mat-sidenav .mat-drawer-inner-container::after{
     overflow-x: hidden !important;
 }
 
+.mat-icon.size35{
+    font-size: 35px !important;
+}

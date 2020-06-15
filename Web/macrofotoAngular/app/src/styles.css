@@ -105,9 +105,10 @@ button.mat-raised-button.mat-button-base{
     background-color: transparent !important;
   
 }
+/*
 .mat-paginator-container{
     justify-content: left !important;
-}
+}*/
 
 .rowSelected {
     background-color: #034165 !important;
