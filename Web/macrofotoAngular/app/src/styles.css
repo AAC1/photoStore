@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 * {
-    font-family: 'Montserrat', sans-serif !important;
+    font-family: 'Montserrat', sans-serif ;
 }
 html, body { height: 100%; }
 body { 
@@ -142,4 +142,5 @@ button.mat-raised-button.mat-button-base{
 }
 .mat-header-row th{
     color: #ffffff;
+    /*border: 1px solid white; */
 }

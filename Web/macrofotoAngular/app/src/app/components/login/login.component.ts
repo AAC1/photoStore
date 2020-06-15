@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
           this.jsonAlerts.typeMessage=res.response.status;
 
           if(res.response.status=="OK"){
-            sessionStorage.setItem('usrLogged',res.nombre);
+            sessionStorage.setItem('usrLogged',JSON.stringify(res));
             this.router.navigate(['/home']);
             window.location.reload();
           }

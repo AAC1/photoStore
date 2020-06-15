@@ -23,3 +23,7 @@ body {
     left: 0;
 }
 
+mat-sidenav .mat-drawer-inner-container::after{
+    overflow-x: hidden !important;
+}
+
