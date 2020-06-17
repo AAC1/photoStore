@@ -5,6 +5,8 @@ import { UsuarioServer } from './Controller/usuario.server';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { CatStatusServer } from './Controller/catStatus.server';
 import { ProdPedidoServer } from './Controller/prodPedido.server';
+import { ExportFileServer } from './Controller/exportFile.server';
+
 
 
 export class Start{
@@ -74,8 +76,10 @@ export class Start{
         catStatus.resourcesCatStatus(this.app,this.connection);
 
         let prodPedido = new ProdPedidoServer();
-        prodPedido.resourcesProductPedido(this.app,this.connection)
-
+        prodPedido.resourcesProductPedido(this.app,this.connection);
+        
+        let exportFile = new ExportFileServer();
+        exportFile.resourcesExportFile(this.app,this.connection);
         this.listen();
     }
 

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Cargos" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="1b4e73c1-e9cc-46d1-9179-fa9fcf7b3e94">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MACRO2"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<parameter name="idSucursal" class="java.lang.String"/>
+	<parameter name="fecha" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT * FROM store_cargo_abono
+WHERE tipo in ('C') 
+AND id_sucursal = $P{idSucursal}
+ AND fecha = $P{fecha}]]>
+	</queryString>
+	<field name="id_cargo_abono" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_cargo_abono"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="store_cargo_abono"/>
+	</field>
+	<field name="tipo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tipo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="store_cargo_abono"/>
+	</field>
+	<field name="monto" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="monto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="store_cargo_abono"/>
+	</field>
+	<field name="motivo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="motivo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="store_cargo_abono"/>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="fecha"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="store_cargo_abono"/>
+	</field>
+	<field name="id_sucursal" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_sucursal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="store_cargo_abono"/>
+	</field>
+	<group name="id_cargo_abono">
+		<groupExpression><![CDATA[$F{id_cargo_abono}]]></groupExpression>
+	</group>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="189" height="14" uuid="10ae8151-cd7d-49e3-a85b-c5bef82cdfa6"/>
+				<textFieldExpression><![CDATA[$F{motivo}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="ScaleFont" pattern="#,##0.00#;(-#,##0.00#)" isBlankWhenNull="true">
+				<reportElement x="190" y="0" width="99" height="14" uuid="4a6fd5d9-bce4-4d2f-a405-2b634614dc86">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="040a9d25-9beb-424e-b57a-1122af24c511"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{monto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

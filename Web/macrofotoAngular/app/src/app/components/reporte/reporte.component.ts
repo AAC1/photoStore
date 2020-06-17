@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { Pedido } from 'src/app/objects/Pedidos';
 import { PedidosService } from 'src/app/services/pedidos.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -8,6 +8,8 @@ import { StoreCatStatus } from 'src/app/objects/StoreCatStatus';
 import { ProductsPedidoService } from 'src/app/services/productsPedido.service';
 import { ProdPedidos } from 'src/app/objects/ProdPedidos';
 import { PageEvent } from '@angular/material';
+import { ExportFileService } from 'src/app/services/exportFile.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-reporte',
@@ -19,12 +21,16 @@ export class ReporteComponent implements OnInit {
 
   constructor(private pedidosService: PedidosService,
       private catStatusService:CatStatusService,
-      private prodPedidoService:ProductsPedidoService,) { }
+      private prodPedidoService:ProductsPedidoService,
+      private exportFileService:ExportFileService) { }
+
   ngOnInit() {
 
     this.filterOrder();
     this.getCatStatus();
   }
+
+  @ViewChild('tblPedido') tblPedido;
   pedidoColumns = ["folio","cliente","contacto","descripcion","estatus","fec_pedido",
                   "fec_entregado","monto_ant","monto_total","monto_pendiente"];
   prodsPedidoColumns = ["bar_code","descripcion","cantidad","costo_unitario","costo_total","estatus"]
@@ -47,8 +53,33 @@ export class ReporteComponent implements OnInit {
     dataSource:[]
   };
   filter = {folio:'',cliente:'',estatus:'',fecIni:'',fecFin:''}
+  filterOrigin = {folio:'',cliente:'',estatus:'',fecIni:'',fecFin:''}
   rowsSelected = {idxOrder:0}
+
+  getReport = ()=>{
+    /*
+    this.exportFileService.getCatStatus(this.filterOrigin).subscribe(
+      (res:any) =>{
+        console.log(res);
+      }
+    ),
+    (err) => {
+      this.error = err;
+
+    }*/
+    //let element = document.getElementById('excel-table'); 
+    console.log(this.tblPedido);
+    const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(this.tblPedido);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    XLSX.writeFile(wb, "Pedido.xlsx");
+
+  }
+
   filterOrder(): void {
+    this.filterOrigin = this.filter;
     this.pedidosService.getPedido(this.filter).subscribe(
       (res: Pedido[]) => {
         this.listPedidos = res;
