@@ -78,33 +78,74 @@ export class ReporteComponent implements OnInit {
 
     }
     
-    
-   
-    
   }
   createXLS =(listExport)=>{
-    const bgDark = {
-      background: {
-        rgb: "000000"
-      }
-    };
-
+    const bgDark =  "034165"
+      
+    const colPedidoStyle ="B2B2B2"
+     
+    const fontColor = "ffffff"
     XlsxPopulate.fromBlankAsync()
       .then(workbook => {
         const orderSheet = workbook.sheet("Sheet1")
         // Modify the workbook.
+        orderSheet.column("A").width(25);
+        orderSheet.column("B").width(25);
+        orderSheet.column("C").width(30);
+        orderSheet.column("D").width(40);
+        orderSheet.column("E").width(12);
+        orderSheet.column("F").width(20);
+        orderSheet.column("G").width(20);
+        orderSheet.column("H").width(20);
+        orderSheet.column("I").width(20);
+        orderSheet.column("J").width(20);
 
-        orderSheet.cell("A1").value("Folio").style("fill",bgDark).style("fontColor","ffffff");
-        orderSheet.cell("B1").value("Cliente").style("fill",bgDark).style("fontColor","ffffff");
-        orderSheet.cell("C1").value("Contacto").style("fill",bgDark).style("fontColor","ffffff");
-        orderSheet.cell("D1").value("Desccripci\u00F3n").style("fill",bgDark).style("fontColor","ffffff");
-        orderSheet.cell("E1").value("Estatus").style("fill",bgDark).style("fontColor","ffffff");
-        orderSheet.cell("F1").value("Fec. Del pedido").style("fill",bgDark).style("fontColor","ffffff");
-        orderSheet.cell("G1").value("Fec. Entregado").style("fill",bgDark).style("fontColor","ffffff");
-        orderSheet.cell("H1").value("Monto de Anticipo").style("fill",bgDark).style("fontColor","ffffff");
-        orderSheet.cell("I1").value("Costo total").style("fill",bgDark).style("fontColor","ffffff");
-        orderSheet.cell("J1").value("Monto pendiente").style("fill",bgDark).style("fontColor","ffffff");
-
+        orderSheet.cell("A1").value("Folio").style("fill",bgDark).style("fontColor",fontColor);
+        orderSheet.cell("B1").value("Cliente").style("fill",bgDark).style("fontColor",fontColor);
+        orderSheet.cell("C1").value("Contacto").style("fill",bgDark).style("fontColor",fontColor);
+        orderSheet.cell("D1").value("Desccripci\u00F3n").style("fill",bgDark).style("fontColor",fontColor);
+        orderSheet.cell("E1").value("Estatus").style("fill",bgDark).style("fontColor",fontColor);
+        orderSheet.cell("F1").value("Fec. Del pedido").style("fill",bgDark).style("fontColor",fontColor).style("numberFormat", "dd/MM/yyyy");;
+        orderSheet.cell("G1").value("Fec. Entregado").style("fill",bgDark).style("fontColor",fontColor).style("numberFormat", "dd/MM/yyyy");;
+        orderSheet.cell("H1").value("Monto de Anticipo").style("fill",bgDark).style("fontColor",fontColor).style("numberFormat", "0.00");;
+        orderSheet.cell("I1").value("Costo total").style("fill",bgDark).style("fontColor",fontColor).style("numberFormat", "0.00");;
+        orderSheet.cell("J1").value("Monto pendiente").style("fill",bgDark).style("fontColor",fontColor).style("numberFormat", "0.00");;
+        var cont=2;
+        listExport.forEach(el => {
+          orderSheet.cell("A"+cont).value(el.folio).style("fill",colPedidoStyle);
+          orderSheet.cell("B"+cont).value(el.cliente).style("fill",colPedidoStyle);
+          orderSheet.cell("C"+cont).value(el.telefono).style("fill",colPedidoStyle);
+          orderSheet.cell("D"+cont).value(el.descripcion).style("fill",colPedidoStyle);
+          orderSheet.cell("E"+cont).value(el.estatus).style("fill",colPedidoStyle);
+          orderSheet.cell("F"+cont).value(el.fec_pedido).style("fill",colPedidoStyle);
+          orderSheet.cell("G"+cont).value(el.fec_entregado).style("fill",colPedidoStyle);
+          orderSheet.cell("H"+cont).value(el.monto_ant).style("fill",colPedidoStyle);
+          orderSheet.cell("I"+cont).value(el.costo_total).style("fill",colPedidoStyle);
+          orderSheet.cell("J"+cont).value(el.costo_total - el.monto_ant).style("fill",colPedidoStyle);
+          cont+=1;
+          //HEADER PROD
+         // orderSheet.cell("A"+cont).value("").style("fill",bgDark).style("fontColor",fontColor);
+          orderSheet.cell("B"+cont).value("C\u00F3digo de barras").style("fill",bgDark).style("fontColor",fontColor);
+          orderSheet.cell("C"+cont).value("Desccripci\u00F3n").style("fill",bgDark).style("fontColor",fontColor);
+          orderSheet.cell("D"+cont).value("Cantidad").style("fill",bgDark).style("fontColor",fontColor);
+          orderSheet.cell("E"+cont).value("Costo unitario").style("fill",bgDark).style("fontColor",fontColor);
+          orderSheet.cell("F"+cont).value("Costo total").style("fill",bgDark).style("fontColor",fontColor);
+          orderSheet.cell("G"+cont).value("Estatus").style("fill",bgDark).style("fontColor",fontColor);
+          orderSheet.cell("H"+cont).value("").style("fill",bgDark).style("fontColor",fontColor);
+          orderSheet.cell("I"+cont).value("").style("fill",bgDark).style("fontColor",fontColor);
+          orderSheet.cell("J"+cont).value("").style("fill",bgDark).style("fontColor",fontColor);
+          cont+=1;
+          (el.products).forEach((elProd:any )=> {
+            orderSheet.cell("B"+cont).value(elProd.bar_code);
+            orderSheet.cell("C"+cont).value(elProd.descripcion);
+            orderSheet.cell("D"+cont).value(elProd.cantidad);
+            orderSheet.cell("E"+cont).value(elProd.costo_unitario);
+            orderSheet.cell("F"+cont).value(elProd.costo_total);
+            orderSheet.cell("G"+cont).value(elProd.estatus);
+            cont+=1;
+          });
+          cont++;
+        });
         console.log(orderSheet);
         
 
