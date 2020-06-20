@@ -15,7 +15,7 @@ export class ExportFileService{
     
     constructor(private http: HttpClient) { }
 
-    getCatStatus(json:any) {//Observable<StoreCatStatus[]>
+    getDataExport(json:any) {//Observable<StoreCatStatus[]>
         return this.http.post(`${this.baseURL}/reportePedidosXLS`, json)
             .pipe(
                 map(

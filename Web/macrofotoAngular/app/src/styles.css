@@ -148,3 +148,5 @@ button.mat-raised-button.mat-button-base{
 
 
 button.color_green { color: rgb(4, 167, 40); }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

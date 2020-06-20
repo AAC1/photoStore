@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 //import {NgxPaginationModule} from 'ngx-pagination';
 import { HttpClientModule} from "@angular/common/http";
 
-import {MatCheckboxModule} from '@angular/material';
-import {MatButtonModule} from '@angular/material';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDatepickerModule} from '@angular/material/datepicker';

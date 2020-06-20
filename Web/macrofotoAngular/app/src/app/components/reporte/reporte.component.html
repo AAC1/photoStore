@@ -87,7 +87,7 @@
                     <p>Pedidos</p>
                     <div class=" col-md-12 overflowDiv">
 
-                        <table mat-table class=" " [dataSource]="jsonPaginationPedido.dataSource" #tblPedido>
+                        <table mat-table class=" " [dataSource]="jsonPaginationPedido.dataSource" #tblPedido id="tblPedido">
                             <ng-container matColumnDef="folio">
                                 <th mat-header-cell *matHeaderCellDef> Folio </th>
                                 <td mat-cell *matCellDef="let element"> {{element.folio}} </td>

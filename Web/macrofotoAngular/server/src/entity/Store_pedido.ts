@@ -1,5 +1,6 @@
 import {Entity,Column, PrimaryGeneratedColumn,BaseEntity, PrimaryColumn, OneToMany, JoinColumn} from "typeorm"
 import { Store_cat_estatus } from './Store_cat_estatus';
+import { Store_prod_pedido } from './Store_prod_pedido';
 
 @Entity()
 export class Store_pedido extends BaseEntity {
@@ -70,6 +71,7 @@ export class Store_pedido extends BaseEntity {
     ticket:BinaryType | null;
 
    // @Column()
-   catEstatus:Store_cat_estatus;
+    catEstatus:Store_cat_estatus;
+    products: Store_prod_pedido[];
 
 }

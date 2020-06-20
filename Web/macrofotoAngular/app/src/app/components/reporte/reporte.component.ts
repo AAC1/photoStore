@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit,ViewChild, ElementRef } from '@angular/core';
 import { Pedido } from 'src/app/objects/Pedidos';
 import { PedidosService } from 'src/app/services/pedidos.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -7,9 +7,18 @@ import { CatStatusService } from 'src/app/services/catStatus.service';
 import { StoreCatStatus } from 'src/app/objects/StoreCatStatus';
 import { ProductsPedidoService } from 'src/app/services/productsPedido.service';
 import { ProdPedidos } from 'src/app/objects/ProdPedidos';
-import { PageEvent } from '@angular/material';
+//import { PageEvent } from '@angular/material';
 import { ExportFileService } from 'src/app/services/exportFile.service';
+import { PageEvent } from '@angular/material/paginator';
+import * as XLSXStyle from 'fixed-xlsx-style';
 import * as XLSX from 'xlsx';
+//import XLSXStyle from 'src/assets/js/js-xlsx/xlsx-style/xlsx.full.min.js';
+import XlsxPopulate from 'xlsx-populate/browser/xlsx-populate.min';
+
+import FileSaver from 'file-saver';
+
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';//vnd.ms-excel';//octet-stream';//
+const EXCEL_EXTENSION = 'xlsx';
 
 @Component({
   selector: 'app-reporte',
@@ -30,7 +39,7 @@ export class ReporteComponent implements OnInit {
     this.getCatStatus();
   }
 
-  @ViewChild('tblPedido') tblPedido;
+  @ViewChild('tblPedido') tblPedido: ElementRef<HTMLElement>;
   pedidoColumns = ["folio","cliente","contacto","descripcion","estatus","fec_pedido",
                   "fec_entregado","monto_ant","monto_total","monto_pendiente"];
   prodsPedidoColumns = ["bar_code","descripcion","cantidad","costo_unitario","costo_total","estatus"]
@@ -55,29 +64,174 @@ export class ReporteComponent implements OnInit {
   filter = {folio:'',cliente:'',estatus:'',fecIni:'',fecFin:''}
   filterOrigin = {folio:'',cliente:'',estatus:'',fecIni:'',fecFin:''}
   rowsSelected = {idxOrder:0}
-
+  
   getReport = ()=>{
-    /*
-    this.exportFileService.getCatStatus(this.filterOrigin).subscribe(
+    
+    this.exportFileService.getDataExport(this.filterOrigin).subscribe(
       (res:any) =>{
         console.log(res);
+        this.createXLS(res);
+      }
+    ),
+    (err) => {
+      this.error = err;
+
+    }
+    
+    
+   
+    
+  }
+  createXLS =(listExport)=>{
+    const bgDark = {
+      background: {
+        rgb: "000000"
+      }
+    };
+
+    XlsxPopulate.fromBlankAsync()
+      .then(workbook => {
+        const orderSheet = workbook.sheet("Sheet1")
+        // Modify the workbook.
+
+        orderSheet.cell("A1").value("Folio").style("fill",bgDark).style("fontColor","ffffff");
+        orderSheet.cell("B1").value("Cliente").style("fill",bgDark).style("fontColor","ffffff");
+        orderSheet.cell("C1").value("Contacto").style("fill",bgDark).style("fontColor","ffffff");
+        orderSheet.cell("D1").value("Desccripci\u00F3n").style("fill",bgDark).style("fontColor","ffffff");
+        orderSheet.cell("E1").value("Estatus").style("fill",bgDark).style("fontColor","ffffff");
+        orderSheet.cell("F1").value("Fec. Del pedido").style("fill",bgDark).style("fontColor","ffffff");
+        orderSheet.cell("G1").value("Fec. Entregado").style("fill",bgDark).style("fontColor","ffffff");
+        orderSheet.cell("H1").value("Monto de Anticipo").style("fill",bgDark).style("fontColor","ffffff");
+        orderSheet.cell("I1").value("Costo total").style("fill",bgDark).style("fontColor","ffffff");
+        orderSheet.cell("J1").value("Monto pendiente").style("fill",bgDark).style("fontColor","ffffff");
+
+        console.log(orderSheet);
+        
+
+        this.saveFileWb(workbook);
+      
+      });
+    
+
+
+  }
+  saveFileWb =(wb)=>{
+    wb.outputAsync()
+      .then(function (blob) {
+        FileSaver.saveAs(blob, "Pedido" + '_' + new Date().getTime() +'.'+ EXCEL_EXTENSION);
+       
+    });
+  }
+  getReport2 = ()=>{
+    /*
+    this.exportFileService.getCatStatus(this.listPedidos).subscribe(
+      (res:any) =>{
+        console.log(res);
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        console.log(res)
+        XLSX.utils.book_append_sheet(wb, res, 'Sheet1');
+        XLSX.writeFile(wb, "Pedido.xlsx");
       }
     ),
     (err) => {
       this.error = err;
 
     }*/
-    //let element = document.getElementById('excel-table'); 
-    console.log(this.tblPedido);
-    const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(this.tblPedido);
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    let element = document.getElementById('tblPedido'); 
+    console.log(element);
+    const ws =XLSX.utils.table_to_sheet(element);
+    
+    ws["!cols"] = [{
+        wpx: 150
+    }, {
+        wpx: 120
+    }, {
+        wpx: 70
+    }, {
+        wpx: 130
+    }, {
+        wpx: 80
+    }, {
+      wpx: 100
+    }, {
+      wpx: 100
+    }, {
+      wpx: 100
+    }, {
+      wpx: 100
+    }, {
+      wpx: 100
+    }];
+    ws['!ref'] = "A1:AW100000";
+
+    const styleHeader = {
+      font: {
+        name: 'Arial',
+        sz: 18,
+        bold: true,
+        color: {
+            rgb: "FFFFFF00"
+        }
+      },
+      alignment: { horizontal: "center", vertical: "center", wrap_text: true },
+      fill: {
+        bgColor: { rgb: 'FFFFAA00' }
+      },
+      border:{
+        bottom:{style:"dotted"}
+      }
+    };
+  /*  for (let key in ws) {
+      if (key[0] === '!') continue;
+      ws[key].s = styleHeader
+    }
+*/
+    ws["A1"].s = styleHeader;
+    ws["B1"].s = styleHeader;
+    ws["C1"].s = styleHeader;
+    ws["D1"].s = styleHeader;
+    ws["E1"].s = styleHeader;
+    ws["F1"].s = styleHeader;
+    ws["G1"].s = styleHeader;
+    ws["H1"].s = styleHeader;
+    ws["I1"].s = styleHeader;
+    ws["J1"].s = styleHeader;
+
+    var workbook = {
+        SheetNames: ["Pedido"],
+        Sheets: {}
+    };
+    workbook.Sheets["Pedido"] = ws;
+    var wopts = {
+        bookType: EXCEL_EXTENSION, // File type to generate
+        bookSST: false, // Whether to generate Shared String Table or not, the official explanation is that the build speed will decrease if turned on, but there is better compatibility on lower version IOS devices
+        type: 'binary'
+    };
+  //  var wbout = XLSXStyle.write(workbook, wopts);
+
+   // const wb: XLSXStyle.WorkBook = { Sheets: { 'data': ws }, SheetNames: ['data'] };
+    const wbout: any = XLSXStyle.write(workbook, wopts);
+    console.log(ws)
+    //console.log(wbout)
+   // XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
     /* save to file */
-    XLSX.writeFile(wb, "Pedido.xlsx");
-
+//    XLSX.writeFile(wb, "Pedido_.xlsx");
+    this.saveAsExcelFile(wbout,"Pedido")
   }
 
+  private saveAsExcelFile(dataBinary: any, fileName: string): void {
+    const data: Blob = new Blob([this.s2ab(dataBinary)], {
+      type: EXCEL_TYPE
+    });
+    FileSaver.saveAs(data, fileName + '_' + new Date().getTime() +'.'+ EXCEL_EXTENSION);
+  }
+  private s2ab(s) {
+    var buf = new ArrayBuffer(s.length);
+    var view = new Uint8Array(buf);
+    for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+    return buf;
+  }
   filterOrder(): void {
     this.filterOrigin = this.filter;
     this.pedidosService.getPedido(this.filter).subscribe(

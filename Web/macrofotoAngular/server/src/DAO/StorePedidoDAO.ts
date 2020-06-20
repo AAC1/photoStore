@@ -22,12 +22,7 @@ export class StorePedidoDAO{
             filter += " AND pedido.fec_pedido <= '"+req.fecFin+"'"; 
             
         }
-        var query =await getManager().getRepository(Store_pedido)
-        .createQueryBuilder('pedido')
-        .leftJoinAndMapOne('pedido.catEstatus', 'Store_cat_estatus','cat','pedido.id_estatus = cat.id_estatus')
-        .where(filter).getSql();
-        console.log(query);
-
+      
         return await getManager().getRepository(Store_pedido)
         .createQueryBuilder('pedido')
         .leftJoinAndMapOne('pedido.catEstatus', 'Store_cat_estatus','cat','pedido.id_estatus = cat.id_estatus')
