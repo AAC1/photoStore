@@ -144,7 +144,7 @@ export class ReporteComponent implements OnInit {
           });
           cont++;
         });
-        console.log(orderSheet);
+   //     console.log(orderSheet);
         
 
         this.saveFileWb(workbook);
