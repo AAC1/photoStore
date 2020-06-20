@@ -242,7 +242,9 @@ export class ReporteComponent implements OnInit {
     this.saveAsExcelFile(wbout,"Pedido")
   }
 */
-  private saveAsExcelFile(dataBinary: any, fileName: string): void {
+  
+/*
+private saveAsExcelFile(dataBinary: any, fileName: string): void {
     const data: Blob = new Blob([this.s2ab(dataBinary)], {
       type: EXCEL_TYPE
     });
@@ -253,7 +255,7 @@ export class ReporteComponent implements OnInit {
     var view = new Uint8Array(buf);
     for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
     return buf;
-  }
+  }*/
   filterOrder(): void {
     this.filterOrigin = this.filter;
     this.pedidosService.getPedido(this.filter).subscribe(
