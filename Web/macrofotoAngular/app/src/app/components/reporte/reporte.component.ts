@@ -103,24 +103,24 @@ export class ReporteComponent implements OnInit {
         orderSheet.cell("C1").value("Contacto").style("fill",bgDark).style("fontColor",fontColor);
         orderSheet.cell("D1").value("Desccripci\u00F3n").style("fill",bgDark).style("fontColor",fontColor);
         orderSheet.cell("E1").value("Estatus").style("fill",bgDark).style("fontColor",fontColor);
-        orderSheet.cell("F1").value("Fec. Del pedido").style("fill",bgDark).style("fontColor",fontColor).style("numberFormat", "dd/MM/yyyy");;
-        orderSheet.cell("G1").value("Fec. Entregado").style("fill",bgDark).style("fontColor",fontColor).style("numberFormat", "dd/MM/yyyy");;
-        orderSheet.cell("H1").value("Monto de Anticipo").style("fill",bgDark).style("fontColor",fontColor).style("numberFormat", "0.00");;
-        orderSheet.cell("I1").value("Costo total").style("fill",bgDark).style("fontColor",fontColor).style("numberFormat", "0.00");;
-        orderSheet.cell("J1").value("Monto pendiente").style("fill",bgDark).style("fontColor",fontColor).style("numberFormat", "0.00");;
+        orderSheet.cell("F1").value("Fec. Del pedido").style("fill",bgDark).style("fontColor",fontColor)
+        orderSheet.cell("G1").value("Fec. Entregado").style("fill",bgDark).style("fontColor",fontColor);
+        orderSheet.cell("H1").value("Monto de Anticipo").style("fill",bgDark).style("fontColor",fontColor);
+        orderSheet.cell("I1").value("Costo total").style("fill",bgDark).style("fontColor",fontColor);
+        orderSheet.cell("J1").value("Monto pendiente").style("fill",bgDark).style("fontColor",fontColor);
         var cont=2;
         listExport.forEach(el => {
           orderSheet.cell("A"+cont).value(el.folio).style("fill",colPedidoStyle);
           orderSheet.cell("B"+cont).value(el.cliente).style("fill",colPedidoStyle);
           orderSheet.cell("C"+cont).value(el.telefono).style("fill",colPedidoStyle);
           orderSheet.cell("D"+cont).value(el.descripcion).style("fill",colPedidoStyle);
-          orderSheet.cell("E"+cont).value(el.estatus).style("fill",colPedidoStyle);
-          orderSheet.cell("F"+cont).value(el.fec_pedido).style("fill",colPedidoStyle);
-          orderSheet.cell("G"+cont).value(el.fec_entregado).style("fill",colPedidoStyle);
-          orderSheet.cell("H"+cont).value(el.monto_ant).style("fill",colPedidoStyle);
-          orderSheet.cell("I"+cont).value(el.costo_total).style("fill",colPedidoStyle);
-          orderSheet.cell("J"+cont).value(el.costo_total - el.monto_ant).style("fill",colPedidoStyle);
-          cont+=1;
+          orderSheet.cell("E"+cont).value(el.catEstatus.estatus).style("fill",colPedidoStyle);
+          orderSheet.cell("F"+cont).value(el.fec_pedido && el.fec_pedido.length>0?new Date(el.fec_pedido):"").style("fill",colPedidoStyle).style("numberFormat", "dd/MM/yyyy");
+          orderSheet.cell("G"+cont).value(el.fec_entregado && el.fec_entregado.length>0?new Date(el.fec_entregado):"").style("fill",colPedidoStyle).style("numberFormat", "dd/MM/yyyy");
+          orderSheet.cell("H"+cont).value(el.monto_ant).style("fill",colPedidoStyle).style("numberFormat", "0.00");
+          orderSheet.cell("I"+cont).value(el.costo_total).style("fill",colPedidoStyle).style("numberFormat", "0.00");
+          orderSheet.cell("J"+cont).value(el.costo_total - el.monto_ant).style("fill",colPedidoStyle).style("numberFormat", "0.00");
+          cont++;
           //HEADER PROD
          // orderSheet.cell("A"+cont).value("").style("fill",bgDark).style("fontColor",fontColor);
           orderSheet.cell("B"+cont).value("C\u00F3digo de barras").style("fill",bgDark).style("fontColor",fontColor);
@@ -132,7 +132,7 @@ export class ReporteComponent implements OnInit {
           orderSheet.cell("H"+cont).value("").style("fill",bgDark).style("fontColor",fontColor);
           orderSheet.cell("I"+cont).value("").style("fill",bgDark).style("fontColor",fontColor);
           orderSheet.cell("J"+cont).value("").style("fill",bgDark).style("fontColor",fontColor);
-          cont+=1;
+          cont++;
           (el.products).forEach((elProd:any )=> {
             orderSheet.cell("B"+cont).value(elProd.bar_code);
             orderSheet.cell("C"+cont).value(elProd.descripcion);
@@ -140,12 +140,11 @@ export class ReporteComponent implements OnInit {
             orderSheet.cell("E"+cont).value(elProd.costo_unitario);
             orderSheet.cell("F"+cont).value(elProd.costo_total);
             orderSheet.cell("G"+cont).value(elProd.estatus);
-            cont+=1;
+            cont++;
           });
           cont++;
         });
    //     console.log(orderSheet);
-        
 
         this.saveFileWb(workbook);
       
