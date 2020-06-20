@@ -10,9 +10,7 @@ import { ProdPedidos } from 'src/app/objects/ProdPedidos';
 //import { PageEvent } from '@angular/material';
 import { ExportFileService } from 'src/app/services/exportFile.service';
 import { PageEvent } from '@angular/material/paginator';
-import * as XLSXStyle from 'fixed-xlsx-style';
-import * as XLSX from 'xlsx';
-//import XLSXStyle from 'src/assets/js/js-xlsx/xlsx-style/xlsx.full.min.js';
+
 import XlsxPopulate from 'xlsx-populate/browser/xlsx-populate.min';
 
 import FileSaver from 'file-saver';
@@ -163,21 +161,9 @@ export class ReporteComponent implements OnInit {
        
     });
   }
+  /*
   getReport2 = ()=>{
-    /*
-    this.exportFileService.getCatStatus(this.listPedidos).subscribe(
-      (res:any) =>{
-        console.log(res);
-        const wb: XLSX.WorkBook = XLSX.utils.book_new();
-        console.log(res)
-        XLSX.utils.book_append_sheet(wb, res, 'Sheet1');
-        XLSX.writeFile(wb, "Pedido.xlsx");
-      }
-    ),
-    (err) => {
-      this.error = err;
-
-    }*/
+    
     let element = document.getElementById('tblPedido'); 
     console.log(element);
     const ws =XLSX.utils.table_to_sheet(element);
@@ -222,11 +208,7 @@ export class ReporteComponent implements OnInit {
         bottom:{style:"dotted"}
       }
     };
-  /*  for (let key in ws) {
-      if (key[0] === '!') continue;
-      ws[key].s = styleHeader
-    }
-*/
+
     ws["A1"].s = styleHeader;
     ws["B1"].s = styleHeader;
     ws["C1"].s = styleHeader;
@@ -256,11 +238,10 @@ export class ReporteComponent implements OnInit {
     //console.log(wbout)
    // XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    /* save to file */
 //    XLSX.writeFile(wb, "Pedido_.xlsx");
     this.saveAsExcelFile(wbout,"Pedido")
   }
-
+*/
   private saveAsExcelFile(dataBinary: any, fileName: string): void {
     const data: Blob = new Blob([this.s2ab(dataBinary)], {
       type: EXCEL_TYPE
