@@ -10,10 +10,11 @@ import { ProdPedidos } from 'src/app/objects/ProdPedidos';
 //import { PageEvent } from '@angular/material';
 import { ExportFileService } from 'src/app/services/exportFile.service';
 import { PageEvent } from '@angular/material/paginator';
+import { Router } from '@angular/router';
 
 import XlsxPopulate from 'xlsx-populate/browser/xlsx-populate.min';
-
 import FileSaver from 'file-saver';
+import { GlobalComponent } from '../global/global.component';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';//vnd.ms-excel';//octet-stream';//
 const EXCEL_EXTENSION = 'xlsx';
@@ -24,12 +25,15 @@ const EXCEL_EXTENSION = 'xlsx';
   styleUrls: ['./reporte.component.css']
 })
 @Injectable()
-export class ReporteComponent implements OnInit {
+export class ReporteComponent extends GlobalComponent implements OnInit {
 
   constructor(private pedidosService: PedidosService,
       private catStatusService:CatStatusService,
       private prodPedidoService:ProductsPedidoService,
-      private exportFileService:ExportFileService) { }
+      private exportFileService:ExportFileService,
+      _router:Router) { 
+        super(_router);
+      }
 
   ngOnInit() {
 
@@ -64,7 +68,10 @@ export class ReporteComponent implements OnInit {
   rowsSelected = {idxOrder:0}
   
   getReport = ()=>{
-    
+    if(this.isTimeOutOver()){
+      this.logout();
+      return;
+    }
     this.exportFileService.getDataExport(this.filterOrigin).subscribe(
       (res:any) =>{
         console.log(res);
@@ -256,6 +263,10 @@ private saveAsExcelFile(dataBinary: any, fileName: string): void {
     return buf;
   }*/
   filterOrder(): void {
+    if(this.isTimeOutOver()){
+      this.logout();
+      return;
+    }
     this.filterOrigin = this.filter;
     this.pedidosService.getPedido(this.filter).subscribe(
       (res: Pedido[]) => {
@@ -301,6 +312,10 @@ private saveAsExcelFile(dataBinary: any, fileName: string): void {
 
   consultProd = (row:Pedido, idx:number) =>{
   //  console.log(row)
+    if(this.isTimeOutOver()){
+      this.logout();
+      return;
+    }
     this.rowsSelected.idxOrder = idx;
     this.getProducts(row.id_pedido);
 

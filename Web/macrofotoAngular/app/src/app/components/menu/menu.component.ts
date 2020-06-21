@@ -1,14 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { GlobalComponent } from '../global/global.component';
+
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent extends GlobalComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(_router:Router) {
+    super(_router);
+  }
   sessionUser = '';
   ngOnInit() {
     let strObj = sessionStorage.getItem('usrLogged')
@@ -21,9 +25,5 @@ export class MenuComponent implements OnInit {
     }
     
   }
-  logout=()=>{
-    sessionStorage.removeItem('usrLogged');
-    this.router.navigate(['/']);
-    window.location.reload();
-  }
+  
 }

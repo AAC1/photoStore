@@ -5,7 +5,7 @@
             "baseURL": "http://localhost"
         },
         "session":{
-            "timeout": 10000
+            "timeout": 1200000
         }
     
 }

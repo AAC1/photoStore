@@ -15,4 +15,5 @@ export class UserSession{
     id_sucursal:number ;
     sucursalUsr:Sucursal | undefined;
     response:ResponseDTO;
+    dateTime: number;
 }
