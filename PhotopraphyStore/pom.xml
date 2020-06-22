@@ -19,11 +19,8 @@
 	<parent>
 
 		<groupId>org.springframework.boot</groupId>
-
 		<artifactId>spring-boot-starter-parent</artifactId>
-
 		<version>1.5.10.RELEASE</version><!-- 1.5.7.RELEASE -->
-
 		<relativePath /> <!-- lookup parent from repository -->
 
 	</parent>
@@ -31,19 +28,13 @@
 	<repositories>
 
 		<repository>
-
 			<id>gluonHq</id>
-
 			<url>http://nexus.gluonhq.com/nexus/content/repositories/releases/</url>
-
 		</repository>
 
 		<repository>
-
 			<id>conSunJavaFx</id>
-
 			<url>http://mvn.collide.info/content/repositories/releases/</url>
-
 		</repository>
 
 	</repositories>
@@ -51,49 +42,32 @@
 	<properties>
 
 		<log4j.version>1.2.17</log4j.version>
-
 		<exeFileName>macrofoto</exeFileName>
-
 		<jarFileName>macrofoto</jarFileName>
-
 		<launch4jVersion>1.0.0.0</launch4jVersion>
-
 		<version.jre.launch4j>1.8.0_111</version.jre.launch4j>
-
 	</properties>
 
 	<dependencies>
 
 		<dependency>
-
 			<groupId>com.jfoenix</groupId>
-
 			<artifactId>jfoenix</artifactId>
-
 			<version>8.0.7</version><!-- 9.0.1 -->
-
 		</dependency>
 
 		<dependency>
-
 			<groupId>org.openjfx</groupId>
-
 			<artifactId>javafx-controls</artifactId>
-
 			<version>11.0.1</version>
-
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
 
 		<dependency>
-
 			<groupId>org.openjfx</groupId>
-
 			<artifactId>javafx-fxml</artifactId>
-
 			<version>11.0.1</version>
-
 		</dependency>
 
 		<dependency>
@@ -167,6 +141,7 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<!-- <version>6.0.3</version> -->
+			<version>8.0.13</version>
 			<scope>runtime</scope>
 
 		</dependency>

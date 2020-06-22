@@ -219,11 +219,11 @@ CONSTRAINT `FK_pedido_prodPedido`
     ON UPDATE NO ACTION
 );
 
-insert into store_prod_pedido(bar_code,descripcion,cantidad,costo_unitario,costo_total,id_pedido)
-value('MCO00000008','Fotos_Infantiles',6,'150','900',1),
-	('MCO00000010','Marcos_3x4_Modura_Aluminio',1,'400','400',1),
-	('MCO01260508','Lamina',4,'80','320',1),
-	('MCO00000083','Marcos_5x10',2,'55','110',2);
+insert into store_prod_pedido(bar_code,descripcion,cantidad,costo_unitario,costo_total,estatus,id_pedido)
+value('MCO00000008','Fotos_Infantiles',6,'15.50','93','TERMINADO',1),
+	('MCO00000010','Marcos_3x4_Modura_Aluminio',1,'400','400','PENDIENTE',1),
+	('MCO01260508','Lamina',4,'80','320','PENDIENTE',1),
+	('MCO00000083','Marcos_5x10',2,'55','110','PENDIENTE',2);
     
 select * from store_prod_pedido;
 
@@ -325,8 +325,9 @@ CONSTRAINT `FK_cargo_abono_sucursal`
 );
 
 
-SELECT * FROM store_corte_caja;
+CREATE USER 'macrofotoUsr'@'%' IDENTIFIED WITH mysql_native_password BY 'M4cr0f0t01';
 
-select * from store_cargo_abono;
+GRANT ALL ON macrofoto.* TO 'macrofotoUsr'; 
 
+FLUSH PRIVILEGES;
 
