@@ -299,11 +299,11 @@ public class CorteCajaController {
 		SimpleDateFormat formatoD = new SimpleDateFormat("ddMMyyyy_hhmmss");
 		String pathReport=env.getProperty("exportFile.path")+"/corteCaja_"+formatoD.format(new Date())+".xls";
 		System.out.println(msgHtml);
-		try {
-			if(!exportXLS(pathReport)){
+	//	try {
+			if(exportXLS(pathReport)){
 				filename = pathReport;
 			}
-			mailObj.sendMessageHTML(env.getProperty("mail.userTo"), msgHtml.toString(), 
+			/*	mailObj.sendMessageHTML(env.getProperty("mail.userTo"), msgHtml.toString(), 
 					"Corte de Caja",filename);
 		} catch (AddressException e) {
 			GeneralMethods.modalMsg("", "", e.getMessage());
@@ -311,7 +311,7 @@ public class CorteCajaController {
 		} catch (MessagingException e) {
 			GeneralMethods.modalMsg("", "", e.getMessage());
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	private boolean exportXLS(String pathReport)  {
@@ -612,10 +612,10 @@ public class CorteCajaController {
 			stageModalMontoIni.setScene(scene);
 			stageModalMontoIni.setTitle("Abre Caja");
 			stageModalMontoIni.setMinHeight(200.0);
-			stageModalMontoIni.setMinWidth(350.0);
-			stageModalMontoIni.setMaxHeight(350.0);
-			stageModalMontoIni.setMaxWidth(200.0);
-			stageModalMontoIni.initModality(Modality.APPLICATION_MODAL); 
+			stageModalMontoIni.setMinWidth(500.0);
+			stageModalMontoIni.setMaxHeight(200.0);
+			stageModalMontoIni.setMaxWidth(500.0);
+			stageModalMontoIni.initModality(Modality.WINDOW_MODAL); 
 			stageModalMontoIni.show();
 			ctrl = fxmlLoader.getController(); //Obtiene controller de la nueva ventana
 			
@@ -840,7 +840,7 @@ public class CorteCajaController {
 			stage.setMinHeight(500.0);
 			stage.setMinWidth(350.0);
 			stage.setMaxHeight(500.0);
-			stage.setMaxWidth(200.0);
+			stage.setMaxWidth(350.0);
 			
 			stage.initModality(Modality.APPLICATION_MODAL); 
 			stage.show();

@@ -94,11 +94,12 @@ public class EmailSender {
         String [] adresses = to.split(",");
 
         for(int i=0;i<adresses.length;i++){
+        	System.out.println("emailTosend: "+adresses[i]);
         	message.addRecipient(Message.RecipientType.TO,new InternetAddress(adresses[i]));  
         }
-        message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mailUser));  
+      //  message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mailUser));  
         message.setSubject(subject);  
-       // message.setContent(msgHtml, "text/html");  
+        message.setContent(msgHtml, "text/html");  
         
         BodyPart messageBodyPart = new MimeBodyPart();
 
@@ -110,16 +111,21 @@ public class EmailSender {
 
         // Set text message part
         multipart.addBodyPart(messageBodyPart);
-
+        
         if(filename!=null && !"".equals(filename.trim())){
-
+        	System.out.println("Entra a filename: "+filename);
             // Part two is attachment
             messageBodyPart = new MimeBodyPart();
-            
+        //	messageBodyPart.setContent(msgHtml, "text/html");
 	        DataSource source = new FileDataSource(filename);
 	        messageBodyPart.setDataHandler(new DataHandler(source));
 	        messageBodyPart.setFileName(filename);
 	        multipart.addBodyPart(messageBodyPart);
+        }else {
+
+        	System.out.println("NO Entra a filename: "+filename);
+        //	messageBodyPart.setContent(msgHtml, "text/html");
+        //	multipart.addBodyPart(messageBodyPart);
         }
         
 

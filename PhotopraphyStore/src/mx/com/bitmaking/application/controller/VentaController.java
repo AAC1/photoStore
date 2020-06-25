@@ -255,7 +255,7 @@ public class VentaController  {
 			stage.setMinHeight(500.0);
 			stage.setMinWidth(350.0);
 			stage.setMaxHeight(500.0);
-			stage.setMaxWidth(200.0);
+			stage.setMaxWidth(350.0);
 			stage.initModality(Modality.APPLICATION_MODAL);
 		
 			stage.show();

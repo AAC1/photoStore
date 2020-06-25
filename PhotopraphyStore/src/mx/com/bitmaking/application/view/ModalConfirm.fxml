@@ -19,7 +19,7 @@
             </Label>
             <AnchorPane fx:id="formInput" layoutY="109.0" prefHeight="61.0" prefWidth="415.0" visible="false" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <JFXTextField fx:id="inputValue" layoutX="169.0" layoutY="23.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="169.0" AnchorPane.rightAnchor="25.0" />
+                  <JFXTextField fx:id="inputValue" layoutX="169.0" layoutY="23.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.rightAnchor="25.0" />
                   <Label fx:id="lblInput" alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutY="17.0" prefHeight="39.0" prefWidth="163.0" styleClass="label-title" text="lblInput" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="252.0">
                      <font>
                         <Font size="15.0" />
