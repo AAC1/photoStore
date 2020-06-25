@@ -49,22 +49,11 @@ public class EmailSender {
     }
     
     
-    public void sendMessageHTML(String to,String msgHtml,String subject, String filename) throws AddressException, MessagingException{
+    public void sendMessageHTML(String to,String msgHtml,String subject, String pathFile, String filename) throws AddressException, MessagingException{
     	properties = System.getProperties();
     	System.out.println("user:"+mailUser);
     	System.out.println("passwd:"+mailPasswd);
-    	/*
-    	properties.setProperty("mail.smtp.host", env.getProperty("mail.host"));  
-    	properties.put("mail.smtp.port", env.getProperty("mail.port"));
-        properties.put("mail.smtp.ssl.enable", "true");
-        properties.put("mail.smtp.auth", "true");
-    	session = Session.getDefaultInstance(properties,new javax.mail.Authenticator() {
-    		protected PasswordAuthentication getPasswordAuthentication() {
-    			return new PasswordAuthentication(env.getProperty("mail.user"), 
-    						env.getProperty("mail.password"));
-            }
-        });  
-    	*/
+    	
     	
     	properties.setProperty("mail.smtp.host", mailHost);  
     	properties.put("mail.smtp.port", mailPort);
@@ -99,8 +88,7 @@ public class EmailSender {
         }
       //  message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mailUser));  
         message.setSubject(subject);  
-        message.setContent(msgHtml, "text/html");  
-        
+      
         BodyPart messageBodyPart = new MimeBodyPart();
 
         // Now set the actual message
@@ -112,20 +100,15 @@ public class EmailSender {
         // Set text message part
         multipart.addBodyPart(messageBodyPart);
         
-        if(filename!=null && !"".equals(filename.trim())){
-        	System.out.println("Entra a filename: "+filename);
+        if(pathFile!=null && !"".equals(pathFile.trim())){
+        	
             // Part two is attachment
             messageBodyPart = new MimeBodyPart();
-        //	messageBodyPart.setContent(msgHtml, "text/html");
-	        DataSource source = new FileDataSource(filename);
+
+	        DataSource source = new FileDataSource(pathFile);
 	        messageBodyPart.setDataHandler(new DataHandler(source));
 	        messageBodyPart.setFileName(filename);
 	        multipart.addBodyPart(messageBodyPart);
-        }else {
-
-        	System.out.println("NO Entra a filename: "+filename);
-        //	messageBodyPart.setContent(msgHtml, "text/html");
-        //	multipart.addBodyPart(messageBodyPart);
         }
         
 

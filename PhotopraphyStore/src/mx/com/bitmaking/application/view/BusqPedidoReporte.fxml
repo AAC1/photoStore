@@ -36,7 +36,7 @@
                   <JFXButton fx:id="btnSendSMS" layoutX="300.0" layoutY="14.0" onMouseClicked="#sendMessage" prefHeight="32.0" prefWidth="176.0" style="-fx-background-color: #505050;" styleClass="btn-gral" text="Enviar SMS a cliente" textFill="WHITE" visible="false" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="contentProdPed" layoutY="219.0" prefHeight="244.0" prefWidth="497.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <AnchorPane fx:id="contentProdPed" layoutY="219.0" onMouseClicked="#sendMessage" prefHeight="244.0" prefWidth="497.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
                   <JFXButton fx:id="btnModifProd" layoutX="310.0" layoutY="5.0" onMouseClicked="#btnModifSttsProd" prefHeight="32.0" prefWidth="176.0" style="-fx-background-color: #C37B00 #C37B00;" styleClass="btn-gral" text="✎ Modificar estatus" textFill="WHITE" visible="false" AnchorPane.rightAnchor="14.0" />
                   <TableView fx:id="tblProducts" layoutX="12.0" layoutY="55.0" prefHeight="121.0" prefWidth="473.0" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="55.0">

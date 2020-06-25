@@ -299,19 +299,19 @@ public class CorteCajaController {
 		SimpleDateFormat formatoD = new SimpleDateFormat("ddMMyyyy_hhmmss");
 		String pathReport=env.getProperty("exportFile.path")+"/corteCaja_"+formatoD.format(new Date())+".xls";
 		System.out.println(msgHtml);
-	//	try {
+		try {
 			if(exportXLS(pathReport)){
 				filename = pathReport;
 			}
-			/*	mailObj.sendMessageHTML(env.getProperty("mail.userTo"), msgHtml.toString(), 
-					"Corte de Caja",filename);
+				mailObj.sendMessageHTML(env.getProperty("mail.userTo"), msgHtml.toString(), 
+					"Corte de Caja",filename, "Corte de caja.xls");
 		} catch (AddressException e) {
 			GeneralMethods.modalMsg("", "", e.getMessage());
 			e.printStackTrace();
 		} catch (MessagingException e) {
 			GeneralMethods.modalMsg("", "", e.getMessage());
 			e.printStackTrace();
-		}*/
+		}
 	}
 	
 	private boolean exportXLS(String pathReport)  {

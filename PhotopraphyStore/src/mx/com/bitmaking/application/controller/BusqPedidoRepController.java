@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 import org.aspectj.bridge.AbortException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -54,6 +57,7 @@ import mx.com.bitmaking.application.iservice.IStoreCatEstatusService;
 import mx.com.bitmaking.application.iservice.IStorePedidoService;
 import mx.com.bitmaking.application.iservice.IStoreProdPedidoService;
 import mx.com.bitmaking.application.util.Constantes;
+import mx.com.bitmaking.application.util.EmailSender;
 import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
 import mx.com.bitmaking.application.util.PrinterService;
@@ -835,8 +839,69 @@ public class BusqPedidoRepController {
 	@FXML
 	private void sendMessage(){
 		try{
-			SMS.sendMessage("4427376162", "4427376162", "Pruena SMS");
-	
+		//	SMS.sendMessage("4427376162", "4427376162", "Pruena SMS");
+			try {
+				String passwd = GeneralMethods.desencriptar(env.getProperty("mail.password"), Constantes.SALT);
+				String emailUser = GeneralMethods.desencriptar(env.getProperty("mail.user"), Constantes.SALT);
+				
+				EmailSender mailObj = new EmailSender(env.getProperty("mail.host"),env.getProperty("mail.port"),
+						emailUser,passwd);
+				
+				StringBuilder msgHtml = new StringBuilder();
+				
+				
+				
+				
+				String filename = "";
+				SimpleDateFormat formatoD = new SimpleDateFormat("ddMMyyyy_hhmmss");
+				String pathReport=env.getProperty("exportFile.path")+"/corteCaja_"+formatoD.format(new Date())+".xls";
+				System.out.println(msgHtml);
+				try {
+					PedidosReporteDTO obj = tblPedido.getSelectionModel().getSelectedItem();
+					if(obj==null){
+						GeneralMethods.modalMsg("", "", "Debes seleccionar un pedido");
+						return;
+					}
+					msgHtml.append("<html><head><style>.card {");
+					msgHtml.append("box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);transition: 0.3s;");
+					msgHtml.append("min-width: 450px;width:50%;text-align:center;margin-left: 20%;}");
+					msgHtml.append(".card:hover { box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);}");
+					msgHtml.append(".container {text-align:center;padding: 2px 16px;}");
+					msgHtml.append("</style></head><body >");
+					msgHtml.append("<div style='width:100%; text-align:center'>");
+					msgHtml.append("<div class='card' ><div><h3>Estimado(a) "+obj.getCliente()+"</h3></div>");
+					msgHtml.append("<div class='container'>");
+					msgHtml.append("<h4>Su pedido "+obj.getFolio()+" se encuentra listo para ser entregado. Favor de pasar a recogerlo. </h4>");
+					msgHtml.append("<p><b>Horarios de atenci&oacute;n:</b> <br/>");
+					msgHtml.append("lunes - viernes	9:00–20:30<br/>s&aacute;bado	10:00–23:00<br/>");
+					msgHtml.append("domingo	10:00–17:00<br/></p></div></div>");
+					msgHtml.append("</body></html> ");
+					
+					msgHtml.append("</td></tr>");
+					msgHtml.append("</tbody></table>");
+					if("PENDIENTE".equals(obj.getEstatus().toUpperCase())){
+						if(!hasPendientProds("("+String.valueOf(obj.getId_pedido())+")")) {
+							mailObj.sendMessageHTML(env.getProperty("mail.userTo"), msgHtml.toString(), "Estatus de Pedido",null, null);
+						}else {
+							GeneralMethods.modalMsg("", "", "No es posible enviar notificaci\u00F3n, el pedido tiene productos pendientes ");
+						}
+						
+						
+					}else {
+						GeneralMethods.modalMsg("", "", "Pedido debe estar como estatus PENDIENTE y tener productos terminados ");
+					}
+						
+				} catch (AddressException e) {
+					GeneralMethods.modalMsg("", "", e.getMessage());
+					e.printStackTrace();
+				} catch (MessagingException e) {
+					GeneralMethods.modalMsg("", "", e.getMessage());
+					e.printStackTrace();
+				}
+				
+	        } catch(Exception ex) {
+				ex.printStackTrace();
+			}
 		}
 		catch(Exception e){
 			e.printStackTrace();
