@@ -552,7 +552,8 @@ public class GestProdController {
 						
 						if(lstTree.isEmpty() )//Valida que no tenga hijos
 						{
-							if(catProdModif !=null && !"".equals(catProdModif.getBarcode())) {
+							if(catProdModif !=null && catProdModif.getBarcode()!=null &&
+									catProdModif.getBarcode().trim().length()>0) {
 								GeneralMethods.modalMsg("Error", "", "No puede agregar un producto en un producto.\n Favor de seleccionar una categoria.");
 
 								return;
