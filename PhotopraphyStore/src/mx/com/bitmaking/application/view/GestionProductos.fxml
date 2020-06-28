@@ -2,29 +2,39 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="bodyCatProd" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="389.0" prefWidth="786.0" style="-fx-background-color: rgba(255,255,255,0.8);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.GestProdController">
+<AnchorPane fx:id="bodyCatProd" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="507.0" prefWidth="786.0" style="-fx-background-color: rgba(255,255,255,0.8);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.GestProdController">
    <children>
-      <JFXButton fx:id="btnAddProd" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #037AB6; -fx-text-fill: white;" styleClass="btn-gral" text="✚ Agregar" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <JFXButton fx:id="btnAddProd" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #037AB6; -fx-text-fill: white;" styleClass="btn-gral" text="✚ Alta" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
       <JFXButton fx:id="btnEliminarProd" layoutX="272.0" layoutY="14.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #A12D04 #A12D04; -fx-text-fill: white;" styleClass="btn-gral" text="✖ Eliminar" AnchorPane.leftAnchor="272.0" AnchorPane.topAnchor="14.0" />
       <JFXButton fx:id="btnEdtProd" layoutX="143.0" layoutY="14.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #C37B00; -fx-text-fill: white;" styleClass="btn-gral" text="▬ Modificar" AnchorPane.leftAnchor="143.0" AnchorPane.topAnchor="14.0" />
       <JFXButton fx:id="btnDescarga" layoutX="401.0" layoutY="14.0" onMouseClicked="#downloadBarCodeProds" prefHeight="30.0" prefWidth="217.0" style="-fx-background-color: #505050; -fx-text-fill: white;" styleClass="btn-gral" text="🖶 Descarga Código de Barras" />
-      <TreeView fx:id="treeProd" layoutX="10.0" layoutY="61.0" onKeyReleased="#selectByArrow" prefHeight="211.0" prefWidth="367.0" styleClass="tree-gral" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="61.0" />
-      <AnchorPane layoutX="383.0" layoutY="59.0" prefHeight="211.0" prefWidth="393.0" style="-fx-background-color: rgba(216,216,216,0.5);" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="383.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="61.0">
+      <TreeView fx:id="treeProd" layoutX="10.0" layoutY="61.0" onKeyReleased="#selectByArrow" prefHeight="211.0" prefWidth="367.0" styleClass="tree-gral" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="61.0" />
+      <AnchorPane layoutX="383.0" layoutY="59.0" prefHeight="436.0" prefWidth="393.0" style="-fx-background-color: rgba(216,216,216,0.5);" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="383.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="61.0">
          <children>
-            <Label layoutX="34.0" layoutY="6.0" prefHeight="17.0" prefWidth="118.0" text="Nombre" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="86.0" AnchorPane.topAnchor="6.0" />
-            <JFXTextField fx:id="inputName" disable="true" layoutX="36.0" layoutY="27.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="27.0" />
-            <JFXComboBox fx:id="cbxStts" disable="true" layoutX="35.0" layoutY="104.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="104.0" />
-            <Label layoutX="36.0" layoutY="81.0" prefHeight="17.0" prefWidth="322.0" text="Estatus" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="81.0" />
-            <Label layoutX="33.0" layoutY="152.0" prefHeight="17.0" prefWidth="322.0" text="Código de barras" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="38.0" AnchorPane.topAnchor="152.0" />
-            <JFXTextField fx:id="inputBarcode" disable="true" layoutX="35.0" layoutY="173.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="173.0" />
+            <Label layoutX="11.0" layoutY="85.0" prefHeight="17.0" prefWidth="118.0" text="Nombre" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="85.0" />
+            <JFXTextField fx:id="inputName" disable="true" layoutX="11.0" layoutY="102.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="102.0" />
+            <JFXComboBox fx:id="cbxStts" disable="true" layoutX="11.0" layoutY="169.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="169.0" />
+            <Label layoutX="11.0" layoutY="152.0" prefHeight="17.0" prefWidth="322.0" text="Estatus" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="34.0" AnchorPane.topAnchor="152.0" />
+            <Label layoutX="11.0" layoutY="220.0" prefHeight="17.0" prefWidth="322.0" text="Código de barras" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="37.0" AnchorPane.topAnchor="220.0" />
+            <JFXTextField fx:id="inputBarcode" disable="true" layoutX="11.0" layoutY="237.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="237.0" />
             <JFXButton fx:id="btnAcceptModif" layoutX="14.0" layoutY="236.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #04A138 #04A138;" text="✔ Aceptar" textFill="WHITE" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="259.0" />
             <JFXButton fx:id="btnCancenModif" layoutX="138.0" layoutY="236.0" onMouseClicked="#cancelModif" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #A12D04 #A12D04;" text="✘ Cancelar" textFill="WHITE" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="135.0" />
             <JFXButton fx:id="btnSalir" layoutX="262.0" layoutY="232.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #505050; -fx-text-fill: white;" styleClass="btn-gral" text=" ◄ Salir" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="11.0" />
+            <AnchorPane fx:id="formInput" layoutX="11.0" layoutY="14.0" prefHeight="61.0" prefWidth="367.0" style="-fx-border-width: 1px; -fx-border-color: #505050;" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="14.0">
+               <children>
+                  <JFXRadioButton fx:id="radCategoria" disable="true" layoutX="54.0" layoutY="22.0" onMouseClicked="#selectCat" prefHeight="17.0" prefWidth="107.0" selected="true" text="Categorías" AnchorPane.leftAnchor="35.0" />
+                  <JFXRadioButton fx:id="radProducto" disable="true" layoutX="254.0" layoutY="22.0" onMouseClicked="#selectProd" prefHeight="17.0" prefWidth="107.0" text="Productos" AnchorPane.rightAnchor="35.0" />
+               </children>
+            </AnchorPane>
+            <JFXButton fx:id="btnAddCatProd" disable="true" layoutX="262.0" layoutY="343.0" onMouseClicked="#addCatProd" prefHeight="27.0" prefWidth="120.0" style="-fx-background-color: #037AB6; -fx-text-fill: white;" styleClass="btn-gral" text="✚ Agregar" visible="false" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="343.0" />
+            <JFXTextField fx:id="inputCosto" disable="true" layoutX="11.0" layoutY="302.0" prefHeight="27.0" prefWidth="297.0" styleClass="input-gral" visible="false" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" />
+            <Label fx:id="lblCosto" layoutX="11.0" layoutY="285.0" prefHeight="17.0" prefWidth="297.0" styleClass="label-title" text="Costo (Aplicará a todos los clientes)" visible="false" AnchorPane.leftAnchor="11.0" />
          </children>
       </AnchorPane>
    </children>

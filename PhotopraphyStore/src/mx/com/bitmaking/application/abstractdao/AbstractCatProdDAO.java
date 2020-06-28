@@ -187,7 +187,7 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 //		el.setEstatus(row.getEstatus());
 //		el.setBarcode(row.getBarcode());
 //		el.setImg_barcode(row.getImg_barcode());
-		session.update(row);
+		session.saveOrUpdate(row);
 	//	session.flush();
 		}catch (HibernateException e) {
 			throw new Exception(e.getMessage());

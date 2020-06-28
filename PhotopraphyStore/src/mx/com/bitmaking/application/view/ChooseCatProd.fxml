@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="215.0" prefWidth="415.0" style="-fx-background-color: rgb(255,255,255);" styleClass="label-title" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.ChooseCatProdController">
+   <children>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="172.0" prefWidth="415.0" style="-fx-background-color: rgb(255,255,255);" styleClass="label-title" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <JFXButton fx:id="btnConfirm" layoutX="70.0" layoutY="169.0" prefHeight="32.0" prefWidth="133.0" style="-fx-background-color: #04A138;" styleClass="btn-gral" text="✔ Aceptar" textFill="WHITE" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="212.0" />
+            <JFXButton fx:id="btnCancelar" layoutX="213.0" layoutY="169.0" prefHeight="32.0" prefWidth="133.0" style="-fx-background-color: #A12D04;" styleClass="btn-gral" text="✘ Cancelar" textFill="WHITE" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="213.0" AnchorPane.rightAnchor="70.0" />
+            <Label fx:id="lblMsg" alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="14.0" prefHeight="73.0" prefWidth="385.0" styleClass="label-title" text="Seleccione lo que desea agregar" AnchorPane.bottomAnchor="127.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <AnchorPane fx:id="formInput" layoutY="109.0" prefHeight="61.0" prefWidth="415.0" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <JFXRadioButton fx:id="radCategoria" layoutX="54.0" layoutY="22.0" onMouseClicked="#selectCat" prefHeight="17.0" prefWidth="107.0" selected="true" text="Categorías" AnchorPane.leftAnchor="54.0" />
+                  <JFXRadioButton fx:id="radProducto" layoutX="254.0" layoutY="22.0" onMouseClicked="#selectProd" prefHeight="17.0" prefWidth="107.0" text="Productos" AnchorPane.rightAnchor="54.0" />
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

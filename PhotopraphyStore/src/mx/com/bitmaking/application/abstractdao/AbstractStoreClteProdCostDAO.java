@@ -80,7 +80,7 @@ public abstract class AbstractStoreClteProdCostDAO implements IStoreClteProdCost
 
 	@Override
 	public void update(Store_cliente_prod_cost costProdObj) {
-		 getSessionFactory().getCurrentSession().update(costProdObj);
+		 getSessionFactory().getCurrentSession().saveOrUpdate(costProdObj);
 		
 	}
 

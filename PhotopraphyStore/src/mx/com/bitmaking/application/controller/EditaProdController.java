@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import com.jfoenix.controls.JFXAutoCompletePopup;
 import com.jfoenix.controls.JFXButton;
@@ -34,7 +35,7 @@ import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
 
-@Component
+@Controller
 //@Scope("prototype")
 public class EditaProdController {
 	
@@ -44,13 +45,13 @@ public class EditaProdController {
 	@FXML private JFXTextField inputProdName;
 	
 
-	@FXML private TreeView<String> treeCategoria;
-	@FXML private JFXComboBox<String>  cbxCategoria;
+//	@FXML private TreeView<String> treeCategoria;
+//	@FXML private JFXComboBox<String>  cbxCategoria;
 	@FXML private JFXTextField inputBarcode;
 	@FXML private JFXTextField inputCosto;
 	
-	@FXML private JFXButton btnAddCat;
-	@FXML private JFXButton btnRemoveCat;
+//	@FXML private JFXButton btnAddCat;
+//	@FXML private JFXButton btnRemoveCat;
 	
 	@FXML private TableView<CostProductsDTO> tblProds;
 	@FXML private JFXButton btnAddProd;
@@ -86,12 +87,12 @@ public class EditaProdController {
 	public void setTblProds(TableView<CostProductsDTO> tblProds) {
 		this.tblProds = tblProds;
 	}
-	public TreeView<String> getTreeCategoria() {
+	/*public TreeView<String> getTreeCategoria() {
 		return treeCategoria;
 	}
 	public void setTreeCategoria(TreeView<String> treeCategoria) {
 		this.treeCategoria = treeCategoria;
-	}
+	}*/
 	public JFXTextField getInputBarcode() {
 		return inputBarcode;
 	}
@@ -158,18 +159,18 @@ public class EditaProdController {
 	public void initialize() {
 		
 		root = new TreeItem<>();
-		treeCategoria.setRoot(root);
-		treeCategoria.getSelectionModel().select(0);
-		treeCategoria.getStyleClass().add("mainTree");
+	//	treeCategoria.setRoot(root);
+	//	treeCategoria.getSelectionModel().select(0);
+	//	treeCategoria.getStyleClass().add("mainTree");
 		root.setExpanded(true);
 		
-		setFilterPopup();
+	//	setFilterPopup();
 		fillCbxCategoria(0);//categoria incial
 		responsiveGUI();
 
 		inputCosto.textProperty().addListener(GeneralMethods.formatNumber(inputCosto));
 	}
-	
+	/*
 	private void setFilterPopup() {
 		autoCompletePopup = new JFXAutoCompletePopup<>();
 		autoCompletePopup.setSelectionHandler(event -> {
@@ -192,34 +193,34 @@ public class EditaProdController {
 		    }
 		});
 	}
-	
+	*/
 	private void fillCbxCategoria(int idPadre) {
 		
 
 		
-		cbxCategoria.getItems().removeAll(cbxCategoria.getItems());
+	//	cbxCategoria.getItems().removeAll(cbxCategoria.getItems());
 		
 		
 		List<Store_cat_prod> lstCat = (Flags.remote_valid)?
 									remoteStoreCatProdService.getCatByPadre(idPadre):
 									storeCatProdService.getCatByPadre(idPadre);
 		List<String> lsStrCat = new ArrayList<>(); 	
-		//lsStrCat.add(Constantes.TXT_NUEVA_CATEGORIA);
+	
 		for(Store_cat_prod el:lstCat) {
 			
 			lsStrCat.add("p"+el.getId_prod()+" | "+el.getProducto());
 		}
-		cbxCategoria.setItems(FXCollections.observableList(lsStrCat));
-		if(autoCompletePopup.getSuggestions() !=null)
+		
+	/*	if(autoCompletePopup.getSuggestions() !=null)
 			autoCompletePopup.getSuggestions().removeAll(autoCompletePopup.getSuggestions());
 		autoCompletePopup.getSuggestions().addAll(cbxCategoria.getItems());
 		
-		
+		*/
 	}
 	
 	@FXML
 	private void selectCategoria() {
-		System.out.println("seleccion");
+	/*	System.out.println("seleccion");
 		String cat = cbxCategoria.getSelectionModel().getSelectedItem();
 		if(cat!=null && !"".equals(cat)) {
 			boolean itemExists = false;
@@ -256,7 +257,7 @@ public class EditaProdController {
 				treeCategoria.scrollTo(treeCategoria.getRow(hijo));
 				
 			}
-		}
+		}*/
 	}
 	
 	@FXML
@@ -265,17 +266,17 @@ public class EditaProdController {
 //		System.out.println("text:"+event.getText());
 //		System.out.println("character:"+event.getCharacter());
 //		System.out.println("event:"+event);
-		if(event.getCode() == KeyCode.ENTER) {
+	/*	if(event.getCode() == KeyCode.ENTER) {
 			System.out.println("item:"+cbxCategoria.getSelectionModel().getSelectedItem());
 			System.out.println("item_editor:"+cbxCategoria.getEditor().getText());
 			cbxCategoria.setValue(cbxCategoria.getEditor().getText());
 			selectCategoria();
-		}
+		}*/
 		
 	}
 	@FXML
 	private void removeNodeCat() {
-
+/*
 		TreeItem<String> parent = treeCategoria.getSelectionModel().getSelectedItem().getParent();
 		if(parent!=null) {
 			
@@ -298,7 +299,7 @@ public class EditaProdController {
 			
 		}else {
 			fillCbxCategoria(0);
-		}
+		}*/
 	}
 	
 	@FXML

@@ -12,10 +12,10 @@
    <children>
       <JFXTextField fx:id="inputProdName" layoutX="14.0" layoutY="179.0" prefHeight="27.0" prefWidth="297.0" styleClass="input-gral" AnchorPane.bottomAnchor="278.0" AnchorPane.leftAnchor="14.0" />
       <Label layoutX="14.0" layoutY="162.0" prefHeight="17.0" prefWidth="293.0" styleClass="label-title" text="Nombre de producto" AnchorPane.bottomAnchor="305.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="448.0" />
-      <JFXButton fx:id="btnCancel" layoutX="618.0" layoutY="435.0" prefHeight="27.0" prefWidth="123.0" style="-fx-background-color: #A12D04 #A12D04; -fx-text-fill: white;" styleClass="btn-gral" text="✘ Cancelar" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="14.0" />
+      <JFXButton fx:id="btnCancel" layoutX="618.0" layoutY="435.0" prefHeight="27.0" prefWidth="123.0" style="-fx-background-color: #A12D04 #A12D04; -fx-text-fill: white;" styleClass="btn-gral" text="✘ Cerrar" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="14.0" />
       <Label layoutX="14.0" layoutY="218.0" prefHeight="17.0" prefWidth="293.0" styleClass="label-title" text="Estatus" AnchorPane.bottomAnchor="249.0" AnchorPane.leftAnchor="14.0" />
       <JFXComboBox fx:id="cbxEstatusProd" layoutX="14.0" layoutY="235.0" prefHeight="27.0" prefWidth="297.0" styleClass="cbx-gral" AnchorPane.bottomAnchor="222.0" AnchorPane.leftAnchor="14.0" />
-      <JFXButton fx:id="btnAccept" layoutX="483.0" layoutY="435.0" prefHeight="27.0" prefWidth="123.0" style="-fx-background-color: #04A138 #04A138; -fx-text-fill: white;" styleClass="btn-gral" text="✔ Aceptar" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="149.0" />
+      <JFXButton fx:id="btnAccept" layoutX="483.0" layoutY="435.0" prefHeight="27.0" prefWidth="123.0" style="-fx-background-color: #04A138 #04A138; -fx-text-fill: white;" styleClass="btn-gral" text="✔ Aceptar" visible="false" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="149.0" />
       <JFXTextField fx:id="inputBarcode" layoutX="14.0" layoutY="290.0" prefHeight="27.0" prefWidth="297.0" styleClass="input-gral" AnchorPane.bottomAnchor="167.0" AnchorPane.leftAnchor="14.0" />
       <Label layoutX="14.0" layoutY="273.0" prefHeight="17.0" prefWidth="293.0" styleClass="label-title" text="Código de Barras" AnchorPane.bottomAnchor="194.0" AnchorPane.leftAnchor="14.0" />
       <JFXTextField fx:id="inputCosto" layoutX="14.0" layoutY="342.0" prefHeight="27.0" prefWidth="297.0" styleClass="input-gral" AnchorPane.bottomAnchor="115.0" AnchorPane.leftAnchor="14.0" />
