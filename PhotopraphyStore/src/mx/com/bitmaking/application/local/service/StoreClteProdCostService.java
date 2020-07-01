@@ -33,8 +33,11 @@ public class StoreClteProdCostService extends AbstractStoreClteProdCostService{/
 		super.updateRow(costProdObj);
 	}
 	@Transactional(value="transactionManager")
+	public void deleteRowByIdCostProd(int idProd) {
+		super.deleteRowByIdCostProd(idProd);
+	}
+	@Override
 	public IStoreClteProdCostDAO getClteProdCostRepo() {
 		return clteProdCostRepo;
 	}
-
 }

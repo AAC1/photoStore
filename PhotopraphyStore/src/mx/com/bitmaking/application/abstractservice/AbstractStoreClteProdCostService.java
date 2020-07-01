@@ -1,6 +1,8 @@
 package mx.com.bitmaking.application.abstractservice;
 //import javax.transaction.Transactional;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,11 @@ public abstract class AbstractStoreClteProdCostService implements IStoreClteProd
 	@Override
 	public void updateRow(Store_cliente_prod_cost costProdObj) {
 		getClteProdCostRepo().update(costProdObj);
+		
+	}
+	@Override
+	public void deleteRowByIdCostProd(int id_prod) {
+		getClteProdCostRepo().deleteRowsByIdProd(getClteProdCostRepo().getRowByIdProd(id_prod));
 		
 	}
 

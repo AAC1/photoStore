@@ -143,7 +143,7 @@ public class GestProdController {
 		btnAcceptModif.addEventHandler(MouseEvent.MOUSE_CLICKED, acceptModifProd());
 		btnEliminarProd.addEventHandler(MouseEvent.MOUSE_CLICKED, modalDelProd());
 		inputCosto.textProperty().addListener(GeneralMethods.formatNumber(inputCosto));
-
+		
 	}
 	
 	@FXML 
@@ -300,6 +300,7 @@ public class GestProdController {
 			nodo = new TreeItem<>("p-" + el.getValue().getId_prod() + " | " + el.getValue().getProducto());
 			nodo.addEventHandler(MouseEvent.MOUSE_CLICKED, showDetails());
 			nodoPadre.getChildren().add(nodo);
+			nodoPadre.setExpanded(true);
 			generateTreeProd(hashMap, el.getValue().getId_prod(), nodo);
 
 		}
@@ -365,7 +366,7 @@ public class GestProdController {
 							row = catProdModif;
 							row.setProducto(inputName.getText());
 							row.setEstatus(("ACTIVO".equals(cbxStts.getValue().toUpperCase())) ? "1" : "0");
-							if("".equals(inputBarcode.getText().trim())) {
+							if(inputBarcode.getText()!=null && !"".equals(inputBarcode.getText().trim())) {
 								row.setBarcode(inputBarcode.getText());
 								row.setImg_barcode(GeneralMethods.generateImgBarcode(inputBarcode.getText()));
 								
@@ -376,11 +377,12 @@ public class GestProdController {
 							// if("0".equals(row.getEstatus())){
 							inactiveChildren(treeItem, row.getEstatus());
 							String cost = inputCosto.getText();
-							System.out.println("cost:"+cost);
+
 							if (catProdModif != null && inputBarcode.getText().length()>0 
 									&& inputBarcode.getText().length()>0 && cost!=null && cost.length()>0 ) {
 								saveCostosByCliente(row.getId_prod(),inputCosto.getText());
 							}
+							cancelModif();
 							
 						}
 						else if("A".equals(globalTypeForm)){
@@ -400,7 +402,7 @@ public class GestProdController {
 							row.setProducto(inputName.getText());
 							row.setEstatus(("ACTIVO".equals(cbxStts.getValue().toUpperCase())) ? "1" : "0");
 						
-							if(!"".equals(inputBarcode.getText().trim())) {
+							if(inputBarcode.getText()!=null && !"".equals(inputBarcode.getText().trim())) {
 								row.setBarcode(inputBarcode.getText());
 								row.setImg_barcode(GeneralMethods.generateImgBarcode(inputBarcode.getText()));
 								
@@ -416,7 +418,10 @@ public class GestProdController {
 						
 						// }
 						
-						cancelModif();
+						btnAddProd.setDisable(true);
+						btnEdtProd.setDisable(true);
+						btnEliminarProd.setDisable(true);
+						btnDescarga.setDisable(true);
 						inputName.setText("");
 						cbxStts.setValue("");
 						inputBarcode.setText("");
@@ -555,10 +560,8 @@ public class GestProdController {
 							if(catProdModif !=null && catProdModif.getBarcode()!=null &&
 									catProdModif.getBarcode().trim().length()>0) {
 								GeneralMethods.modalMsg("Error", "", "No puede agregar un producto en un producto.\n Favor de seleccionar una categoria.");
-
 								return;
 							}
-							
 						}
 						radCategoria.setDisable(false);
 						radCategoria.setSelected(true);
@@ -612,7 +615,12 @@ public class GestProdController {
 						ObservableList<TreeItem<String>> lstTree = treeProd.getSelectionModel().getSelectedItem().getChildren();
 						System.out.println("treeItems:"+lstTree.size());
 						*/
-						
+						if(idx<=0){
+							GeneralMethods.modalMsg("Error", "", "Seleccione algún producto o categoria");
+							inputBarcode.setDisable(false);
+							inputCosto.setDisable(false);
+							return;
+						}
 						if(lstTree.isEmpty())//Valida que no tenga hijos
 						{System.out.println("Es hijo");	inputBarcode.setDisable(false);}
 						if(catProdModif !=null && !"".equals(catProdModif.getBarcode())) {
@@ -620,13 +628,15 @@ public class GestProdController {
 							inputCosto.setVisible(true);
 							lblCosto.setVisible(true);
 						}
+						treeProd.setDisable(true);
 						
 						break;
 					default:
 						GeneralMethods.modalMsg("Error", "", "No fue posible identificar la operación");
+						
 						return;
 					}
-					treeProd.setDisable(true);
+				//	treeProd.setDisable(true);
 					btnAcceptModif.setVisible(true);
 					btnCancenModif.setVisible(true);
 					cbxStts.setDisable(false);
@@ -659,11 +669,18 @@ public class GestProdController {
 		radCategoria.setDisable(true);
 		radProducto.setDisable(true);
 		globalTypeForm ="";
+		
+		btnAddProd.setDisable(false);
+		btnEdtProd.setDisable(false);
+		btnEliminarProd.setDisable(false);
+		btnDescarga.setDisable(false);
 	}
 
 	private void saveCostosByCliente(int idProd, String costo) {
 		List<Store_fotografo>  lstClte = (Flags.remote_valid)?remoteClienteService.getActiveClients():clienteService.getActiveClients();
 		Store_cliente_prod_cost clteProdCost = null;
+		clteProdCostService.deleteRowByIdCostProd(idProd);
+		
 		for(Store_fotografo fo: lstClte) {
 			clteProdCost = new Store_cliente_prod_cost();
 			clteProdCost.setCosto(new BigDecimal(costo.replaceAll(",", "")));
