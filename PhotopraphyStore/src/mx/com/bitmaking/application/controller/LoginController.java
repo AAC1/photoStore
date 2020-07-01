@@ -18,6 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.stage.Modality;
@@ -85,11 +86,23 @@ public class LoginController {
 		imgLogo.setImage(image);
 	}
 	
+	@FXML 
+	private void login(KeyEvent e) {
+	//	System.out.println("entra:"+e.getCode().toString());
+		if("ENTER".equals(e.getCode().toString()) ){
+			enterLogin();
+		}
+	}
+	
 	@FXML
 	private void validLogin(){
+		enterLogin();
+	}
+	
+	public void enterLogin() {
 		/*if(true){
-			openModal("Home",true);
-			return;
+		openModal("Home",true);
+		return;
 		}*/
 		//Flags.remote_valid=true;//Valor inicial para incluir login remoto
 		Flags.remote_valid=false;
