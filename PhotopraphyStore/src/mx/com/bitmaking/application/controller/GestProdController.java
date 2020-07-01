@@ -154,6 +154,7 @@ public class GestProdController {
 		lblCosto.setVisible(false);
 		inputBarcode.setText("");
 		inputCosto.setText("");
+		inputCosto.setVisible(false);
 	}
 	@FXML 
 	private void selectProd() {
