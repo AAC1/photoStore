@@ -24,7 +24,7 @@ public class Store_prod_pedido {
 	@Column
 	private String estatus;
 	@Column
-	private int id_pedido;
+	private String folio;
 	
 	
 	
@@ -76,11 +76,11 @@ public class Store_prod_pedido {
 	public void setCosto_total(BigDecimal costo_total) {
 		this.costo_total = costo_total;
 	}
-	public int getId_pedido() {
-		return id_pedido;
+	public String getFolio() {
+		return folio;
 	}
-	public void setId_pedido(int id_pedido) {
-		this.id_pedido = id_pedido;
+	public void setFolio(String folio) {
+		this.folio = folio;
 	}
 	
 	

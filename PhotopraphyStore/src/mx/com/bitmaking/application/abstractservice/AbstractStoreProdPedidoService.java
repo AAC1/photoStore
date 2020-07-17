@@ -47,17 +47,17 @@ public abstract class AbstractStoreProdPedidoService implements IStoreProdPedido
 
 	@Override
 	public boolean guardaProdsByPedido(String folio, Store_prod_pedido producto) {
-		int id_pedido = getPedidoDao().getIdByFolio(folio);
-		System.out.println("Id_pedido_saved:"+id_pedido);
+	//	int id_pedido = getPedidoDao().getIdByFolio(folio);
+	//	System.out.println("Id_pedido_saved:"+id_pedido);
 		
-		producto.setId_pedido(id_pedido);
+	//	producto.setId_pedido(id_pedido);
 		getProdPedidoRepo().save(producto);
 		
 		return false;
 	}
 	@Override
-	public void deleteByIdPedido(int idPedido){
-		getProdPedidoRepo().deleteByIdPedido(idPedido);
+	public void deleteByFolio(String folio){
+		getProdPedidoRepo().deleteByIdPedido(folio);
 	}
 	
 	@Override

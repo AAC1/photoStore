@@ -426,10 +426,10 @@ public class VentaController  {
 					if(updateVta){
 						if(updatePedido != null ){
 							//ELIMINA REGISTROS YA EXISTENTES
-							prodPedidoService.deleteByIdPedido(updatePedido.getId_pedido());
-							if(Flags.remote_valid)remoteProdPedidoService.deleteByIdPedido(updatePedido.getId_pedido());
+							prodPedidoService.deleteByFolio(updatePedido.getFolio());
+							if(Flags.remote_valid)remoteProdPedidoService.deleteByFolio(updatePedido.getFolio());
 							
-							pedidoObj.setId_pedido(updatePedido.getId_pedido());
+							pedidoObj.setFolio(updatePedido.getFolio());
 							
 						}
 					}
@@ -453,6 +453,7 @@ public class VentaController  {
 						//System.out.println("cost_uni_adding:"+el.getCostoUnitario());
 						product.setCosto_unitario(el.getCostoUnitario());
 						product.setDescripcion(el.getProducto());
+						product.setFolio(pedidoObj.getFolio());
 						
 						prodPedidoService.guardaProdsByPedido(pedidoObj.getFolio(), product);
 						if(Flags.remote_valid)remoteProdPedidoService.guardaProdsByPedido(pedidoObj.getFolio(), product);
@@ -499,8 +500,8 @@ public class VentaController  {
 			stageBusqConfirm.setTitle("Confirmación");
 			stageBusqConfirm.setMinHeight(200.0);
 			stageBusqConfirm.setMinWidth(350.0);
-			stageBusqConfirm.setMaxHeight(350.0);
-			stageBusqConfirm.setMaxWidth(200.0);
+			stageBusqConfirm.setMaxHeight(200.0);
+			stageBusqConfirm.setMaxWidth(350.0);
 			stageBusqConfirm.initModality(Modality.APPLICATION_MODAL); 
 			stageBusqConfirm.show();
 			ctrl = fxmlLoader.getController(); //Obtiene controller de la nueva ventana
@@ -1027,8 +1028,8 @@ public class VentaController  {
 			btnCancelar.setDisable(true);
 			autoCompletePopup.hide();
 			
-			List<Store_prod_pedido> rows = prodPedidoService.getListProdPedidos("("+updatePedido.getId_pedido()+")");
-			if(Flags.remote_valid)rows=remoteProdPedidoService.getListProdPedidos("("+updatePedido.getId_pedido()+")");
+			List<Store_prod_pedido> rows = prodPedidoService.getListProdPedidos("('"+updatePedido.getFolio()+"')");
+			if(Flags.remote_valid)rows=remoteProdPedidoService.getListProdPedidos("('"+updatePedido.getFolio()+"')");
 			
 			tbProductos.getItems().removeAll(tbProductos.getItems());
 			CostProductsDTO product = null;
@@ -1040,6 +1041,7 @@ public class VentaController  {
 				product.setCostoUnitario(el.getCosto_unitario());
 				product.setProducto(el.getDescripcion());
 				product.setEstatus(el.getEstatus());
+			//	product.setFolio(el.getFolio());
 				
 				tbProductos.getItems().add(product);
 			}

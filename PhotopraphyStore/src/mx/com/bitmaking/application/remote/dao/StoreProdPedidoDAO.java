@@ -28,8 +28,8 @@ public class StoreProdPedidoDAO extends AbstractStoreProdPedidoDAO{// implements
 		return super.getListProdPedidos(pedidos);
 	}
 	@Transactional("remoteTransactionManager")
-	public void deleteByIdPedido(int idPedido){
-		super.deleteByIdPedido(idPedido);
+	public void deleteByIdPedido(String folio){
+		super.deleteByIdPedido(folio);
 	}
 	
 	@Transactional("remoteTransactionManager")

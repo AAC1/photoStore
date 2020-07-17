@@ -44,8 +44,8 @@ public class StoreProdPedidoService extends AbstractStoreProdPedidoService{//imp
 		return super.guardaProdsByPedido(folio, producto);
 	}
 	@Transactional(value="remoteTransactionManager")
-	public void deleteByIdPedido(int idPedido){
-		super.deleteByIdPedido(idPedido);
+	public void deleteByFolio(String folio){
+		super.deleteByFolio(folio);
 	}
 	@Transactional(value="remoteTransactionManager")
 	public void editProd(Store_prod_pedido obj){

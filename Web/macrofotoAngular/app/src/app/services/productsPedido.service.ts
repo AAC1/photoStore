@@ -14,8 +14,8 @@ export class ProductsPedidoService{
     
     constructor(private http: HttpClient) { }
 
-    getProductsByPedido = (idPedido:number) => {
-        return this.http.post(`${this.baseURL}/getProductsByPedido`,{'id_pedido':idPedido})
+    getProductsByPedido = (folio:String) => {
+        return this.http.post(`${this.baseURL}/getProductsByPedido`,{'folio':folio})
             .pipe(
                 map(
                     (res:ProdPedidos[]) => res

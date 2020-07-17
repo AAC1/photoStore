@@ -9,7 +9,7 @@ public interface IStoreProdPedidoDAO {
 
 	public void save(Store_prod_pedido producto);
 	public List<Store_prod_pedido> getListProdPedidos(String pedidos);
-	public void deleteByIdPedido(int idPedido);
+	public void deleteByIdPedido(String folio);
 	
 	public void editProd(Store_prod_pedido obj);
 }

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.13.0.final using JasperReports Library version 6.13.0-46ada4d1be8f3c5985fd0b6146f3ed44caed6f05  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteProdByPredido" pageWidth="685" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="685" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="977ace74-1580-4a0f-80ba-9eaef51a8ade">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="idPedido" class="java.lang.Integer">
+	<parameter name="folio" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select * from store_prod_pedido where id_pedido = $P{idPedido}]]>
+		<![CDATA[select * from store_prod_pedido where folio = $P{folio}]]>
 	</queryString>
 	<field name="id_prod_pedido" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -27,7 +28,7 @@
 	<field name="costo_total" class="java.math.BigDecimal">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="id_pedido" class="java.lang.Integer">
+	<field name="folio" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<background>
@@ -39,7 +40,7 @@
 	<pageHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="7719009e-bd73-42b1-af19-97abf7e23829" mode="Opaque" x="0" y="0" width="600" height="20" backcolor="#C8C8C8"/>
+				<reportElement mode="Opaque" x="0" y="0" width="600" height="20" backcolor="#C8C8C8" uuid="7719009e-bd73-42b1-af19-97abf7e23829"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
@@ -50,28 +51,23 @@
 	<columnHeader>
 		<band height="26" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="e13d1130-8045-44c8-8cf6-c9aa98ecb95d" mode="Opaque" x="100" y="0" width="200" height="20" forecolor="#000000" backcolor="#C8C8C8"/>
-				<textElement/>
+				<reportElement mode="Opaque" x="100" y="0" width="200" height="20" forecolor="#000000" backcolor="#C8C8C8" uuid="e13d1130-8045-44c8-8cf6-c9aa98ecb95d"/>
 				<text><![CDATA[Descripción]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="86343518-ce7b-4612-83e7-46cc0b96738b" mode="Opaque" x="500" y="0" width="100" height="20" forecolor="#000000" backcolor="#C8C8C8"/>
-				<textElement/>
+				<reportElement mode="Opaque" x="500" y="0" width="100" height="20" forecolor="#000000" backcolor="#C8C8C8" uuid="86343518-ce7b-4612-83e7-46cc0b96738b"/>
 				<text><![CDATA[Costo Total]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="2750c5a3-8f39-4c5a-a389-26b09e86ab75" mode="Opaque" x="300" y="0" width="100" height="20" forecolor="#000000" backcolor="#C8C8C8"/>
-				<textElement/>
+				<reportElement mode="Opaque" x="300" y="0" width="100" height="20" forecolor="#000000" backcolor="#C8C8C8" uuid="2750c5a3-8f39-4c5a-a389-26b09e86ab75"/>
 				<text><![CDATA[Cantidad]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="efe75919-cb4b-483e-81a0-82e6563b661f" mode="Opaque" x="0" y="0" width="100" height="20" forecolor="#000000" backcolor="#C8C8C8"/>
-				<textElement/>
+				<reportElement mode="Opaque" x="0" y="0" width="100" height="20" forecolor="#000000" backcolor="#C8C8C8" uuid="efe75919-cb4b-483e-81a0-82e6563b661f"/>
 				<text><![CDATA[Codigo de Barras]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="fdadcde2-4291-4169-8b1d-a16c54d6a331" mode="Opaque" x="400" y="0" width="100" height="20" forecolor="#000000" backcolor="#C8C8C8"/>
-				<textElement/>
+				<reportElement mode="Opaque" x="400" y="0" width="100" height="20" forecolor="#000000" backcolor="#C8C8C8" uuid="fdadcde2-4291-4169-8b1d-a16c54d6a331"/>
 				<text><![CDATA[Costo Unitario]]></text>
 			</staticText>
 		</band>
@@ -79,28 +75,23 @@
 	<detail>
 		<band height="28" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="39d7f56a-ad3b-4360-a798-80c375d7f3bd" x="0" y="0" width="100" height="20"/>
-				<textElement/>
+				<reportElement x="0" y="0" width="100" height="20" uuid="39d7f56a-ad3b-4360-a798-80c375d7f3bd"/>
 				<textFieldExpression><![CDATA[$F{bar_code}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="ffafdbca-88e3-41ab-b368-e704f022185b" x="100" y="0" width="200" height="20"/>
-				<textElement/>
+				<reportElement x="100" y="0" width="200" height="20" uuid="ffafdbca-88e3-41ab-b368-e704f022185b"/>
 				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="709a50ea-0649-4b2b-bafa-b33bb54bcbf5" x="300" y="0" width="100" height="20"/>
-				<textElement/>
+				<reportElement x="300" y="0" width="100" height="20" uuid="709a50ea-0649-4b2b-bafa-b33bb54bcbf5"/>
 				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="39a199d1-b769-4ddc-bdb9-08738da212c9" x="400" y="0" width="100" height="20"/>
-				<textElement/>
+				<reportElement x="400" y="0" width="100" height="20" uuid="39a199d1-b769-4ddc-bdb9-08738da212c9"/>
 				<textFieldExpression><![CDATA[$F{costo_unitario}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="cd725bd0-74b0-47c5-bb0e-39e83e8d75f1" x="500" y="0" width="100" height="20"/>
-				<textElement/>
+				<reportElement x="500" y="0" width="100" height="20" uuid="cd725bd0-74b0-47c5-bb0e-39e83e8d75f1"/>
 				<textFieldExpression><![CDATA[$F{costo_total}]]></textFieldExpression>
 			</textField>
 		</band>

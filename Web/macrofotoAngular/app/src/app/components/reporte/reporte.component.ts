@@ -317,11 +317,11 @@ private saveAsExcelFile(dataBinary: any, fileName: string): void {
       return;
     }
     this.rowsSelected.idxOrder = idx;
-    this.getProducts(row.id_pedido);
+    this.getProducts(row.folio);
 
   }
-  getProducts = (idPedido:number) => {
-    this.prodPedidoService.getProductsByPedido(idPedido).subscribe(
+  getProducts = (folio:String) => {
+    this.prodPedidoService.getProductsByPedido(folio).subscribe(
       (res: ProdPedidos[]) =>{
         this.listProdPedido = res;
         this.jsonPaginationProd={

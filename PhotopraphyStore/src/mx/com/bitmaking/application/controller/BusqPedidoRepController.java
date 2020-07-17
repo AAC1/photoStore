@@ -283,7 +283,7 @@ public class BusqPedidoRepController {
 	                    	
 	                    	}*/
 	                    	if("PENDIENTE".equals(row.getEstatus().toUpperCase().trim())){
-		                    	if(hasPendientProds("("+String.valueOf(row.getId_pedido())+")")){
+		                    	if(hasPendientProds("('"+row.getFolio()+"')")){
 		                    		
 		                    	//	getStyleClass().add("red-text");
 		                    	//	setStyle("-fx-background-color:#E1AAAA; -fx-text-fill:white; -fx-fill:white;");
@@ -509,7 +509,7 @@ public class BusqPedidoRepController {
 			        	pedido.setFec_pedido(objPedido.getFec_pedido());
 			        	pedido.setFolio(objPedido.getFolio());
 			        	pedido.setId_estatus(objPedido.getId_estatus());
-			        	pedido.setId_pedido(objPedido.getId_pedido());
+			        	//pedido.setId_pedido(objPedido.getId_pedido());
 			        	pedido.setMonto_ant(objPedido.getMonto_ant());
 			        	pedido.setMonto_total(objPedido.getMonto_total());
 			        	pedido.setTelefono(objPedido.getTelefono());
@@ -624,7 +624,7 @@ public class BusqPedidoRepController {
 			return;
 		}
 		
-		String pedido="("+objPedido.getId_pedido()+") " ;
+		String pedido="('"+objPedido.getFolio()+"') " ;
 		consultProdByPedido(pedido);
 		
 	}
@@ -677,7 +677,7 @@ public class BusqPedidoRepController {
 		DateTimeFormatter dtEnd = DateTimeFormatter.ofPattern("yyyy-MM-dd 23:59:59");
 		StringBuilder qry = new StringBuilder();
 		qry.delete(0, qry.length());
-		qry.append("SELECT p.id_pedido, p.folio, p.cliente, p.telefono, p.descripcion, p.fec_pedido,");
+		qry.append("SELECT  p.folio, p.cliente, p.telefono, p.descripcion, p.fec_pedido,");
 		qry.append(" p.fec_entregado, p.monto_ant, p.monto_total, (IFNULL(p.monto_total,0) - IFNULL(p.monto_ant,0) ) monto_pendiente, ");
 		qry.append(" (select s.estatus from Store_cat_estatus s where s.id_estatus=p.id_estatus) as estatus, p.ticket ");
 		qry.append(" FROM Store_pedido p ");
@@ -880,7 +880,7 @@ public class BusqPedidoRepController {
 					msgHtml.append("</td></tr>");
 					msgHtml.append("</tbody></table>");
 					if("PENDIENTE".equals(obj.getEstatus().toUpperCase())){
-						if(!hasPendientProds("("+String.valueOf(obj.getId_pedido())+")")) {
+						if(!hasPendientProds("('"+obj.getFolio()+"')")) {
 							mailObj.sendMessageHTML(env.getProperty("mail.userTo"), msgHtml.toString(), "Estatus de Pedido",null, null);
 						}else {
 							GeneralMethods.modalMsg("", "", "No es posible enviar notificaci\u00F3n, el pedido tiene productos pendientes ");

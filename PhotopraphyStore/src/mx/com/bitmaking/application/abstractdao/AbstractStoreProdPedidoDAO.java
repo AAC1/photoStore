@@ -32,7 +32,7 @@ public abstract class AbstractStoreProdPedidoDAO implements IStoreProdPedidoDAO{
 		StringBuilder qry = new StringBuilder();
 		qry.append(" SELECT p.*");
 		qry.append(" FROM Store_prod_pedido p ");
-		qry.append(" WHERE p.id_pedido in "+pedidos);
+		qry.append(" WHERE p.folio in "+pedidos);
 		
 		
 		try{
@@ -53,12 +53,12 @@ public abstract class AbstractStoreProdPedidoDAO implements IStoreProdPedidoDAO{
 		return results;
 	}
 	@Override
-	public void deleteByIdPedido(int idPedido){
+	public void deleteByIdPedido(String folio){
 		int results =0;
 		StringBuilder qry = new StringBuilder();
 		qry.append(" DELETE FROM ");
 		qry.append(" Store_prod_pedido ");
-		qry.append(" WHERE id_pedido = "+idPedido);
+		qry.append(" WHERE folio = '"+folio+"'");
 		
 		
 		try{
@@ -73,7 +73,7 @@ public abstract class AbstractStoreProdPedidoDAO implements IStoreProdPedidoDAO{
 			e.printStackTrace();
 		
 		}
-		System.out.println("Se eliminan "+results +" productos de pedido:"+idPedido);
+		System.out.println("Se eliminan "+results +" productos de pedido:"+folio);
 	}
 	
 	@Override

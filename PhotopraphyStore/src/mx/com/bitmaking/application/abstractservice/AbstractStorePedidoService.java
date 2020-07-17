@@ -197,7 +197,7 @@ public abstract class AbstractStorePedidoService implements IStorePedidoService 
 	@Override
 	public  void editPedido(PedidosReporteDTO in) {
 		Store_pedido pedidoEntity =new Store_pedido();
-		pedidoEntity.setId_pedido(in.getId_pedido());
+	//	pedidoEntity.setId_pedido(in.getId_pedido());
 		pedidoEntity.setFolio(in.getFolio());
 		pedidoEntity.setCliente(in.getCliente());
 		pedidoEntity.setTelefono(in.getTelefono());

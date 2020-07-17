@@ -8,7 +8,7 @@ export class ProdPedidoServer{
 
          app.post('/getProductsByPedido',async(req:any, res:any)=> {
             
-            var listProds =await prodPedidoDAO.getProductsByPedido(req.body.id_pedido).catch(function(error) {
+            var listProds =await prodPedidoDAO.getProductsByPedido(req.body.folio).catch(function(error) {
                 console.log('Caught!', error);
             });
             

@@ -12,8 +12,6 @@ public class Store_pedido {
 	
 	@Id
 	@Column
-	private int id_pedido;
-	@Column
 	private String folio;
 	@Column
 	private String cliente;
@@ -42,12 +40,7 @@ public class Store_pedido {
 	public void setTicket(byte[] ticket) {
 		this.ticket = ticket;
 	}
-	public int getId_pedido() {
-		return id_pedido;
-	}
-	public void setId_pedido(int id_pedido) {
-		this.id_pedido = id_pedido;
-	}
+
 	public String getFolio() {
 		return folio;
 	}

@@ -45,7 +45,7 @@ public abstract class AbstractClteProdCostDAO implements IClteProdCostDAO{
 			SQLQuery qry= getSessionFactory().getCurrentSession().createSQLQuery(sqlQry);
 			
 			
-			qry.addScalar("id_pedido",new IntegerType());
+		//	qry.addScalar("id_pedido",new IntegerType());
 			qry.addScalar("folio",new StringType());
 			qry.addScalar("cliente",new StringType());
 			qry.addScalar("telefono",new StringType());
