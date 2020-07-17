@@ -15,10 +15,10 @@ export class Store_prod_pedido{
     @Column({type:'int'})
     cantidad:number;
 
-    @Column({type:'decimal'})
+    @Column({type:'decimal', precision: 10, scale: 2 })
     costo_unitario:number;
 
-    @Column({type:'decimal'})
+    @Column({type:'decimal', precision: 10, scale: 2 })
     costo_total:number;
 
     @Column({type:'varchar'})

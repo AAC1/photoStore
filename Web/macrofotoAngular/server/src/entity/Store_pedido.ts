@@ -50,13 +50,13 @@ export class Store_pedido extends BaseEntity {
     fec_entregado:Date | null;
 
     @Column({
-        type:'decimal',
+        type:'decimal', precision: 10, scale: 2 ,
         nullable:true
     })
     monto_ant:number ;
 
     @Column({
-        type:'varchar',
+        type:'varchar', precision: 10, scale: 2 ,
         nullable:true
     })
     monto_total:number ;

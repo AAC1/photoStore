@@ -801,7 +801,7 @@ public class VentaController  {
 				CostProductsDTO auxObj = new CostProductsDTO();
 				auxObj.setCantidad(inputCantProd.getText()==null || "".equals(inputCantProd.getText().trim())?
 										1:Integer.parseInt(inputCantProd.getText().trim()));
-				auxObj.setCosto(new BigDecimal(Double.parseDouble(costo)*auxObj.getCantidad()));
+				auxObj.setCosto(new BigDecimal(Double.parseDouble(costo)*auxObj.getCantidad()).setScale(2,BigDecimal.ROUND_HALF_EVEN));
 				auxObj.setProducto(obj.getProducto());
 				auxObj.setCostoUnitario(obj.getCosto());
 				auxObj.setBar_code(obj.getBar_code());
@@ -854,7 +854,7 @@ public class VentaController  {
 		CostProductsDTO auxObj = rowProd;
 		
 		auxObj.setCantidad(Integer.parseInt(cant));
-		auxObj.setCosto(new BigDecimal(auxObj.getCantidad()*(Double.parseDouble(costAux))));
+		auxObj.setCosto(new BigDecimal(auxObj.getCantidad()*(Double.parseDouble(costAux))).setScale(2,BigDecimal.ROUND_HALF_EVEN));
 		auxObj.setProducto(inputProd.getText());
 		auxObj.setCostoUnitario(new BigDecimal(inputCostoProd.getText()));
 		auxObj.setBar_code(inputBarcode.getText());
@@ -887,7 +887,7 @@ public class VentaController  {
 		BigDecimal costTotal = new BigDecimal(0.0);
 		for(CostProductsDTO el:rowsProd) {
 			//System.out.println(el.getCosto());
-			costTotal = costTotal.add(el.getCosto());
+			costTotal = costTotal.add(el.getCosto()).setScale(2,BigDecimal.ROUND_HALF_EVEN);
 		}
 		System.out.println(costTotal);
 		inputMonto.setText(String.valueOf(costTotal));
