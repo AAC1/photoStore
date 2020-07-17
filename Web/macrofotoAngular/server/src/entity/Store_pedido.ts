@@ -4,15 +4,17 @@ import { Store_prod_pedido } from './Store_prod_pedido';
 
 @Entity()
 export class Store_pedido extends BaseEntity {
-    @PrimaryGeneratedColumn()
+  /*  @PrimaryGeneratedColumn()
     id_pedido: number ;
-
-    @Column({
+    */
+  //  @PrimaryGeneratedColumn('uuid')
+    @PrimaryColumn('uuid')
+    folio: string ;
+    /*@Column({
         type:'varchar',
         length:'100',
         nullable:true
-    })
-    folio: string ;
+    })*/
 
     @Column({
         type:'varchar',

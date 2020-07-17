@@ -24,6 +24,6 @@ export class Store_prod_pedido{
     @Column({type:'varchar'})
     estatus:string;
 
-    @Column({type:'int'})
-    id_pedido:number;
+    @Column({type:'varchar'})
+    folio:string;
 }

@@ -18,7 +18,7 @@ export class ExportFileServer{
             else{
                // listPedido.forEach(async (el)=>{
                 for(let i=0; i<listPedido.length;i++){
-                    const listProds =await prodPedidoDAO.getProductsByPedido(listPedido[i].id_pedido).catch(function(error) {
+                    const listProds =await prodPedidoDAO.getProductsByPedido(listPedido[i].folio).catch(function(error) {
                         console.log('Caught!', error);
                     });
                  //   console.log(listProds);
@@ -31,7 +31,7 @@ export class ExportFileServer{
         });
     }
     private _generateQry = (req:any):String=>{
-        let qry ="SELECT p.id_pedido, p.folio, p.cliente, p.telefono, p.descripcion, p.fec_pedido,"
+        let qry ="SELECT p.folio, p.cliente, p.telefono, p.descripcion, p.fec_pedido,"
         qry +=" p.fec_entregado, p.monto_ant, p.monto_total, (IFNULL(p.monto_total,0) - IFNULL(p.monto_ant,0) ) monto_pendiente, ";
 		qry +=" (select s.estatus from Store_cat_estatus s where s.id_estatus=p.id_estatus) as estatus, p.ticket ";
 		qry +=" FROM Store_pedido p ";
