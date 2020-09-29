@@ -18,7 +18,7 @@ export class Start{
     public urlOrigin:string ;
 
     constructor( port: number) {
-        this.urlOrigin = "http://localhost:4200";
+        this.urlOrigin = "https://bitmaking.000webhostapp.com/"//http://localhost:4200";
         this.app = express();
         this.port = port;
         this.initializeModels();

@@ -2,9 +2,13 @@ package mx.com.bitmaking.application.controller;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -159,6 +163,7 @@ public class VentaController  {
 	private CostProductsDTO rowProd = null;
 	private UserSessionDTO instance = null;
 	private SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	private JFXAutoCompletePopup<String> autoCompletePopup =null;
 	private boolean updateVta;
 	private Store_pedido updatePedido;
@@ -415,13 +420,21 @@ public class VentaController  {
 						pedidoObj.setCliente(inputCliente.getText());
 					pedidoObj.setTelefono(inputTelefono.getText());
 					pedidoObj.setDescripcion(inputDesc.getText());
-					pedidoObj.setFec_pedido(sdf.parse(sdf.format(new Date())));
+					LocalDateTime dateTime = LocalDateTime.parse(sdf.format(new Date()), formatter);
+					Calendar c = Calendar.getInstance();
+					c.setTimeInMillis((sdf.parse(sdf.format(new Date())).getTime()));
+					c.setTimeZone(TimeZone.getTimeZone("GMT-5"));
+				//	pedidoObj.setFec_pedido(dateTime);
+				//	pedidoObj.setFec_pedido((sdf.parse(sdf.format(new Date())) ));
+					pedidoObj.setFec_pedido(c);
 					pedidoObj.setMonto_ant(new BigDecimal(montoAnt));
 					pedidoObj.setMonto_total(new BigDecimal(montoTot));
 					pedidoObj.setId_estatus(cbxEstatus.getSelectionModel().getSelectedIndex()+1);
 					
 					if(pedidoObj.getId_estatus() ==1) {
-						pedidoObj.setFec_entregado(sdf.parse(sdf.format(new Date())));
+						pedidoObj.setFec_entregado(c);
+					//	pedidoObj.setFec_entregado((sdf.parse(sdf.format(new Date()))));
+					//	pedidoObj.setFec_entregado(dateTime);
 					}
 					if(updateVta){
 						if(updatePedido != null ){
@@ -814,6 +827,10 @@ public class VentaController  {
 					tbProductos.getItems().add(auxObj);
 				}
 				updateCostoTotal();
+				System.out.println("tbProductos.getItems().size():"+tbProductos.getItems().size());
+				if(tbProductos.getItems().size()>0) {
+					cbxCliente.setDisable(true);
+				}
 			}
 			else{
 				GeneralMethods.modalMsg("", "", "No se encontr\u00F3 producto relacionado con el c\u00F3digo de barras");
@@ -855,8 +872,8 @@ public class VentaController  {
 		
 		auxObj.setCantidad(Integer.parseInt(cant));
 		auxObj.setCosto(new BigDecimal(auxObj.getCantidad()*(Double.parseDouble(costAux))).setScale(2,BigDecimal.ROUND_HALF_EVEN));
-		auxObj.setProducto(inputProd.getText());
-		auxObj.setCostoUnitario(new BigDecimal(inputCostoProd.getText()));
+		auxObj.setProducto(inputProd.getText().replace(",", ""));
+		auxObj.setCostoUnitario(new BigDecimal(inputCostoProd.getText().replace(",", "")));
 		auxObj.setBar_code(inputBarcode.getText());
 		auxObj.setEstatus(cbxEstatusProd.getValue());
 		//System.out.println("Costo Unitario:"+auxObj.getCostoUnitario());
@@ -871,6 +888,10 @@ public class VentaController  {
 		inputProd.setText("");
 		inputCostoProd.setText("");
 		inputBarcode.setText("");
+		System.out.println("tbProductos.getItems().size():"+tbProductos.getItems().size());
+		if(tbProductos.getItems().size()>0) {
+			cbxCliente.setDisable(true);
+		}
 	}
 	
 	@FXML private void quitProdToTable() {
@@ -881,6 +902,10 @@ public class VentaController  {
 		}
 		tbProductos.getItems().remove(tbProductos.getSelectionModel().getSelectedIndex());
 		updateCostoTotal();
+		
+		if(tbProductos.getItems().size()<=0) {
+			cbxCliente.setDisable(false);
+		}
 	}
 	private void updateCostoTotal() {
 		ObservableList<CostProductsDTO> rowsProd = tbProductos.getItems();
@@ -905,7 +930,8 @@ public class VentaController  {
 				
 				int rowSelected = busqProd.getTblProducto().getSelectionModel().getSelectedIndex();
 				if(rowSelected<0)return;
-				
+				System.out.println("RowSelected_SelecProdVta:"+rowSelected);
+				System.out.println("RowSelected_SelecProdVta:"+ busqProd.getLstProd().size());
 				rowProd= busqProd.getLstProd().get(rowSelected);
 			//	String cost = String.valueOf(rowProd.getCosto());
 				

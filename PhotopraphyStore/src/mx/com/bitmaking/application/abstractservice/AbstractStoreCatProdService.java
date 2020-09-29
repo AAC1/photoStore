@@ -102,7 +102,6 @@ public abstract class AbstractStoreCatProdService implements IStoreCatProdServic
 		List<Store_cat_prod> resp = getCatProdDAO().findAll();
 
 		for (int i = 0; i < resp.size(); i++) {
-
 			if ("1".equals(resp.get(i).getEstatus())) {
 				resp.get(i).setEstatus("Activo");
 			} else {

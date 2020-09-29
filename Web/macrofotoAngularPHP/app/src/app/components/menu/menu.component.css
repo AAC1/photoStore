@@ -1,0 +1,32 @@
+
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    /*font-family: 'Ibarra Real Nova', serif;*/
+}
+
+.backgroundImg {
+    
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    overflow-x: hidden;
+    background-image: url('../../../assets/img/alexander-wang-KjyrxSHwqTg-unsplash.jpg');
+    /*url('../img/photoFondo1.jpg');*/
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(1px);
+    z-index: 1;
+    top: 0;
+    left: 0;
+}
+
+mat-sidenav .mat-drawer-inner-container::after{
+    overflow-x: hidden !important;
+}
+
+.mat-icon.size35{
+    font-size: 35px !important;
+}

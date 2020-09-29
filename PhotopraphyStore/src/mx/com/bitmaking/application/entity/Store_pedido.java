@@ -1,11 +1,16 @@
 package mx.com.bitmaking.application.entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 
 @Entity
 public class Store_pedido {
@@ -19,10 +24,14 @@ public class Store_pedido {
 	private String telefono;
 	@Column
 	private String descripcion;
+	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column
-	private Date fec_pedido;
+	private Calendar fec_pedido;
+	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column
-	private Date fec_entregado;
+	private Calendar fec_entregado;
 	@Column
 	private BigDecimal monto_ant;
 	@Column
@@ -65,16 +74,16 @@ public class Store_pedido {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public Date getFec_pedido() {
+	public Calendar getFec_pedido() {
 		return fec_pedido;
 	}
-	public void setFec_pedido(Date fec_pedido) {
+	public void setFec_pedido(Calendar fec_pedido) {
 		this.fec_pedido = fec_pedido;
 	}
-	public Date getFec_entregado() {
+	public Calendar getFec_entregado() {
 		return fec_entregado;
 	}
-	public void setFec_entregado(Date fec_entregado) {
+	public void setFec_entregado(Calendar fec_entregado) {
 		this.fec_entregado = fec_entregado;
 	}
 	public BigDecimal getMonto_ant() {

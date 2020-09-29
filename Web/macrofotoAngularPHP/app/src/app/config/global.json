@@ -1,0 +1,11 @@
+{
+    
+        "service":{
+            "port": 3000,
+            "baseURL": "src/server" 
+        },
+        "session":{
+            "timeout": 1200000
+        }
+    
+}

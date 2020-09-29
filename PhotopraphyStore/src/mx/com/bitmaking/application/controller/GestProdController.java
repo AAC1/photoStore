@@ -189,6 +189,7 @@ public class GestProdController {
 						GeneralMethods.modalMsg("", "", "Algunos productos no fueron eliminados.");
 					}
 					getTblCatProducts();
+					catProdModif = null;
 					stageProd.close();
 
 				} catch (Exception ex) {
@@ -372,6 +373,9 @@ public class GestProdController {
 								row.setImg_barcode(GeneralMethods.generateImgBarcode(inputBarcode.getText()));
 								
 							}
+							else {
+								inputBarcode.setText("");
+							}
 							
 							catProdService.updateRow(row);
 							if(Flags.remote_valid)remoteCatProdService.updateRow(row);
@@ -408,25 +412,35 @@ public class GestProdController {
 								row.setImg_barcode(GeneralMethods.generateImgBarcode(inputBarcode.getText()));
 								
 							}
+							if(radCategoria.isSelected()) {
+								row.setCategoria(1);
+							}
+							else{
+								row.setCategoria(0);
+							}
 							catProdService.insertRow(row);
 							if(Flags.remote_valid)remoteCatProdService.insertRow(row);
 							String cost = inputCosto.getText();
 							if (cost!=null && cost.length()>0 ) {
 								saveCostosByCliente(row.getId_prod(),inputCosto.getText());
 							}
+							
+							
+							cancelModif();
 							//saveCostosByCliente(row.getId_prod(),inputCosto.getText());
 						}
 						
 						// }
 						
-						btnAddProd.setDisable(true);
-						btnEdtProd.setDisable(true);
-						btnEliminarProd.setDisable(true);
-						btnDescarga.setDisable(true);
+						btnAddProd.setDisable(false);
+						btnEdtProd.setDisable(false);
+						btnEliminarProd.setDisable(false);
+						btnDescarga.setDisable(false);
 						inputName.setText("");
 						cbxStts.setValue("");
 						inputBarcode.setText("");
 						getTblCatProducts();
+						catProdModif = null;
 					}
 				} catch (Exception ex) {
 					ex.printStackTrace();
@@ -475,6 +489,23 @@ public class GestProdController {
 				inputName.setText(catProdModif.getProducto());
 				cbxStts.setValue(catProdModif.getEstatus());
 				inputBarcode.setText(catProdModif.getBarcode());
+
+				System.out.println("Categoria: "+catProdModif.getCategoria());
+				if(catProdModif.getCategoria()==1) {
+					radCategoria.setDisable(true);
+					radCategoria.setSelected(true);
+					
+					radProducto.setDisable(true);
+					radProducto.setSelected(false);
+				}
+				else {
+					radCategoria.setDisable(true);
+					radCategoria.setSelected(false);
+					
+					radProducto.setDisable(true);
+					radProducto.setSelected(true);
+				}
+				
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -624,13 +655,36 @@ public class GestProdController {
 						}
 						if(lstTree.isEmpty())//Valida que no tenga hijos
 						{System.out.println("Es hijo");	inputBarcode.setDisable(false);}
+						
+						if(catProdModif !=null) {
+							if(catProdModif.getCategoria() == 0) { //Valida si es producto
+								inputCosto.setDisable(false);
+								inputCosto.setVisible(true);
+								lblCosto.setVisible(true);
+								
+								radProducto.setDisable(true);
+								radProducto.setSelected(true);
+								
+								radCategoria.setDisable(true);
+								radCategoria.setSelected(false);
+							}
+							else {
+								radProducto.setDisable(true);
+								radProducto.setSelected(false);
+								
+								radCategoria.setDisable(true);
+								radCategoria.setSelected(true);
+							}
+						}
+						
+						/*
 						if(catProdModif !=null && !"".equals(catProdModif.getBarcode())) {
 							inputCosto.setDisable(false);
 							inputCosto.setVisible(true);
 							lblCosto.setVisible(true);
 						}
 						treeProd.setDisable(true);
-						
+						*/
 						break;
 					default:
 						GeneralMethods.modalMsg("Error", "", "No fue posible identificar la operación");
@@ -656,6 +710,7 @@ public class GestProdController {
 
 	@FXML
 	private void cancelModif() {
+		
 		btnAcceptModif.setVisible(false);
 		btnCancenModif.setVisible(false);
 		cbxStts.setDisable(true);

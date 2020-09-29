@@ -175,7 +175,7 @@ public class SelectProductoVtaController {
 		}
 		for (Map.Entry<Integer,CostProductsDTO> el : productsMap.entrySet()) {
 			if(el.getValue().getBar_code()!=null && 
-					el.getValue().getBar_code().contains(valueToSearch)) {
+					el.getValue().getBar_code().toUpperCase().trim().contains(valueToSearch.toUpperCase().trim())) {
 				lstProd.add(el.getValue());
 			}
 		}
@@ -187,16 +187,13 @@ public class SelectProductoVtaController {
 	private void getTblCatProductsByProducto(String valueToSearch) {
 		
 		lstProd = new ArrayList<>();
+		
+		/*
 		List<CostProductsDTO>allList = new ArrayList<>();
 		getTblCatProducts();
-		//getDescProducts(productsMap, 0, allList, new CostProductsDTO(), new StringBuilder(),"");
-//		if(valueToSearch.trim().length()==0) {
-			
-	//		tblProducto.getItems().removeAll(tblProducto.getItems());
-	//		tblProducto.setItems(FXCollections.observableList(lstProd));
-		//	return;
-	//	}
-		//for (Map.Entry<Integer,CostProductsDTO> el : productsMap.entrySet()) {
+		
+		
+		
 		for (CostProductsDTO el : lstProd) {
 			if((el.getProducto()!=null && el.getProducto().toUpperCase().contains(valueToSearch.toUpperCase()))||
 				(el.getProducto()==null || el.getProducto().length()==0)	
@@ -205,7 +202,24 @@ public class SelectProductoVtaController {
 			}
 		}
 		tblProducto.getItems().removeAll(tblProducto.getItems());
-		tblProducto.setItems(FXCollections.observableList(allList));
+		//tblProducto.setItems(FXCollections.observableList(allList));
+		*/
+		
+		tblProducto.getItems().removeAll(tblProducto.getItems());
+		if(valueToSearch.trim().length()==0) {
+			getDescProducts(productsMap, 0, lstProd, new CostProductsDTO(), new StringBuilder(),"");
+		//	tblProducto.getItems().removeAll(tblProducto.getItems());
+			tblProducto.setItems(FXCollections.observableList(lstProd));
+			return;
+		}
+		for (Map.Entry<Integer,CostProductsDTO> el : productsMap.entrySet()) {
+			if(el.getValue().getProducto()!=null && 
+					el.getValue().getProducto().toUpperCase().trim().contains(valueToSearch.toUpperCase().trim())) {
+				lstProd.add(el.getValue());
+			}
+		}
+	//	tblProducto.getItems().removeAll(tblProducto.getItems());
+		tblProducto.setItems(FXCollections.observableList(lstProd));
 	}
 	
 	protected void getTblCatProducts() {

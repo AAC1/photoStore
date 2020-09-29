@@ -1,6 +1,6 @@
-drop database macrofoto;
-create database macrofoto;
-use macrofoto;
+#drop database macrofoto;
+#create database macrofoto;
+#use macrofoto;
 
 drop table if EXISTS store_sucursal;
 create table store_sucursal(
@@ -138,6 +138,7 @@ CONSTRAINT `FK_menuPerfil_menu`
 insert into store_menu_perfil(id_perfil,id_menu)
 VALUES(1,1),(2,1),(2,2),(2,3),(2,4);
 insert into store_menu_perfil VALUES(2,5);
+
 drop table if exists store_usuario;
 create table store_usuario(
 id_usr INT AUTO_INCREMENT PRIMARY KEY,
@@ -324,10 +325,30 @@ CONSTRAINT `FK_cargo_abono_sucursal`
     ON UPDATE NO ACTION
 );
 
+alter table store_cat_prod add column  categoria boolean;
+
+describe store_cat_prod ;
+
+Select * from store_cat_prod;
+desc store_cat_prod ;
+modify column 
+
+create table tmpProd Select * from store_cat_prod;
+
+update store_cat_prod set categoria = 1
+WHERE id_prod in (Select id_padre_prod from tmpProd);
+
+UPDATE  store_cat_prod set categoria = 0 WHERE id_prod = 43;
+
+drop table tmpProd;
+
+ALTER TABLE store_cat_prod MODIFY categoria INT;
+
+/*
 
 CREATE USER 'macrofotoUsr'@'%' IDENTIFIED WITH mysql_native_password BY 'M4cr0f0t01';
 
 GRANT ALL ON macrofoto.* TO 'macrofotoUsr'; 
 
 FLUSH PRIVILEGES;
-
+*/

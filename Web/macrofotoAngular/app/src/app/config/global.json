@@ -2,7 +2,7 @@
     
         "service":{
             "port": 3000,
-            "baseURL": "http://localhost"
+            "baseURL": "https://bitmaking.000webhostapp.com/server/" 
         },
         "session":{
             "timeout": 1200000

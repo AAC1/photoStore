@@ -150,6 +150,7 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 		qry.addScalar("producto",new StringType());
 		qry.addScalar("estatus",new StringType());
 		qry.addScalar("barcode",new StringType());
+		qry.addScalar("categoria",new IntegerType());
 		
 		resp = qry.list();
 		return resp;
@@ -218,7 +219,8 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 			query.addScalar("producto", new StringType());
 			query.addScalar("estatus", new StringType());
 			query.addScalar("barcode", new StringType());
-			
+
+			query.addScalar("categoria",new IntegerType());
 			results =query.list();
 		
 		}catch(Exception e) {
@@ -248,6 +250,7 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 			query.addScalar("producto", new StringType());
 			query.addScalar("estatus", new StringType());
 			query.addScalar("barcode", new StringType());
+			query.addScalar("categoria",new IntegerType());
 			
 			results =(Store_cat_prod) query.setMaxResults(1).uniqueResult();
 		

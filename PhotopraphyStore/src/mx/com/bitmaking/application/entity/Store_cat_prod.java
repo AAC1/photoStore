@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 /**
  * @author albcervantes
  *
@@ -36,6 +38,10 @@ public class Store_cat_prod {
 	
 	@Column(name = "img_barcode")
 	private byte[] img_barcode;
+
+	
+	@Column( name = "categoria")
+	private int categoria;
 
 	
 	
@@ -104,5 +110,17 @@ public class Store_cat_prod {
 	public void setEstatus(String estatus) {
 		this.estatus = estatus;
 	}
+
+	public int getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(int categoria) {
+		this.categoria = categoria;
+	}
+
+	
+	
+	
 
 }

@@ -169,7 +169,9 @@ public class UsuarioController {
 		cbxSucursal.getItems().removeAll(cbxSucursal.getItems());
 		cbxSucursal.setItems(FXCollections.observableList(lstSucursal));
 		
-		inputTelefono.textProperty().addListener(GeneralMethods.formatInteger(inputTelefono));
+		inputTelefono.textProperty().addListener(GeneralMethods.onlyNumber(inputTelefono));
+		
+		busqUsr();
 	}
 	private void responsiveGUI() {
 		/* resize de acuerdo al tamaño del Pane padre */
@@ -194,6 +196,23 @@ public class UsuarioController {
 		
 	}
 	
+	private void busqUsr() {
+		containerBusqResp.setVisible(false);
+		List<UsuariosDTO> lstUsrs = (Flags.remote_valid)?
+				remoteStoreUsuarioService.getUsrsByFilter(inputBusqLogin.getText(),
+				inputBusqUsuario.getText(),cbxBusqEstatus.getValue(),
+				inputBusqSucursal.getText(),cbxBusqPerfil.getValue()):
+				storeUsuarioService.getUsrsByFilter(inputBusqLogin.getText(),
+							inputBusqUsuario.getText(),cbxBusqEstatus.getValue(),
+							inputBusqSucursal.getText(),cbxBusqPerfil.getValue());
+		
+		tblUsr.getItems().removeAll(tblUsr.getItems());
+		tblUsr.setItems(FXCollections.observableList(lstUsrs));
+		if(lstUsrs.size()==0){
+			GeneralMethods.modalMsg("", "", "No se encontraron registros");
+		}
+	}
+	
 	@FXML
 	private void openSearch() {
 		cleanBusqform();
@@ -215,20 +234,7 @@ public class UsuarioController {
 	}
 	@FXML
 	private void buscaUsuario() {
-		containerBusqResp.setVisible(false);
-		List<UsuariosDTO> lstUsrs = (Flags.remote_valid)?
-				remoteStoreUsuarioService.getUsrsByFilter(inputBusqLogin.getText(),
-				inputBusqUsuario.getText(),cbxBusqEstatus.getValue(),
-				inputBusqSucursal.getText(),cbxBusqPerfil.getValue()):
-				storeUsuarioService.getUsrsByFilter(inputBusqLogin.getText(),
-							inputBusqUsuario.getText(),cbxBusqEstatus.getValue(),
-							inputBusqSucursal.getText(),cbxBusqPerfil.getValue());
-		
-		tblUsr.getItems().removeAll(tblUsr.getItems());
-		tblUsr.setItems(FXCollections.observableList(lstUsrs));
-		if(lstUsrs.size()==0){
-			GeneralMethods.modalMsg("", "", "No se encontraron registros");
-		}
+		busqUsr();
 		
 	}
 	@FXML

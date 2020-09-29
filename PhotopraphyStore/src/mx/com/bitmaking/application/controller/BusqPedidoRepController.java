@@ -9,11 +9,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
@@ -39,6 +42,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -114,9 +118,9 @@ public class BusqPedidoRepController {
 	@FXML
 	private TableColumn<PedidosReporteDTO, String> colDesc;
 	@FXML
-	private TableColumn<PedidosReporteDTO, Date> colFecPedido;
+	private TableColumn<PedidosReporteDTO, Calendar> colFecPedido;
 	@FXML
-	private TableColumn<PedidosReporteDTO, Date> colFecEntreg;
+	private TableColumn<PedidosReporteDTO, Calendar> colFecEntreg;
 	@FXML
 	private TableColumn<PedidosReporteDTO, String> colEstatus;
 	@FXML
@@ -170,6 +174,8 @@ public class BusqPedidoRepController {
 	
 	Stage stage = null;
 	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	
 	PedidosReporteDTO objPedido = null;
 	
 	
@@ -311,6 +317,7 @@ public class BusqPedidoRepController {
 	            return rowTbl;
 	        }
 	    });
+		searchCurrentPedido();
 	}
 	
 	@FXML
@@ -452,7 +459,11 @@ public class BusqPedidoRepController {
 							System.out.println("Idx Estatus:"+ctrller.getCbxEstatus().getSelectionModel().getSelectedIndex());
 							objPedido.setId_estatus(ctrller.getCbxEstatus().getSelectionModel().getSelectedIndex()+1);
 							if(objPedido.getId_estatus()==1){
-								objPedido.setFec_entregado(sdf.parse(sdf.format(new Date())));
+								LocalDateTime dateTime = LocalDateTime.parse(sdf.format(new Date()), formatter);
+								Calendar c = Calendar.getInstance();
+								c.setTimeInMillis((sdf.parse(sdf.format(new Date())).getTime()));
+								objPedido.setFec_entregado(c);
+							//	objPedido.setFec_entregado(dateTime);
 							}
 							objPedido.setDescripcion(ctrller.getInputDesc().getText());
 							System.out.println("ticket: "+objPedido.getTicket());
@@ -466,7 +477,7 @@ public class BusqPedidoRepController {
 								openVta(objPedido);
 							}
 							
-						} catch (ParseException e) {
+						} catch (Exception e) {
 							GeneralMethods.modalMsg("", "", "Ocurrió un error en fechas");
 							e.printStackTrace();
 						}
@@ -593,7 +604,28 @@ public class BusqPedidoRepController {
 
 	}
 	
+
 	
+	public void searchCurrentPedido(){
+		tblPedido.getItems().removeAll(tblPedido.getItems());
+		tblProducts.getItems().removeAll(tblProducts.getItems());
+		
+		String qry = "SELECT  p.folio, p.cliente, p.telefono, p.descripcion, p.fec_pedido,"+
+			" p.fec_entregado, p.monto_ant, p.monto_total, (IFNULL(p.monto_total,0) - IFNULL(p.monto_ant,0) ) monto_pendiente, "+
+			" (select s.estatus from Store_cat_estatus s where s.id_estatus=p.id_estatus) as estatus, p.ticket "+
+			" FROM Store_pedido p WHERE p.fec_pedido >= CURDATE() ";
+		List<PedidosReporteDTO> lstPedidos = (Flags.remote_valid)?remotePedidoService.consultPedido(qry):
+																	pedidoService.consultPedido(qry);
+		
+		if (lstPedidos == null || lstPedidos.size() == 0) {
+			GeneralMethods.modalMsg("", "", "No se encontraron pedidos");
+			return;
+		}
+		
+		
+		tblPedido.setItems(FXCollections.observableList(lstPedidos));
+	
+	}
 	
 	public void searchPedido(){
 		tblPedido.getItems().removeAll(tblPedido.getItems());
@@ -677,7 +709,7 @@ public class BusqPedidoRepController {
 		DateTimeFormatter dtEnd = DateTimeFormatter.ofPattern("yyyy-MM-dd 23:59:59");
 		StringBuilder qry = new StringBuilder();
 		qry.delete(0, qry.length());
-		qry.append("SELECT  p.folio, p.cliente, p.telefono, p.descripcion, p.fec_pedido,");
+		qry.append("SELECT  p.folio, p.cliente, p.telefono, p.descripcion, p.fec_pedido, ");
 		qry.append(" p.fec_entregado, p.monto_ant, p.monto_total, (IFNULL(p.monto_total,0) - IFNULL(p.monto_ant,0) ) monto_pendiente, ");
 		qry.append(" (select s.estatus from Store_cat_estatus s where s.id_estatus=p.id_estatus) as estatus, p.ticket ");
 		qry.append(" FROM Store_pedido p ");
@@ -746,8 +778,9 @@ public class BusqPedidoRepController {
 		colCliente.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, String>("cliente"));
 		colTelCliente.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, String>("telefono"));
 		colDesc.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, String>("descripcion"));
-		colFecPedido.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, Date>("fec_pedido"));
-		colFecEntreg.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, Date>("fec_entregado"));
+		
+		colFecPedido.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, Calendar>("fec_pedido"));
+		colFecEntreg.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, Calendar>("fec_entregado"));
 		colEstatus.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, String>("estatus"));
 		colMontoAnt.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, BigDecimal>("monto_ant"));
 		colMontoTotal.setCellValueFactory(new PropertyValueFactory<PedidosReporteDTO, BigDecimal>("monto_total"));
@@ -760,7 +793,34 @@ public class BusqPedidoRepController {
 		colCostTotalProd.setCellValueFactory(new PropertyValueFactory<Store_prod_pedido, BigDecimal>("costo_total"));
 		colDescProd.setCellValueFactory(new PropertyValueFactory<Store_prod_pedido, String>("descripcion"));
 		colSttsProd.setCellValueFactory(new PropertyValueFactory<Store_prod_pedido, String>("estatus"));
-		
+
+		colFecPedido.setCellFactory(col -> new TableCell<PedidosReporteDTO, Calendar>() {
+		    @Override
+		    public void updateItem(Calendar item, boolean empty) {
+		        super.updateItem(item, empty);
+
+		        if (item == null) {
+		            setText(null);
+		        } else {
+
+			        item.setTimeZone(TimeZone.getTimeZone("GMT-5"));
+		            setText(sdf.format(item.getTime()));
+		        }
+		    }
+		});
+		colFecEntreg.setCellFactory(col -> new TableCell<PedidosReporteDTO, Calendar>() {
+		    @Override
+		    public void updateItem(Calendar item, boolean empty) {
+		        super.updateItem(item, empty);
+		        if (item == null) {
+		            setText(null);
+		        } else {
+			        item.setTimeZone(TimeZone.getTimeZone("GMT-5"));
+		            setText(sdf.format(item.getTime()));
+		        }
+		    }
+		});
+
 		
 	}
 	private EventHandler<MouseEvent> closeWindow(Stage stage) {
