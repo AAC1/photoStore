@@ -342,7 +342,9 @@ UPDATE  store_cat_prod set categoria = 0 WHERE id_prod = 43;
 
 drop table tmpProd;
 
-ALTER TABLE store_cat_prod MODIFY categoria INT;
+DELETE FROM store_cat_prod WHERE id_prod>=44;
+
+select CURDATE(); 
 
 /*
 
