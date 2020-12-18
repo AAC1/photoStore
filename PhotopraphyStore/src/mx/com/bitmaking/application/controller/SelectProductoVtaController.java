@@ -25,6 +25,7 @@ import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.iservice.IStoreCatProdService;
 import mx.com.bitmaking.application.iservice.IStoreClteProdCostService;
 import mx.com.bitmaking.application.iservice.IStoreFotografoService;
+import mx.com.bitmaking.application.util.GeneralMethods;
 
 @Component
 public class SelectProductoVtaController {
@@ -230,9 +231,14 @@ public class SelectProductoVtaController {
 		generateTreeProd(productsMap,0,root);
 		treeProd.setRoot(root);
 		*/
+		if(productsMap.size()>0) {
+			getDescProducts(productsMap, 0, lstProd, new CostProductsDTO(), new StringBuilder(),"");
+			tblProducto.setItems(FXCollections.observableList(lstProd));
+		}
+		else {
+			GeneralMethods.modalMsg("", "","No se encontraron productos");
+		}
 		
-		getDescProducts(productsMap, 0, lstProd, new CostProductsDTO(), new StringBuilder(),"");
-		tblProducto.setItems(FXCollections.observableList(lstProd));
 		
 	}
 	

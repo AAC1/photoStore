@@ -19,12 +19,17 @@ import javax.print.SimpleDoc;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 
+import org.apache.log4j.Logger;
+
 import javafx.collections.ObservableList;
+import mx.com.bitmaking.application.Main;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.dto.UserSessionDTO;
 
 public class PrinterService implements Printable{
-
+	
+	static Logger logger = Logger.getLogger(PrinterService.class);
+	
 	@Override
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
 		if (pageIndex > 0) { /* We have only one page, and 'page' is zero-based */
@@ -74,6 +79,8 @@ public class PrinterService implements Printable{
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+
+            logger.info(e.getMessage());
         }
 
     }
@@ -97,6 +104,8 @@ public class PrinterService implements Printable{
 
         } catch (Exception e) {
             e.printStackTrace();
+            logger.info(e.getMessage());
+        	
         }
     }
 

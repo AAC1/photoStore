@@ -45,7 +45,8 @@
 		<exeFileName>macrofoto</exeFileName>
 		<jarFileName>macrofoto</jarFileName>
 		<launch4jVersion>1.0.0.0</launch4jVersion>
-		<version.jre.launch4j>1.8.0_111</version.jre.launch4j>
+		<version.jre.launch4j>1.8.0_271</version.jre.launch4j>
+		
 	</properties>
 
 	<dependencies>
@@ -287,14 +288,12 @@
 		   <!-- <version>5.4.21.Final</version>-->
 		</dependency>
 
-		
-		<!--
 
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>${log4j.version}</version>
-		</dependency>-->
+		</dependency>
 
 	</dependencies>
 
@@ -389,7 +388,7 @@
 		<plugin>
 			<groupId>com.akathist.maven.plugins.launch4j</groupId>
 			<artifactId>launch4j-maven-plugin</artifactId>
-			<version>1.5.1</version>
+			<version>1.7.25</version>
 			<executions>
 					<execution>
 						<id>l4j-clui</id>

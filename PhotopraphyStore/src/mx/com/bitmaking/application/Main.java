@@ -1,6 +1,7 @@
 package mx.com.bitmaking.application;
 
 
+import org.apache.log4j.Logger;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.controller.LoginController;
+import mx.com.bitmaking.application.controller.VentaController;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
@@ -16,7 +18,8 @@ import javafx.scene.Scene;
 @EnableAutoConfiguration
 @ComponentScan ("mx.com.bitmaking.application")
 public class Main extends MystoreApplication {
-    
+	Logger logger = Logger.getLogger(Main.class);
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -39,6 +42,7 @@ public class Main extends MystoreApplication {
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
+			logger.info(e.getMessage());
 		}
 	}
 	

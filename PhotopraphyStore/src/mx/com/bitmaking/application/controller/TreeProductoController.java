@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -31,6 +32,7 @@ import mx.com.bitmaking.application.util.Flags;
 import mx.com.bitmaking.application.util.GeneralMethods;
 @Component
 public class TreeProductoController {
+	Logger logger = Logger.getLogger(TreeProductoController.class);
 //	@Autowired
 	//ICatProdDAO catProdDAO;
 	@Autowired
@@ -228,6 +230,7 @@ public class TreeProductoController {
 					}
 				} catch (Exception ex) {
 					ex.printStackTrace();
+					logger.info(ex.getMessage());
 				}
 			}
 		};
@@ -296,6 +299,8 @@ public class TreeProductoController {
 					GeneralMethods.modalMsg("ERROR", "", ex.getMessage());
 					
 					ex.printStackTrace();
+
+					logger.info(ex.getMessage());
 				}
 			}
 

@@ -21,6 +21,7 @@ import java.util.TimeZone;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 
+import org.apache.log4j.Logger;
 import org.aspectj.bridge.AbortException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -69,7 +70,8 @@ import mx.com.bitmaking.application.util.SMS;
 
 @Component
 public class BusqPedidoRepController {
-
+	
+	static final Logger logger = Logger.getLogger(BusqPedidoRepController.class);
 	//@FXML
 	//private Label lblPrefixFolio;
 
@@ -361,6 +363,7 @@ public class BusqPedidoRepController {
 			
 	    } catch(Exception ex) {
 			ex.printStackTrace();
+			logger.info(ex.getMessage());
 		}
 	}
 	
@@ -392,6 +395,7 @@ public class BusqPedidoRepController {
 				} catch (Exception e) {
 					GeneralMethods.modalMsg("", "", "Ocurrió un error: "+e.getMessage());
 					e.printStackTrace();
+					logger.info(e.getMessage());
 				}
 			}
 		};
@@ -443,6 +447,7 @@ public class BusqPedidoRepController {
 						
 		        } catch(Exception ex) {
 					ex.printStackTrace();
+					logger.info(ex.getMessage());
 				}
 			}
 
@@ -480,6 +485,7 @@ public class BusqPedidoRepController {
 						} catch (Exception e) {
 							GeneralMethods.modalMsg("", "", "Ocurrió un error en fechas");
 							e.printStackTrace();
+							logger.info(e.getMessage());
 						}
 					}
 				};
@@ -533,6 +539,7 @@ public class BusqPedidoRepController {
 						
 		        } catch(Exception ex) {
 					ex.printStackTrace();
+					logger.info(ex.getMessage());
 				}
 	}
 
@@ -587,10 +594,12 @@ public class BusqPedidoRepController {
 		} /*catch(MalformedURLException e){
 			GeneralMethods.modalMsg("ERROR", "", "No fue posible encontrar la plantilla del reporte");
 			e.printStackTrace();
+			logger.info(ex.getMessage());
 		}*/
 		catch (Exception e) {
 			GeneralMethods.modalMsg("ERROR", "", "Ha ocurrido un error al generar reporte");
 			e.printStackTrace();
+			logger.info(e.getMessage());
 		}finally{
 			if(fileInputStream!=null){
 				try {
@@ -598,6 +607,7 @@ public class BusqPedidoRepController {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					logger.info(e.getMessage());
 				}
 			}
 		}
@@ -891,6 +901,7 @@ public class BusqPedidoRepController {
 		} catch (Exception e) {
 			GeneralMethods.modalMsg("ERROR", "", "Ocurrio un error: "+e.getMessage());
 			e.printStackTrace();
+			logger.info(e.getMessage());
 		}
 		
 		
@@ -954,17 +965,21 @@ public class BusqPedidoRepController {
 				} catch (AddressException e) {
 					GeneralMethods.modalMsg("", "", e.getMessage());
 					e.printStackTrace();
+					logger.info(e.getMessage());
 				} catch (MessagingException e) {
 					GeneralMethods.modalMsg("", "", e.getMessage());
 					e.printStackTrace();
+					logger.info(e.getMessage());
 				}
 				
 	        } catch(Exception ex) {
 				ex.printStackTrace();
+				logger.info(ex.getMessage());
 			}
 		}
 		catch(Exception e){
 			e.printStackTrace();
+			logger.info(e.getMessage());
 		}
 	}
 }

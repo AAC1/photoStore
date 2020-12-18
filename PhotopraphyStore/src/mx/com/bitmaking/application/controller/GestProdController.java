@@ -324,14 +324,29 @@ public class GestProdController {
 
 				try {
 
-					if (productsMap == null || productsMap.size() == 0 ) {
-						 GeneralMethods.modalMsg("WARNING", "", "No hay registro a modificar");
+					if (productsMap == null || productsMap.size() == 0  ) {
+						if("A".equals(globalTypeForm)){
+							altaProd();
+							btnAddProd.setDisable(false);
+							btnEdtProd.setDisable(false);
+							btnEliminarProd.setDisable(false);
+							btnDescarga.setDisable(false);
+							inputName.setText("");
+							cbxStts.setValue("");
+							inputBarcode.setText("");
+							getTblCatProducts();
+							catProdModif = null;
+							//saveCostosByCliente(row.getId_prod(),inputCosto.getText());
+						}else {
+							GeneralMethods.modalMsg("WARNING", "", "No hay registro a modificar");
+						}
+						 
 						return;
 					}
 
 					ObservableList<TreeItem<String>> objTree = treeProd.getSelectionModel().getSelectedItems();
 					TreeItem<String> treeItem = objTree.get(0);
-					if (treeItem == null) {
+					if (treeItem == null && "M".equals(globalTypeForm)) {
 						// GeneralMethods.modalMsg("WARNING", "", "No hay
 						// registro seleccionado");
 						return;
@@ -391,42 +406,7 @@ public class GestProdController {
 							
 						}
 						else if("A".equals(globalTypeForm)){
-							row = new Store_cat_prod();
-							if (catProdModif == null) {
-								row.setId_padre_prod(0);
-							} else {
-								row.setId_padre_prod(catProdModif.getId_prod());
-							}
-							/*if(strRow.contains("|")) {
-								String[] arrayStr = strRow.split("\\|");
-								
-								idProd = arrayStr[0].substring(2, arrayStr[0].length()).trim();
-							}*/
-							
-							
-							row.setProducto(inputName.getText());
-							row.setEstatus(("ACTIVO".equals(cbxStts.getValue().toUpperCase())) ? "1" : "0");
-						
-							if(inputBarcode.getText()!=null && !"".equals(inputBarcode.getText().trim())) {
-								row.setBarcode(inputBarcode.getText());
-								row.setImg_barcode(GeneralMethods.generateImgBarcode(inputBarcode.getText()));
-								
-							}
-							if(radCategoria.isSelected()) {
-								row.setCategoria(1);
-							}
-							else{
-								row.setCategoria(0);
-							}
-							catProdService.insertRow(row);
-							if(Flags.remote_valid)remoteCatProdService.insertRow(row);
-							String cost = inputCosto.getText();
-							if (cost!=null && cost.length()>0 ) {
-								saveCostosByCliente(row.getId_prod(),inputCosto.getText());
-							}
-							
-							
-							cancelModif();
+							altaProd();
 							//saveCostosByCliente(row.getId_prod(),inputCosto.getText());
 						}
 						
@@ -448,6 +428,43 @@ public class GestProdController {
 			}
 
 		};
+	}
+	
+	private void altaProd() {
+		Store_cat_prod row = new Store_cat_prod();
+		if (catProdModif == null) {
+			row.setId_padre_prod(0);
+		} else {
+			row.setId_padre_prod(catProdModif.getId_prod());
+		}
+		/*if(strRow.contains("|")) {
+			String[] arrayStr = strRow.split("\\|");
+			
+			idProd = arrayStr[0].substring(2, arrayStr[0].length()).trim();
+		}*/
+		row.setProducto(inputName.getText());
+		row.setEstatus(("ACTIVO".equals(cbxStts.getValue().toUpperCase())) ? "1" : "0");
+	
+		if(inputBarcode.getText()!=null && !"".equals(inputBarcode.getText().trim())) {
+			row.setBarcode(inputBarcode.getText());
+			row.setImg_barcode(GeneralMethods.generateImgBarcode(inputBarcode.getText()));
+			
+		}
+		if(radCategoria.isSelected()) {
+			row.setCategoria(1);
+		}
+		else{
+			row.setCategoria(0);
+		}
+		catProdService.insertRow(row);
+		if(Flags.remote_valid)remoteCatProdService.insertRow(row);
+		String cost = inputCosto.getText();
+		if (cost!=null && cost.length()>0 ) {
+			saveCostosByCliente(row.getId_prod(),inputCosto.getText());
+		}
+		
+		
+		cancelModif();
 	}
 	
 	private void getDetails() {
@@ -667,6 +684,8 @@ public class GestProdController {
 								
 								radCategoria.setDisable(true);
 								radCategoria.setSelected(false);
+								System.out.println("Cat catProdModif:"+catProdModif.getCategoria());
+								
 							}
 							else {
 								radProducto.setDisable(true);
@@ -674,6 +693,12 @@ public class GestProdController {
 								
 								radCategoria.setDisable(true);
 								radCategoria.setSelected(true);
+								
+								/*Invalida estos valores por ser categoria*/
+								inputBarcode.setDisable(true);
+								inputCosto.setDisable(true);
+								inputBarcode.setText("");
+								
 							}
 						}
 						

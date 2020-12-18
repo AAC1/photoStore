@@ -16,6 +16,8 @@ import org.springframework.context.ApplicationContext;
 
 import org.springframework.stereotype.Component;
 
+import org.apache.log4j.Logger;
+
 import com.jfoenix.controls.JFXAutoCompletePopup;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -67,6 +69,7 @@ import mx.com.bitmaking.application.util.PrinterService;
 //@Scope("prototype")
 public class VentaController  {
 	
+	static final Logger logger = Logger.getLogger(VentaController.class);
 	
 	@FXML private JFXButton btnConsultPedido;
 	@FXML private JFXButton  btnEditarPedido;
@@ -272,6 +275,7 @@ public class VentaController  {
 	    } catch(Exception ex) {
 			ex.printStackTrace();
 			GeneralMethods.modalMsg("ERROR", "", ex.getMessage());
+			logger.info(ex.getMessage());
 		}
 	}
 	
@@ -382,6 +386,7 @@ public class VentaController  {
 		String monto=inputMonto.getText().replace(",", "");
 		if(inputMontoAnt.getText() !=null && inputMontoAnt.getText().length()>0 && Double.parseDouble(montoAnt) > Double.parseDouble(monto) ) {
 			GeneralMethods.modalMsg("ERROR", "", "Valide que el monto anticipo no sea mayor al importe total");
+			
 			return;
 		}
 		
@@ -486,7 +491,8 @@ public class VentaController  {
 						cbxCliente.hide();
 						autoCompletePopup.hide();
 					}
-					System.out.println(layoutPrinter);
+					//System.out.println(layoutPrinter);
+					
 					PrinterService.printTicket(Constantes.PRINTER_NAME, layoutPrinter);
 					
 					
@@ -494,6 +500,7 @@ public class VentaController  {
 		        } catch(Exception ex) {
 					ex.printStackTrace();
 					GeneralMethods.modalMsg("ERROR", "", ex.getMessage());
+					logger.info(ex.getMessage());
 				}
 			}};
 	}
@@ -520,8 +527,10 @@ public class VentaController  {
 			ctrl = fxmlLoader.getController(); //Obtiene controller de la nueva ventana
 			
 	    } catch(Exception ex) {
-			ex.printStackTrace();
+
 			GeneralMethods.modalMsg("ERROR", "", ex.getMessage());
+	    	logger.info(ex.getMessage());
+			ex.printStackTrace();
 		}
 		return ctrl;
 	}
@@ -557,12 +566,14 @@ public class VentaController  {
 		}
 		String clteSelected = cbxCliente.getEditor().getText();
 		inputCliente.setText("");
+	/*
 		System.out.println("clteSelected: "+clteSelected);
 		System.out.println("idxClte: "+idxClte);
 		System.out.println("cbxCliente.getEditor().getText():"+cbxCliente.getEditor().getText());
 		System.out.println("cbxCliente.getPromptText():"+cbxCliente.getPromptText());
 		System.out.println("cbxCliente.getSelectionModel().getSelectedIndex():"+cbxCliente.getSelectionModel().getSelectedIndex());
-	//	if(idxClte ==0 ) {
+	*/
+		//	if(idxClte ==0 ) {
 		if(Constantes.CLTE_GRAL.equals(clteSelected.trim())){
 			inputCliente.setDisable(false);
 			cbxCliente.setValue(Constantes.CLTE_GRAL);
@@ -576,7 +587,7 @@ public class VentaController  {
 		        	break;
 		        }
 		    }
-			System.out.println("item:"+item);
+		//	System.out.println("item:"+item);
 			if(!"".equals(item.trim())) {
 				inputCliente.setDisable(true);
 				inputCliente.setText(item);//(lstFoto.get((idxClte)).getFotografo());
@@ -628,7 +639,7 @@ public class VentaController  {
 		cbxCliente.setEditable(true);
 		
 		
-		System.out.println("es remoto?"+Flags.remote_valid);
+		//System.out.println("es remoto?"+Flags.remote_valid);
 		lstFoto = (Flags.remote_valid)?remoteFotografoService.getActiveClients():fotografoService.getActiveClients();
 		String[] arrayClte = new String[lstFoto.size()];
 		
@@ -736,6 +747,7 @@ public class VentaController  {
 	    } catch(Exception ex) {
 			ex.printStackTrace();
 			GeneralMethods.modalMsg("ERROR", "", ex.getMessage());
+			logger.info(ex.getMessage());
 		}
 	}
 	
@@ -770,6 +782,7 @@ public class VentaController  {
 					if(stageBusqConfirm!=null) stageBusqConfirm.close();
 		        } catch(Exception ex) {
 					ex.printStackTrace();
+					logger.info(ex.getMessage());
 				}
 			}};
 	}
@@ -827,7 +840,7 @@ public class VentaController  {
 					tbProductos.getItems().add(auxObj);
 				}
 				updateCostoTotal();
-				System.out.println("tbProductos.getItems().size():"+tbProductos.getItems().size());
+			//	System.out.println("tbProductos.getItems().size():"+tbProductos.getItems().size());
 				if(tbProductos.getItems().size()>0) {
 					cbxCliente.setDisable(true);
 				}
@@ -888,7 +901,7 @@ public class VentaController  {
 		inputProd.setText("");
 		inputCostoProd.setText("");
 		inputBarcode.setText("");
-		System.out.println("tbProductos.getItems().size():"+tbProductos.getItems().size());
+		//System.out.println("tbProductos.getItems().size():"+tbProductos.getItems().size());
 		if(tbProductos.getItems().size()>0) {
 			cbxCliente.setDisable(true);
 		}
@@ -896,7 +909,7 @@ public class VentaController  {
 	
 	@FXML private void quitProdToTable() {
 		int idx = tbProductos.getSelectionModel().getSelectedIndex();
-		System.out.println("IDX:"+idx);
+	//	System.out.println("IDX:"+idx);
 		if(idx<0) {
 			return;
 		}
@@ -930,8 +943,8 @@ public class VentaController  {
 				
 				int rowSelected = busqProd.getTblProducto().getSelectionModel().getSelectedIndex();
 				if(rowSelected<0)return;
-				System.out.println("RowSelected_SelecProdVta:"+rowSelected);
-				System.out.println("RowSelected_SelecProdVta:"+ busqProd.getLstProd().size());
+			//	System.out.println("RowSelected_SelecProdVta:"+rowSelected);
+			//	System.out.println("RowSelected_SelecProdVta:"+ busqProd.getLstProd().size());
 				rowProd= busqProd.getLstProd().get(rowSelected);
 			//	String cost = String.valueOf(rowProd.getCosto());
 				
@@ -951,7 +964,7 @@ public class VentaController  {
 		return new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				System.out.println("Entra closeWindows");
+			//	System.out.println("Entra closeWindows");
 				if(stageBusqProd!=null) 
 					stageBusqProd.close();
 			}
@@ -999,6 +1012,7 @@ public class VentaController  {
 						stageBusqProd.show();
 		        } catch(Exception ex) {
 					ex.printStackTrace();
+					logger.info(ex.getMessage());
 				}
 			}};
 	}
@@ -1013,12 +1027,14 @@ public class VentaController  {
 				try {
 					String folio=busqProd.getInputBusqFolio().getText();
 					if(folio !=null && !"".equals(folio)){
-						System.out.println("Folio: "+folio);
+				//		System.out.println("Folio: "+folio);
 						stageBusqProd.close();
 					}
 					
 		        } catch(Exception ex) {
 					ex.printStackTrace();
+
+					logger.info(ex.getMessage());
 				}
 			}};
 	}

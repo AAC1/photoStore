@@ -27,6 +27,8 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 import javax.imageio.ImageIO;
 
+import java.util.logging.Level;
+import org.apache.log4j.Logger;
 import org.aspectj.bridge.AbortException;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -50,7 +52,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class GeneralMethods {
-
+	static Logger logger = Logger.getLogger(GeneralMethods.class);
 	
 	public static void modalMsg(String title,String msgTitle, String msgContent) {
 		
@@ -271,6 +273,8 @@ public class GeneralMethods {
 			
 		}catch(NoSuchAlgorithmException| UnsupportedEncodingException e){
 			e.printStackTrace();
+
+			logger.info(e.getMessage());
 		}
 		return resp;
 	}
@@ -303,6 +307,7 @@ public class GeneralMethods {
 	    catch(UnsupportedEncodingException| NoSuchAlgorithmException| InvalidKeyException|
 	    		NoSuchPaddingException| IllegalBlockSizeException| BadPaddingException  e){
 			e.printStackTrace();
+			logger.info(e.getMessage());
 		}
         return encriptado;
     }
@@ -323,6 +328,7 @@ public class GeneralMethods {
         catch(UnsupportedEncodingException| NoSuchAlgorithmException| InvalidKeyException|
         		NoSuchPaddingException| IllegalBlockSizeException| BadPaddingException  e){
 			e.printStackTrace();
+			logger.info(e.getMessage());
 		}
         return datos;
     }
@@ -370,6 +376,7 @@ public class GeneralMethods {
         
 		}catch(Exception e) {
 			e.printStackTrace();
+			logger.info(e.getMessage());
 		}/*finally {
 			if(document !=null) {
 				
@@ -407,8 +414,9 @@ public class GeneralMethods {
 		        
 		    } catch (IOException ex) {
 		//    	GeneralMethods.modalMsg("", "Error IO: "+ex.getMessage());
+		    	logger.info(ex.getMessage());
 		    }catch (AbortException ex) {
-		    	
+		    	logger.info(ex.getMessage());
 		    }
 		}else {
 			GeneralMethods.modalMsg("", "Archivo guardado en la ruta por default", " Vaya a la ruta: "+path);

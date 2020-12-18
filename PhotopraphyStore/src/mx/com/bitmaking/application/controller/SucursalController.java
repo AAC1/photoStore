@@ -2,6 +2,7 @@ package mx.com.bitmaking.application.controller;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -30,7 +31,8 @@ import mx.com.bitmaking.application.util.GeneralMethods;
 
 @Component
 public class SucursalController {
-	
+
+	Logger logger = Logger.getLogger(SucursalController.class);
 	@FXML private JFXButton btnAgregar;
 	@FXML private JFXButton btnEditar;
 	@FXML private JFXButton btnEliminar;
@@ -264,6 +266,7 @@ public class SucursalController {
 					
 		        } catch(Exception ex) {
 					ex.printStackTrace();
+					logger.info(ex.getMessage());
 				}
 			}};
 	}
@@ -293,6 +296,8 @@ public class SucursalController {
 	    } catch(Exception ex) {
 			ex.printStackTrace();
 			GeneralMethods.modalMsg("ERROR", "", ex.getMessage());
+
+			logger.info(ex.getMessage());
 		}
 		return ctrl;
 	}
