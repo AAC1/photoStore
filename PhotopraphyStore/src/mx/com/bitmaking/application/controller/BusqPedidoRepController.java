@@ -327,7 +327,7 @@ public class BusqPedidoRepController {
 		try {
 			Store_prod_pedido obj = tblProducts.getSelectionModel().getSelectedItem();
 			if(obj==null){
-				GeneralMethods.modalMsg("", "", "Debes seleccionar un producto;");
+				GeneralMethods.modalMsg("", "", "Debes seleccionar un producto");
 				return;
 			}
 			if("TERMINADO".equals(obj.getEstatus().trim().toUpperCase())){
@@ -620,7 +620,7 @@ public class BusqPedidoRepController {
 		tblPedido.getItems().removeAll(tblPedido.getItems());
 		tblProducts.getItems().removeAll(tblProducts.getItems());
 		
-		String qry = "SELECT  p.folio, p.cliente, p.telefono, p.descripcion, p.fec_pedido,"+
+		String qry = "SELECT  p.folio, p.cliente, p.telefono, p.email, p.descripcion, p.fec_pedido,"+
 			" p.fec_entregado, p.monto_ant, p.monto_total, (IFNULL(p.monto_total,0) - IFNULL(p.monto_ant,0) ) monto_pendiente, "+
 			" (select s.estatus from Store_cat_estatus s where s.id_estatus=p.id_estatus) as estatus, p.ticket "+
 			" FROM Store_pedido p WHERE p.fec_pedido >= CURDATE() ";
@@ -719,7 +719,7 @@ public class BusqPedidoRepController {
 		DateTimeFormatter dtEnd = DateTimeFormatter.ofPattern("yyyy-MM-dd 23:59:59");
 		StringBuilder qry = new StringBuilder();
 		qry.delete(0, qry.length());
-		qry.append("SELECT  p.folio, p.cliente, p.telefono, p.descripcion, p.fec_pedido, ");
+		qry.append("SELECT  p.folio, p.cliente, p.telefono, p.email, p.descripcion, p.fec_pedido, ");
 		qry.append(" p.fec_entregado, p.monto_ant, p.monto_total, (IFNULL(p.monto_total,0) - IFNULL(p.monto_ant,0) ) monto_pendiente, ");
 		qry.append(" (select s.estatus from Store_cat_estatus s where s.id_estatus=p.id_estatus) as estatus, p.ticket ");
 		qry.append(" FROM Store_pedido p ");
@@ -952,7 +952,14 @@ public class BusqPedidoRepController {
 					msgHtml.append("</tbody></table>");
 					if("PENDIENTE".equals(obj.getEstatus().toUpperCase())){
 						if(!hasPendientProds("('"+obj.getFolio()+"')")) {
-							mailObj.sendMessageHTML(env.getProperty("mail.userTo"), msgHtml.toString(), "Estatus de Pedido",null, null);
+							if(obj.getEmail() !=null && !"".equals(obj.getEmail())) {
+								mailObj.sendMessageHTML(obj.getEmail(), msgHtml.toString(), "Estatus de Pedido",null, null);
+							}
+							else {
+								GeneralMethods.modalMsg("", "", "No es posible enviar notificaci\u00F3n, no ha encontrado contacto del cliente ");
+							}
+							
+						//	mailObj.sendMessageHTML(env.getProperty("mail.userTo"), msgHtml.toString(), "Estatus de Pedido",null, null);
 						}else {
 							GeneralMethods.modalMsg("", "", "No es posible enviar notificaci\u00F3n, el pedido tiene productos pendientes ");
 						}

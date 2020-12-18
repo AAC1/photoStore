@@ -87,6 +87,7 @@ public class VentaController  {
 	@FXML private JFXTextField inputMontoAnt;
 	@FXML private JFXTextField inputMonto;
 	@FXML private JFXTextField inputTelefono;
+	@FXML private JFXTextField inputCorreo;
 	@FXML private JFXTextField inputProd;
 	@FXML private JFXTextField inputCantProd;
 	@FXML private JFXTextField inputCostoProd;
@@ -333,6 +334,7 @@ public class VentaController  {
 		inputMontoAnt.setText("0");
 		
 		cbxEstatus.setValue("PENDIENTE");
+		inputCorreo.setText("");
 		inputTelefono.setText("");
 		inputCliente.setText("");
 	//	cbxCliente.getEditor().setText("");
@@ -350,6 +352,14 @@ public class VentaController  {
 		tbColCant.setCellValueFactory(new PropertyValueFactory<CostProductsDTO, Integer>("cantidad"));
 		tbColCosto.setCellValueFactory(new PropertyValueFactory<CostProductsDTO, BigDecimal>("costo"));
 		tbColEstatus.setCellValueFactory(new PropertyValueFactory<CostProductsDTO, String>("estatus"));
+		
+		cbxEstatus.setDisable(false);
+		cbxCliente.setDisable(false);
+		inputCliente.setDisable(false);
+		inputDesc.setDisable(false);
+		inputTelefono.setDisable(false);
+		inputCorreo.setDisable(false);
+		autoCompletePopup.hide();
 	}
 	
 	@FXML private void cancelPedido(){
@@ -424,6 +434,7 @@ public class VentaController  {
 					}else
 						pedidoObj.setCliente(inputCliente.getText());
 					pedidoObj.setTelefono(inputTelefono.getText());
+					pedidoObj.setEmail(inputCorreo.getText());
 					pedidoObj.setDescripcion(inputDesc.getText());
 					LocalDateTime dateTime = LocalDateTime.parse(sdf.format(new Date()), formatter);
 					Calendar c = Calendar.getInstance();
@@ -547,13 +558,16 @@ public class VentaController  {
 	private void selectCte() {
 		int idxClte = cbxCliente.getSelectionModel().getSelectedIndex() ;
 		inputTelefono.setText("");
+		inputCorreo.setText("");
+		
 		if(idxClte ==0){
 			inputTelefono.setVisible(true);
 			lblTelefono.setVisible(true);
 		}else{
-			inputTelefono.setVisible(false);
-			lblTelefono.setVisible(false);
+			//inputTelefono.setVisible(false);
+			//lblTelefono.setVisible(false);
 		}
+		
 		setClte();
 	}
 	
@@ -566,6 +580,11 @@ public class VentaController  {
 		}
 		String clteSelected = cbxCliente.getEditor().getText();
 		inputCliente.setText("");
+		Store_fotografo clteInfo = lstFoto.get(idxClte);
+		if(clteInfo!= null) {
+			inputCorreo.setText(clteInfo.getEmail()!=null?clteInfo.getEmail():"");
+			inputTelefono.setText(clteInfo.getTelefono()!=null?clteInfo.getTelefono():"");
+		}
 	/*
 		System.out.println("clteSelected: "+clteSelected);
 		System.out.println("idxClte: "+idxClte);

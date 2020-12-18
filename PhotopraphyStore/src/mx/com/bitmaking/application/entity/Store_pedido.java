@@ -23,6 +23,8 @@ public class Store_pedido {
 	@Column
 	private String telefono;
 	@Column
+	private String email;
+	@Column
 	private String descripcion;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -43,6 +45,12 @@ public class Store_pedido {
 	
 	
 	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	public byte[] getTicket() {
 		return ticket;
 	}

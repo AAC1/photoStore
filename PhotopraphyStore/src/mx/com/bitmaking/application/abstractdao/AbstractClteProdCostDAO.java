@@ -51,6 +51,7 @@ public abstract class AbstractClteProdCostDAO implements IClteProdCostDAO{
 			qry.addScalar("folio",new StringType());
 			qry.addScalar("cliente",new StringType());
 			qry.addScalar("telefono",new StringType());
+			qry.addScalar("email",new StringType());
 			qry.addScalar("descripcion",new StringType());
 			qry.addScalar("fec_pedido",new CalendarType());
 			qry.addScalar("fec_entregado",new CalendarType());
