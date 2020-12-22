@@ -230,6 +230,39 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 		return results;
 	}
 
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Store_cat_prod getCatByPadre(String padreName){
+		Store_cat_prod results = null;
+		StringBuilder qry = new StringBuilder();
+		qry.append(" SELECT p.* ");
+		qry.append(" FROM Store_cat_prod p ");
+		qry.append(" WHERE p.producto = :padre ");
+		
+		
+		try{
+ 
+			SQLQuery query= getSessionFactory().getCurrentSession().createSQLQuery(qry.toString());
+			
+			query.setString("padre", padreName);
+			query.setResultTransformer(Transformers.aliasToBean(Store_cat_prod.class));
+			query.addScalar("id_prod", new IntegerType());
+			query.addScalar("id_padre_prod", new IntegerType());
+			query.addScalar("producto", new StringType());
+			query.addScalar("estatus", new StringType());
+			query.addScalar("barcode", new StringType());
+
+			query.addScalar("categoria",new IntegerType());
+			results =(Store_cat_prod)query.uniqueResult();
+		
+		}catch(Exception e) {
+			e.printStackTrace();
+		
+		}
+		return results;
+	}
+
 	@Override
 	public Store_cat_prod getCatByIdProd(int idProd){
 		Store_cat_prod results = null;

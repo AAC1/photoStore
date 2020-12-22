@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.bitmaking.application.abstractdao.AbstractStoreFotografoDAO;
+import mx.com.bitmaking.application.dto.ClienteDTO;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
 import mx.com.bitmaking.application.entity.Store_fotografo;
 import mx.com.bitmaking.application.idao.IStoreFotografoDAO;
@@ -27,8 +28,32 @@ public class StoreFotografoDAO extends AbstractStoreFotografoDAO{// implements I
 	}
 
 	@Override
-	public SessionFactory getSessionFActory() {
+	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 
+	@Transactional(value="transactionManager")
+	@Override
+	public List<Store_fotografo> getClients() {
+		return super.getClients();
+	}
+
+	@Transactional(value="transactionManager")
+	@Override
+	public List<ClienteDTO> getClientsByName(String name) {
+		return super.getClientsByName(name);
+	}
+
+
+	@Transactional(value="transactionManager")
+	@Override
+	public void saveCliente(Store_fotografo cliente) {
+		super.saveCliente(cliente);
+	}
+
+	@Transactional(value="transactionManager")
+	@Override
+	public void deleteCliente(int idCliente) {
+		super.deleteCliente(idCliente);
+	}
 }

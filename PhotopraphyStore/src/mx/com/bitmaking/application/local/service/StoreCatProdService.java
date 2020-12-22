@@ -81,6 +81,10 @@ public class StoreCatProdService extends AbstractStoreCatProdService{ // impleme
 	public List<Store_cat_prod> getCatByPadre(int idPadre) {
 		return super.getCatByPadre(idPadre);
 	}
+	@Transactional(value="transactionManager")
+	public Store_cat_prod getCatByPadre(String padre) {
+		return super.getCatByPadre(padre);
+	}
 
 	@Transactional(value="transactionManager")
 	public Store_cat_prod getCatById(int idPadre) {

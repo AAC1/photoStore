@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.bitmaking.application.abstractservice.AbstractStoreFotografoService;
+import mx.com.bitmaking.application.dto.ClienteDTO;
 import mx.com.bitmaking.application.entity.Store_fotografo;
 import mx.com.bitmaking.application.idao.IStoreFotografoDAO;
 
@@ -29,6 +30,33 @@ public class StoreFotografoService extends AbstractStoreFotografoService{//imple
 	@Override
 	public IStoreFotografoDAO getFotografoRepo() {
 		return fotografoRepo;
+	}
+
+	@Transactional(value="transactionManager")
+	@Override
+	public List<ClienteDTO> getClientsByName(String name) {
+		
+		return super.getClientsByName(name);
+	}
+
+	@Transactional(value="transactionManager")
+	@Override
+	public List<Store_fotografo> getClients() {
+		return super.getClients();
+	}
+	
+
+	@Transactional(value="transactionManager")
+	@Override
+	public void saveCliente(Store_fotografo cliente) {
+		
+		super.saveCliente(cliente);
+	}
+
+	@Transactional(value="transactionManager")
+	@Override
+	public void deleteCliente(int idCliente) {
+		 super.deleteCliente(idCliente);
 	}
 
 }

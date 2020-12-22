@@ -469,9 +469,9 @@ public class UsuarioController {
 			stageBusqProd.setScene(scene);
 			stageBusqProd.setTitle("Confirmación");
 			stageBusqProd.setMinHeight(200.0);
-			stageBusqProd.setMinWidth(350.0);
-			stageBusqProd.setMaxHeight(350.0);
-			stageBusqProd.setMaxWidth(200.0);
+			stageBusqProd.setMinWidth(450.0);
+			stageBusqProd.setMaxWidth(450.0);
+			stageBusqProd.setMaxHeight(200.0);
 			stageBusqProd.initModality(Modality.APPLICATION_MODAL); 
 			stageBusqProd.show();
 			ctrl = fxmlLoader.getController(); //Obtiene controller de la nueva ventana

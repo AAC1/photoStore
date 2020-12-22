@@ -30,7 +30,7 @@ public abstract class AbstractStoreUsuarioService implements IStoreUsuarioServic
 		query.append(GeneralMethods.validIfNull(usuario, " AND UPPER(usr.nombre) like UPPER(\'%%%s%%\') "));
 		query.append(GeneralMethods.validIfNull(estatus, " AND IF(usr.activo='1','ACTIVO','NO ACTIVO') like UPPER(\'%%%s%%\') "));
 		
-		System.out.println("Qry Usr:"+ query);
+	// 	System.out.println("Qry Usr:"+ query);
 		
 		List<UsuariosDTO> resp = getStoreUsuarioDAO().getUsr(query.toString());
 		return resp;

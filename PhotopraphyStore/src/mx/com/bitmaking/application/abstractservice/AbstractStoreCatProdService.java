@@ -132,6 +132,12 @@ public abstract class AbstractStoreCatProdService implements IStoreCatProdServic
 		List<Store_cat_prod> resp = getCatProdDAO().getCatByPadre(idPadre);
 		return resp;
 	}
+
+	@Override
+	public Store_cat_prod getCatByPadre(String padreName) {
+		Store_cat_prod resp = getCatProdDAO().getCatByPadre(padreName);
+		return resp;
+	}
 	
 	@Override
 	public Store_cat_prod getCatById(int idProd) {

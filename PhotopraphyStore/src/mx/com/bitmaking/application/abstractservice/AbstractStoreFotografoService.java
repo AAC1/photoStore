@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import mx.com.bitmaking.application.dto.ClienteDTO;
 import mx.com.bitmaking.application.entity.Store_fotografo;
 import mx.com.bitmaking.application.idao.IStoreFotografoDAO;
 import mx.com.bitmaking.application.iservice.IStoreFotografoService;
@@ -38,4 +39,30 @@ public abstract class AbstractStoreFotografoService implements IStoreFotografoSe
 		return lstResp;
 	}
 
+
+	@Override
+	public List<Store_fotografo> getClients() {
+		List<Store_fotografo> lstResp = new ArrayList<>();
+		
+		lstResp.addAll(getFotografoRepo().getClients());
+		return lstResp;
+	}
+
+	@Override
+	public List<ClienteDTO> getClientsByName(String name) {
+		List<ClienteDTO> lstResp = new ArrayList<>();
+		
+		lstResp.addAll(getFotografoRepo().getClientsByName(name));
+		return lstResp;
+	}
+	
+	@Override
+	public void saveCliente(Store_fotografo cliente) {
+		getFotografoRepo().saveCliente(cliente);
+	}
+	
+	@Override
+	public void deleteCliente(int cliente) {
+		getFotografoRepo().deleteCliente(cliente);
+	}
 }

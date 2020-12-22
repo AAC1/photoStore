@@ -32,8 +32,10 @@ public interface ICatProdDAO {
 
 	public boolean updateCostProduct(Store_cliente_prod_cost objProd);
 
-	List<Store_cat_prod> getCatByPadre(int idPadre);
-
+	public List<Store_cat_prod> getCatByPadre(int idPadre);
+	
+	public Store_cat_prod getCatByPadre(String padreName);
+	
 	public Store_cat_prod getCatByIdProd(int idProd);
 
 	public boolean exportPDF(FileInputStream fileInputStream, String titulo, String pathReport,String logoPath);

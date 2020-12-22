@@ -354,3 +354,5 @@ GRANT ALL ON macrofoto.* TO 'macrofotoUsr';
 
 FLUSH PRIVILEGES;
 */
+
+alter table store_pedido add column email VARCHAR(100) AFTER telefono; 

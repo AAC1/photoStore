@@ -51,6 +51,7 @@ public class HomeController {
 	@FXML private Label lblUsr;
 	@FXML private Label lblSucursales;
 	@FXML private Label lblCorteCaja;
+	@FXML private Label lblClientes;
 	@FXML private JFXHamburger menuHamburger;
 	@FXML private AnchorPane menuContainer;
 	@FXML private AnchorPane bodyContainer;
@@ -109,6 +110,7 @@ public class HomeController {
 		lblUsr.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("GestionUsuarios",false,false));
 		lblSucursales.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("GestionSucursales",false,false));
 		lblCorteCaja.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("CorteCaja",true,false));
+		lblClientes.addEventHandler(MouseEvent.MOUSE_CLICKED,eventClick("GestionClientes",false,false));
 	//	menuHamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, showMenuContainer());
 		
 	}
@@ -297,6 +299,10 @@ public class HomeController {
 			        	case "CorteCaja":
 			        		CorteCajaController cajaCtrl = loader.getController();
 			        		cajaCtrl.getBtnCancelar().addEventHandler(MouseEvent.MOUSE_CLICKED,returnToHome());
+				        	break;
+			        	case "GestionClientes":
+			        		ClienteController clteCtrl = loader.getController();
+			        		clteCtrl.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED,returnToHome());
 				        	break;
 			        }
 				        

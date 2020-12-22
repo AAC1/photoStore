@@ -13,7 +13,7 @@
       <JFXButton fx:id="btnAddProd" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #037AB6; -fx-text-fill: white;" styleClass="btn-gral" text="✚ Alta" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
       <JFXButton fx:id="btnEliminarProd" layoutX="272.0" layoutY="14.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #A12D04 #A12D04; -fx-text-fill: white;" styleClass="btn-gral" text="✖ Eliminar" AnchorPane.leftAnchor="272.0" AnchorPane.topAnchor="14.0" />
       <JFXButton fx:id="btnEdtProd" layoutX="143.0" layoutY="14.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #C37B00; -fx-text-fill: white;" styleClass="btn-gral" text="▬ Modificar" AnchorPane.leftAnchor="143.0" AnchorPane.topAnchor="14.0" />
-      <JFXButton fx:id="btnDescarga" layoutX="401.0" layoutY="14.0" onMouseClicked="#downloadBarCodeProds" prefHeight="30.0" prefWidth="217.0" style="-fx-background-color: #505050; -fx-text-fill: white;" styleClass="btn-gral" text="🖶 Descarga Código de Barras" />
+      <JFXButton fx:id="btnDescarga" layoutX="401.0" layoutY="14.0" onMouseClicked="#downloadBarCodeProds" prefHeight="30.0" prefWidth="217.0" style="-fx-background-color: #505050; -fx-text-fill: white;" styleClass="btn-gral" text="🖶 Descarga Código de Barras" AnchorPane.leftAnchor="401.0" AnchorPane.topAnchor="14.0" />
       <TreeView fx:id="treeProd" layoutX="10.0" layoutY="61.0" onKeyReleased="#selectByArrow" prefHeight="211.0" prefWidth="367.0" styleClass="tree-gral" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="61.0" />
       <AnchorPane layoutX="383.0" layoutY="59.0" prefHeight="436.0" prefWidth="393.0" style="-fx-background-color: rgba(216,216,216,0.5);" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="383.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="61.0">
          <children>
@@ -36,5 +36,6 @@
             <Label fx:id="lblCosto" layoutX="11.0" layoutY="285.0" prefHeight="17.0" prefWidth="297.0" styleClass="label-title" text="Costo (Aplicará a todos los clientes)" visible="false" AnchorPane.leftAnchor="11.0" />
          </children>
       </AnchorPane>
+      <JFXButton fx:id="btnEliminarProd1" layoutX="627.0" layoutY="14.0" onMouseClicked="#importFile" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #505050; -fx-text-fill: white;" styleClass="btn-gral" text="Importar Inv." AnchorPane.leftAnchor="627.0" AnchorPane.topAnchor="14.0" />
    </children>
 </AnchorPane>

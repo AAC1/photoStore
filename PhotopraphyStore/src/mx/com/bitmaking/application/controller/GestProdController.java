@@ -1,5 +1,6 @@
 package mx.com.bitmaking.application.controller;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -13,6 +14,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,6 +28,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
@@ -40,6 +48,7 @@ import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.dto.CostProductsDTO;
@@ -129,12 +138,15 @@ public class GestProdController {
 	TreeItem<String> root = null;
 	private boolean deleted=false;
 	private String globalTypeForm = "";
+	private FileChooser fileChooser = null;
+	
 	
 	public JFXButton getBtnSalir() {
 		return btnSalir;
 	}
 
 	public void initialize() {
+		fileChooser = new FileChooser();
 		responsiveGUI();
 		getTblCatProducts();
 		btnAddProd.addEventHandler(MouseEvent.MOUSE_CLICKED, editCatProd("A"));
@@ -144,6 +156,73 @@ public class GestProdController {
 		btnEliminarProd.addEventHandler(MouseEvent.MOUSE_CLICKED, modalDelProd());
 		inputCosto.textProperty().addListener(GeneralMethods.formatNumber(inputCosto));
 		
+	}
+	
+	@FXML
+	private void importFile() {
+		Stage stageFile = new Stage();
+		stageFile.setTitle("Seleccione inventario a importar");
+		File inv = fileChooser.showOpenDialog(stage);
+		DataFormatter dataFormatter = new DataFormatter();
+
+		try {
+			if(inv!=null) {
+				Workbook workbook = WorkbookFactory.create(inv);
+				StringBuilder rowNotFounded = new StringBuilder();
+				Sheet sheet = workbook.getSheetAt(0);
+				Cell cell =null;
+				Store_cat_prod catProd = null;
+				for (Row row: sheet) {
+					catProd = new Store_cat_prod();
+		            catProd.setProducto(dataFormatter.formatCellValue(row.getCell(0))); //Producto
+		            String padre = dataFormatter.formatCellValue(row.getCell(1)); //Padre
+		            if(padre.length()>0) {
+		            	//get IdPadre
+		            	
+		            	Store_cat_prod catProdObj = Flags.remote_valid?remoteCatProdService.getCatByPadre(padre):
+		            					catProdService.getCatByPadre(padre);
+		            	if(catProdObj!=null) {
+		            		catProd.setId_padre_prod(catProdObj.getId_prod());
+		            	}else {
+		            		rowNotFounded.append(catProd.getProducto()+"\n");
+		            		continue;
+		            	}
+		            	 
+		            }else {
+		            	rowNotFounded.append(catProd.getProducto()+"\n");
+	            		continue;
+		            }
+		           
+		            catProd.setEstatus(dataFormatter.formatCellValue(row.getCell(2)));
+		            catProd.setCategoria(Integer.parseInt(dataFormatter.formatCellValue(row.getCell(3))));
+		            catProd.setBarcode(dataFormatter.formatCellValue(row.getCell(4)));
+		            if(catProd.getBarcode() != null && catProd.getBarcode().length()>0) {
+		            	
+		            	catProd.setImg_barcode(GeneralMethods.generateImgBarcode(catProd.getBarcode()));
+		            }
+		            try {
+			            if(Flags.remote_valid)remoteCatProdService.insertRow(catProd);
+			            else catProdService.insertRow(catProd);
+		            }catch(Exception ex) {
+		            	rowNotFounded.append(catProd.getProducto()+"\n");
+	            		continue;
+		    		}
+		        }
+				if(rowNotFounded.length()>0) {
+
+					GeneralMethods.modalMsg("", "", "Los siguientes registros no se pudieron agregar: \n"+rowNotFounded);
+				}
+				
+			}
+		}catch(IOException ex) {
+			GeneralMethods.modalMsg("", "", "No fue posible cargar todo el inventario, valide el contenido");
+			ex.printStackTrace();
+		}catch(Exception ex) {
+			GeneralMethods.modalMsg("", "", "No fue posible cargar todo el inventario, valide el contenido");
+			ex.printStackTrace();
+		}finally {
+			getTblCatProducts();
+		}
 	}
 	
 	@FXML 
