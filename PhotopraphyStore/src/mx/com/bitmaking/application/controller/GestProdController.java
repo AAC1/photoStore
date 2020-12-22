@@ -175,8 +175,16 @@ public class GestProdController {
 				for (Row row: sheet) {
 					catProd = new Store_cat_prod();
 		            catProd.setProducto(dataFormatter.formatCellValue(row.getCell(0))); //Producto
+		            
+		            if(catProd.getProducto() ==null || catProd.getProducto().trim().length()==0 ||
+		            		dataFormatter.formatCellValue(row.getCell(3)) ==null || dataFormatter.formatCellValue(row.getCell(3)).trim().length()==0 ||
+		            		dataFormatter.formatCellValue(row.getCell(2)) ==null || dataFormatter.formatCellValue(row.getCell(2)).trim().length()==0) {
+		            	continue;
+		            }
+		            
 		            String padre = dataFormatter.formatCellValue(row.getCell(1)); //Padre
-		            if(padre.length()>0) {
+		            
+		            if(padre.trim().length()>0) {
 		            	//get IdPadre
 		            	
 		            	Store_cat_prod catProdObj = Flags.remote_valid?remoteCatProdService.getCatByPadre(padre):
@@ -189,17 +197,19 @@ public class GestProdController {
 		            	}
 		            	 
 		            }else {
-		            	rowNotFounded.append(catProd.getProducto()+"\n");
-	            		continue;
+		            	catProd.setId_padre_prod(0);
 		            }
 		           
 		            catProd.setEstatus(dataFormatter.formatCellValue(row.getCell(2)));
+		            
 		            catProd.setCategoria(Integer.parseInt(dataFormatter.formatCellValue(row.getCell(3))));
 		            catProd.setBarcode(dataFormatter.formatCellValue(row.getCell(4)));
+		            
 		            if(catProd.getBarcode() != null && catProd.getBarcode().length()>0) {
 		            	
 		            	catProd.setImg_barcode(GeneralMethods.generateImgBarcode(catProd.getBarcode()));
 		            }
+		            
 		            try {
 			            if(Flags.remote_valid)remoteCatProdService.insertRow(catProd);
 			            else catProdService.insertRow(catProd);
