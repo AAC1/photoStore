@@ -14,7 +14,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -171,7 +173,13 @@ public class GestProdController {
 				StringBuilder rowNotFounded = new StringBuilder();
 				Sheet sheet = workbook.getSheetAt(0);
 				Cell cell =null;
+				CellStyle cellStyle = workbook.createCellStyle();
+				cellStyle.setDataFormat(workbook.getCreationHelper().createDataFormat().getFormat("#.##"));
+				
 				Store_cat_prod catProd = null;
+				
+				globalTypeForm ="A";
+				
 				for (Row row: sheet) {
 					catProd = new Store_cat_prod();
 		            catProd.setProducto(dataFormatter.formatCellValue(row.getCell(0))); //Producto
@@ -190,6 +198,10 @@ public class GestProdController {
 		            	Store_cat_prod catProdObj = Flags.remote_valid?remoteCatProdService.getCatByPadre(padre):
 		            					catProdService.getCatByPadre(padre);
 		            	if(catProdObj!=null) {
+		            		System.out.println("Producto:"+catProdObj.getProducto()+" / Cat:"+catProdObj.getCategoria());
+		            	}
+		            	 //Valida que se el padre exista y que sea tipo categoria (categoria=1)
+		            	if(catProdObj!=null && catProdObj.getCategoria()==1) {
 		            		catProd.setId_padre_prod(catProdObj.getId_prod());
 		            	}else {
 		            		rowNotFounded.append(catProd.getProducto()+"\n");
@@ -205,22 +217,41 @@ public class GestProdController {
 		            catProd.setCategoria(Integer.parseInt(dataFormatter.formatCellValue(row.getCell(3))));
 		            catProd.setBarcode(dataFormatter.formatCellValue(row.getCell(4)));
 		            
-		            if(catProd.getBarcode() != null && catProd.getBarcode().length()>0) {
+		            //Vaida que se tenga barCode y sea producto (categoria=0)
+		            if(catProd.getBarcode() != null && catProd.getBarcode().trim().length()>0 && catProd.getCategoria()==0) {
 		            	
-		            	catProd.setImg_barcode(GeneralMethods.generateImgBarcode(catProd.getBarcode()));
+		            	catProd.setImg_barcode(GeneralMethods.generateImgBarcode(catProd.getBarcode().trim()));
+		            }else {
+		            	catProd.setBarcode(null);
 		            }
 		            
 		            try {
 			            if(Flags.remote_valid)remoteCatProdService.insertRow(catProd);
 			            else catProdService.insertRow(catProd);
+			            
+			            
+			            row.getCell(5).setCellStyle(cellStyle);
+			            String costo =dataFormatter.formatCellValue(row.getCell(5));
+			            costo = costo.replaceAll(",", ".");
+			            //Valida que sea producto, para actualizar costo
+			            if(catProd.getCategoria()==0 && costo !=null && !"".equals(costo.trim())) {//
+			            	Store_cat_prod newProd = Flags.remote_valid?remoteCatProdService.getCatByPadre(catProd.getProducto()):
+            					catProdService.getCatByPadre(catProd.getProducto());
+			            //	double cost = Double.parseDouble(costo.trim());
+			            	saveCostosByCliente(newProd.getId_prod(),costo.trim());
+			            }
 		            }catch(Exception ex) {
 		            	rowNotFounded.append(catProd.getProducto()+"\n");
+		            	ex.printStackTrace();
 	            		continue;
 		    		}
 		        }
 				if(rowNotFounded.length()>0) {
 
-					GeneralMethods.modalMsg("", "", "Los siguientes registros no se pudieron agregar: \n"+rowNotFounded);
+					GeneralMethods.modalMsg("", "", "Los siguientes registros no se pudieron agregar correctamente: \n"+rowNotFounded);
+				}else {
+					GeneralMethods.modalMsg("", "", "Inventario agregado correctamente");
+						
 				}
 				
 			}
@@ -231,6 +262,7 @@ public class GestProdController {
 			GeneralMethods.modalMsg("", "", "No fue posible cargar todo el inventario, valide el contenido");
 			ex.printStackTrace();
 		}finally {
+			globalTypeForm ="";
 			getTblCatProducts();
 		}
 	}
@@ -489,7 +521,8 @@ public class GestProdController {
 
 							if (catProdModif != null && inputBarcode.getText().length()>0 
 									&& inputBarcode.getText().length()>0 && cost!=null && cost.length()>0 ) {
-								saveCostosByCliente(row.getId_prod(),inputCosto.getText());
+								cost=cost.replaceAll(",", "");
+								saveCostosByCliente(row.getId_prod(),cost);
 							}
 							cancelModif();
 							
@@ -549,7 +582,8 @@ public class GestProdController {
 		if(Flags.remote_valid)remoteCatProdService.insertRow(row);
 		String cost = inputCosto.getText();
 		if (cost!=null && cost.length()>0 ) {
-			saveCostosByCliente(row.getId_prod(),inputCosto.getText());
+			cost=cost.replaceAll(",", "");
+			saveCostosByCliente(row.getId_prod(),cost);
 		}
 		
 		
@@ -850,10 +884,10 @@ public class GestProdController {
 		List<Store_fotografo>  lstClte = (Flags.remote_valid)?remoteClienteService.getActiveClients():clienteService.getActiveClients();
 		Store_cliente_prod_cost clteProdCost = null;
 		clteProdCostService.deleteRowByIdCostProd(idProd);
-		
+		System.out.println("Costo: "+costo);
 		for(Store_fotografo fo: lstClte) {
 			clteProdCost = new Store_cliente_prod_cost();
-			clteProdCost.setCosto(new BigDecimal(costo.replaceAll(",", "")));
+			clteProdCost.setCosto(new BigDecimal(costo));//.replaceAll(",", "")
 			clteProdCost.setId_cliente(fo.getId_fotografo());
 			clteProdCost.setId_prod(idProd);
 			if("A".equals(globalTypeForm)) {

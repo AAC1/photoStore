@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
@@ -401,16 +403,19 @@ public class CorteCajaController {
 			
 			if(listCargoAbono != null && listCargoAbono.size()>0){
 				
-				for(int i =0; i<listCargoAbono.size(); i++){
-					if("C".equals(listCargoAbono.get(i).getTipo())){//Valida que sea cargo
-						cargo = cargo.add(listCargoAbono.get(i).getMonto());
-						if((i+1) == listCargoAbono.size())
-							listResume.add(new CorteCajaResumeDTO("(-) "+listCargoAbono.get(i).getMotivo(),
-										GeneralMethods.formatCurrentNumber(String.valueOf(listCargoAbono.get(i).getMonto())),
+				List<Store_cargo_abono> lstCargo= (listCargoAbono.stream().
+						filter(e -> "C".contentEquals(e.getTipo()))).collect((Collectors.toList()));
+
+				for(int i =0; i<lstCargo.size(); i++){
+					if("C".equals(lstCargo.get(i).getTipo())){//Valida que sea cargo
+						cargo = cargo.add(lstCargo.get(i).getMonto());
+						if((i+1) == lstCargo.size())
+							listResume.add(new CorteCajaResumeDTO("(-) "+lstCargo.get(i).getMotivo(),
+										GeneralMethods.formatCurrentNumber(String.valueOf(lstCargo.get(i).getMonto())),
 										GeneralMethods.formatCurrentNumber(String.valueOf(cargo))));
 						else
-							listResume.add(new CorteCajaResumeDTO("(-) "+listCargoAbono.get(i).getMotivo(),
-									GeneralMethods.formatCurrentNumber(String.valueOf(listCargoAbono.get(i).getMonto())),""));
+							listResume.add(new CorteCajaResumeDTO("(-) "+lstCargo.get(i).getMotivo(),
+									GeneralMethods.formatCurrentNumber(String.valueOf(lstCargo.get(i).getMonto())),""));
 					}
 					
 				}
@@ -422,18 +427,20 @@ public class CorteCajaController {
 			boolean hasAbono = false;
 			listResume.add(new CorteCajaResumeDTO("ABONOS","",""));
 			if(listCargoAbono != null && listCargoAbono.size()>0){
+				List<Store_cargo_abono> lstAbono= (listCargoAbono.stream().
+										filter(e -> "A".contentEquals(e.getTipo()))).collect((Collectors.toList()));
 				
-				for(int i =0; i<listCargoAbono.size(); i++){
-					if("A".equals(listCargoAbono.get(i).getTipo())){//Valida que sea abono
+				for(int i =0; i<lstAbono.size(); i++){
+					if("A".equals(lstAbono.get(i).getTipo())){//Valida que sea abono
 						hasAbono=true;
-						abono = abono.add(listCargoAbono.get(i).getMonto());
-						if((i+1) == listCargoAbono.size())
-							listResume.add(new CorteCajaResumeDTO("(+) "+listCargoAbono.get(i).getMotivo(),
-										GeneralMethods.formatCurrentNumber(String.valueOf(listCargoAbono.get(i).getMonto())),
+						abono = abono.add(lstAbono.get(i).getMonto());
+						if((i+1) == lstAbono.size())
+							listResume.add(new CorteCajaResumeDTO("(+) "+lstAbono.get(i).getMotivo(),
+										GeneralMethods.formatCurrentNumber(String.valueOf(lstAbono.get(i).getMonto())),
 										GeneralMethods.formatCurrentNumber(String.valueOf(abono))));
 						else
-							listResume.add(new CorteCajaResumeDTO("(+) "+listCargoAbono.get(i).getMotivo(),
-									GeneralMethods.formatCurrentNumber(String.valueOf(listCargoAbono.get(i).getMonto())),""));
+							listResume.add(new CorteCajaResumeDTO("(+) "+lstAbono.get(i).getMotivo(),
+									GeneralMethods.formatCurrentNumber(String.valueOf(lstAbono.get(i).getMonto())),""));
 					}
 					
 				}
