@@ -9,6 +9,7 @@
 /Users/ayac/Desa/GIT/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/iservice/IStoreClteProdCostService.java
 /Users/ayac/Desa/GIT/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/iservice/IStoreCargoAbonoService.java
 /Users/ayac/Desa/GIT/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/local/service/StoreCatProdService.java
+/Users/ayac/Desa/GIT/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/dto/ClienteDTO.java
 /Users/ayac/Desa/GIT/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/controller/EditSttsProdController.java
 /Users/ayac/Desa/GIT/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/remote/service/StoreClteProdCostService.java
 /Users/ayac/Desa/GIT/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/local/dao/LoginDAO.java
@@ -29,6 +30,7 @@
 /Users/ayac/Desa/GIT/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/local/dao/ClteProdCostDAO.java
 /Users/ayac/Desa/GIT/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/abstractdao/AbstractStoreSucursalDAO.java
 /Users/ayac/Desa/GIT/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/local/service/StoreSucursalService.java
+/Users/ayac/Desa/GIT/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/controller/ClienteController.java
 /Users/ayac/Desa/GIT/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/local/service/StoreClteProdCostService.java
 /Users/ayac/Desa/GIT/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/controller/UsuarioController.java
 /Users/ayac/Desa/GIT/photoStore/PhotopraphyStore/src/mx/com/bitmaking/application/idao/IMenuPerfilDAO.java

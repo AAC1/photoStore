@@ -356,3 +356,7 @@ FLUSH PRIVILEGES;
 */
 
 alter table store_pedido add column email VARCHAR(100) AFTER telefono; 
+
+select * from store_cat_prod scp ;
+
+describe store_cat_prod ;
