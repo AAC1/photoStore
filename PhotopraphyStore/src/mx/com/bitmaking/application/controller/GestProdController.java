@@ -226,19 +226,33 @@ public class GestProdController {
 		            }
 		            
 		            try {
-			            if(Flags.remote_valid)remoteCatProdService.insertRow(catProd);
-			            else catProdService.insertRow(catProd);
+		            	Store_cat_prod newProd = Flags.remote_valid?remoteCatProdService.getCatByPadre(catProd.getProducto()):
+        					catProdService.getCatByPadre(catProd.getProducto());
+		            	int idProd=0;
+		            	//Valida si existe
+		            	if(newProd==null) {
+		            		idProd = Flags.remote_valid?remoteCatProdService.insertRow(catProd):
+				            catProdService.insertRow(catProd);
+		            		
+		            	}else {
+		            		idProd = newProd.getId_prod();
+		            	}
 			            
-			            
+		            	//Costo aficionado
 			            row.getCell(5).setCellStyle(cellStyle);
-			            String costo =dataFormatter.formatCellValue(row.getCell(5));
-			            costo = costo.replaceAll(",", ".");
+			            String costoGral =dataFormatter.formatCellValue(row.getCell(5));
+			            costoGral = (costoGral ==null || "".equals(costoGral.trim()))? "0.0": costoGral.replaceAll(",", ".");
+			            
+			            //Costo fotografo
+			            row.getCell(6).setCellStyle(cellStyle);
+			            String costoCte =dataFormatter.formatCellValue(row.getCell(6));
+			            costoCte = (costoCte ==null || "".equals(costoCte.trim()))? "0.0": costoCte.replaceAll(",", ".");
+			            
 			            //Valida que sea producto, para actualizar costo
-			            if(catProd.getCategoria()==0 && costo !=null && !"".equals(costo.trim())) {//
-			            	Store_cat_prod newProd = Flags.remote_valid?remoteCatProdService.getCatByPadre(catProd.getProducto()):
-            					catProdService.getCatByPadre(catProd.getProducto());
+			            if(catProd.getCategoria()==0 ) {//
+			            	
 			            //	double cost = Double.parseDouble(costo.trim());
-			            	saveCostosByCliente(newProd.getId_prod(),costo.trim());
+			            	saveCostosByCliente(idProd,costoGral,costoCte);
 			            }
 		            }catch(Exception ex) {
 		            	rowNotFounded.append(catProd.getProducto()+"\n");
@@ -888,6 +902,36 @@ public class GestProdController {
 		for(Store_fotografo fo: lstClte) {
 			clteProdCost = new Store_cliente_prod_cost();
 			clteProdCost.setCosto(new BigDecimal(costo));//.replaceAll(",", "")
+			clteProdCost.setId_cliente(fo.getId_fotografo());
+			clteProdCost.setId_prod(idProd);
+			if("A".equals(globalTypeForm)) {
+				clteProdCostService.insertRow(clteProdCost);
+				if(Flags.remote_valid)remoteClteProdCostService.insertRow(clteProdCost);
+			}
+			else if("M".equals(globalTypeForm)) {
+				clteProdCostService.updateRow(clteProdCost);
+				if(Flags.remote_valid)remoteClteProdCostService.updateRow(clteProdCost);
+			}
+		}
+		
+	}
+
+	private void saveCostosByCliente(int idProd, String costoCte,String costoGral) {
+		List<Store_fotografo>  lstClte = (Flags.remote_valid)?remoteClienteService.getActiveClients():clienteService.getActiveClients();
+		Store_cliente_prod_cost clteProdCost = null;
+		clteProdCostService.deleteRowByIdCostProd(idProd);
+		System.out.println("Costo Gral: "+costoGral);
+		System.out.println("Costo Fotografo: "+costoCte);
+		for(Store_fotografo fo: lstClte) {
+			clteProdCost = new Store_cliente_prod_cost();
+			if(fo.getId_fotografo() == 0) {
+
+				clteProdCost.setCosto(new BigDecimal(costoGral));//.replaceAll(",", "")
+			}
+			else {
+
+				clteProdCost.setCosto(new BigDecimal(costoCte));//.replaceAll(",", "")
+			}
 			clteProdCost.setId_cliente(fo.getId_fotografo());
 			clteProdCost.setId_prod(idProd);
 			if("A".equals(globalTypeForm)) {

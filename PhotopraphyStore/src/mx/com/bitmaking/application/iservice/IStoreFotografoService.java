@@ -9,7 +9,7 @@ public interface IStoreFotografoService {
 
 	public List<Store_fotografo> getActiveClients();
 	public List<Store_fotografo> getClients();
-	public List<ClienteDTO> getClientsByName(String name);
+	public List<ClienteDTO> getClientsByName(String name,String operator);
 	public void saveCliente(Store_fotografo cliente);
 	public void deleteCliente(int cliente);
 

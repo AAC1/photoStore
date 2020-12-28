@@ -34,9 +34,9 @@ public class StoreFotografoService extends AbstractStoreFotografoService{//imple
 
 	@Transactional(value="transactionManager")
 	@Override
-	public List<ClienteDTO> getClientsByName(String name) {
+	public List<ClienteDTO> getClientsByName(String name,String operator) {
 		
-		return super.getClientsByName(name);
+		return super.getClientsByName(name,operator);
 	}
 
 	@Transactional(value="transactionManager")

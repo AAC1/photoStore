@@ -274,8 +274,8 @@ public class ClienteController {
 	private void busqClte() {
 		containerBusqResp.setVisible(false);
 		List<ClienteDTO> lstClientes = (Flags.remote_valid)?
-				remoteFotografoService.getClientsByName(inputBusqCliente.getText()):
-					fotografoService.getClientsByName(inputBusqCliente.getText());
+				remoteFotografoService.getClientsByName(inputBusqCliente.getText(),"like"):
+					fotografoService.getClientsByName(inputBusqCliente.getText(),"like");
 		
 		tblClientes.getItems().removeAll(tblClientes.getItems());
 		tblClientes.setItems(FXCollections.observableList(lstClientes));

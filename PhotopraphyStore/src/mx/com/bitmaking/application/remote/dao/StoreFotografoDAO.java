@@ -40,8 +40,8 @@ public class StoreFotografoDAO extends AbstractStoreFotografoDAO{// implements I
 
 	@Transactional(value="remoteTransactionManager")
 	@Override
-	public List<ClienteDTO> getClientsByName(String name) {
-		return super.getClientsByName(name);
+	public List<ClienteDTO> getClientsByName(String name,String operator) {
+		return super.getClientsByName(name,operator);
 	}
 
 

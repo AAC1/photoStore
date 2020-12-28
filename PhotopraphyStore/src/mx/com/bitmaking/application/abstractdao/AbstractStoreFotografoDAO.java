@@ -73,15 +73,22 @@ public abstract class AbstractStoreFotografoDAO implements IStoreFotografoDAO{
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ClienteDTO> getClientsByName(String name) {
+	public List<ClienteDTO> getClientsByName(String name,String operator) {
 		StringBuilder qry = new StringBuilder();
 		qry.append(" SELECT s.*,IF(s.estatus=1,'ACTIVO','NO ACTIVO') as estatusStr ");
-		qry.append(" FROM Store_fotografo s  WHERE UPPER(fotografo) like UPPER(:name)");
+		qry.append(" FROM Store_fotografo s  WHERE UPPER(fotografo) "+operator);
+		qry.append(" UPPER(:name)");
 		List<ClienteDTO> results = null;
 		try {
 			
 			SQLQuery query= getSessionFactory().getCurrentSession().createSQLQuery(qry.toString());
-			query.setParameter("name", "%"+name+"%");
+			if("like".contentEquals("like")) {
+				query.setParameter("name", "%"+name+"%");
+			}
+			else {
+				query.setParameter("name", name);
+			}
+			
 			query.setResultTransformer(Transformers.aliasToBean(ClienteDTO.class));
 			
 			results =query.list();

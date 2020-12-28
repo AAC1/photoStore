@@ -49,10 +49,10 @@ public abstract class AbstractStoreFotografoService implements IStoreFotografoSe
 	}
 
 	@Override
-	public List<ClienteDTO> getClientsByName(String name) {
+	public List<ClienteDTO> getClientsByName(String name,String operator) {
 		List<ClienteDTO> lstResp = new ArrayList<>();
 		
-		lstResp.addAll(getFotografoRepo().getClientsByName(name));
+		lstResp.addAll(getFotografoRepo().getClientsByName(name,operator));
 		return lstResp;
 	}
 	

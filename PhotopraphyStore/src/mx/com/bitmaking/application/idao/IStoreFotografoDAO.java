@@ -15,7 +15,8 @@ public interface IStoreFotografoDAO {
 	public List<Store_fotografo> getClients();
 	
 	//@Query("FROM Store_fotografo where fotografo like '%?1%'")
-	public List<ClienteDTO> getClientsByName(String name);
+	public List<ClienteDTO> getClientsByName(String name,String operator);
+
 
 	public void saveCliente(Store_fotografo cliente);
 	public void deleteCliente(int cliente);
