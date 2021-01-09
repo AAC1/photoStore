@@ -85,7 +85,7 @@ LEFT JOIN store_cargo_abono ca ON ca.id_sucursal  = c.id_sucursal
 			AND ca.fecha =c.fecha 
 WHERE c.id_sucursal =$P{idSucursal}
 AND c.fecha =$P{fecha} 
-GROUP BY c.id_corte_caja ;]]>
+GROUP BY c.id_corte_caja ]]>
 	</queryString>
 	<field name="cargo" class="java.math.BigDecimal"/>
 	<field name="abono" class="java.math.BigDecimal"/>
@@ -97,6 +97,7 @@ GROUP BY c.id_corte_caja ;]]>
 		<property name="com.jaspersoft.studio.field.label" value="deno1000"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="store_corte_caja"/>
 	</field>
+	<field name="totalPedidos" class="java.math.BigDecimal"/>
 	<field name="deno500" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="deno500"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="store_corte_caja"/>
@@ -200,18 +201,7 @@ GROUP BY c.id_corte_caja ;]]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="80" splitType="Stretch">
-			<staticText>
-				<reportElement x="0" y="0" width="180" height="14" uuid="d1e52e59-3d4c-4345-89aa-d091cf4ba688"/>
-				<text><![CDATA[Importe inicial]]></text>
-			</staticText>
-			<textField textAdjust="ScaleFont" pattern="#,##0.00#;(-#,##0.00#)" isBlankWhenNull="true">
-				<reportElement x="280" y="0" width="100" height="14" uuid="ec3e8413-c209-4a3a-9374-d3ecb50d258f">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7109d3cd-0387-4966-a6b5-f15d94a71363"/>
-				</reportElement>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[$F{importe_ini}]]></textFieldExpression>
-			</textField>
+		<band height="79" splitType="Stretch">
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="14" width="380" height="14" backcolor="#A8A8A8" uuid="a832cce8-5fea-4b86-a0e1-0b893da33299"/>
 				<textElement>
@@ -263,7 +253,7 @@ GROUP BY c.id_corte_caja ;]]>
 				<subreportExpression><![CDATA["Abonos.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="224">
+		<band height="272">
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="14" width="380" height="14" backcolor="#A8A8A8" uuid="2ad78c03-7456-4d1e-a769-945a802b1d0a"/>
 				<textElement>
@@ -417,6 +407,45 @@ GROUP BY c.id_corte_caja ;]]>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{abono}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="0" y="210" width="180" height="14" uuid="5848c8ab-c15c-401f-b4a1-366fbc08ca1c"/>
+				<text><![CDATA[Monto Actual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="224" width="180" height="14" uuid="c8112ba0-8fc2-4a0e-aa8c-de46eba1e514"/>
+				<text><![CDATA[Monto de Pedidos]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="280" y="209" width="100" height="14" uuid="4ad3fbd2-9cda-4d79-902e-8c0495628e42">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e29e662f-306f-4ead-8e45-6863689eedd4"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{importe}.add($F{abono}).subtract($F{cargo})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="280" y="223" width="100" height="14" uuid="e9a8d7bc-4daa-407a-8db1-d92db568df7b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e29e662f-306f-4ead-8e45-6863689eedd4"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{totalPedidos}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="280" y="237" width="100" height="14" uuid="3af0b6fe-bd40-430e-a475-0ad5ec37b2b1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e29e662f-306f-4ead-8e45-6863689eedd4"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{importe}.add($F{abono}).subtract($F{cargo}).subtract($F{totalPedidos})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="238" width="180" height="14" uuid="38c796d5-42bb-4bcb-a5fa-cb0af072ce5b"/>
+				<text><![CDATA[Diferencia ]]></text>
+			</staticText>
 		</band>
 	</detail>
 </jasperReport>

@@ -1,10 +1,13 @@
 package mx.com.bitmaking.application.abstractdao;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
+import org.hibernate.type.BigDecimalType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
@@ -86,7 +89,31 @@ public abstract class AbstractPedidoDAO implements IPedidoDAO{
 		
 		return -1;
 	}
-
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<BigDecimal> totalPedidosByFec(String fec, String prefijo){
+		List<BigDecimal> results = new ArrayList<>();
+		StringBuilder sqlQry =  new StringBuilder();
+		sqlQry.append("SELECT IFNULL(SUM(monto_ant),0)  as total from store_pedido ");
+		sqlQry.append(" WHERE id_estatus = 2 ");//PENDIENTE
+		sqlQry.append(" AND DATE_FORMAT(fec_pedido , \"%Y%m%d\") = DATE_FORMAT(CURDATE() , \"%Y%m%d\") ");
+		sqlQry.append(" AND FOLIO like :prefijo ");
+		sqlQry.append(" UNION ");
+		sqlQry.append("SELECT IFNULL(SUM(IF(DATE_FORMAT(fec_entregado, \"%Y%m%d\") = DATE_FORMAT(fec_pedido , \"%Y%m%d\"),monto_total ,(monto_total - monto_ant))),0) as total ");
+		sqlQry.append(" FROM store_pedido " );
+		sqlQry.append(" WHERE id_estatus = 1 ");//Entregado
+		sqlQry.append(" AND DATE_FORMAT(fec_entregado, \"%Y%m%d\") = DATE_FORMAT(CURDATE() , \"%Y%m%d\") ");
+		sqlQry.append(" AND FOLIO like :prefijo ");
+		
+		
+		SQLQuery qry= getSessionFactory().getCurrentSession().createSQLQuery(sqlQry.toString());
+		qry.setString("prefijo", prefijo+"%");
+		
+		qry.addScalar("total",new BigDecimalType());
+		results =qry.list();
+		return results;
+	}
+	
 	@Override
 	public void save(Store_pedido pedido) {
 		getSessionFactory().getCurrentSession().saveOrUpdate(pedido);

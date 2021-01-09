@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -223,6 +224,7 @@ public class SelectProductoVtaController {
 		tblProducto.setItems(FXCollections.observableList(lstProd));
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected void getTblCatProducts() {
 		tblProducto.getItems().removeAll(tblProducto.getItems());
 		productsMap = storeCatProdService.getCostProdByClient(idCliente);
@@ -231,7 +233,15 @@ public class SelectProductoVtaController {
 		generateTreeProd(productsMap,0,root);
 		treeProd.setRoot(root);
 		*/
+		
+		List<CostProductsDTO>iniLstProd =  new ArrayList<CostProductsDTO>(productsMap.values());
+		
+		lstProd = (iniLstProd.stream().filter(e->e.getCategoria()==0)).collect((Collectors.toList()));
+		
+		tblProducto.setItems(FXCollections.observableList(lstProd));
+		/*
 		if(productsMap.size()>0) {
+			
 			getDescProducts(productsMap, 0, lstProd, new CostProductsDTO(), new StringBuilder(),"");
 			tblProducto.setItems(FXCollections.observableList(lstProd));
 		}
@@ -239,7 +249,7 @@ public class SelectProductoVtaController {
 			GeneralMethods.modalMsg("", "","No se encontraron productos");
 		}
 		
-		
+		*/
 	}
 	
 	private void getDescProducts(LinkedHashMap<Integer, CostProductsDTO> hashMap,

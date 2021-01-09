@@ -44,7 +44,7 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 		StringBuilder qry = new StringBuilder();
 		qry.append(" SELECT p.id_prod ,p.id_padre_prod ,");
 		qry.append("p.producto as producto,(case when p.estatus > 0 then 'Activo' else 'Inactivo' end) as estatus, ");
-		qry.append("a.costo as costo,p.barcode as bar_code ");
+		qry.append("a.costo as costo,p.barcode as bar_code, p.categoria ");
 		qry.append(" FROM Store_cat_prod p ");
 		qry.append(" LEFT OUTER JOIN  Store_cliente_prod_cost a on p.id_prod =a.id_prod AND a.id_cliente = :cliente");
 		
@@ -108,6 +108,10 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 		qry.addScalar("id_padre_prod",new IntegerType());
 		qry.addScalar("producto",new StringType());
 		qry.addScalar("estatus",new StringType());
+
+		qry.addScalar("costo_aficionado",new BigDecimalType());
+		qry.addScalar("costo_fotografo",new BigDecimalType());
+		
 		resp = qry.list();
 		return resp;
 	}
@@ -119,7 +123,8 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 
 		StringBuilder sQry = new StringBuilder();
 		sQry.append("SELECT sp.id_prod as id_prod,sp.producto as producto, sp.id_padre_prod as id_padre_prod, ");
-		sQry.append("case sp.estatus when '1' then 'Activo' else 'Inactivo' end as estatus FROM Store_cat_prod sp");
+		sQry.append("case sp.estatus when '1' then 'Activo' else 'Inactivo' end as estatus, sp.costo_aficionado, sp.costo_fotografo"
+				+ " FROM Store_cat_prod sp");
 		;
 		
 		SQLQuery qry = getSessionFactory().getCurrentSession().createSQLQuery(sQry.toString());
@@ -129,6 +134,9 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 		qry.addScalar("producto",new StringType());
 		qry.addScalar("estatus",new StringType());
 		qry.addScalar("barcode",new StringType());
+
+		qry.addScalar("costo_aficionado",new BigDecimalType());
+		qry.addScalar("costo_fotografo",new BigDecimalType());
 		
 		resp = qry.list();
 		return resp;
@@ -151,6 +159,8 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 		qry.addScalar("estatus",new StringType());
 		qry.addScalar("barcode",new StringType());
 		qry.addScalar("categoria",new IntegerType());
+		qry.addScalar("costo_aficionado",new BigDecimalType());
+		qry.addScalar("costo_fotografo",new BigDecimalType());
 		
 		resp = qry.list();
 		return resp;
@@ -221,6 +231,10 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 			query.addScalar("barcode", new StringType());
 
 			query.addScalar("categoria",new IntegerType());
+
+			query.addScalar("costo_aficionado",new BigDecimalType());
+			query.addScalar("costo_fotografo",new BigDecimalType());
+			
 			results =query.list();
 		
 		}catch(Exception e) {
@@ -254,6 +268,11 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 			query.addScalar("barcode", new StringType());
 
 			query.addScalar("categoria",new IntegerType());
+			
+
+			query.addScalar("costo_aficionado",new BigDecimalType());
+			query.addScalar("costo_fotografo",new BigDecimalType());
+			
 			results =(Store_cat_prod)query.uniqueResult();
 		
 		}catch(Exception e) {
@@ -284,6 +303,9 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 			query.addScalar("estatus", new StringType());
 			query.addScalar("barcode", new StringType());
 			query.addScalar("categoria",new IntegerType());
+
+			query.addScalar("costo_aficionado",new BigDecimalType());
+			query.addScalar("costo_fotografo",new BigDecimalType());
 			
 			results =(Store_cat_prod) query.setMaxResults(1).uniqueResult();
 		
@@ -319,6 +341,9 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 			query.addScalar("estatus", new StringType());
 			query.addScalar("bar_code", new StringType());
 			query.addScalar("costo", new BigDecimalType());
+
+			query.addScalar("costo_aficionado",new BigDecimalType());
+			query.addScalar("costo_fotografo",new BigDecimalType());
 			
 			results =(CostProductsDTO) query.setMaxResults(1).uniqueResult();
 		

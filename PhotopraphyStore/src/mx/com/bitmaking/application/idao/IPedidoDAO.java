@@ -1,5 +1,8 @@
 package mx.com.bitmaking.application.idao;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -14,5 +17,7 @@ public interface IPedidoDAO {
 	public void save(Store_pedido pedido);
 	
 	public void update(Store_pedido pedido);
+
+	public List<BigDecimal> totalPedidosByFec(String fecha, String prefijo);
 	
 }

@@ -41,6 +41,8 @@ public class Store_corte_caja {
 	@Column
 	private BigDecimal importe_ini;
 	@Column
+	private BigDecimal totalPedidos;
+	@Column
 	private Date fecha;
 	@Column
 	private int id_sucursal;
@@ -238,6 +240,12 @@ public class Store_corte_caja {
 	 */
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
+	}
+	public BigDecimal getTotalPedidos() {
+		return totalPedidos;
+	}
+	public void setTotalPedidos(BigDecimal totalPedidos) {
+		this.totalPedidos = totalPedidos;
 	}
 	
 	

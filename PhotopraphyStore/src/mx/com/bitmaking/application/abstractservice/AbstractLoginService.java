@@ -1,20 +1,26 @@
 package mx.com.bitmaking.application.abstractservice;
 
 
+import java.util.List;
+
 //import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.bitmaking.application.dto.ResponseDTO;
 import mx.com.bitmaking.application.dto.UserSession;
 import mx.com.bitmaking.application.dto.UserSessionDTO;
+import mx.com.bitmaking.application.entity.Store_sucursal;
 import mx.com.bitmaking.application.idao.ILoginDAO;
 import mx.com.bitmaking.application.idao.IMenuPerfilDAO;
 import mx.com.bitmaking.application.iservice.ILoginService;
+import mx.com.bitmaking.application.iservice.IStoreSucursalService;
 import mx.com.bitmaking.application.util.Constantes;
+import mx.com.bitmaking.application.util.Flags;
 
 
 //@Service("LoginService")
@@ -28,6 +34,17 @@ public abstract class AbstractLoginService implements ILoginService{
 	@Qualifier("MenuPerfilDAO")
 	IMenuPerfilDAO menuPerfilDAO;
 */
+	@Autowired
+	private Environment env;
+
+	@Autowired
+	@Qualifier("StoreSucursalService")
+	IStoreSucursalService sucursalService;
+	
+	@Autowired
+	@Qualifier("remoteStoreSucursalService")
+	IStoreSucursalService remoteSucursalService;
+	
 	public abstract ILoginDAO getILoginDAO(); 
 	public abstract IMenuPerfilDAO getIMenuPerfilDAO(); 
 	
@@ -77,21 +94,36 @@ public abstract class AbstractLoginService implements ILoginService{
 			resp.setMsg("La cuenta del usuario '"+usr+"' no se encuentra activa. Contacte al administrador.");
 			return resp;
 		}
-		System.out.println("getId_perfil:"+usrObj.getId_perfil());
+		//System.out.println("getId_perfil:"+usrObj.getId_perfil());
 		//OBTIENE FX_ID DE ELEMENTOS PERMITIDOS POR PERFIL
 		usrObj.setMenuAccess(getIMenuPerfilDAO().getFxIdByPerfil(usrObj.getId_perfil()));
-		System.out.println("lnList:"+usrObj.getMenuAccess().size());
+		//System.out.println("lnList:"+usrObj.getMenuAccess().size());
+		String prefijo=env.getProperty("macrofoto.prefijo");
+		
+		List<Store_sucursal> lstSuc =  (Flags.remote_valid)?
+				remoteSucursalService.getSuc(null, prefijo, null):
+				sucursalService.getSuc(null, prefijo, null);
+		if(lstSuc !=null && lstSuc.size()>0) {
+			Store_sucursal rowSuc = lstSuc.get(0);
+			usrObj.setRazon_social(rowSuc.getRazon_social());
+			usrObj.setSucursal(rowSuc.getSucursal());
+			usrObj.setId_sucursal(rowSuc.getId_sucursal());
+			usrObj.setDirSucursal(rowSuc.getDireccion());
+			usrObj.setTelSucursal(rowSuc.getTelefono());
+			usrObj.setPrefijo(prefijo);
+		}
 		UserSessionDTO.setInstance(usrObj.getLogin(),usrObj.getNombre(),
 				usrObj.getCorreo(),usrObj.getTelefono(),usrObj.getDireccion(),usrObj.getBloqueado(),
 				usrObj.getActivo(),usrObj.getSucursal(),usrObj.getPrefijo(),usrObj.getId_perfil(),
 				usrObj.getId_sucursal(),usrObj.getMenuAccess(),usrObj.getDirSucursal(),usrObj.getTelSucursal(),
 				usrObj.getRazon_social());
 		UserSessionDTO instance = UserSessionDTO.getInstance();
-
+		
+		
 		System.out.println("UserSessionDTO [login=" + instance.getLogin() + ", nombre=" + instance.getNombre() + 
 		", correo=" + instance.getCorreo() + ", telefono=" + instance.getTelefono()
 		+ ", direccion=" + instance.getDireccion() + ", prefijo=" + instance.getPrefijo() +
-		", id_sucursal=" + instance.getId_sucursal() +"]");
+		", id_sucursal=" + instance.getId_sucursal()+", razon_social="+usrObj.getRazon_social() +"]");
 		
 		resp.setValid(true);
 		return resp;

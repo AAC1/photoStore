@@ -102,8 +102,17 @@ public abstract class AbstractStoreFotografoDAO implements IStoreFotografoDAO{
 	}
 	
 	@Override
-	public void saveCliente(Store_fotografo cliente) {
-		getSessionFactory().getCurrentSession().saveOrUpdate(cliente);
+	public Integer saveCliente(Store_fotografo cliente) {
+		Session session =getSessionFactory().getCurrentSession();
+		Integer resp = (Integer)session.save(cliente);//saveOrUpdate(row);
+		System.out.println("ID_Cte_Saved: "+resp);
+		return resp;
+	}
+	
+	@Override
+	public void updateCliente(Store_fotografo cliente) {
+		Session session =getSessionFactory().getCurrentSession();
+		session.update(cliente);//saveOrUpdate(row);
 	}
 
 	@Override

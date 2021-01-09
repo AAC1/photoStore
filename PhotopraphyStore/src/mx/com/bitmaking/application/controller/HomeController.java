@@ -304,21 +304,21 @@ public class HomeController {
 			        		ClienteController clteCtrl = loader.getController();
 			        		clteCtrl.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED,returnToHome());
 				        	break;
-			        }
+				        }
 				        
 			        }
 			        else{
 			        	
-			        	Scene scene = new Scene(sceneHome,620,460);
+			        	Scene scene = new Scene(sceneHome,1565,660);
 			        	Stage primaryStage =new Stage();
 			        	primaryStage.initModality(Modality.APPLICATION_MODAL); //Evitar que otras ventanas se puedan modificar
 			        	primaryStage.setScene(scene);
 						primaryStage.centerOnScreen();
-				        primaryStage.setTitle("Macrofoto Digital S.A de C.V.");
-						primaryStage.setMinHeight(460.0);
-						primaryStage.setMinWidth(620.0);
-						primaryStage.setMaxHeight(450.0);
-						primaryStage.setMaxWidth(620.0);
+				        primaryStage.setTitle("MACRO FOTO");
+						primaryStage.setMinHeight(660.0);
+						primaryStage.setMinWidth(1565.0);
+				//		primaryStage.setMaxHeight(460.0);
+				//		primaryStage.setMaxWidth(620.0);
 						primaryStage.show();
 						
 			        }

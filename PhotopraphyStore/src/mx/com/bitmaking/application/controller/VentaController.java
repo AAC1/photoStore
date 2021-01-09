@@ -2,6 +2,7 @@ package mx.com.bitmaking.application.controller;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -85,6 +86,8 @@ public class VentaController  {
 	@FXML private JFXTextField inputFolio;
 	@FXML private JFXTextField inputCliente;
 	@FXML private JFXTextField inputMontoAnt;
+	@FXML private JFXTextField inputMontoEnt;
+	@FXML private JFXTextField inputCambio;
 	@FXML private JFXTextField inputMonto;
 	@FXML private JFXTextField inputTelefono;
 	@FXML private JFXTextField inputCorreo;
@@ -242,8 +245,61 @@ public class VentaController  {
 		inputMontoAnt.textProperty().addListener(GeneralMethods.formatNumber(inputMontoAnt));
 		inputCostoProd.textProperty().addListener(GeneralMethods.formatNumber(inputCostoProd));
 		
+
+		inputMontoEnt.textProperty().addListener(GeneralMethods.formatNumber(inputMontoEnt));
+
+		inputCambio.textProperty().addListener(GeneralMethods.formatNumber(inputCambio));
 		
 		
+	}
+	
+	@FXML
+	private void changeSttsProd() {
+		String currentStatus = cbxEstatus.getValue();
+		
+		if("ENTREGADO".equals(currentStatus)) {
+			cbxEstatusProd.setValue("TERMINADO");
+		}
+		else if("PENDIENTE".equals(currentStatus)) {
+			cbxEstatusProd.setValue("PENDIENTE");
+		}
+	}
+	
+	@FXML
+	private void validAnticipo() {
+		double montoAnt = Double.parseDouble(inputMontoAnt.getText()==null || inputMontoAnt.getText().trim().length()==0?"0":inputMontoAnt.getText().replace(",", ""));
+		double monto = Double.parseDouble(inputMonto.getText()==null || inputMonto.getText().trim().length()==0?"0":inputMonto.getText().replace(",", ""));
+		double montoEnt = Double.parseDouble(inputMontoEnt.getText()==null || inputMontoEnt.getText().trim().length()==0?"0":inputMontoEnt.getText().trim().replace(",", ""));
+		
+		if(montoAnt >monto  ) {
+			inputMontoAnt.setText(String.valueOf(monto));
+		}
+		 calculaCambio() ;
+	}
+	
+	@FXML
+	private void calculaCambio() {
+		double montoEnt = Double.parseDouble(inputMontoEnt.getText()==null || inputMontoEnt.getText().trim().length()==0?"0":inputMontoEnt.getText().trim().replace(",", ""));
+		double montoAnt = Double.parseDouble(inputMontoAnt.getText()==null || inputMontoAnt.getText().trim().length()==0?"0":inputMontoAnt.getText().replace(",", ""));
+		double monto = Double.parseDouble(inputMonto.getText()==null || inputMonto.getText().trim().length()==0?"0":inputMonto.getText().replace(",", ""));
+
+		//double montoAnt = Double.parseDouble(inputMontoAnt.getText()==null || inputMontoAnt.getText().trim().length()==0?"0":inputMontoAnt.getText().replace(",", ""));
+		inputCambio.setText("0");
+		/*
+		inputMontoAnt.setText("0");
+		
+		if(montoEnt <=monto && montoEnt >0 ) {
+			inputMontoAnt.setText(String.valueOf(montoEnt));
+		}
+		else if(montoEnt >monto && monto>0 ) {
+			inputCambio.setText(String.valueOf(new BigDecimal(montoEnt).subtract(new BigDecimal(monto)).setScale(2,BigDecimal.ROUND_HALF_EVEN)));
+			inputMontoAnt.setText(String.valueOf(monto));
+		}
+		*/
+		if(montoEnt >=montoAnt && monto>0 ) {
+			inputCambio.setText(String.valueOf(new BigDecimal(montoEnt).subtract(new BigDecimal(montoAnt)).setScale(2,BigDecimal.ROUND_HALF_EVEN)));
+			//inputMontoAnt.setText(String.valueOf(monto));
+		}
 	}
 	
 	@FXML
@@ -314,7 +370,7 @@ public class VentaController  {
 		lstStts.add("PENDIENTE");
 		lstStts.add("TERMINADO");
 		cbxEstatusProd.setItems(FXCollections.observableArrayList(lstStts));
-		cbxEstatusProd.setValue("PENDIENTE");
+		cbxEstatusProd.setValue("TERMINADO");
 	}
 	private void generateFolio(){
 		String prefijo =// Flags.remote_valid?
@@ -331,9 +387,10 @@ public class VentaController  {
 			generateFolio();//Genera Folio de acuerdo a la sucursal de usr
 		}
 		
-		inputMontoAnt.setText("0");
+		inputMontoEnt.setText("0");
+		inputCambio.setText("0");
 		
-		cbxEstatus.setValue("PENDIENTE");
+		cbxEstatus.setValue("ENTREGADO");
 		inputCorreo.setText("");
 		inputTelefono.setText("");
 		inputCliente.setText("");
@@ -946,8 +1003,9 @@ public class VentaController  {
 			//System.out.println(el.getCosto());
 			costTotal = costTotal.add(el.getCosto()).setScale(2,BigDecimal.ROUND_HALF_EVEN);
 		}
-		System.out.println(costTotal);
+		//System.out.println(costTotal);
 		inputMonto.setText(String.valueOf(costTotal));
+		calculaCambio();
 	}
 
 	/**
@@ -1026,6 +1084,8 @@ public class VentaController  {
 						ctrller.getBtnImpTicket().setVisible(true);
 						ctrller.getBtnSalir().addEventHandler(MouseEvent.MOUSE_CLICKED, closeWindow(stageBusqProd));
 						
+						LocalDate localDate = LocalDate.now();
+						ctrller.getDateBusqIni().setValue(localDate);
 						//AnchorPane.setBottomAnchor(ctrller.getContentPedido(),0.0);
 						
 						stageBusqProd.show();

@@ -171,7 +171,7 @@ public final class UserSessionDTO {
 		instance.setId_sucursal(id_sucursal);
 		instance.setMenuAccess(menuAccess);
 		instance.setDirSucursal(dirSucursal);
-		instance.setTelSucursal(telefono);
+		instance.setTelSucursal(telSucursal);
 		instance.setRazon_social(razon_social);
 	
 	}

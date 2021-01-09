@@ -27,6 +27,7 @@ import com.jfoenix.controls.JFXTextField;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
@@ -220,10 +221,13 @@ public class CorteCajaController {
 			BigDecimal importe = new BigDecimal(0);
 			importe = importe.add(corteCaja.getDeno050()).add(corteCaja.getDeno1())
 					.add(corteCaja.getDeno2()).add(corteCaja.getDeno5()).add(corteCaja.getDeno10())
-					.add(corteCaja.getDeno20()).add(corteCaja.getDeno100()).add(corteCaja.getDeno200())
+					.add(corteCaja.getDeno20()).add(corteCaja.getDeno50()).add(corteCaja.getDeno100()).add(corteCaja.getDeno200())
 					.add(corteCaja.getDeno500().add(corteCaja.getDeno1000()));
 			corteCaja.setImporte(importe);
 			
+
+			BigDecimal totalPedidos = new BigDecimal(getCurrentOrders());
+			corteCaja.setTotalPedidos(totalPedidos);
 			
 			if(!Flags.remote_valid){
 				corteCajaService.saveCorteCaja(corteCaja);
@@ -259,40 +263,62 @@ public class CorteCajaController {
 		BigDecimal total = new BigDecimal(0);
 		BigDecimal sum = new BigDecimal(0);
 		BigDecimal rest = new BigDecimal(0);
+		BigDecimal totalEsp = new BigDecimal(0);
 		sum = sum.add(corteCaja.getImporte());
 		sum = sum.add(abono);
+		String totalPed = getCurrentOrders();
+		BigDecimal totalPedidos = new BigDecimal(totalPed);
 		
+		//Guarda de nuevo ek monto de pedidos para que se esté actualizado 
+		saveMontoPedidoIni(totalPed);
 		
 		//Suma todo lo que no sea gasto en el dia
 		rest = rest.add(corteCaja.getImporte_ini()); 
 		rest = rest.add(cargo); 
 		total = sum.subtract(rest);
 		
+		totalEsp = totalEsp.add(total);
+		totalEsp = totalEsp.subtract(totalPedidos);
+		
 		msgHtml.append("<table><thead><tr><td colspan=2 style='text-align:center;background-color:#505050;color:white;'>");
 		msgHtml.append("<h3 syle='text-align:center;padding:0;margin:0'>Corte de Caja "+dt.format(new Date()));
 		msgHtml.append("</h3></td></tr></thead><tbody >");
+		/*
 		msgHtml.append("<tr><td style='width:40%;text-align:right;height:30px'><strong>Caja Inicial:</strong></td>");
 		msgHtml.append("<td style='min-width:40px;text-align:right'>");
 		msgHtml.append(corteCaja.getImporte_ini());
 		msgHtml.append("</td></tr>");
+		*/
 		msgHtml.append("<tr><td style='width:40%;text-align:right;height:30px'><strong>Cargos:</strong></td>");
 		msgHtml.append("<td style='min-width:40px;text-align:right'>");
-		msgHtml.append(cargo);
+		msgHtml.append(GeneralMethods.formatCurrentNumber(String.valueOf(cargo)));
 		msgHtml.append("</td></tr>");
 		msgHtml.append("<tr><td style='width:40%;text-align:right;height:30px'><strong>Abonos:</strong></td>");
 		msgHtml.append("<td style='min-width:40px;text-align:right'>");
-		msgHtml.append(abono);
+		msgHtml.append(GeneralMethods.formatCurrentNumber(String.valueOf(abono)));
 		msgHtml.append("</td></tr>");
 		msgHtml.append("<tr><td style='width:40%;text-align:right;height:30px'><strong>Denominaciones:</strong></td>");
 		msgHtml.append("<td style='min-width:50px;text-align:right'>");
-		msgHtml.append(corteCaja.getImporte());
+		msgHtml.append(GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getImporte())));
 		msgHtml.append("</td></tr>");
-		msgHtml.append("<tr><td style='width:40%;text-align:right;height:30px'><strong>Ganancia:</strong></td>");
+		msgHtml.append("<tr><td style='width:40%;text-align:right;height:30px'><strong>Monto Actual:</strong></td>");
 		msgHtml.append("<td style='min-width:40px;text-align:right'>");
 		if(sum.compareTo(rest) <0){  //SUM es menor a REST
 			msgHtml.append("-"+GeneralMethods.formatCurrentNumber(String.valueOf(total)));
 		}else{
 			msgHtml.append(GeneralMethods.formatCurrentNumber(String.valueOf(total)));
+		}
+		msgHtml.append("</td></tr>");
+		msgHtml.append("<tr><td style='width:40%;text-align:right;height:30px'><strong>Monto de Pedidos:</strong></td>");
+		msgHtml.append("<td style='min-width:50px;text-align:right'>");
+		msgHtml.append(GeneralMethods.formatCurrentNumber(String.valueOf(totalPedidos)));
+		msgHtml.append("</td></tr>");
+		msgHtml.append("<tr><td style='width:40%;text-align:right;height:30px'><strong>Diferencia:</strong></td>");
+		msgHtml.append("<td style='min-width:50px;text-align:right'>");
+		if(total.compareTo(totalPedidos) <0){  //Total es menor a totalPedidos
+			msgHtml.append("-"+GeneralMethods.formatCurrentNumber(String.valueOf(totalEsp)));
+		}else{
+			msgHtml.append(GeneralMethods.formatCurrentNumber(String.valueOf(totalEsp)));
 		}
 		msgHtml.append("</td></tr>");
 		msgHtml.append("</tbody></table>");
@@ -372,15 +398,38 @@ public class CorteCajaController {
 		}
 		return export;
 	}
+	public String getCurrentOrders(){
+		BigDecimal montoTotal = new BigDecimal("0.0");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd"); 
+		
+		String prefijo=instance.getPrefijo();//env.getProperty("macrofoto.prefijo");
+		String fecha = sdf.format(new Date());
+		System.out.println("prefijo:"+prefijo);
+		List<BigDecimal> lstPedidos = (Flags.remote_valid)?remotePedidoService.totalPedidosByFec(fecha,prefijo):
+																	pedidoService.totalPedidosByFec(fecha,prefijo);
+		System.out.println("lstPedidos:"+lstPedidos.size());
+		if (lstPedidos != null && lstPedidos.size() > 0) {
+			
+			for(BigDecimal monto : lstPedidos ) {
+				System.out.println("lstPedidos_Value:"+String.valueOf(monto));
+				montoTotal = montoTotal.add(monto);
+			}
+		}
+		
+		return String.valueOf(montoTotal);
 	
+	}
 	private void fillTableResume(){
 		
 		List<CorteCajaResumeDTO> listResume = new ArrayList<>();
 		List<Store_cargo_abono> listCargoAbono = null;
 		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+		BigDecimal totalEsp = new BigDecimal(0);
 		
 		cargo = new BigDecimal(0);
 		abono = new BigDecimal(0);
+		
+		String totalPedidos = getCurrentOrders();
 		
 		//VALIDA SI ES REMOTO O LOCAL
 		if(!Flags.remote_valid){
@@ -395,10 +444,15 @@ public class CorteCajaController {
 		
 		//En caso de que no se tenga registro en BD
 		if(corteCaja !=null){
-			
-			listResume.add(new CorteCajaResumeDTO("(-) Monto inicial",GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getImporte_ini())),
+			/*
+			listResume.add(new CorteCajaResumeDTO("    Monto inicial",GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getImporte_ini())),
 					GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getImporte_ini()))));
 			
+			
+			
+			listResume.add(new CorteCajaResumeDTO("    Pedidos",GeneralMethods.formatCurrentNumber(totalPedidos),
+					GeneralMethods.formatCurrentNumber(totalPedidos)));
+			*/
 			listResume.add(new CorteCajaResumeDTO("CARGOS","",""));
 			
 			if(listCargoAbono != null && listCargoAbono.size()>0){
@@ -474,8 +528,9 @@ public class CorteCajaController {
 			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 0.50",
 					GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno050())),
 					GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getImporte()))));
-			
+
 			BigDecimal total = new BigDecimal(0);
+			
 			BigDecimal sum = new BigDecimal(0);
 			BigDecimal rest = new BigDecimal(0);
 			
@@ -484,22 +539,39 @@ public class CorteCajaController {
 			sum = sum.add(abono); 
 			
 			//Suma todo lo que no sea ingreso del dia
-			rest = rest.add(corteCaja.getImporte_ini()); 
+			//rest = rest.add(corteCaja.getImporte_ini()); 
 			rest = rest.add(cargo); 
 			
 			total = sum.subtract(rest);
 			if(sum.compareTo(rest) <0){  //SUM es menor a REST
-				listResume.add(new CorteCajaResumeDTO("","","-"+GeneralMethods.formatCurrentNumber(String.valueOf(total))));
+				listResume.add(new CorteCajaResumeDTO("Monto Actual","","-"+GeneralMethods.formatCurrentNumber(String.valueOf(total))));
 			}else{
-				listResume.add(new CorteCajaResumeDTO("","",GeneralMethods.formatCurrentNumber(String.valueOf(total))));
+				listResume.add(new CorteCajaResumeDTO("Monto Actual","",GeneralMethods.formatCurrentNumber(String.valueOf(total))));
 			}
+			
+			totalEsp = totalEsp.add(total);
+			totalEsp = totalEsp.subtract(new BigDecimal(totalPedidos));
+			
+			listResume.add(new CorteCajaResumeDTO("Monto de Pedidos","",GeneralMethods.formatCurrentNumber(String.valueOf(totalPedidos))));
+			if(total.compareTo(new BigDecimal(totalPedidos)) <0){  //Total es menor a total de pedidos
+				listResume.add(new CorteCajaResumeDTO("Diferencia","","-"+GeneralMethods.formatCurrentNumber(String.valueOf(totalEsp))));
+			}else{
+				listResume.add(new CorteCajaResumeDTO("Diferencia","",GeneralMethods.formatCurrentNumber(String.valueOf(totalEsp))));
+			}
+		//	listResume.add(new CorteCajaResumeDTO("Diferencia","",GeneralMethods.formatCurrentNumber(String.valueOf(totalEsp))));
 			
 			tblResume.getItems().removeAll(tblResume.getItems());
 			tblResume.getItems().addAll(listResume);
 		}else{
 			
+			totalEsp = totalEsp.subtract(new BigDecimal(totalPedidos));
 			
-			listResume.add(new CorteCajaResumeDTO("(-) Monto inicial","0.00","0.00"));
+			
+		//	listResume.add(new CorteCajaResumeDTO("    Monto inicial","0.00","0.00"));
+		/*
+			listResume.add(new CorteCajaResumeDTO("    Pedidos",GeneralMethods.formatCurrentNumber(totalPedidos),
+					GeneralMethods.formatCurrentNumber(totalPedidos)));
+		*/
 			listResume.add(new CorteCajaResumeDTO("GASTOS","",""));
 			listResume.add(new CorteCajaResumeDTO("(-) CARGO","0.00","0.00"));
 
@@ -519,10 +591,20 @@ public class CorteCajaController {
 			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 1","0.00",""));
 			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 0.50","0.00","0.0"));
 	
-			listResume.add(new CorteCajaResumeDTO("","","0.0"));
+			listResume.add(new CorteCajaResumeDTO("Monto Actual","","0.0"));
+			listResume.add(new CorteCajaResumeDTO("Monto de Pedidos","",GeneralMethods.formatCurrentNumber(totalPedidos)));
+			if(new BigDecimal(0).compareTo(new BigDecimal(totalPedidos)) <0){  //Total es menor a total de pedidos
+				listResume.add(new CorteCajaResumeDTO("Diferencia","","-"+GeneralMethods.formatCurrentNumber(String.valueOf(totalEsp))));
+			}else{
+				listResume.add(new CorteCajaResumeDTO("Diferencia","",GeneralMethods.formatCurrentNumber(String.valueOf(totalEsp))));
+			}
+		//	listResume.add(new CorteCajaResumeDTO("Diferencia ","",GeneralMethods.formatCurrentNumber(String.valueOf(totalEsp))));
+			
 			tblResume.getItems().removeAll(tblResume.getItems());
 			tblResume.getItems().addAll(listResume);
 			
+			saveMontoPedidoIni(totalPedidos);
+			/*
 			ModalConfirmController ctrl = openModalConfirm();
 			if(ctrl==null)return;
 			
@@ -531,11 +613,55 @@ public class CorteCajaController {
 			ctrl.getLblInput().setText("Monto inicial: ");
 			ctrl.getFormInput().setVisible(true);
 			ctrl.getBtnConfirm().addEventHandler(MouseEvent.MOUSE_CLICKED,acceptMontoIni(stageModalMontoIni,ctrl));
+			*/
 		}
 		
 		
 		
 	}
+	
+	private void saveMontoPedidoIni(String totalPedidos) {
+		
+		Store_corte_caja objEntity = new Store_corte_caja();
+		
+		if(corteCaja == null){
+			objEntity.setImporte_ini(new BigDecimal(0));
+			objEntity.setFecha(new Date());
+			objEntity.setId_sucursal(instance.getId_sucursal());
+			
+			objEntity.setImporte(new BigDecimal(0));
+			objEntity.setDeno050(new BigDecimal(0));
+			objEntity.setDeno1(new BigDecimal(0));
+			objEntity.setDeno2(new BigDecimal(0));
+			objEntity.setDeno5(new BigDecimal(0));
+			objEntity.setDeno10(new BigDecimal(0));
+			objEntity.setDeno20(new BigDecimal(0));
+			objEntity.setDeno50(new BigDecimal(0));
+			objEntity.setDeno100(new BigDecimal(0));
+			objEntity.setDeno200(new BigDecimal(0));
+			objEntity.setDeno500(new BigDecimal(0));
+			objEntity.setDeno1000(new BigDecimal(0));
+		}else{
+			objEntity = corteCaja;
+			objEntity.setId_corte_caja(corteCaja.getId_corte_caja());
+			objEntity.setFecha(corteCaja.getFecha());
+			objEntity.setId_sucursal(corteCaja.getId_sucursal());
+			
+		}
+		objEntity.setTotalPedidos(new BigDecimal(totalPedidos));
+		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+		
+		if(!Flags.remote_valid){
+			
+			corteCajaService.saveCorteCaja(objEntity);
+			corteCaja = corteCajaService.getCorteCajaByDate(dt.format(new Date()), instance.getId_sucursal());
+		}else{
+			remoteCorteCajaService.saveCorteCaja(objEntity);
+			corteCaja = remoteCorteCajaService.getCorteCajaByDate(dt.format(new Date()), instance.getId_sucursal());
+		}
+		
+	}
+	
 	private EventHandler<MouseEvent> acceptMontoIni(Stage stage,ModalConfirmController ctrl){
 		
 		return new EventHandler<MouseEvent>() {

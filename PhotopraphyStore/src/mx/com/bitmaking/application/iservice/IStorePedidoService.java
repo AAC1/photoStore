@@ -1,6 +1,7 @@
 package mx.com.bitmaking.application.iservice;
 
 import java.io.FileInputStream;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -30,4 +31,5 @@ public interface IStorePedidoService  {
 	
 	public boolean guardaPedido(Store_pedido pedido);
 	public void editPedido(PedidosReporteDTO objPedido);
+	public List<BigDecimal> totalPedidosByFec(String fecha, String prefijo);
 }

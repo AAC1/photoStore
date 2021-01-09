@@ -42,5 +42,9 @@ public abstract class AbstractStoreClteProdCostService implements IStoreClteProd
 		getClteProdCostRepo().deleteRowsByIdProd(getClteProdCostRepo().getRowByIdProd(id_prod));
 		
 	}
-
+	@Override
+	public void deleteRowByCte(int idCliente) {
+		getClteProdCostRepo().deleteRowByCte(idCliente);
+		
+	}
 }

@@ -1,5 +1,6 @@
 package mx.com.bitmaking.application.local.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.hibernate.SQLQuery;
@@ -40,7 +41,10 @@ public class PedidoDAO extends AbstractPedidoDAO{//implements IPedidoDAO{
 	public void update(Store_pedido pedido) {
 		super.update(pedido);
 	}
-
+	@Transactional(value="transactionManager")
+	public List<BigDecimal> totalPedidosByFec(String fecha, String prefijo){
+		return super.totalPedidosByFec(fecha, prefijo);
+	}
 	@Override
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;

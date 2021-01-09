@@ -17,8 +17,9 @@
 	-fx-font-family: 'Montserrat ExtraLight';
 }*/
 *{
-	 -fx-font-family: 'Montserrat Medium';
-	-fx-font-size:13px;
+/*-fx-font-family: 'Montserrat Light';*/
+	-fx-font-family: 'Comic Sans MS';
+	-fx-font-size:15px;
 }
 
 

@@ -151,14 +151,14 @@ public class LoginController {
 			        if(hasCss) 
 			        	sceneHome.getStylesheets().add(getClass().getResource("/mx/com/bitmaking/application/assets/css/application.css").toExternalForm());
 			        
-			        	Scene scene = new Scene(sceneHome,22,119);
+			        	Scene scene = new Scene(sceneHome,1065,740);
 			        	homeStage =new Stage();
 			        	homeStage.initModality(Modality.APPLICATION_MODAL); //Evitar que otras ventanas se puedan modificar
 			        	homeStage.setScene(scene);
 			        	homeStage.centerOnScreen();
 			        	homeStage.setTitle("Control de acceso");
-			        	homeStage.setMinHeight(636.0);
-			        	homeStage.setMinWidth(865.0);
+			        	homeStage.setMinHeight(740.0);
+			        	homeStage.setMinWidth(1065.0);
 					//	primaryStage.setMaxHeight(636.0);
 					//	primaryStage.setMaxWidth(865.0);
 						HomeController ctrller = loader.getController();

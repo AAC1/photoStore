@@ -2,12 +2,15 @@ package mx.com.bitmaking.application.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Store_fotografo {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
 	private int id_fotografo;
 	@Column
@@ -17,7 +20,12 @@ public class Store_fotografo {
 	@Column
 	private String email;
 	@Column
+	private String tipo;
+	@Column
 	private int estatus;
+	
+	
+	
 	public int getId_fotografo() {
 		return id_fotografo;
 	}
@@ -47,6 +55,12 @@ public class Store_fotografo {
 	}
 	public void setEstatus(int estatus) {
 		this.estatus = estatus;
+	}
+	public String getTipo() {
+		return tipo;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 	
 	

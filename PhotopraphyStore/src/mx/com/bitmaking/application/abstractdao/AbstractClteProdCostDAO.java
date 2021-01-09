@@ -1,5 +1,6 @@
 package mx.com.bitmaking.application.abstractdao;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.SQLQuery;
@@ -70,6 +71,8 @@ public abstract class AbstractClteProdCostDAO implements IClteProdCostDAO{
 		}
 		return results;
 	}
+	
+	
 	@Override
 	public CostProductsDTO getCostByClteAndBarcode(int id_clte, String barcode){
 		StringBuilder sQry= new StringBuilder();

@@ -62,19 +62,27 @@ public class PrinterService implements Printable{
         if(service ==null){
         	throw new Exception("La impresora no se encuentra configurada.");
         }
+        PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
         DocPrintJob job = service.createPrintJob();
 
         try {
 
             byte[] bytes;
-
+            byte[] open =  {(byte)27, (byte)112,(byte) 0, (byte)25, (byte)250};
+            String commandToSend = "<0A0D1B>p0@<F01D>VB<1D050A0D>\n";
             // important for umlaut chars
             bytes = text.getBytes("CP437");
 
             Doc doc = new SimpleDoc(bytes, flavor, null);
-
-
-            job.print(doc, null);
+            job.print(doc, aset);
+            
+            
+            Doc docOpen2 = new SimpleDoc(commandToSend.getBytes(), flavor, null);
+            job.print(docOpen2, aset);
+            
+            Doc docOpen = new SimpleDoc(open, flavor, null);
+            job.print(docOpen, aset);
+            
 
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -140,10 +148,11 @@ public class PrinterService implements Printable{
 	public static String ticketLayout(int nCharacters, ObservableList<CostProductsDTO> listProds,UserSessionDTO instance) {
 		
 		StringBuilder layout = new StringBuilder();
-		layout.append(nCharacter(nCharacters, "MACROFOTO DIGITAL S.A. DE C.V.", true, false));
+		layout.append(nCharacter(nCharacters, "MACRO FOTO ", true, false));
 		layout.append(nCharacter(nCharacters, instance.getDirSucursal(), true, false));
 		layout.append(nCharacter(nCharacters, "Raz\u00F3n Social:"+instance.getRazon_social(), true, false));
 		layout.append(nCharacter(nCharacters, "Sucursal: "+instance.getPrefijo() +" "+instance.getSucursal(), false, false));
+		layout.append(nCharacter(nCharacters, "Tel\u00E9fono:"+instance.getTelSucursal(), false, false));
 		layout.append(nCharacter(nCharacters, "", false, false));
 		layout.append(nCharacter(nCharacters, "Productos:", false, false));
 		int  nlastLine = 0, aux = 0;
@@ -188,8 +197,7 @@ public class PrinterService implements Printable{
 		layout.append(nCharacter(nCharacters, "Te atendi\u00F3: "+instance.getInstance().getNombre(), false, true));
 		layout.append(nCharacter(nCharacters, "", false, false));
 		layout.append(nCharacter(nCharacters, "¡GRACIAS POR SU PREFERENCIA!", true, false));
-		layout.append(nCharacter(nCharacters, "TELEFONO:"+instance.getTelSucursal(), true, false));
-		layout.append("\n\n\n\n\n\n\n\n\n\n");
+		layout.append("\n\n\n\n\n\n\n\n\n\n\n");
 		return layout.toString();
 	}
 

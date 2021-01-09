@@ -1,5 +1,6 @@
 package mx.com.bitmaking.application.idao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import mx.com.bitmaking.application.dto.CostProductsDTO;

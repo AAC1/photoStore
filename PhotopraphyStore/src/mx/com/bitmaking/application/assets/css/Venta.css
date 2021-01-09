@@ -19,11 +19,21 @@
 }
 
 *{
-	-fx-font-size:13px
+	-fx-font-size:15px;
 }
 
+
 .input-gral{
-	-fx-font-family: 'Montserrat Light';
+	/*-fx-font-family: 'Montserrat Light';*/
+	-fx-font-family: 'Comic Sans MS';
+}
+
+.big-font{
+	-fx-font-size:24px;
+}
+.font-20{
+	
+	-fx-font-size:20px;
 }
 
 .btn-gral{

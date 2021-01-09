@@ -47,10 +47,16 @@ public class StoreFotografoDAO extends AbstractStoreFotografoDAO{// implements I
 
 	@Transactional(value="remoteTransactionManager")
 	@Override
-	public void saveCliente(Store_fotografo cliente) {
-		super.saveCliente(cliente);
+	public Integer saveCliente(Store_fotografo cliente) {
+		return super.saveCliente(cliente);
 	}
-
+	
+	@Transactional(value="remoteTransactionManager")
+	@Override
+	public void updateCliente(Store_fotografo cliente) {
+		super.updateCliente(cliente);
+	}
+	
 	@Transactional(value="remoteTransactionManager")
 	@Override
 	public void deleteCliente(int idCliente) {

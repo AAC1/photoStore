@@ -101,5 +101,16 @@ public abstract class AbstractStoreClteProdCostDAO implements IStoreClteProdCost
 		
 	}
 	
-
+	@Override
+	public void deleteRowByCte(int idCliente) {
+		StringBuilder sQry = new StringBuilder();
+		List<Store_cliente_prod_cost> resp = new ArrayList<>();
+		sQry.append("DELETE ");
+		sQry.append("FROM Store_cliente_prod_cost s WHERE  s.id_cliente=:idCte");
+		SQLQuery qry = getSessionFactory().getCurrentSession()
+				.createSQLQuery(sQry.toString());
+		
+		qry.setInteger("idCte", idCliente);
+		qry.executeUpdate();
+	}
 }

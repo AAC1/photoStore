@@ -17,8 +17,16 @@ public class CostProductsDTO implements Serializable {
 	private BigDecimal costoUnitario;
 	private int cantidad;
 	private String bar_code;
+	private int categoria;
 	
 	
+	
+	public int getCategoria() {
+		return categoria;
+	}
+	public void setCategoria(int categoria) {
+		this.categoria = categoria;
+	}
 	public BigDecimal getCostoUnitario() {
 		return costoUnitario;
 	}

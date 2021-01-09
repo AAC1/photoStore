@@ -32,7 +32,7 @@ public abstract class AbstractStoreFotografoService implements IStoreFotografoSe
 		Store_fotografo clteGral = new Store_fotografo();
 		clteGral.setId_fotografo(0);
 		clteGral.setFotografo(Constantes.CLTE_GRAL);
-		
+		clteGral.setTipo("A");
 		lstResp.add(clteGral);
 		
 		lstResp.addAll(getFotografoRepo().getActiveClients());
@@ -57,10 +57,13 @@ public abstract class AbstractStoreFotografoService implements IStoreFotografoSe
 	}
 	
 	@Override
-	public void saveCliente(Store_fotografo cliente) {
-		getFotografoRepo().saveCliente(cliente);
+	public Integer saveCliente(Store_fotografo cliente) {
+		return getFotografoRepo().saveCliente(cliente);
 	}
-	
+	@Override
+	public void updateCliente(Store_fotografo cliente) {
+		getFotografoRepo().updateCliente(cliente);
+	}
 	@Override
 	public void deleteCliente(int cliente) {
 		getFotografoRepo().deleteCliente(cliente);

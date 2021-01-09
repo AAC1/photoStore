@@ -18,6 +18,7 @@ public interface IStoreFotografoDAO {
 	public List<ClienteDTO> getClientsByName(String name,String operator);
 
 
-	public void saveCliente(Store_fotografo cliente);
+	public Integer saveCliente(Store_fotografo cliente);
 	public void deleteCliente(int cliente);
+	public void updateCliente(Store_fotografo cliente);
 }

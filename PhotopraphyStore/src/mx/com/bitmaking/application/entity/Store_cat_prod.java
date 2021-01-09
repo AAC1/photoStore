@@ -3,6 +3,8 @@
  */
 package mx.com.bitmaking.application.entity;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,9 +44,31 @@ public class Store_cat_prod {
 	
 	@Column( name = "categoria")
 	private int categoria;
+	
 
+	@Column( name = "costo_aficionado")
+	private BigDecimal costo_aficionado;
+
+	@Column( name = "costo_fotografo")
+	private BigDecimal costo_fotografo;
 	
 	
+	public BigDecimal getCosto_aficionado() {
+		return costo_aficionado;
+	}
+
+	public void setCosto_aficionado(BigDecimal costo_aficionado) {
+		this.costo_aficionado = costo_aficionado;
+	}
+
+	public BigDecimal getCosto_fotografo() {
+		return costo_fotografo;
+	}
+
+	public void setCosto_fotografo(BigDecimal costo_fotografo) {
+		this.costo_fotografo = costo_fotografo;
+	}
+
 	public byte[] getImg_barcode() {
 		return img_barcode;
 	}

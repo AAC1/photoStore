@@ -5,7 +5,9 @@
 }
 
 *{
-	-fx-font-size:13px
+	/*-fx-font-family: 'Montserrat Light';*/
+	-fx-font-family: 'Comic Sans MS';
+	-fx-font-size:15px;
 }
 
 .input-gral{

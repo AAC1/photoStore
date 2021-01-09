@@ -265,6 +265,16 @@ public class BusqPedidoRepController {
 		this.btnModifProd = btnModifProd;
 	}
 
+	
+	
+	public JFXDatePicker getDateBusqIni() {
+		return dateBusqIni;
+	}
+
+	public void setDateBusqIni(JFXDatePicker dateBusqIni) {
+		this.dateBusqIni = dateBusqIni;
+	}
+
 	public void initialize() {
 		responsiveGUI();
 		initMethod();

@@ -3,6 +3,7 @@ package mx.com.bitmaking.application.abstractservice;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -77,6 +78,17 @@ public abstract class AbstractStorePedidoService implements IStorePedidoService 
 		List<PedidosReporteDTO> resp = new ArrayList<>();
 		try {
 			resp = getClteProdCostoDao().consultaPedido(qry);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resp;
+	}
+	@Override
+	public List<BigDecimal> totalPedidosByFec(String fecha, String prefijo){
+		List<BigDecimal> resp = new ArrayList<>();
+		try {
+			resp = getPedidoDao().totalPedidosByFec(fecha, prefijo);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

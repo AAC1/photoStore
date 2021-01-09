@@ -47,9 +47,16 @@ public class StoreFotografoService extends AbstractStoreFotografoService{//imple
 	
 	@Transactional(value="remoteTransactionManager")
 	@Override
-	public void saveCliente(Store_fotografo cliente) {
+	public Integer saveCliente(Store_fotografo cliente) {
 		
-		super.saveCliente(cliente);
+		return super.saveCliente(cliente);
+	}
+	
+	@Transactional(value="remoteTransactionManager")
+	@Override
+	public void updateCliente(Store_fotografo cliente) {
+		
+		super.updateCliente(cliente);
 	}
 
 	@Transactional(value="remoteTransactionManager")

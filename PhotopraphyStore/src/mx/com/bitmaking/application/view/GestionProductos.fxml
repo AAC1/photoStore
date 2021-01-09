@@ -8,7 +8,7 @@
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="bodyCatProd" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="507.0" prefWidth="786.0" style="-fx-background-color: rgba(255,255,255,0.8);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.GestProdController">
+<AnchorPane fx:id="bodyCatProd" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="588.0" prefWidth="786.0" style="-fx-background-color: rgba(255,255,255,0.8);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.com.bitmaking.application.controller.GestProdController">
    <children>
       <JFXButton fx:id="btnAddProd" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #037AB6; -fx-text-fill: white;" styleClass="btn-gral" text="✚ Alta" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
       <JFXButton fx:id="btnEliminarProd" layoutX="272.0" layoutY="14.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #A12D04 #A12D04; -fx-text-fill: white;" styleClass="btn-gral" text="✖ Eliminar" AnchorPane.leftAnchor="272.0" AnchorPane.topAnchor="14.0" />
@@ -23,19 +23,23 @@
             <Label layoutX="11.0" layoutY="152.0" prefHeight="17.0" prefWidth="322.0" text="Estatus" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="34.0" AnchorPane.topAnchor="152.0" />
             <Label layoutX="11.0" layoutY="220.0" prefHeight="17.0" prefWidth="322.0" text="Código de barras" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="37.0" AnchorPane.topAnchor="220.0" />
             <JFXTextField fx:id="inputBarcode" disable="true" layoutX="11.0" layoutY="237.0" prefHeight="27.0" prefWidth="221.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="237.0" />
-            <JFXButton fx:id="btnAcceptModif" layoutX="141.0" layoutY="341.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #037AB6;" text="✔ Aceptar" textFill="WHITE" visible="false" AnchorPane.bottomAnchor="65.0" AnchorPane.rightAnchor="132.0" />
-            <JFXButton fx:id="btnCancenModif" layoutX="263.0" layoutY="341.0" onMouseClicked="#cancelModif" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #A12D04 #A12D04;" text="✘ Cerrar" textFill="WHITE" visible="false" AnchorPane.bottomAnchor="65.0" AnchorPane.rightAnchor="10.0" />
-            <JFXButton fx:id="btnSalir" layoutX="262.0" layoutY="232.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #505050; -fx-text-fill: white;" styleClass="btn-gral" text=" ◄ Salir" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="11.0" />
+            <Label fx:id="lblTipoCosto" layoutX="23.0" layoutY="365.0" prefHeight="17.0" prefWidth="297.0" styleClass="label-title" text="Tipo de costo" visible="false" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="289.0" />
+            <JFXComboBox fx:id="cbxTipoCosto" disable="true" layoutX="11.0" layoutY="306.0" onAction="#changeCosto" prefHeight="27.0" prefWidth="197.0" visible="false" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="306.0" />
+            <Label fx:id="lblCosto" layoutX="13.0" layoutY="355.0" prefHeight="17.0" prefWidth="297.0" styleClass="label-title" text="Costo Regular" visible="false" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="355.0" />
+            <JFXTextField fx:id="inputCosto" disable="true" layoutX="13.0" layoutY="372.0" prefHeight="27.0" prefWidth="297.0" styleClass="input-gral" visible="false" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="372.0" />
+            <Label fx:id="lblCostoCte" layoutX="13.0" layoutY="419.0" prefHeight="17.0" prefWidth="297.0" styleClass="label-title" text="Costo para fotografo" visible="false" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="419.0" />
+            <JFXTextField fx:id="inputCostoCte" disable="true" layoutX="13.0" layoutY="436.0" prefHeight="27.0" prefWidth="297.0" styleClass="input-gral" visible="false" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="436.0" />
+            <JFXButton fx:id="btnAcceptModif" layoutX="13.0" layoutY="401.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #037AB6;" text="✔ Aceptar" textFill="WHITE" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="260.0" />
+            <JFXButton fx:id="btnCancenModif" layoutX="137.0" layoutY="401.0" onMouseClicked="#cancelModif" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #A12D04 #A12D04;" text="✘ Cerrar" textFill="WHITE" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="136.0" />
+            <JFXButton fx:id="btnSalir" layoutX="262.0" layoutY="232.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #505050; -fx-text-fill: white;" styleClass="btn-gral" text=" ◄ Salir" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="11.0" />
             <AnchorPane fx:id="formInput" layoutX="11.0" layoutY="14.0" prefHeight="61.0" prefWidth="367.0" style="-fx-border-width: 1px; -fx-border-color: #505050;" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="14.0">
                <children>
                   <JFXRadioButton fx:id="radCategoria" disable="true" layoutX="54.0" layoutY="22.0" onMouseClicked="#selectCat" prefHeight="17.0" prefWidth="107.0" selected="true" text="Categorías" AnchorPane.leftAnchor="35.0" />
                   <JFXRadioButton fx:id="radProducto" disable="true" layoutX="254.0" layoutY="22.0" onMouseClicked="#selectProd" prefHeight="17.0" prefWidth="107.0" text="Productos" AnchorPane.rightAnchor="35.0" />
                </children>
             </AnchorPane>
-            <JFXTextField fx:id="inputCosto" disable="true" layoutX="11.0" layoutY="302.0" prefHeight="27.0" prefWidth="297.0" styleClass="input-gral" visible="false" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" />
-            <Label fx:id="lblCosto" layoutX="11.0" layoutY="285.0" prefHeight="17.0" prefWidth="297.0" styleClass="label-title" text="Costo (Aplicará a todos los clientes)" visible="false" AnchorPane.leftAnchor="11.0" />
          </children>
       </AnchorPane>
-      <JFXButton fx:id="btnEliminarProd1" layoutX="627.0" layoutY="14.0" onMouseClicked="#importFile" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #505050; -fx-text-fill: white;" styleClass="btn-gral" text="Importar Inv." AnchorPane.leftAnchor="627.0" AnchorPane.topAnchor="14.0" />
+      <JFXButton fx:id="btnAddCatProd" layoutX="627.0" layoutY="14.0" onMouseClicked="#importFile" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #505050; -fx-text-fill: white;" styleClass="btn-gral" text="Importar Inv." AnchorPane.leftAnchor="627.0" AnchorPane.topAnchor="14.0" />
    </children>
 </AnchorPane>

@@ -15,5 +15,5 @@ public class Constantes {
 	public static final String passwd="";
 	public static final String CLTE_GRAL = "Cliente general";
 	public static final String TXT_NUEVA_CATEGORIA = "Nueva categoría";
-	public static final String COMPANY_NAME = "MACROFOTO DIGITAL S.A DE C.V.";
+	public static final String COMPANY_NAME = "MACRO FOTO";
 }

@@ -1,7 +1,9 @@
 package mx.com.bitmaking.application.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +30,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.com.bitmaking.application.dto.ClienteDTO;
 import mx.com.bitmaking.application.dto.UsuariosDTO;
+import mx.com.bitmaking.application.entity.Store_cat_prod;
+import mx.com.bitmaking.application.entity.Store_cliente_prod_cost;
 import mx.com.bitmaking.application.entity.Store_fotografo;
 import mx.com.bitmaking.application.entity.Store_perfil;
 import mx.com.bitmaking.application.entity.Store_sucursal;
 import mx.com.bitmaking.application.entity.Store_usuario;
+import mx.com.bitmaking.application.iservice.IStoreCatProdService;
+import mx.com.bitmaking.application.iservice.IStoreClteProdCostService;
 import mx.com.bitmaking.application.iservice.IStoreFotografoService;
 import mx.com.bitmaking.application.util.Constantes;
 import mx.com.bitmaking.application.util.Flags;
@@ -63,7 +69,8 @@ public class ClienteController {
 	@FXML private JFXTextField inputTelefono;
 	@FXML private JFXTextField inputCorreo;
 	@FXML private JFXComboBox<String> cbxStts;
-	
+
+	@FXML private JFXComboBox<String> cbxTipoCte;
 	@Autowired
 	private ApplicationContext context ;
 
@@ -74,6 +81,20 @@ public class ClienteController {
 	@Autowired
 	@Qualifier("remoteStoreFotografoService")
 	private IStoreFotografoService  remoteFotografoService;
+	
+	@Autowired
+	@Qualifier("StoreCatProdService")
+	IStoreCatProdService storeCatProdService;
+	@Autowired
+	@Qualifier("remoteStoreCatProdService")
+	IStoreCatProdService remoteStoreCatProdService;
+	
+	@Autowired 
+	@Qualifier("StoreClteProdCostService")
+	IStoreClteProdCostService clteProdCostService;
+	@Autowired 
+	@Qualifier("remoteStoreClteProdCostService")
+	IStoreClteProdCostService remoteClteProdCostService;
 	
 	private String tipoForm = "";
 	private Stage stageBusqProd = null;
@@ -89,6 +110,7 @@ public class ClienteController {
 	public void initialize() {
 		responsiveGUI();
 		initForm();
+		disableInputs();
 	}
 	
 	@FXML
@@ -121,6 +143,13 @@ public class ClienteController {
 		inputTelefono.setText(clteDto.getTelefono());
 		cbxStts.setValue(clteDto.getEstatusStr());
 		
+		if("A".equals(clteDto.getTipo())) {
+			cbxTipoCte.setValue("AFICIONADO");
+		}
+		else if("F".equals(clteDto.getTipo())) {
+			cbxTipoCte.setValue("FOTOGRAFO");
+		}
+		
 		
 	}
 	
@@ -138,6 +167,7 @@ public class ClienteController {
 		inputCorreo.setText("");
 		inputTelefono.setText("");
 		cbxStts.setValue("ACTIVO");
+		cbxTipoCte.setValue("AFICIONADO");
 		enableInputs();
 	
 	}
@@ -183,10 +213,14 @@ public class ClienteController {
 			public void handle(MouseEvent event) {
 				//System.out.println(event.getSource());
 				try {
-					if(Flags.remote_valid)
+					if(Flags.remote_valid) {
+						remoteClteProdCostService.deleteRowByCte(objUsr.getId_fotografo());
 						remoteFotografoService.deleteCliente(objUsr.getId_fotografo());
-					else 
+					}
+					else {
+						clteProdCostService.deleteRowByCte(objUsr.getId_fotografo());
 						fotografoService.deleteCliente(objUsr.getId_fotografo());
+					}
 					if(stageBusqProd!=null) stageBusqProd.close();
 					disableInputs();
 					clearInputs();
@@ -223,6 +257,12 @@ public class ClienteController {
 			return;
 		}
 		
+
+		if(cbxTipoCte.getValue()==null || "".equals(cbxTipoCte.getValue().trim())) {
+			GeneralMethods.modalMsg("ERROR", "", "Ingrese el tipo de cliente");
+			return;
+		}
+		
 		
 		btnAgregar.setDisable(false);
 		btnEditar.setDisable(false);
@@ -233,35 +273,96 @@ public class ClienteController {
 		
 		Store_fotografo usuario = new Store_fotografo();
 		usuario.setEstatus("ACTIVO".equals(cbxStts.getValue())?1:0);
+		usuario.setTipo("AFICIONADO".equals(cbxTipoCte.getValue())?"A":"F");
 		usuario.setEmail(inputCorreo.getText());
 		usuario.setFotografo(inputFotografo.getText().trim());
 		
 		usuario.setTelefono(inputTelefono.getText());
+		
+		List<Store_cat_prod> lstCatProd = null;
+		
 		if("M".equals(tipoForm)) {
 			ClienteDTO objUsr = tblClientes.getSelectionModel().getSelectedItem();
 			usuario.setId_fotografo(objUsr.getId_fotografo());
 		//	usuario.setPasswd(objUsr.getPasswd());
+			if(Flags.remote_valid) {
+				remoteFotografoService.updateCliente(usuario);
+				lstCatProd =remoteStoreCatProdService.getAllCatalogoProduct();
+				remoteClteProdCostService.deleteRowByCte(usuario.getId_fotografo());
+				
+			}
+			else {
+				fotografoService.updateCliente(usuario);
+				lstCatProd=storeCatProdService.getAllCatalogoProduct();
+				clteProdCostService.deleteRowByCte(usuario.getId_fotografo());
+				
+			}
+		}
+		else if("A".equals(tipoForm)) {
+			int idFotografo =0;
+			if(Flags.remote_valid) {
+				idFotografo=remoteFotografoService.saveCliente(usuario);
+				lstCatProd =remoteStoreCatProdService.getAllCatalogoProduct();
+				remoteClteProdCostService.deleteRowByCte(idFotografo);
+			}
+			else {
+				idFotografo=fotografoService.saveCliente(usuario);
+				lstCatProd=storeCatProdService.getAllCatalogoProduct();
+				clteProdCostService.deleteRowByCte(idFotografo);
+			}
+			usuario.setId_fotografo(idFotografo);
 		}
 		
-		if(Flags.remote_valid)
-			remoteFotografoService.saveCliente(usuario);
-		else 
-			fotografoService.saveCliente(usuario);
+		
+		
+		if(lstCatProd!=null ) {
+			List<Store_cat_prod> lstPRod = lstCatProd.stream().filter(e -> e.getCategoria()==0).collect(Collectors.toList());
+			if(lstPRod!=null) {
+				
+				for(Store_cat_prod prod: lstPRod) {
+					String costo = "A".equals(usuario.getTipo())?String.valueOf(prod.getCosto_aficionado()):
+						String.valueOf(prod.getCosto_fotografo());
+					
+					saveCostosByCliente(prod.getId_prod(),usuario.getId_fotografo(),costo);
+				}
+			}
+		}
 		
 		disableInputs();
 		clearInputs();
 		buscaCliente();
 	}
 	
+	private void saveCostosByCliente(int idProd,int idFotografo, String costo) {
+		Store_cliente_prod_cost clteProdCost = null;
+		
+		clteProdCost = new Store_cliente_prod_cost();
+		clteProdCost.setCosto(new BigDecimal(costo));//.replaceAll(",", "")
+			
+		clteProdCost.setId_cliente(idFotografo);
+		clteProdCost.setId_prod(idProd);
+			clteProdCostService.insertRow(clteProdCost);
+			if(Flags.remote_valid)remoteClteProdCostService.insertRow(clteProdCost);
+		
+	}
+		
+
 	
 	private void initForm() {
 		List<String> lstStts = new ArrayList<>();
 		lstStts.add("ACTIVO");
 		lstStts.add("NO ACTIVO");
 		
+		List<String> lstTipo = new ArrayList<>();
+		lstTipo.add("AFICIONADO");//A
+		lstTipo.add("FOTOGRAFO");//F
+		
 		
 		cbxStts.getItems().removeAll(cbxStts.getItems());
 		cbxStts.setItems(FXCollections.observableList(lstStts));
+		
+		cbxTipoCte.getItems().removeAll(cbxTipoCte.getItems());
+		cbxTipoCte.setItems(FXCollections.observableList(lstTipo));
 		
 		//cbxBusqEstatus.getItems().removeAll(cbxBusqEstatus.getItems());
 		//cbxBusqEstatus.setItems(FXCollections.observableList(lstStts));
@@ -303,12 +404,14 @@ public class ClienteController {
 		inputTelefono.setDisable(true);
 		inputCorreo.setDisable(true);
 		cbxStts.setDisable(true);
+		cbxTipoCte.setDisable(true);
 	}
 	private void clearInputs() {
 		inputFotografo.setText("");
 		inputTelefono.setText("");
 		inputCorreo.setText("");
 		cbxStts.setValue("");
+		cbxTipoCte.setValue("");
 	}
 	private void enableInputs() {
 		inputFotografo.setDisable(false);
@@ -316,6 +419,7 @@ public class ClienteController {
 		inputTelefono.setDisable(false);
 		inputCorreo.setDisable(false);
 		cbxStts.setDisable(false);
+		cbxTipoCte.setDisable(false);
 		
 	}
 	private ModalConfirmController openModalConfirm(){

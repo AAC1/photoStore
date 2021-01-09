@@ -1,6 +1,7 @@
 package mx.com.bitmaking.application.local.service;
 
 import java.io.FileInputStream;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -94,6 +95,11 @@ public class StorePedidoService extends AbstractStorePedidoService{//implements 
 		*/
 		return super.guardaPedido(pedido);
 	}
+	@Transactional(value="transactionManager")
+	public List<BigDecimal> totalPedidosByFec(String fecha, String prefijo) {
+		
+		return super.totalPedidosByFec(fecha,prefijo);
+	}
 	
 	@Transactional(value="transactionManager")
 	public  void editPedido(PedidosReporteDTO in) {
@@ -114,5 +120,7 @@ public class StorePedidoService extends AbstractStorePedidoService{//implements 
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
+
+	
 
 }

@@ -1,6 +1,7 @@
 package mx.com.bitmaking.application.remote.service;
 
 import java.io.FileInputStream;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -76,6 +77,12 @@ public class StorePedidoService extends AbstractStorePedidoService{//implements 
 	public  void editPedido(PedidosReporteDTO in) {
 		super.editPedido(in);
 	}
+	@Transactional(value="remoteTransactionManager")
+	public List<BigDecimal> totalPedidosByFec(String fecha, String prefijo) {
+		
+		return super.totalPedidosByFec(fecha,prefijo);
+	}
+	
 
 	@Override
 	public IClteProdCostDAO getClteProdCostoDao() {

@@ -48,7 +48,10 @@ public class StoreClteProdCostDAO extends AbstractStoreClteProdCostDAO{// implem
 	public void deleteRowsByIdProd(List<Store_cliente_prod_cost> rows) {
 		super.deleteRowsByIdProd(rows);
 	}
-	
+	@Transactional(value="transactionManager")
+	public void deleteRowByCte(int idCte) {
+		super.deleteRowByCte(idCte);
+	}
 	@Override
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;

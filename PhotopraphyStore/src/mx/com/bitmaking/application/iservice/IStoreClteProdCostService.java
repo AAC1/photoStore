@@ -9,4 +9,5 @@ public interface IStoreClteProdCostService {
 	public  void insertRow(Store_cliente_prod_cost costProdObj);
 	public void updateRow(Store_cliente_prod_cost costProdObj);
 	public void deleteRowByIdCostProd(int costProdObj);
+	public void deleteRowByCte(int idCliente);
 }

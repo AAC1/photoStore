@@ -18,4 +18,5 @@ public interface IStoreClteProdCostDAO {
 	public void deleteRowsByIdProd(List<Store_cliente_prod_cost> rows);
 
 	List<Store_cliente_prod_cost> getRowByIdProd(int idProd);
+	public void deleteRowByCte(int idCliente);
 }
