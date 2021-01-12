@@ -296,7 +296,12 @@ public class VentaController  {
 			inputMontoAnt.setText(String.valueOf(monto));
 		}
 		*/
-		if(montoEnt >=montoAnt && monto>0 ) {
+		if(montoEnt >=monto && monto>0 ) {
+			inputCambio.setText(String.valueOf(new BigDecimal(montoEnt).subtract(new BigDecimal(monto)).setScale(2,BigDecimal.ROUND_HALF_EVEN)));
+			//inputMontoAnt.setText(String.valueOf(monto));
+		}
+		
+		if(montoEnt >=montoAnt && montoAnt>0 ) {
 			inputCambio.setText(String.valueOf(new BigDecimal(montoEnt).subtract(new BigDecimal(montoAnt)).setScale(2,BigDecimal.ROUND_HALF_EVEN)));
 			//inputMontoAnt.setText(String.valueOf(monto));
 		}
@@ -473,13 +478,17 @@ public class VentaController  {
 				//System.out.println(event.getSource());
 				try {
 					Store_pedido pedidoObj = new Store_pedido();
+					
 					String montoAnt = inputMontoAnt.getText();
 					String montoTot = inputMonto.getText();
+					
 					if(inputMontoAnt.getText() ==null){
 						montoAnt = "0";
 					}
+					
 					montoAnt= montoAnt.replaceAll("[^0-9\\.]", "");
 					montoTot= montoTot.replaceAll("[^0-9\\.]", "");
+					
 					if(inputMontoAnt.getText() ==null || "".equals(montoAnt.trim())) {
 						montoAnt="0";
 					}
@@ -500,7 +509,14 @@ public class VentaController  {
 				//	pedidoObj.setFec_pedido(dateTime);
 				//	pedidoObj.setFec_pedido((sdf.parse(sdf.format(new Date())) ));
 					pedidoObj.setFec_pedido(c);
-					pedidoObj.setMonto_ant(new BigDecimal(montoAnt));
+					
+					if("0".equals(montoAnt)) {
+						pedidoObj.setMonto_ant(new BigDecimal(montoTot));
+					}else {
+						pedidoObj.setMonto_ant(new BigDecimal(montoAnt));
+					}
+					
+					
 					pedidoObj.setMonto_total(new BigDecimal(montoTot));
 					pedidoObj.setId_estatus(cbxEstatus.getSelectionModel().getSelectedIndex()+1);
 					

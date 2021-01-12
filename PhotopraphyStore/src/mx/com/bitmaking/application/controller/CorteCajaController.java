@@ -153,6 +153,8 @@ public class CorteCajaController {
 	   		PseudoClass greenColor = PseudoClass.getPseudoClass("green-text");
 	   		PseudoClass blackColor = PseudoClass.getPseudoClass("black-text");
 	   		PseudoClass blueColor = PseudoClass.getPseudoClass("blue-text");
+	   		PseudoClass yellowColor = PseudoClass.getPseudoClass("yellow-text");
+	   		
 			tblResume.setRowFactory(new Callback<TableView<CorteCajaResumeDTO>, TableRow<CorteCajaResumeDTO>>() {
 		        @Override
 		        public TableRow<CorteCajaResumeDTO> call(TableView<CorteCajaResumeDTO> tableView) {
@@ -168,18 +170,26 @@ public class CorteCajaController {
 		                    	//	setTextFill(Color.WHITE);
 		                    	
 		                    	}*/
-		                    	if(row.getDescripcion().contains("(-)")){
+		                    	if(row.getDescripcion().contains("(-)") || row.getTotal().contains("-")){
 			                    	
 			        					pseudoClassStateChanged(greenColor,false);
 			        					pseudoClassStateChanged(redColor,true);
 			        					pseudoClassStateChanged(blackColor,false);
+			                    		pseudoClassStateChanged(yellowColor,false);
 			        				
 		                    	}else if(row.getDescripcion().contains("(+)")){
 		                    	
 		                    		pseudoClassStateChanged(blackColor,false);
 		                    		pseudoClassStateChanged(redColor,false);
 		                    		pseudoClassStateChanged(greenColor,true);
-		                    	}else{
+		                    		pseudoClassStateChanged(yellowColor,false);
+		                    	}else if(row.isGanancia()){
+		                    		pseudoClassStateChanged(blackColor,false);
+		                    		pseudoClassStateChanged(redColor,false);
+		                    		pseudoClassStateChanged(greenColor,false);
+		                    		pseudoClassStateChanged(yellowColor,true);
+		                    	}else {
+		                    		pseudoClassStateChanged(yellowColor,false);
 		                    		pseudoClassStateChanged(blackColor,true);
 		                    		pseudoClassStateChanged(redColor,false);
 		                    		pseudoClassStateChanged(greenColor,false);
@@ -453,7 +463,7 @@ public class CorteCajaController {
 			listResume.add(new CorteCajaResumeDTO("    Pedidos",GeneralMethods.formatCurrentNumber(totalPedidos),
 					GeneralMethods.formatCurrentNumber(totalPedidos)));
 			*/
-			listResume.add(new CorteCajaResumeDTO("CARGOS","",""));
+			listResume.add(new CorteCajaResumeDTO("CARGOS","","",false));
 			
 			if(listCargoAbono != null && listCargoAbono.size()>0){
 				
@@ -466,20 +476,20 @@ public class CorteCajaController {
 						if((i+1) == lstCargo.size())
 							listResume.add(new CorteCajaResumeDTO("(-) "+lstCargo.get(i).getMotivo(),
 										GeneralMethods.formatCurrentNumber(String.valueOf(lstCargo.get(i).getMonto())),
-										GeneralMethods.formatCurrentNumber(String.valueOf(cargo))));
+										GeneralMethods.formatCurrentNumber(String.valueOf(cargo)),false));
 						else
 							listResume.add(new CorteCajaResumeDTO("(-) "+lstCargo.get(i).getMotivo(),
-									GeneralMethods.formatCurrentNumber(String.valueOf(lstCargo.get(i).getMonto())),""));
+									GeneralMethods.formatCurrentNumber(String.valueOf(lstCargo.get(i).getMonto())),"",false));
 					}
 					
 				}
 				
 				
 			}else{
-				listResume.add(new CorteCajaResumeDTO("--","0.00","0.00"));
+				listResume.add(new CorteCajaResumeDTO("--","0.00","0.00",false));
 			}
 			boolean hasAbono = false;
-			listResume.add(new CorteCajaResumeDTO("ABONOS","",""));
+			listResume.add(new CorteCajaResumeDTO("ABONOS","","",false));
 			if(listCargoAbono != null && listCargoAbono.size()>0){
 				List<Store_cargo_abono> lstAbono= (listCargoAbono.stream().
 										filter(e -> "A".contentEquals(e.getTipo()))).collect((Collectors.toList()));
@@ -491,43 +501,43 @@ public class CorteCajaController {
 						if((i+1) == lstAbono.size())
 							listResume.add(new CorteCajaResumeDTO("(+) "+lstAbono.get(i).getMotivo(),
 										GeneralMethods.formatCurrentNumber(String.valueOf(lstAbono.get(i).getMonto())),
-										GeneralMethods.formatCurrentNumber(String.valueOf(abono))));
+										GeneralMethods.formatCurrentNumber(String.valueOf(abono)),false));
 						else
 							listResume.add(new CorteCajaResumeDTO("(+) "+lstAbono.get(i).getMotivo(),
-									GeneralMethods.formatCurrentNumber(String.valueOf(lstAbono.get(i).getMonto())),""));
+									GeneralMethods.formatCurrentNumber(String.valueOf(lstAbono.get(i).getMonto())),"",false));
 					}
 					
 				}
 			}
 			if(!hasAbono){
 				
-				listResume.add(new CorteCajaResumeDTO("--","0.00","0.00"));
+				listResume.add(new CorteCajaResumeDTO("--","0.00","0.00",false));
 			}
 			
-			listResume.add(new CorteCajaResumeDTO("DENOMINACIONES","",""));//\u00D3
+			listResume.add(new CorteCajaResumeDTO("DENOMINACIONES","","",false));//\u00D3
 			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 1000",
-						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno1000())),""));
+						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno1000())),"",false));
 			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 500",
-						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno500())),""));
+						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno500())),"",false));
 			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 200",
-						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno200())),""));
+						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno200())),"",false));
 			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 100",
-						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno100())),""));
+						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno100())),"",false));
 			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 50",
-						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno50())),""));
+						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno50())),"",false));
 			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 20",
-						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno20())),""));
+						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno20())),"",false));
 			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 10",
-						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno10())),""));
+						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno10())),"",false));
 			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 5",
-						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno5())),""));
+						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno5())),"",false));
 			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 2",
-						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno2())),""));
+						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno2())),"",false));
 			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 1",
-						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno1())),""));
+						GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno1())),"",false));
 			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 0.50",
 					GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getDeno050())),
-					GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getImporte()))));
+					GeneralMethods.formatCurrentNumber(String.valueOf(corteCaja.getImporte())),false));
 
 			BigDecimal total = new BigDecimal(0);
 			
@@ -544,19 +554,19 @@ public class CorteCajaController {
 			
 			total = sum.subtract(rest);
 			if(sum.compareTo(rest) <0){  //SUM es menor a REST
-				listResume.add(new CorteCajaResumeDTO("Monto Actual","","-"+GeneralMethods.formatCurrentNumber(String.valueOf(total))));
+				listResume.add(new CorteCajaResumeDTO("Monto Actual","","-"+GeneralMethods.formatCurrentNumber(String.valueOf(total)),false));
 			}else{
-				listResume.add(new CorteCajaResumeDTO("Monto Actual","",GeneralMethods.formatCurrentNumber(String.valueOf(total))));
+				listResume.add(new CorteCajaResumeDTO("Monto Actual","",GeneralMethods.formatCurrentNumber(String.valueOf(total)),false));
 			}
 			
 			totalEsp = totalEsp.add(total);
 			totalEsp = totalEsp.subtract(new BigDecimal(totalPedidos));
 			
-			listResume.add(new CorteCajaResumeDTO("Monto de Pedidos","",GeneralMethods.formatCurrentNumber(String.valueOf(totalPedidos))));
+			listResume.add(new CorteCajaResumeDTO("Monto de Pedidos","",GeneralMethods.formatCurrentNumber(String.valueOf(totalPedidos)),false));
 			if(total.compareTo(new BigDecimal(totalPedidos)) <0){  //Total es menor a total de pedidos
-				listResume.add(new CorteCajaResumeDTO("Diferencia","","-"+GeneralMethods.formatCurrentNumber(String.valueOf(totalEsp))));
+				listResume.add(new CorteCajaResumeDTO("Diferencia","","-"+GeneralMethods.formatCurrentNumber(String.valueOf(totalEsp)),false));
 			}else{
-				listResume.add(new CorteCajaResumeDTO("Diferencia","",GeneralMethods.formatCurrentNumber(String.valueOf(totalEsp))));
+				listResume.add(new CorteCajaResumeDTO("Diferencia","",GeneralMethods.formatCurrentNumber(String.valueOf(totalEsp)),true));
 			}
 		//	listResume.add(new CorteCajaResumeDTO("Diferencia","",GeneralMethods.formatCurrentNumber(String.valueOf(totalEsp))));
 			
@@ -572,31 +582,31 @@ public class CorteCajaController {
 			listResume.add(new CorteCajaResumeDTO("    Pedidos",GeneralMethods.formatCurrentNumber(totalPedidos),
 					GeneralMethods.formatCurrentNumber(totalPedidos)));
 		*/
-			listResume.add(new CorteCajaResumeDTO("GASTOS","",""));
-			listResume.add(new CorteCajaResumeDTO("(-) CARGO","0.00","0.00"));
+			listResume.add(new CorteCajaResumeDTO("GASTOS","","",false));
+			listResume.add(new CorteCajaResumeDTO("(-) CARGO","0.00","0.00",false));
 
-			listResume.add(new CorteCajaResumeDTO("DEVOLUCIONES","",""));
-			listResume.add(new CorteCajaResumeDTO("(+) Abono","0.00","0.00"));
+			listResume.add(new CorteCajaResumeDTO("DEVOLUCIONES","","",false));
+			listResume.add(new CorteCajaResumeDTO("(+) Abono","0.00","0.00",false));
 			
-			listResume.add(new CorteCajaResumeDTO("DENOMINACIONES","",""));
-			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 1000","0.00",""));
-			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 500","0.00",""));
-			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 200","0.00",""));
-			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 100","0.00",""));
-			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 50","0.00",""));
-			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 20","0.00",""));
-			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 10","0.00",""));
-			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 5","0.00",""));
-			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 2","0.00",""));
-			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 1","0.00",""));
-			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 0.50","0.00","0.0"));
+			listResume.add(new CorteCajaResumeDTO("DENOMINACIONES","","",false));
+			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 1000","0.00","",false));
+			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 500","0.00","",false));
+			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 200","0.00","",false));
+			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 100","0.00","",false));
+			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 50","0.00","",false));
+			listResume.add(new CorteCajaResumeDTO("(+) Billetes de 20","0.00","",false));
+			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 10","0.00","",false));
+			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 5","0.00","",false));
+			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 2","0.00","",false));
+			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 1","0.00","",false));
+			listResume.add(new CorteCajaResumeDTO("(+) Monedas de 0.50","0.00","0.0",false));
 	
-			listResume.add(new CorteCajaResumeDTO("Monto Actual","","0.0"));
-			listResume.add(new CorteCajaResumeDTO("Monto de Pedidos","",GeneralMethods.formatCurrentNumber(totalPedidos)));
+			listResume.add(new CorteCajaResumeDTO("Monto Actual","","0.0",false));
+			listResume.add(new CorteCajaResumeDTO("Monto de Pedidos","",GeneralMethods.formatCurrentNumber(totalPedidos),false));
 			if(new BigDecimal(0).compareTo(new BigDecimal(totalPedidos)) <0){  //Total es menor a total de pedidos
-				listResume.add(new CorteCajaResumeDTO("Diferencia","","-"+GeneralMethods.formatCurrentNumber(String.valueOf(totalEsp))));
+				listResume.add(new CorteCajaResumeDTO("Diferencia","","-"+GeneralMethods.formatCurrentNumber(String.valueOf(totalEsp)),false));
 			}else{
-				listResume.add(new CorteCajaResumeDTO("Diferencia","",GeneralMethods.formatCurrentNumber(String.valueOf(totalEsp))));
+				listResume.add(new CorteCajaResumeDTO("Diferencia","",GeneralMethods.formatCurrentNumber(String.valueOf(totalEsp)),false));
 			}
 		//	listResume.add(new CorteCajaResumeDTO("Diferencia ","",GeneralMethods.formatCurrentNumber(String.valueOf(totalEsp))));
 			

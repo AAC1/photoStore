@@ -4,13 +4,22 @@ public class CorteCajaResumeDTO {
 	private String descripcion;
 	private String importe;
 	private String total;
-	
-	public CorteCajaResumeDTO(String descripcion,String importe,String total){
+	private boolean ganancia;
+	public CorteCajaResumeDTO(String descripcion,String importe,String total,boolean ganancia){
 		this.descripcion=descripcion;
 		this.importe=importe;
 		this.total=total;
+		this.ganancia=ganancia;
 	}
 	
+	public boolean isGanancia() {
+		return ganancia;
+	}
+
+	public void setGanancia(boolean ganancia) {
+		this.ganancia = ganancia;
+	}
+
 	/**
 	 * @return the descripcion
 	 */

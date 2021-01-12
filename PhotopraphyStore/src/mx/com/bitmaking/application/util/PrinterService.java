@@ -63,25 +63,27 @@ public class PrinterService implements Printable{
         	throw new Exception("La impresora no se encuentra configurada.");
         }
         PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
-        DocPrintJob job = service.createPrintJob();
-
+        
         try {
 
             byte[] bytes;
-            byte[] open =  {(byte)27, (byte)112,(byte) 0, (byte)25, (byte)250};
+            byte[] open = {27, 112, 48, 55, 121};
             String commandToSend = "<0A0D1B>p0@<F01D>VB<1D050A0D>\n";
-            // important for umlaut chars
-            bytes = text.getBytes("CP437");
+            
+            DocPrintJob jobOpen = service.createPrintJob();
 
-            Doc doc = new SimpleDoc(bytes, flavor, null);
-            job.print(doc, aset);
-            
-            
-            Doc docOpen2 = new SimpleDoc(commandToSend.getBytes(), flavor, null);
-            job.print(docOpen2, aset);
-            
             Doc docOpen = new SimpleDoc(open, flavor, null);
-            job.print(docOpen, aset);
+            jobOpen.print(docOpen,  new HashPrintRequestAttributeSet());
+            /*
+            Doc docOpen2 = new SimpleDoc(commandToSend.getBytes(), flavor, null);
+            jobOpen.print(docOpen2, aset);
+            */
+         // important for umlaut chars
+            bytes = text.getBytes("CP437");
+            
+            DocPrintJob job = service.createPrintJob();
+            Doc doc = new SimpleDoc(bytes, flavor, null);
+            job.print(doc,  new HashPrintRequestAttributeSet());
             
 
         } catch (Exception e) {

@@ -33,4 +33,6 @@
 .table-row-cell:selected .text{
 	-fx-fill: white; 
 }
-
+.table-row-cell:yellow-text .text{
+	-fx-fill: #BC9600; 
+}
