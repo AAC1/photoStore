@@ -122,7 +122,7 @@
             <Label layoutX="157.0" layoutY="120.0" prefHeight="18.0" prefWidth="140.0" styleClass="label-title" text="Precio / unidad" />
             <JFXTextField fx:id="inputCostoProd" layoutX="157.0" layoutY="139.0" prefHeight="26.0" prefWidth="98.0" styleClass="input-gral" AnchorPane.leftAnchor="157.0" />
             <Label layoutX="38.0" layoutY="192.0" prefHeight="17.0" prefWidth="240.0" styleClass="label-title" text="Estatus del producto" AnchorPane.leftAnchor="38.0" />
-            <JFXComboBox fx:id="cbxEstatusProd" layoutX="38.0" layoutY="208.0" prefHeight="28.0" prefWidth="240.0" AnchorPane.leftAnchor="38.0" />
+            <JFXComboBox fx:id="cbxEstatusProd" layoutX="38.0" layoutY="208.0" onAction="#changeSttsOrderWhenProduct" prefHeight="28.0" prefWidth="240.0" AnchorPane.leftAnchor="38.0" />
             <Label layoutX="38.0" layoutY="258.0" prefHeight="18.0" prefWidth="151.0" styleClass="label-title" text="Código de Barras" />
             <JFXTextField fx:id="inputBarcode" layoutX="38.0" layoutY="276.0" onKeyReleased="#addProdByBarcodeOnEnter" prefHeight="26.0" prefWidth="240.0" styleClass="input-gral" AnchorPane.leftAnchor="38.0" />
             <JFXButton fx:id="btnAddProd" alignment="CENTER" contentDisplay="CENTER" layoutX="38.0" layoutY="319.0" onMouseClicked="#addProdToTable" prefHeight="30.0" prefWidth="118.0" style="-fx-background-color: #037AB6;" styleClass="btn-gral" text="✚ Agregar" textAlignment="CENTER" textFill="WHITE" wrapText="true" />

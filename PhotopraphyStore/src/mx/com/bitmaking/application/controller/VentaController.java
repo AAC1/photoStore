@@ -264,6 +264,15 @@ public class VentaController  {
 			cbxEstatusProd.setValue("PENDIENTE");
 		}
 	}
+	@FXML
+	private void changeSttsOrderWhenProduct() {
+		String currentStatus = cbxEstatusProd.getValue();
+		
+		if("PENDIENTE".equals(currentStatus)) {
+			cbxEstatus.setValue("PENDIENTE");
+		}
+
+	}
 	
 	@FXML
 	private void validAnticipo() {
@@ -434,10 +443,28 @@ public class VentaController  {
 	}
 
 	@FXML private void confirmPedido(){
+		double montoAnt = Double.parseDouble(inputMontoAnt.getText()==null || inputMontoAnt.getText().trim().length()==0?"0":inputMontoAnt.getText().replace(",", ""));
+		double monto = Double.parseDouble(inputMonto.getText()==null || inputMonto.getText().trim().length()==0?"0":inputMonto.getText().replace(",", ""));
+		double montoEnt = Double.parseDouble(inputMontoEnt.getText()==null || inputMontoEnt.getText().trim().length()==0?"0":inputMontoEnt.getText().trim().replace(",", ""));
+		
 		if(inputMonto.getText() ==null || "0".equals(inputMonto.getText().trim())) {
 			GeneralMethods.modalMsg("ERROR", "", "El monto total es de cero pesos, agregue productos");
 			return;
 		}
+
+		if(montoAnt > montoEnt) {
+			GeneralMethods.modalMsg("ERROR", "", "El pago es menor que el pago de anticipo");
+			return;
+		}
+		if(montoEnt <=0) {
+			GeneralMethods.modalMsg("ERROR", "", "Favor de ingresar el pago");
+			return;
+		}
+		if(montoEnt <monto && "ENTREGADO".equals(cbxEstatus.getValue())) {
+			GeneralMethods.modalMsg("ERROR", "", "Debe agregar pago completo cuando el pedido tiene  estatus:'Entregado'");
+			return;
+		}
+
 		int idxSelected = cbxCliente.getSelectionModel().getSelectedIndex();
 		if(idxSelected <0) {
 			GeneralMethods.modalMsg("ERROR", "", "Seleccione un cliente y agregue productos");
@@ -454,16 +481,17 @@ public class VentaController  {
 			GeneralMethods.modalMsg("ERROR", "", "Seleccione un estatus para el pedido");
 			return;
 		}
-		String montoAnt=inputMontoAnt.getText().replace(",", "");
-		String monto=inputMonto.getText().replace(",", "");
-		if(inputMontoAnt.getText() !=null && inputMontoAnt.getText().length()>0 && Double.parseDouble(montoAnt) > Double.parseDouble(monto) ) {
-			GeneralMethods.modalMsg("ERROR", "", "Valide que el monto anticipo no sea mayor al importe total");
+		//String montoAnt=inputMontoAnt.getText().replace(",", "");
+		//String monto=inputMonto.getText().replace(",", "");
+		if( montoAnt > monto ) {
+			GeneralMethods.modalMsg("ERROR", "", "Valide que el monto de anticipo no sea mayor al importe total");
 			
 			return;
 		}
 		
 		ModalConfirmController ctrl = openModalConfirm();
 		if(ctrl==null)return;
+		
 		
 		ctrl.getBtnCancelar().addEventHandler(MouseEvent.MOUSE_CLICKED, closeWindow(stageBusqConfirm));
 		ctrl.getLblMsg().setText("¿Confirmar Pedido?");
@@ -511,7 +539,14 @@ public class VentaController  {
 					pedidoObj.setFec_pedido(c);
 					
 					if("0".equals(montoAnt)) {
-						pedidoObj.setMonto_ant(new BigDecimal(montoTot));
+						double mto = Double.parseDouble(inputMonto.getText()==null || inputMonto.getText().trim().length()==0?"0":inputMonto.getText().replace(",", ""));
+						double mtoPago = Double.parseDouble(inputMontoEnt.getText()==null || inputMontoEnt.getText().trim().length()==0?"0":inputMontoEnt.getText().trim().replace(",", ""));
+						if(mtoPago < mto) {
+							pedidoObj.setMonto_ant(new BigDecimal(mtoPago));
+						}else {
+							pedidoObj.setMonto_ant(new BigDecimal(montoTot));
+						}
+						
 					}else {
 						pedidoObj.setMonto_ant(new BigDecimal(montoAnt));
 					}
