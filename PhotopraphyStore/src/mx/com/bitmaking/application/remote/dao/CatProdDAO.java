@@ -68,7 +68,10 @@ public class CatProdDAO  extends AbstractCatProdDAO {//implements ICatProdDAO {
 	public CostProductsDTO getCatByClteAndBarcode(int cliente,String barcode){
 		return super.getCatByClteAndBarcode(cliente,barcode);
 	}
-	
+	@Transactional(value="remoteTransactionManager")
+	public boolean updateProductQuantity(int cantidad, int idProd){
+		return super.updateProductQuantity(cantidad, idProd);
+	}
 	@Override
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;

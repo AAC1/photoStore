@@ -24,10 +24,10 @@ public class Store_cat_prod {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_prod")
-	private int id_prod;
+	private Integer id_prod;
 
 	@Column(name = "id_padre_prod")
-	private int id_padre_prod;
+	private Integer id_padre_prod;
 
 	@Column(name = "producto")
 	private String producto;
@@ -43,7 +43,10 @@ public class Store_cat_prod {
 
 	
 	@Column( name = "categoria")
-	private int categoria;
+	private Integer categoria;
+	
+	@Column( name = "cantidad")
+	private Integer cantidad;
 	
 
 	@Column( name = "costo_aficionado")
@@ -85,25 +88,25 @@ public class Store_cat_prod {
 		this.barcode = barcode;
 	}
 
-	public int getId_padre_prod() {
+	public Integer getId_padre_prod() {
 		return id_padre_prod;
 	}
 
-	public void setId_padre_prod(int id_padre_prod) {
+	public void setId_padre_prod(Integer id_padre_prod) {
 		this.id_padre_prod = id_padre_prod;
 	}
 
 	/**
 	 * @return the id_prod
 	 */
-	public int getId_prod() {
+	public Integer getId_prod() {
 		return id_prod;
 	}
 
 	/**
 	 * @param id_prod the id_prod to set
 	 */
-	public void setId_prod(int id_prod) {
+	public void setId_prod(Integer id_prod) {
 		this.id_prod = id_prod;
 	}
 
@@ -139,8 +142,16 @@ public class Store_cat_prod {
 		return categoria;
 	}
 
-	public void setCategoria(int categoria) {
+	public void setCategoria(Integer categoria) {
 		this.categoria = categoria;
+	}
+
+	public Integer getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(Integer cantidad) {
+		this.cantidad = cantidad;
 	}
 
 	

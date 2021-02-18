@@ -98,7 +98,10 @@ public class StoreCatProdService extends AbstractStoreCatProdService{ // impleme
 	public CostProductsDTO getCatByClteAndBarcode(int cliente,String barcode){
 		return super.getCatByClteAndBarcode( cliente, barcode);
 	}
-	
+	@Transactional(value="remoteTransactionManager")
+	public boolean updateProductQuantity(int cantidad, int idProd){
+		return super.updateProductQuantity(cantidad, idProd);
+	}
 	@Override
 	public ICatProdDAO getCatProdDAO() {
 		return catProdDAO;

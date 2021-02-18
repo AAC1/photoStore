@@ -111,6 +111,8 @@ public class GestProdController {
 	private JFXTextField inputName;
 	@FXML
 	private JFXTextField inputBarcode;
+	@FXML
+	private JFXTextField inputCantDisp;
 	@FXML 
 	private JFXTextField inputCosto;
 	@FXML 
@@ -136,7 +138,10 @@ public class GestProdController {
 	private Label lblCostoCte;
 	@FXML
 	private Label lblTipoCosto;
-	
+	@FXML
+	private Label lblBarcode;
+	@FXML
+	private Label lblCantDisp;
 	//@Autowired
 	//private ApplicationContext context ;
 	@Autowired
@@ -168,6 +173,7 @@ public class GestProdController {
 		btnEliminarProd.addEventHandler(MouseEvent.MOUSE_CLICKED, modalDelProd());
 		inputCosto.textProperty().addListener(GeneralMethods.formatNumber(inputCosto));
 		inputCostoCte.textProperty().addListener(GeneralMethods.formatNumber(inputCostoCte));
+		inputCantDisp.textProperty().addListener(GeneralMethods.formatInteger(inputCantDisp));
 		
 	}
 	
@@ -262,14 +268,19 @@ public class GestProdController {
         					catProdService.getCatByPadre(catProd.getProducto());
 		            	int idProd=0;
 		            	
+		            	//Cantidad de producto
+			            String cantDisp =dataFormatter.formatCellValue(row.getCell(5));
+			            cantDisp = (cantDisp ==null || "".equals(cantDisp.trim()))? "0": cantDisp.replaceAll("[^0-9]", ".");
+			            catProd.setCantidad(Integer.parseInt(cantDisp));
+			            
 		            	//Costo aficionado
-			            row.getCell(5).setCellStyle(cellStyle);
-			            String costoGral =dataFormatter.formatCellValue(row.getCell(5));
+			            row.getCell(6).setCellStyle(cellStyle);
+			            String costoGral =dataFormatter.formatCellValue(row.getCell(6));
 			            costoGral = (costoGral ==null || "".equals(costoGral.trim()))? "0.0": costoGral.replaceAll(",", ".");
 			            
 			            //Costo fotografo
-			            row.getCell(6).setCellStyle(cellStyle);
-			            String costoCte =dataFormatter.formatCellValue(row.getCell(6));
+			            row.getCell(7).setCellStyle(cellStyle);
+			            String costoCte =dataFormatter.formatCellValue(row.getCell(7));
 			            costoCte = (costoCte ==null || "".equals(costoCte.trim()))? "0.0": costoCte.replaceAll(",", ".");
 			            
 			            catProd.setCosto_aficionado(new BigDecimal(costoGral));
@@ -282,6 +293,8 @@ public class GestProdController {
 		            		
 		            	}else {
 		            		idProd = newProd.getId_prod();
+		            		catProd.setId_prod(idProd);
+		            		catProdService.updateRow(catProd);
 		            	}
 			            
 		            	
@@ -321,7 +334,15 @@ public class GestProdController {
 	@FXML 
 	private void selectCat() {
 		radProducto.setSelected(false);
+		
+		lblBarcode.setVisible(false);
 		inputBarcode.setDisable(true);
+		inputBarcode.setVisible(false);
+
+		lblCantDisp.setVisible(false);
+		inputCantDisp.setDisable(true);
+		inputCantDisp.setVisible(false);
+		
 		inputCosto.setDisable(true);
 		lblCosto.setVisible(false);
 
@@ -330,6 +351,8 @@ public class GestProdController {
 		inputCostoCte.setText("");
 		
 		inputBarcode.setText("");
+		inputCantDisp.setText("0");
+		
 		inputCosto.setText("");
 		inputCosto.setVisible(false);
 		
@@ -342,10 +365,17 @@ public class GestProdController {
 	
 	@FXML 
 	private void selectProd() {
-		
+			lblBarcode.setVisible(true);
+			inputBarcode.setVisible(true);
 			inputBarcode.setDisable(false);
+			
 			inputCosto.setDisable(false);
 			inputCosto.setVisible(true);
+			
+			lblCantDisp.setVisible(true);
+			inputCantDisp.setDisable(false);
+			inputCantDisp.setVisible(true);
+			
 			inputCosto.setText("");
 			radCategoria.setSelected(false);
 			lblCosto.setVisible(true);
@@ -537,6 +567,7 @@ public class GestProdController {
 							inputName.setText("");
 							cbxStts.setValue("");
 							inputBarcode.setText("");
+							inputCantDisp.setText("0");
 							getTblCatProducts();
 							catProdModif = null;
 							//saveCostosByCliente(row.getId_prod(),inputCosto.getText());
@@ -578,6 +609,12 @@ public class GestProdController {
 								GeneralMethods.modalMsg("WARNING", "", "Asigne un valor para el producto");
 								return;
 							}
+							if(inputCantDisp.getText()==null || "".equals(inputCantDisp.getText().trim())){
+								GeneralMethods.modalMsg("WARNING", "", "Asigne un valor para cantidad");
+								return;
+							}
+							
+							
 							
 						}
 						
@@ -596,6 +633,10 @@ public class GestProdController {
 							}
 							String cost = inputCosto.getText();
 							String costoCte = inputCostoCte.getText();
+							String strCantDisp = inputCantDisp.getText() == null? "0": inputCantDisp.getText().replaceAll("[^0-9\\.]", "");
+							
+							int cantDisp = ( "".contentEquals(inputCantDisp.getText().trim()))?0:Integer.parseInt(strCantDisp.trim());
+
 							if (cost==null || cost.length()==0 ) {
 								cost="0.0";
 							}
@@ -605,9 +646,10 @@ public class GestProdController {
 							
 							cost=cost.replaceAll(",", "");
 							costoCte=costoCte.replaceAll(",", "");
-
+									
 							row.setCosto_aficionado(new BigDecimal(cost));
 							row.setCosto_fotografo(new BigDecimal(costoCte));
+							row.setCantidad(cantDisp);
 							
 							catProdService.updateRow(row);
 							if(Flags.remote_valid)remoteCatProdService.updateRow(row);
@@ -643,6 +685,7 @@ public class GestProdController {
 						inputName.setText("");
 						cbxStts.setValue("");
 						inputBarcode.setText("");
+						inputCantDisp.setText("0");
 						getTblCatProducts();
 						catProdModif = null;
 					}
@@ -656,6 +699,10 @@ public class GestProdController {
 	
 	private void altaProd() {
 		Store_cat_prod row = new Store_cat_prod();
+		String strCantDisp = inputCantDisp.getText() == null? "0": inputCantDisp.getText().replaceAll("[^0-9\\.]", "");
+		
+		int cantDisp = ( "".contentEquals(inputCantDisp.getText().trim()))?0:Integer.parseInt(strCantDisp.trim());
+
 		if (catProdModif == null) {
 			row.setId_padre_prod(0);
 		} else {
@@ -666,6 +713,8 @@ public class GestProdController {
 			
 			idProd = arrayStr[0].substring(2, arrayStr[0].length()).trim();
 		}*/
+		
+		row.setCantidad(cantDisp);
 		row.setProducto(inputName.getText());
 		row.setEstatus(("ACTIVO".equals(cbxStts.getValue().toUpperCase())) ? "1" : "0");
 	
@@ -718,6 +767,7 @@ public class GestProdController {
 		inputName.setText("");
 		cbxStts.setValue("");
 		inputBarcode.setText("");
+		inputCantDisp.setText("0");
 		try {
 
 			if (productsMap == null || productsMap.size() == 0) {
@@ -751,14 +801,20 @@ public class GestProdController {
 				inputName.setText(catProdModif.getProducto());
 				cbxStts.setValue(catProdModif.getEstatus());
 				inputBarcode.setText(catProdModif.getBarcode());
-
-				System.out.println("Categoria: "+catProdModif.getCategoria());
+				inputCantDisp.setText(String.valueOf(catProdModif.getCantidad()));
+				
 				if(catProdModif.getCategoria()==1) {
 					radCategoria.setDisable(true);
 					radCategoria.setSelected(true);
 					
 					radProducto.setDisable(true);
 					radProducto.setSelected(false);
+					
+					lblBarcode.setVisible(false);
+					inputBarcode.setVisible(false);
+					
+					lblCantDisp.setVisible(false);
+					inputCantDisp.setVisible(false);
 				}
 				else {
 					radCategoria.setDisable(true);
@@ -766,6 +822,12 @@ public class GestProdController {
 					
 					radProducto.setDisable(true);
 					radProducto.setSelected(true);
+					
+					lblBarcode.setVisible(true);
+					inputBarcode.setVisible(true);
+					
+					lblCantDisp.setVisible(true);
+					inputCantDisp.setVisible(true);
 				}
 				
 			}
@@ -844,6 +906,7 @@ public class GestProdController {
 					System.out.println("treeItems:"+lstTree.size());
 					
 					inputBarcode.setDisable(true);
+					inputCantDisp.setDisable(true);
 					inputCosto.setDisable(true);
 					
 					switch (typeForm) {
@@ -865,6 +928,7 @@ public class GestProdController {
 
 						inputName.setText("");
 						inputBarcode.setText("");
+						inputCantDisp.setText("0");
 						inputCosto.setText("");
 						cbxStts.setValue("Activo");
 						/*FXMLLoader fxmlLoader = new FXMLLoader(
@@ -913,6 +977,7 @@ public class GestProdController {
 							GeneralMethods.modalMsg("Error", "", "Seleccione algún producto o categoria");
 							inputBarcode.setDisable(false);
 							inputCosto.setDisable(false);
+							inputCantDisp.setDisable(false);
 							return;
 						}
 						if(lstTree.isEmpty())//Valida que no tenga hijos
@@ -941,6 +1006,13 @@ public class GestProdController {
 								radCategoria.setSelected(false);
 								System.out.println("Cat catProdModif:"+catProdModif.getCategoria());
 								
+								inputBarcode.setDisable(false);
+								inputBarcode.setVisible(true);
+								
+								inputCantDisp.setDisable(false);
+								inputCantDisp.setVisible(true);
+								
+								
 							}
 							else {
 								radProducto.setDisable(true);
@@ -952,8 +1024,12 @@ public class GestProdController {
 								/*Invalida estos valores por ser categoria*/
 								inputBarcode.setDisable(true);
 								inputBarcode.setText("");
+								inputBarcode.setVisible(false);
 								
-
+								inputCantDisp.setDisable(true);
+								inputCantDisp.setText("0");
+								inputCantDisp.setVisible(false);
+								
 								inputCosto.setDisable(true);
 								inputCosto.setVisible(false);
 								lblCosto.setVisible(false);
@@ -1019,6 +1095,7 @@ public class GestProdController {
 		inputName.setDisable(true);
 		treeProd.setDisable(false);
 		inputBarcode.setDisable(true);
+		inputCantDisp.setDisable(true);
 		
 		radCategoria.setDisable(true);
 		radProducto.setDisable(true);

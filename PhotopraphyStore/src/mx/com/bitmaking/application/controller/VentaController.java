@@ -97,6 +97,7 @@ public class VentaController  {
 	@FXML private JFXTextField inputDesc;
 	@FXML private JFXTextField inputPrecioUni;
 	@FXML private JFXTextField inputBarcode;
+	@FXML private JFXTextField inputCantProdDisp;
 	
 	
 	@FXML private AnchorPane ventaBody;
@@ -239,6 +240,7 @@ public class VentaController  {
 		//btnSalir.addEventHandler(MouseEvent.MOUSE_CLICKED,modalBusqByFolio());
 		btnEditarPedido.addEventHandler(MouseEvent.MOUSE_CLICKED,modalEditPedido());
 		inputCantProd.textProperty().addListener(GeneralMethods.formatInteger(inputCantProd));
+		inputCantProdDisp.textProperty().addListener(GeneralMethods.formatInteger(inputCantProdDisp));
 		inputMonto.textProperty().addListener(GeneralMethods.formatNumber(inputMonto));
 		inputTelefono.textProperty().addListener(GeneralMethods.onlyNumber(inputTelefono));
 		
@@ -414,6 +416,7 @@ public class VentaController  {
 		inputMontoAnt.setText("0");
 		inputDesc.setText("");
 		inputCantProd.setText("1");
+		inputCantProdDisp.setText("0");
 		inputCostoProd.setText("0");
 		inputProd.setText("");
 		
@@ -510,12 +513,14 @@ public class VentaController  {
 					String montoAnt = inputMontoAnt.getText();
 					String montoTot = inputMonto.getText();
 					
+					
 					if(inputMontoAnt.getText() ==null){
 						montoAnt = "0";
 					}
 					
 					montoAnt= montoAnt.replaceAll("[^0-9\\.]", "");
 					montoTot= montoTot.replaceAll("[^0-9\\.]", "");
+			
 					
 					if(inputMontoAnt.getText() ==null || "".equals(montoAnt.trim())) {
 						montoAnt="0";
@@ -570,6 +575,9 @@ public class VentaController  {
 							
 						}
 					}
+					
+					
+					
 					ObservableList<CostProductsDTO> lstProds = tbProductos.getItems();
 					/* IMPRIME TICKET */
 					String layoutPrinter= PrinterService.ticketLayout(Constantes.MAX_CHARS_TICKET, lstProds, 
@@ -594,6 +602,14 @@ public class VentaController  {
 						
 						prodPedidoService.guardaProdsByPedido(pedidoObj.getFolio(), product);
 						if(Flags.remote_valid)remoteProdPedidoService.guardaProdsByPedido(pedidoObj.getFolio(), product);
+						
+						
+						int diffCantDisp = (el.getCantDisp()-el.getCantidad());
+						System.out.println("diffCantDisp:"+diffCantDisp);
+						
+						catProdService.updateProductQuantity(diffCantDisp, el.getId_prod());
+						if(Flags.remote_valid)remotePedidoService.guardaPedido(pedidoObj);
+						
 					}
 					if(stageBusqProd!=null) stageBusqProd.close();
 					
@@ -920,6 +936,11 @@ public class VentaController  {
 			if(inputBarcode.getText()==null || "".equals(inputBarcode.getText())){
 				return;
 			}
+			
+			String strCantDisp = inputCantProdDisp.getText() == null? "0": inputCantProdDisp.getText().replaceAll("[^0-9\\.]", "");
+			
+			int cantDisp = ( "".equals(inputCantProdDisp.getText().trim()))?0:Integer.parseInt(strCantDisp.trim());
+
 			int idxClte = cbxCliente.getSelectionModel().getSelectedIndex();
 			if(idxClte <0) {
 				GeneralMethods.modalMsg("", "", "Debes seleccionar un cliente");
@@ -951,9 +972,11 @@ public class VentaController  {
 					costo = String.valueOf(obj.getCosto());
 				}
 				
+				
+				
 				CostProductsDTO auxObj = new CostProductsDTO();
 				auxObj.setCantidad(inputCantProd.getText()==null || "".equals(inputCantProd.getText().trim())?
-										1:Integer.parseInt(inputCantProd.getText().trim()));
+										1:Integer.parseInt(inputCantProd.getText().replaceAll("[^0-9\\.]", "")));
 				auxObj.setCosto(new BigDecimal(Double.parseDouble(costo)*auxObj.getCantidad()).setScale(2,BigDecimal.ROUND_HALF_EVEN));
 				auxObj.setProducto(obj.getProducto());
 				auxObj.setCostoUnitario(obj.getCosto());
@@ -962,6 +985,13 @@ public class VentaController  {
 				auxObj.setId_padre_prod(obj.getId_padre_prod());
 				auxObj.setId_padre_prod(obj.getId_padre_prod());
 				auxObj.setEstatus(cbxEstatusProd.getValue());
+				auxObj.setCantDisp(inputCantProdDisp.getText()==null || "".equals(inputCantProdDisp.getText().trim())?
+										0:Integer.parseInt(inputCantProdDisp.getText().replaceAll("[^0-9\\.]", "")));
+				
+				if(auxObj.getCantidad() > cantDisp || !limitQuantity(auxObj)){
+					GeneralMethods.modalMsg("ERROR", "", "la cantidad a ingresar supera la cantidad disponible");
+					return;
+				}
 				
 				if(!hasProduct(auxObj)){
 					tbProductos.getItems().add(auxObj);
@@ -986,6 +1016,12 @@ public class VentaController  {
 	@FXML private void addProdToTable() {
 		String cant =inputCantProd.getText();
 		cant = cant.replaceAll("[^0-9]", ""); 
+		
+		String strCantDisp = inputCantProdDisp.getText() == null? "0": inputCantProdDisp.getText().replaceAll("[^0-9\\.]", "");
+		
+		int cantDisp = ( "".equals(inputCantProdDisp.getText().trim()))?0:Integer.parseInt(strCantDisp.trim());
+
+		
 		if(cant==null || cant.trim().length()==0 || Integer.parseInt(cant)<=0) {
 			GeneralMethods.modalMsg("", "", "Ingrese una cantidad mayor a cero.");
 			return;
@@ -1016,6 +1052,13 @@ public class VentaController  {
 		auxObj.setCostoUnitario(new BigDecimal(inputCostoProd.getText().replace(",", "")));
 		auxObj.setBar_code(inputBarcode.getText());
 		auxObj.setEstatus(cbxEstatusProd.getValue());
+		auxObj.setCantDisp(inputCantProdDisp.getText()==null || "".equals(inputCantProdDisp.getText().trim())?
+				0:Integer.parseInt(inputCantProdDisp.getText().replaceAll("[^0-9\\.]", "")));
+
+		if(auxObj.getCantidad() > cantDisp || !limitQuantity(auxObj)){
+			GeneralMethods.modalMsg("ERROR", "", "la cantidad a ingresar supera la cantidad disponible");
+			return;
+		}
 		//System.out.println("Costo Unitario:"+auxObj.getCostoUnitario());
 		if(!hasProduct(auxObj)){
 			tbProductos.getItems().add(auxObj);
@@ -1024,6 +1067,7 @@ public class VentaController  {
 		//
 		rowProd=null;
 		inputCantProd.setText("1");
+		inputCantProdDisp.setText("0");
 		inputCostoProd.setText("");
 		inputProd.setText("");
 		inputCostoProd.setText("");
@@ -1078,6 +1122,7 @@ public class VentaController  {
 				
 				inputCostoProd.setText((rowProd.getCosto()==null )?"0":String.valueOf(rowProd.getCosto()));
 				inputProd.setText(rowProd.getProducto());
+				inputCantProdDisp.setText(String.valueOf(rowProd.getCantidad()));
 				inputPrecioUni.setText((rowProd.getCostoUnitario()==null )?"0":String.valueOf(rowProd.getCostoUnitario()));
 				inputBarcode.setText(rowProd.getBar_code());
 				
@@ -1226,10 +1271,12 @@ public class VentaController  {
 		ObservableList<CostProductsDTO> items = tbProductos.getItems();
 		int cantidad=0;
 		
+		
 		for(int i=0; i<tbProductos.getItems().size(); i++){
 			if(tbProductos.getItems().get(i).getId_prod() ==product.getId_prod() ||
 					tbProductos.getItems().get(i).getBar_code().equals(product.getBar_code())){
 				cantidad = tbProductos.getItems().get(i).getCantidad()+product.getCantidad();
+				
 				
 				tbProductos.getItems().get(i).setCantidad(cantidad);
 				
@@ -1245,6 +1292,33 @@ public class VentaController  {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Valida la cantidad, con la cantidad disponible
+	 * @param product
+	 * @return
+	 */
+	private boolean limitQuantity(CostProductsDTO product) {
+		ObservableList<CostProductsDTO> items = tbProductos.getItems();
+		int cantidad=0;
+		
+		String strCantDisp = inputCantProdDisp.getText() == null? "0": inputCantProdDisp.getText().replaceAll("[^0-9\\.]", "");
+		int cantDisp = ( "".equals(strCantDisp))?0:Integer.parseInt(strCantDisp.trim());
+		
+		
+		for(int i=0; i<tbProductos.getItems().size(); i++){
+			if(tbProductos.getItems().get(i).getId_prod() ==product.getId_prod() ||
+					tbProductos.getItems().get(i).getBar_code().equals(product.getBar_code())){
+				cantidad = tbProductos.getItems().get(i).getCantidad()+product.getCantidad();
+				
+				
+				if(cantidad > cantDisp) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 }

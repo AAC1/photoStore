@@ -18,9 +18,17 @@ public class CostProductsDTO implements Serializable {
 	private int cantidad;
 	private String bar_code;
 	private int categoria;
+	private int cantDisp;
 	
 	
 	
+	
+	public int getCantDisp() {
+		return cantDisp;
+	}
+	public void setCantDisp(int cantDisp) {
+		this.cantDisp = cantDisp;
+	}
 	public int getCategoria() {
 		return categoria;
 	}

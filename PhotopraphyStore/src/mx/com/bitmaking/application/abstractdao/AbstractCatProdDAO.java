@@ -44,7 +44,7 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 		StringBuilder qry = new StringBuilder();
 		qry.append(" SELECT p.id_prod ,p.id_padre_prod ,");
 		qry.append("p.producto as producto,(case when p.estatus > 0 then 'Activo' else 'Inactivo' end) as estatus, ");
-		qry.append("a.costo as costo,p.barcode as bar_code, p.categoria ");
+		qry.append("a.costo as costo,p.barcode as bar_code, p.categoria, p.cantidad ");
 		qry.append(" FROM Store_cat_prod p ");
 		qry.append(" LEFT OUTER JOIN  Store_cliente_prod_cost a on p.id_prod =a.id_prod AND a.id_cliente = :cliente");
 		
@@ -123,7 +123,7 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 
 		StringBuilder sQry = new StringBuilder();
 		sQry.append("SELECT sp.id_prod as id_prod,sp.producto as producto, sp.id_padre_prod as id_padre_prod, ");
-		sQry.append("case sp.estatus when '1' then 'Activo' else 'Inactivo' end as estatus, sp.costo_aficionado, sp.costo_fotografo"
+		sQry.append("case sp.estatus when '1' then 'Activo' else 'Inactivo' end as estatus, sp.costo_aficionado, sp.costo_fotografo, sp.cantidad "
 				+ " FROM Store_cat_prod sp");
 		;
 		
@@ -159,6 +159,7 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 		qry.addScalar("estatus",new StringType());
 		qry.addScalar("barcode",new StringType());
 		qry.addScalar("categoria",new IntegerType());
+		qry.addScalar("cantidad",new IntegerType());
 		qry.addScalar("costo_aficionado",new BigDecimalType());
 		qry.addScalar("costo_fotografo",new BigDecimalType());
 		
@@ -342,8 +343,8 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 			query.addScalar("bar_code", new StringType());
 			query.addScalar("costo", new BigDecimalType());
 
-			query.addScalar("costo_aficionado",new BigDecimalType());
-			query.addScalar("costo_fotografo",new BigDecimalType());
+		//	query.addScalar("costo_aficionado",new BigDecimalType());
+		//	query.addScalar("costo_fotografo",new BigDecimalType());
 			
 			results =(CostProductsDTO) query.setMaxResults(1).uniqueResult();
 		
@@ -372,6 +373,35 @@ public abstract class AbstractCatProdDAO implements ICatProdDAO {
 		return export;
 	}
 	
+
+	@Override
+	public boolean updateProductQuantity(int cantidad, int idProd) {
+		boolean resp=false;
+		StringBuilder qry = new StringBuilder();
+		qry.append(" UPDATE Store_cat_prod p ");
+		qry.append(" SET p.cantidad=:cantidad ");//, p.bar_code:barcode
+		qry.append(" WHERE  p.id_prod =:idProd ");
+		
+		
+		try{
+ 
+			SQLQuery query= getSessionFactory().getCurrentSession().createSQLQuery(qry.toString());
+			
+			query.setInteger("cantidad", cantidad);
+			query.setInteger("idProd", idProd);
+			
+			int exec =query.executeUpdate();
+			if(exec>0){
+				resp = true;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		
+		}
+		
+		return resp;
+	}
+
 
 	private boolean generaPDF(Connection connection, FileInputStream fileInputStream, String titulo, String pathReport,String logoPath) throws JRException {
 		boolean export = false;
